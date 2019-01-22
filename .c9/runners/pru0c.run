@@ -4,7 +4,7 @@
     "cmd" : [
         "make",
         "-f",
-        "/var/lib/cloud9/examples/extras/pru/Makefile",
+        "/var/lib/cloud9/extras/pru/Makefile",
         "TARGET=$file_base_name",
         "PRUN=pru0",
         "$args"
