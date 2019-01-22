@@ -1,0 +1,34 @@
+{
+    "build": {
+        "@saveall": true
+    },
+    "ace": {
+        "custom-types": {
+            "json()": {
+                "pru0c": "c_cpp",
+                "pru1c": "c_cpp"
+            }
+        },
+    },
+    "language": {
+        "tern_defs": {
+            "json()": {
+                "browser": {
+                    "enabled": true
+                },
+                "ecma5": {
+                    "enabled": true
+                },
+                "jQuery": {
+                    "enabled": true
+                }
+            }
+        }
+    },
+    "run": {
+        "configs": {
+            "@inited": "true",
+            "json()": {}
+        }
+    }
+}
