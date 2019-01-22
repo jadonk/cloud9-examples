@@ -63,7 +63,7 @@
         "type": "debug",
         "z": "c632bae3.16f558",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -133,7 +133,8 @@
         "z": "c632bae3.16f558",
         "name": "",
         "active": false,
-        "console": "false",
+        "tosidebar": true,
+        "console": false,
         "complete": "false",
         "x": 630,
         "y": 420,
@@ -162,7 +163,8 @@
         "y": 420,
         "wires": [
             [
-                "398afc62.e5bcc4"
+                "398afc62.e5bcc4",
+                "d285393f.2a0378"
             ]
         ]
     },
@@ -185,6 +187,37 @@
         "wires": [
             [
                 "fc95bee6.bc63d"
+            ]
+        ]
+    },
+    {
+        "id": "323d20fc.27d79",
+        "type": "file",
+        "z": "c632bae3.16f558",
+        "name": "Green",
+        "filename": "/sys/class/leds/techlab::green/brightness",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "x": 790,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d285393f.2a0378",
+        "type": "function",
+        "z": "c632bae3.16f558",
+        "name": "",
+        "func": "if(msg.payload) {\n    msg.payload = 255;\n} else {\n    msg.payload = 0;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 630,
+        "y": 500,
+        "wires": [
+            [
+                "323d20fc.27d79"
             ]
         ]
     }
