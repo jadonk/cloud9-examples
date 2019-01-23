@@ -1,0 +1,197 @@
+<html>
+    <head>
+        <title>PocketBeagle TechLab Cape Status</title>
+        <script src="http://192.168.7.2/static/jquery.js"></script>
+        <script src="http://192.168.7.2/static/bonescript.js"></script>
+    </head>
+    <body>
+        <h1>PocketBeagle TechLab Cape Status</h1>
+        <p>Connected = <span id="connected">false</span></p>
+        <p>L = <span id="LButtonStatus"></span></p>
+        <p>R = <span id="RButtonStatus"></span></p>
+        <p>Light = <span id="lightStatus"></span></p>
+        <p>X = <span id="X"></span></p>
+        <p>Y = <span id="Y"></span></p>
+        <p>Z = <span id="Z"></span></p>
+        <script>   
+            // Connect with board connected at fixed USB address
+            // and execute run() upon initialization
+            $(document).ready(function() {
+                setTargetAddress("http://192.168.7.2", { initialized: run });
+            });
+            
+            // The demo BoneScript application within the 'run()' function
+            function run() {
+                /*
+                 * Setup
+                 */
+                var b = require('bonescript');
+
+                var lastLightStatus = 0;
+                var gX = 0;
+                var gY = 0;
+                var gZ = 0;
+                
+                var LBUTTON = 'P2_33';
+                var RBUTTON = 'P1_29';
+                var LIGHT = 'P1_19';
+                var ACCEL_X = '/sys/bus/iio/devices/iio:device1/in_accel_x_raw';
+                var ACCEL_Y = '/sys/bus/iio/devices/iio:device1/in_accel_y_raw';
+                var ACCEL_Z = '/sys/bus/iio/devices/iio:device1/in_accel_z_raw';
+                var LED_RED = '/sys/class/leds/techlab::red/brightness';
+                var LED_BLUE = '/sys/class/leds/techlab::blue/brightness';
+                var LED_GREEN = '/sys/class/leds/techlab::green/brightness';
+
+                b.writeTextFile('/sys/devices/platform/ocp/ocp:P1_29_pinmux/state', 'gpio', ignore);
+                doUpdate();
+                
+                function doUpdate() {
+                    $('#connected').html("true");
+                    b.digitalRead(LBUTTON, doUpdate1);
+                }
+                
+                function doUpdate1(err, x) {
+                    if(!err) {
+                        $('#LButtonStatus').html(x ? "up" : "down");
+                    }
+                    b.digitalRead(RBUTTON, doUpdate2);
+                }
+                
+                function doUpdate2(err, x) {
+                    if(!err) {
+                        $('#RButtonStatus').html(x ? "up" : "down");
+                    }
+                    b.analogRead(LIGHT, doUpdate3);
+                }
+
+                function doUpdate3(err, x) {
+                    if(!err) {
+                        $('#lightStatus').html((x*100).toFixed(1) + "%");
+                        write7Seg(x/(4096/100));
+                    }
+                    b.readTextFile(ACCEL_X, doUpdate4);
+                }
+
+                function doUpdate4(err, x) {
+                    if(!err) {
+                        $('#X').html(convertToG(x));
+                    }
+                    b.readTextFile(ACCEL_Y, doUpdate5);
+                }
+
+                function doUpdate5(err, x) {
+                    if(!err) {
+                        $('#Y').html(convertToG(x));
+                    }
+                    b.readTextFile(ACCEL_Z, doUpdate6);
+                }
+
+                function doUpdate6(err, x) {
+                    if(!err) {
+                        $('#Z').html(convertToG(x));
+                    }
+                    setTimeout(doUpdate, 50); // read again in 50ms
+                }
+
+                function write7Seg(x) {
+                    writeDigit(0, getDigit(x/10));
+                    writeDigit(1, getDigit(x%10));
+                }
+
+                function getDigit(ch) {
+                    var segs;
+                    switch(ch) {
+                        case 0:
+                            segs = 0b0111111;
+                            break;
+                        case 1:
+                            segs = 0b0000110;
+                            break;
+                        case 2:
+                            segs = 0b1011011;
+                            break;
+                        case 3:
+                            segs = 0b1001111;
+                            break;
+                        case 4:
+                            segs = 0b1100110;
+                            break;
+                        case 5:
+                            segs = 0b1101101;
+                            break;
+                        case 6:
+                            segs = 0b1111101;
+                            break;
+                        case 7:
+                            segs = 0b0000111;
+                            break;
+                        case 8:
+                            segs = 0b1111111;
+                            break;
+                        case 9:
+                            segs = 0b1101111;
+                            break;
+                        case 0xa:
+                        case 'a':
+                            segs = 0b1110111;
+                            break;
+                        case 0xb:
+                        case 'b':
+                            segs = 0b1111100;
+                            break;
+                        case 0xc:
+                        case 'c':
+                            segs = 0b0111001;
+                            break;
+                        case 0xd:
+                        case 'd':
+                            segs = 0b1011110;
+                            break;
+                        case 0xe:
+                        case 'e':
+                            segs = 0b1111001;
+                            break;
+                        case 0xf:
+                        case 'f':
+                            segs = 0b1110001;
+                            break;
+                        case 'g':
+                            segs = 0b0000000;
+                            break;
+                        case 'h':
+                            segs = 0b1010101;
+                            break;
+                        case 'i':
+                            segs = 0b0101010;
+                            break;
+                        default:
+                            segs = 0;
+                            break;
+                    }
+
+                    return segs;
+                }
+
+                function writeDigit(digit, segs) {
+                    var index = digit * 8;
+                    var seg;
+                    for(var i = 0; i < 7; i++) {
+                        seg = (segs >> i) & 1;
+                        b.writeTextFile("/sys/class/leds/techlab::seg" + (index+i) + "/brightness", seg, ignore);
+                    }
+                }
+
+                function convertToG(x) {
+                    x = x / 256; // Scale to G
+                    x = x.toFixed(2); // Limit decimal places
+                    return(x);
+                }
+                
+                function ignore(err, x) {
+                    if(err) console.log("err: " + err)
+                    return;
+                }
+            }
+        </script>
+    </body>
+</html>
