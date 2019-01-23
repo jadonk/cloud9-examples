@@ -28,7 +28,11 @@ volatile register unsigned int __R31;
 #define P1_33 (1<<1)
 
 #define DECAY_RATE 75
-#define DELAY_CYCLES DELAY_CYCLES_US
+#define DELAY_CYCLES 2
+#define RED 1
+#define GREEN 2
+#define BLUE 3
+#define WHITE 4
 
 const int decay = DECAY_RATE;
 
@@ -44,6 +48,7 @@ const char init_pins[] =
 
 void main(void) {
 	int i, j;
+	int state = RED;
 
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
@@ -53,53 +58,51 @@ void main(void) {
 	__R30 &= ~(P1_33 | P1_36);
 			
 	while(1) {
-		/* red */
-		for(i = 1000000; i > 0; i = (i * decay) / 100) {
-			*GPIO1_SET = (USR3);
-			__R30 |= (P1_33);
-			for(j=0;j<i;j++){ __delay_cycles(DELAY_CYCLES); }
+		for(j = 0; j < 10000; j++) {
+			switch(state) {
+				case RED:
+					*GPIO1_SET = (USR3);
+					__R30 |= (P1_33);
+					break;
+				case GREEN:
+					*GPIO1_SET = (P2_1 | USR3);
+					break;
+				case BLUE:
+					*GPIO1_SET = (USR3);
+					__R30 |= (P1_36);
+					break;
+				default:
+				case WHITE:
+					*GPIO1_SET = (P2_1 | USR3);
+					__R30 |= (P1_33 | P1_36);
+					break;
+			}
 			
-			*GPIO1_CLEAR = (P2_1 | USR3);
-			__R30 &= ~(P1_33 | P1_36);
-			for(j=0;j<i;j++){ __delay_cycles(DELAY_CYCLES); }
-		}
-		*GPIO1_CLEAR = (P2_1 | USR3);
-		__R30 &= ~(P1_33 | P1_36);
-
-		/* green */
-		for(i = 1000000; i > 0; i = (i * decay) / 100) {
-			*GPIO1_SET = (P2_1 | USR3);
-			for(j=0;j<i;j++){ __delay_cycles(DELAY_CYCLES); }
+			/* Delay j times */
+			for(i = 0; i < j; i++) __delay_cycles(DELAY_CYCLES);
 			
+			/* Clear all LEDs */
 			*GPIO1_CLEAR = (P2_1 | USR3);
 			__R30 &= ~(P1_33 | P1_36);
-			for(j=0;j<i;j++){ __delay_cycles(DELAY_CYCLES); }
+			
+			/* Delay 100000-j times */
+			for(i = 0; i < 10000-j; i++) __delay_cycles(DELAY_CYCLES);
 		}
-		*GPIO1_CLEAR = (P2_1 | USR3);
-		__R30 &= ~(P1_33 | P1_36);
 
-		/* blue */
-		for(i = 1000000; i > 0; i = (i * decay) / 100) {
-			*GPIO1_SET = (USR3);
-			__R30 |= (P1_36);
-			for(j=0;j<i;j++){ __delay_cycles(DELAY_CYCLES); }
-
-			*GPIO1_CLEAR = (P2_1 | USR3);
-			__R30 &= ~(P1_33 | P1_36);
-			for(j=0;j<i;j++){ __delay_cycles(DELAY_CYCLES); }
-		}
-		*GPIO1_CLEAR = (P2_1 | USR3);
-		__R30 &= ~(P1_33 | P1_36);
-
-		/* white */
-		for(i = 1000000; i > 0; i = (i * decay) / 100) {
-			*GPIO1_SET = (P2_1 | USR3);
-			__R30 |= (P1_33 | P1_36);
-			for(j=0;j<i;j++){ __delay_cycles(DELAY_CYCLES); }
-
-			*GPIO1_CLEAR = (P2_1 | USR3);
-			__R30 ^= (P1_33 | P1_36);
-			for(j=0;j<i;j++){ __delay_cycles(DELAY_CYCLES); }
+		switch(state) {
+			case RED:
+				state = GREEN;
+				break;
+			case GREEN:
+				state = BLUE;
+				break;
+			case BLUE:
+				state = WHITE;
+				break;
+			default:
+			case WHITE:
+				state = RED;
+				break;
 		}
 	}
 }
