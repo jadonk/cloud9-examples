@@ -67,7 +67,7 @@
                 function doUpdate3(err, x) {
                     if(!err) {
                         $('#lightStatus').html((x*100).toFixed(1) + "%");
-                        write7Seg(x/(4096/100));
+                        write7Seg((x*100));
                     }
                     b.readTextFile(ACCEL_X, doUpdate4);
                 }
@@ -94,8 +94,8 @@
                 }
 
                 function write7Seg(x) {
-                    writeDigit(0, getDigit(x/10));
-                    writeDigit(1, getDigit(x%10));
+                    writeDigit(0, getDigit(parseInt((x/10)%10)));
+                    writeDigit(1, getDigit(parseInt(x%10)));
                 }
 
                 function getDigit(ch) {

@@ -1,15 +1,4 @@
 {
-    "build": {
-        "@saveall": true
-    },
-    "ace": {
-        "custom-types": {
-            "json()": {
-                "pru0c": "c_cpp",
-                "pru1c": "c_cpp"
-            }
-        },
-    },
     "language": {
         "tern_defs": {
             "json()": {
