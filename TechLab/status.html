@@ -42,7 +42,10 @@
                 var LED_BLUE = '/sys/class/leds/techlab::blue/brightness';
                 var LED_GREEN = '/sys/class/leds/techlab::green/brightness';
 
-                b.writeTextFile('/sys/devices/platform/ocp/ocp:P1_29_pinmux/state', 'gpio', ignore);
+                b.writeTextFile('/sys/devices/platform/ocp/ocp:P1_29_pinmux/state', 'gpio');
+                b.writeTextFile('/sys/devices/platform/ocp/ocp:P1_33_pinmux/state', 'pwm');
+                b.writeTextFile('/sys/devices/platform/ocp/ocp:P2_01_pinmux/state', 'pwm');
+                b.writeTextFile('/sys/devices/platform/ocp/ocp:P1_36_pinmux/state', 'pwm');
                 doUpdate();
                 
                 function doUpdate() {
@@ -75,6 +78,7 @@
                 function doUpdate4(err, x) {
                     if(!err) {
                         $('#X').html(convertToG(x));
+                        b.writeTextFile(LED_RED, Math.abs(x));
                     }
                     b.readTextFile(ACCEL_Y, doUpdate5);
                 }
@@ -82,6 +86,7 @@
                 function doUpdate5(err, x) {
                     if(!err) {
                         $('#Y').html(convertToG(x));
+                        b.writeTextFile(LED_GREEN, Math.abs(x));
                     }
                     b.readTextFile(ACCEL_Z, doUpdate6);
                 }
@@ -89,6 +94,7 @@
                 function doUpdate6(err, x) {
                     if(!err) {
                         $('#Z').html(convertToG(x));
+                        b.writeTextFile(LED_BLUE, Math.abs(x));
                     }
                     setTimeout(doUpdate, 50); // read again in 50ms
                 }
