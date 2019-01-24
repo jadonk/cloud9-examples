@@ -2,6 +2,14 @@
 
 From https://github.com/e-ale/Code/tree/master/RESOURCES/modules-kbuild
 
+## Setup (already done on workshop image)
+
+```sh
+sudo apt-get install linux-headers-`uname -r`
+```
+
+## Build and run
+
 ```sh
 make
 config-pin p1.33 gpio
