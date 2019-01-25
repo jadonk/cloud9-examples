@@ -23,4 +23,7 @@ function printStatus(err, x) {
     return;
   }
   process.stdout.write('value = ' + x.value + '          \r');
+  
+  // Output value to USR3 LED
+  b.digitalWrite("USR3", x.value);
 }
