@@ -6,6 +6,27 @@ well.
 
 # BeagleBoard.org PocketBeagle Grove Cape
 
+| Grove socket and pin | PocketBeagle pin(s) |
+| --- | --- |
+| I2C1 - 1 | ```P2_9``` (I2C1) |
+| I2C1 - 2 | ```P2_11``` (I2C1) |
+| I2C2 - 1 | ```P1_28``` (I2C2) |
+| I2C1 - 2 | ```P1_26``` (I2C0) |
+| UART4 - 1 | ```P2_5``` (UART4) |
+| UART4 - 2 | ```P2_7``` (UART4) |
+| IO59 - 1 | ```P1_32``` (UART0) ```P2_2``` (GPIO59) ** |
+| IO59 - 2 | ```P1_30``` (UART0) ```P2_8``` (GPIO60) ** |
+| IO57 - 1 | ```P2_6``` (GPIO57) ** |
+| IO57 - 2 | ```P2_4``` (GPIO58) ** |
+| A0 - 1 | ```P1_19``` (AIN0) ```P1_33``` (PRU0.1) |
+| A0 - 2 | ```P1_21``` (AIN1) ```P2_32``` (PRU0.2) |
+| A2 - 1 | ```P1_23``` (AIN2) ```P2_30``` (PRU0.3) |
+| A2 - 2 | ```P1_25``` (AIN3) ```P1_31``` (PRU0.4) |
+| PWM - 1 | ```P1_36``` (PWM0A) |
+| PWM - 2 | ```P2_1``` (PWM1A) |
+
+* ** Try to avoid using these signals as they are likely to change on future revisions.
+
 ## I2C1/I2C2
 
 To use these ports as 3.3V I2C, the default configuration should be ready-to-go. Depending
@@ -72,5 +93,13 @@ gpsmon
 
 # [mikroBus Grove Adapter](https://www.tindie.com/products/pmunts/mikrobus-grove-adapter-3/)
 
-### ANA
-* 
+| Grove socket and pin | mikroBUS name | Position 1 PocketBeagle pin | Position 2 PocketBeagle pin |
+| --- | --- | --- | --- | --- | 
+| J1 - ANA - 1 | AIN | ```P1_2``` (AIN6/GPIO87) | ```P2_35``` (AIN5/GPIO86) |
+| J1 - ANA - 2 | PWM | ```P2_1``` (PWM1A) | ```P1_36``` (PWM0A) |
+| J2 - GPIO - 1 | RST | ```P1_4``` (GPIO89) | ```P2_33``` (GPIO45) |
+| J2 - GPIO - 2 | INT | ```P2_3``` (GPIO23) | ```P1_34``` (GPIO26) |
+| J3 - SER - 1 | RX | ```P2_5``` (UART4) | ```P1_32``` (UART0) |
+| J3 - SER - 2 | TX | ```P2_7``` (UART4) | ```P1_30``` (UART0) |
+| J4 - I2C - 1 | SCL | ```P2_9``` (I2C1) | ```P1_28``` (I2C2) |
+| J4 - I2C - 2 | SDA | ```P2_11``` (I2C1) | ```P1_26``` (I2C2) |
