@@ -94,7 +94,7 @@ gpsmon
 # [mikroBus Grove Adapter](https://www.tindie.com/products/pmunts/mikrobus-grove-adapter-3/)
 
 | Grove socket and pin | mikroBUS name | Position 1 PocketBeagle pin | Position 2 PocketBeagle pin |
-| --- | --- | --- | --- | --- | 
+| --- | --- | --- | --- |
 | J1 - ANA - 1 | AIN | ```P1_2``` (AIN6/GPIO87) | ```P2_35``` (AIN5/GPIO86) |
 | J1 - ANA - 2 | PWM | ```P2_1``` (PWM1A) | ```P1_36``` (PWM0A) |
 | J2 - GPIO - 1 | RST | ```P1_4``` (GPIO89) | ```P2_33``` (GPIO45) |
