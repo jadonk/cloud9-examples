@@ -50,6 +50,11 @@ version also includes a link to the kernel module source code.
 | Module name and wiki link | Driver name and I2C address | Kernel version and link to driver source |
 | --- | --- | --- |
 | [Time of flight sensor](http://wiki.seeedstudio.com/Grove-Time_of_Flight_Distance_Sensor-VL53L0X/) | vl53l0x 0x29 | [TBD](https://github.com/beagleboard/cloud9-examples/tree/master/PocketBeagle/Grove/VL53L0X) |
+| [2x16 LCD with backlight](http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/)  | hd44780 0x3e | [TBD](https://github.com/Seeed-Studio/grove-linux-driver/tree/master/src/hd44780) |
+
+## [2x16 LCD with backlight](http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/) extra details
+
+Interface shows up at /dev/lcd0. See https://github.com/Seeed-Studio/grove-linux-driver/tree/master/src/hd44780. 
 
 # [mikroBus Grove Adapter](https://www.tindie.com/products/pmunts/mikrobus-grove-adapter-3/)
 
