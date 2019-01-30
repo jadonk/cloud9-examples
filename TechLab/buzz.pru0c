@@ -14,7 +14,7 @@ volatile register unsigned int __R31;
 #pragma DATA_SECTION(init_pins, ".init_pins")
 #pragma RETAIN(init_pins)
 const char init_pins[] =  
-	"/sys/devices/platform/ocp/ocp:P1_33_pinmux/state\0pruout\0" \
+	"/sys/devices/platform/ocp/ocp:P2_30_pinmux/state\0pruout\0" \
 	"\0\0";
 
 void main(void) {
