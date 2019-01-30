@@ -15,18 +15,18 @@ const char init_pins[] =
 	"\0\0";
 
 void main(void) {
-        /* Invert GPIO input 7 to GPIO output 1 */
+	/* Invert GPIO input 7 to GPIO output 1 */
 	/* On TechLab, input 7 is the R button */
 	/* On TechLab, output 1 is the red in the RGB LED */
-        while(1) {
+	while(1) {
 		if(__R31 & (1<<7)) {
 			/* Clear output */
 			__R30 &= ~(1<<1);
 		} else {
-			/* Clear outputs */
+			/* Set outputs */
 			__R30 |= (1<<1);
 		}
-        }
+	}
 }
 
 struct my_resource_table {
