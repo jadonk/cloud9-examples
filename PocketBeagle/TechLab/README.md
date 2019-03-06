@@ -13,6 +13,15 @@ password: temppwd
 
 ## Install overlays
 
+There are instructions below for working both with and without overlays. It all depends on what you want to learn.
+
+Without overlays, you'll be using userspace interfaces to the bus controllers and doing parts of what the Linux drivers
+do for you.
+
+With overlays, you'll be looking at interfaces provided by relatively complete drivers. You can then start learning
+about how those drivers are built and configured, once you understand how to use them. They often expose interesting
+features of the Linux kernel.
+
 ```
 sudo sed -i -e "s/#?uboot_overlay_addr0=.*$/uboot_overlay_pru=\/lib\/firmware\/PB-I2C2-ACCEL-TECHLAB-CAPE.dtbo/;" /boot/uEnv.txt
 sudo sed -i -e "s/#?uboot_overlay_addr1=.*$/uboot_overlay_pru=\/lib\/firmware\/PB-PWM-RGB-TECHLAB-CAPE.dtbo/;" /boot/uEnv.txt
