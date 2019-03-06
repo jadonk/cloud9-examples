@@ -188,7 +188,7 @@ echo 10 | sudo tee /sys/class/leds/techlab\:\:green/brightness
 echo 10 | sudo tee /sys/class/leds/techlab\:\:blue/brightness
 ```
 
-## PRU Buzzer
+## PRU Buzzer (not on BaconBits)
 
 Requires PRU0 firmware image from beagle-tester. Needs to be put into the bone101 demos.
 
