@@ -2,7 +2,7 @@
 
 ## Setup microSD card
 
-Use image XYZ or newer
+Use https://rcn-ee.net/rootfs/bb.org/testing/2019-03-03/buster-iot/bone-debian-buster-iot-armhf-2019-03-03-4gb.img.xz image or newer
 
 ## Login
 
@@ -21,25 +21,34 @@ sudo sed -i -e "s/#?uboot_overlay_pru=.*RPROC.*$/uboot_overlay_pru=\/lib\/firmwa
 sudo shutdown -r now
 ```
 
+## Verify configuration
+
+```
+sudo /opt/scripts/tools/version.sh
+```
+
 # Testing interfaces
 
 ## Buttons
-* L
-  * Pin: P2_33
-  * Ball: R12
-  * GPIO: 45
+* L (only user button on BaconBits)
+	* Pin: P2_33
+	* Ball: R12
+	* GPIO: 45
 * R
-  * Pin: P1_29
-  * Ball: A14
-  * GPIO: 117
-  * PRU: PRU0_7
+	* Pin: P1_29
+	* Ball: A14
+	* GPIO: 117
+	* PRU: PRU0_7
 
 ```
 config-pin p1.29 gpio
 cd /sys/class/gpio;watch -n0 cat gpio45/value gpio117/value
 ```
 
-## Light sensor
+## Light sensor (Potentiometer on BaconBits)
+
+The ADC driver is always assumed to be loaded.
+
 * Pin: P1_19
 * Ball: B6
 * AIN: 0
@@ -50,23 +59,82 @@ watch -n0 cat /sys/bus/iio/devices/iio\:device0/in_voltage0_raw
 
 ## I2C Accelerometer
 * Bus: I2C2
+* Device: mma8453
 * Pins:
-  * SDA: P1_26
-  * SCL: P1_28
-  * INT1: P1_34
-  * INT2: P1_33
+	* SDA: P1_26
+	* SCL: P1_28
+	* INT1: P1_34
+	* INT2: P1_33
+	* Addr: 0x1c
+
+### No overlay
+
+```
+i2cset -y 2 0x1c 0x2a 1
+watch -n0 i2cdump -y -r 1-6 2 0x1c
+```
+
+### Loading configfs overlay
+
+This requires the device-tree configfs interface to be enabled. Once you run this, you
+can follow it up by running the "with overlay" example.
+
+```
+sudo mkdir -p /sys/kernel/config/device-tree/overlays/accel
+sudo dtc -W no-unit_address_vs_reg -@ -o /sys/kernel/config/device-tree/overlays/accel/dtbo <<EOF
+/dts-v1/;
+/plugin/;
+/ {
+	fragment@0 {
+		target = <&i2c2>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			accel@1c {
+				compatible = "fsl,mma8453";
+				reg = <0x1c>;
+			};
+		};
+	};
+};
+EOF
+sleep 2
+```
+
+### With overlay
 
 ```
 cd /sys/bus/iio/devices/iio\:device1;watch -n0 cat in_accel_x_raw in_accel_y_raw in_accel_z_raw                                                                                                
 ```
 
 ## SPI 7-segment LEDs
+
+Either the spidev driver or full 
+
 * Bus: SPI1
+* Device: 
 * Pins:
-  * SCLK: P2_29
-  * CS1: P2_31
-  * MOSI: P2_25
-  * MISO: P2_27
+	* SCLK: P2_29
+	* CS1: P2_31
+	* MOSI: P2_25
+	* MISO: P2_27
+
+### Userspace spidev interface
+
+The device might be named spidev1.1 or spidev2.1, depending on the
+kernel version and device tree used with your kernel.  The easiest way
+to know is to look at ```/sys/devices/platform/ocp/481a0000.spi/spi_master/```
+and see if it says spi1 or spi2. REplace SPIDEV below accordingly.
+
+```
+export SPIDEV=/dev/spidev1.1
+echo -ne "\x40\x00\x00" | sudo tee $SPIDEV | xxd
+echo -ne "\x40\x01\x00" | sudo tee $SPIDEV | xxd
+echo -ne "\x40\x12\xc0" | sudo tee $SPIDEV | xxd
+echo -ne "\x40\x13\xc0" | sudo tee $SPIDEV | xxd
+```
+
+### With overlay
 
 ```
 echo 1 > /sys/class/leds/techlab\:\:seg0/brightness
@@ -87,15 +155,22 @@ echo 1 > /sys/class/leds/techlab\:\:seg14/brightness
 
 ## PWM RGB LED
 * Red
-  * Pin: P1_33
-  * PWM: EHRPWM0B
-  * PRU: PRU0_1
+	* Pin: P1_33
+	* PWM: EHRPWM0B
+	* PRU: PRU0_1
 * Green
-  * Pin: P2_1
-  * PWM: EHRPWM1A
+	* Pin: P2_1
+	* PWM: EHRPWM1A
 * Blue
-  * Pin: P1_36
-  * PWM: EHRPWM0A
+	* Pin: P1_36
+	* PWM: EHRPWM0A
+
+
+### Without overlay
+
+TBD
+
+### With overlay
 
 ```
 config-pin p1.33 pwm
@@ -105,6 +180,7 @@ echo 10 | sudo tee /sys/class/leds/techlab\:\:blue/brightness
 ```
 
 ## PRU Buzzer
+
 Requires PRU0 firmware image from beagle-tester. Needs to be put into the bone101 demos.
 
 ```
@@ -114,7 +190,8 @@ echo stop | sudo tee /sys/class/remoteproc/remoteproc1/state
 echo start | sudo tee /sys/class/remoteproc/remoteproc1/state
 ```
 
-## mikroBUS
+## mikroBUS (not on BaconBits)
+
 | Left               | Right             |
 |--------------------|-------------------|
 | AIN6/GPIO87 (P1_2) | PWM1A (P2_1) **   |
