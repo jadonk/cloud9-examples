@@ -75,6 +75,7 @@ version also includes a link to the kernel module source code.
 | [2x16 LCD with backlight](http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/)  | hd44780 0x3e | [TBD](https://github.com/Seeed-Studio/grove-linux-driver/tree/master/src/hd44780) |
 | [Temperature and humidity sensor](http://wiki.seeed.cc/Grove-TemptureAndHumidity_Sensor-High-Accuracy_AndMini-v1.0/) | th02 0x40 | [all 4.14](https://github.com/beagleboard/linux/blob/4.14/drivers/iio/humidity/si7005.c) |
 | [ADC](http://wiki.seeedstudio.com/Grove-I2C_ADC/) | adc121c 0x50, adc121c 0x55 | [all 4.14](https://github.com/beagleboard/linux/blob/4.14/drivers/iio/adc/ti-adc081c.c) |
+| [IMU 10DOF](http://wiki.seeedstudio.com/Grove-IMU_10DOF/) | mpu9250 0x68, bmp180 0x77 | TBD |
 | [Barometer sensor (BME280)](http://wiki.seeedstudio.com/Grove-Barometer_Sensor-BME280/) | bme280 0x76 | TBD |
 
 ### [2x16 LCD with backlight](http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/) extra details
