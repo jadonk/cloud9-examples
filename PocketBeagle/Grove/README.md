@@ -6,26 +6,26 @@ well.
 
 # BeagleBoard.org PocketBeagle Grove Cape
 
-| Grove socket and pin | PocketBeagle pin(s) |
-| --- | --- |
-| I2C1 - 1 | ```P2_9``` (I2C1) |
-| I2C1 - 2 | ```P2_11``` (I2C1) |
-| I2C2 - 1 | ```P1_28``` (I2C2) |
-| I2C1 - 2 | ```P1_26``` (I2C0) |
-| UART4 - 1 | ```P2_5``` (UART4) |
-| UART4 - 2 | ```P2_7``` (UART4) |
-| IO59 - 1 | ```P1_32``` (UART0) ```P2_2``` (GPIO59) ** |
-| IO59 - 2 | ```P1_30``` (UART0) ```P2_8``` (GPIO60) ** |
-| IO57 - 1 | ```P2_6``` (GPIO57) ** |
-| IO57 - 2 | ```P2_4``` (GPIO58) ** |
-| A0 - 1 | ```P1_19``` (AIN0) ```P1_33``` (PRU0.1) |
-| A0 - 2 | ```P1_21``` (AIN1) ```P2_32``` (PRU0.2) |
-| A2 - 1 | ```P1_23``` (AIN2) ```P2_30``` (PRU0.3) |
-| A2 - 2 | ```P1_25``` (AIN3) ```P1_31``` (PRU0.4) |
-| PWM - 1 | ```P1_36``` (PWM0A) |
-| PWM - 2 | ```P2_1``` (PWM1A) |
-
-* ** Try to avoid using these signals as they are likely to change on future revisions.
+| Grove socket and pin | PocketBeagle pin(s) | default |
+| --- | --- | --- |
+| I2C1 - 1 | ```P2_9``` | I2C1 SCL |
+| I2C1 - 2 | ```P2_11``` | I2C1 SDA |
+| I2C2 - 1 | ```P1_28``` | I2C2 SCL |
+| I2C1 - 2 | ```P1_26``` | I2C2 SDA |
+| UART0 - 1 | ```P1_32``` | UART0 RX |
+| UART0 - 2 | ```P1_30``` | UART0 TX |
+| UART2 - 1 | ```P1_8``` + AIC HPL | *TBD* - SPI0 CLK |
+| UART2 - 2 | ```P1_10``` + AIC HPR | *TBD* - SPI0 MISO |
+| UART4 - 1 | ```P2_5``` | UART4 RX |
+| UART4 - 2 | ```P2_7``` | UART4 TX |
+| A0 - 1 | ```P1_19``` + ```P1_31``` | AIN0 + PRU0.4 in |
+| A0 - 2 | ```P1_21``` + ```P2_34``` | AIN1 + PRU0.5 in |
+| A2 - 1 | ```P1_23``` + ```P2_24``` | AIN2 + GPIO44 in |
+| A2 - 2 | ```P1_25``` + ```P2_33``` | AIN3 + GPIO45 in |
+| A5 - 1 | ```P2_35``` | AIN5 + GPIO86 in |
+| A5 - 2 | ```P1_2``` | AIN6 + GPIO87 in |
+| PWM - 1 | ```P2_1``` + AIC INL | PWM1A + AIC in left |
+| PWM - 2 | ```P1_35``` + AIC INR | PRU1.10 in + AIC in right |
 
 ## I2C1/I2C2
 
