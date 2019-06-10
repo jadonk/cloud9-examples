@@ -23,9 +23,9 @@ about how those drivers are built and configured, once you understand how to use
 features of the Linux kernel.
 
 ```
-sudo sed -i -e "s/#?uboot_overlay_addr0=.*$/uboot_overlay_pru=\/lib\/firmware\/PB-I2C2-ACCEL-TECHLAB-CAPE.dtbo/;" /boot/uEnv.txt
-sudo sed -i -e "s/#?uboot_overlay_addr1=.*$/uboot_overlay_pru=\/lib\/firmware\/PB-PWM-RGB-TECHLAB-CAPE.dtbo/;" /boot/uEnv.txt
-sudo sed -i -e "s/#?uboot_overlay_addr2=.*$/uboot_overlay_pru=\/lib\/firmware\/PB-SPI1-7SEG-TECHLAB-CAPE.dtbo/;" /boot/uEnv.txt
+sudo sed -i -e "s/#?uboot_overlay_addr0=.*$/uboot_overlay_addr0=\/lib\/firmware\/PB-I2C2-ACCEL-TECHLAB-CAPE.dtbo/;" /boot/uEnv.txt
+sudo sed -i -e "s/#?uboot_overlay_addr1=.*$/uboot_overlay_addr1=\/lib\/firmware\/PB-PWM-RGB-TECHLAB-CAPE.dtbo/;" /boot/uEnv.txt
+sudo sed -i -e "s/#?uboot_overlay_addr2=.*$/uboot_overlay_addr2=\/lib\/firmware\/PB-SPI1-7SEG-TECHLAB-CAPE.dtbo/;" /boot/uEnv.txt
 sudo sed -i -e "s/#?uboot_overlay_pru=.*RPROC.*$/uboot_overlay_pru=\/lib\/firmware\/AM335X-PRU-RPROC-4-14-TI-00A0.dtbo/;" /boot/uEnv.txt
 sudo shutdown -r now
 ```
