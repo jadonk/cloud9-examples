@@ -1,0 +1,18 @@
+{
+  "name": "beagle.bone101",
+  "description": "Cloud9 IDE plugin for BeagleBone",
+  "version": "0.0.1",
+  "author": "Jason Kridner <jdk@ti.com>",
+  "contributors": [],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jadonk/c9.beagle.bone101.git"
+  },
+  "plugins": {
+    "plugin": {}
+  },
+  "categories": ["miscellaneous"],
+  "licenses": [
+    "MIT"
+  ]
+}
