@@ -6,7 +6,7 @@
   "contributors": [],
   "repository": {
     "type": "git",
-    "url": "http://github.com/jadonk/c9.beagle.bone101.git"
+    "url": "http://github.com/beagleboard/cloud9-examples"
   },
   "plugins": {
     "plugin": {}
