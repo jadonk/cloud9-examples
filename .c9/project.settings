@@ -1,4 +1,7 @@
 {
+    "build": {
+        "@saveall": true
+    },
     "language": {
         "tern_defs": {
             "json()": {

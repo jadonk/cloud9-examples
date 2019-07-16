@@ -104,7 +104,8 @@ define(function(require, exports, module) {
         });
 
         function bone101(page) {
-            var filename = options.packagePath + ".bone101";
+            //var filename = options.packagePath + ".bone101";
+            var filename = "/var/lib/cloud9/.c9/plugins/beagle.bone101/plugin.bone101";
             console.log("opening " + filename);
             var tab = tabManager.open({
                 "path": filename,
