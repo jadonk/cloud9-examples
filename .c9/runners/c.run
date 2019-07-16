@@ -3,10 +3,10 @@
 {
     "script": [
         "base=$file_base_name",
-        "export MODEL=AI",
-        "export TARGET=${base%%.*}",    // get base aname
-        "export   PRUN=${base##*.}",    // get pru number
-        "PRUN=${PRUN#pru*}",            // Removed "pru" from the number
+        "export MODEL=$(awk '{print $NF}' /proc/device-tree/model)",
+        "export TARGET=${base%%.*}",    
+        "export   PRUN=${base##*.}",    
+        "PRUN=${PRUN#pru*}",            // Remove'pru' from the name
         // "echo base=$base, TARGET=$TARGET",
         // "echo prun=$PRUN",
         "make -f $file_path/Makefile $args"
