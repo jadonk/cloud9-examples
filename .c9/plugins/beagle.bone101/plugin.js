@@ -49,7 +49,13 @@ define(function(require, exports, module) {
                 iframe.style.width = "100%";
                 iframe.style.height = "100%";
                 iframe.style.border = 0;
-                iframe.src = "http://192.168.6.2";
+                iframe.src = "http://192.168.7.2:8000/";
+                try {
+                    iframe.src = "http://" + location.host + ":8000/";
+                } catch(ex) {
+                    console.log("bone101: location.host not defined");
+                }
+                console.log("bone101 src: " + iframe.src);
                 container.appendChild(iframe);
             });
             plugin.on("documentLoad", function(e){
