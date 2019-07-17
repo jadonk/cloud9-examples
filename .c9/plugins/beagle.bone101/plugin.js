@@ -116,8 +116,11 @@ define(function(require, exports, module) {
             //var filename = options.packagePath + ".bone101";
             var filename = "/var/lib/cloud9/.c9/plugins/beagle.bone101/plugin.bone101";
             console.log("opening " + filename);
+            var pane = tabManager.getPanes()[0];
+            var newPane = pane.hsplit();
             var tab = tabManager.open({
                 "path": filename,
+                "pane": newPane,
                 "editorType": "bone101",
                 "title": "bone101",
                 "tooltip": "bone101",
