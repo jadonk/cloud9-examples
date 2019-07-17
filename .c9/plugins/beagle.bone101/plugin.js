@@ -76,7 +76,7 @@ define(function(require, exports, module) {
                 console.log("bone101: documentUnload");
             });
             plugin.freezePublicAPI({
-
+                bone101: bone101
             });
             plugin.load(null, "beagle.bone101");
             return plugin;
@@ -98,7 +98,6 @@ define(function(require, exports, module) {
                     bone101("intro");
                 }
             }, handle);
-            bone101("intro");
 
             menus.addItemByPath("BeagleBone", null, 20, handle);
             menus.addItemByPath("BeagleBone/About",new ui.item({
@@ -107,6 +106,10 @@ define(function(require, exports, module) {
             menus.addItemByPath("BeagleBone/Introduction", new ui.item({
                 command: "bone101_intro"
             }), 24, handle);
+        });
+
+        tabManager.on("ready", function(){
+            bone101("intro");
         });
 
         function bone101(page) {
