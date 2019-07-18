@@ -23,21 +23,21 @@
 #define USR1 (1<< 5)
 // The define a couple of GPIO pin addresses
 // GPIO6
-#define P9_25   (0x1<<17)
+#define P9_25   (1<<17)
 // GPIO8
-#define P8_17   (0x1<18)
+#define P8_17   (1<18)
 
 // These define which bin in register R30 go to which header pins
 // R30 bits - Output on pru1_1
-#define P9_14	(0x1<<14)
-#define P9_16	(0x1<<15)
-#define P8_15	(0x1<<16)
-#define P8_26	(0x1<<17)
-#define P8_16	(0x1<<18)
+#define P9_14	(1<<14)
+#define P9_16	(1<<15)
+#define P8_15	(1<<16)
+#define P8_26	(1<<17)
+#define P8_16	(1<<18)
 // R31 bits - Input on pru1_1
-#define P8_18	(0x1<<5)
-#define P8_19	(0x1<<6)
-#define P8_13	(0x1<<7)
+#define P8_18	(1<<5)
+#define P8_19	(1<<6)
+#define P8_13	(1<<7)
 
 #else
 
