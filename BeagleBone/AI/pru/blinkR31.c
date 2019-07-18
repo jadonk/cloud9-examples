@@ -3,6 +3,7 @@
 #include "resource_table_empty.h"
 #include "prugpio.h"
 
+// Tells which PRU to run on.  Must run on pru1_1 for the P8 and P9 pins used here.
 #define	PRUN 1_1
 
 volatile register unsigned int __R30;
@@ -10,6 +11,8 @@ volatile register unsigned int __R31;
 
 void main(void) {
 	int i;
+	uint32_t *gpio3 = (uint32_t *)GPIO3;
+
 
 	// Select which pins to toggle.  These are all on pru1_1
 	uint32_t gpio = P9_14 | P9_16 | P8_15 | P8_16 | P8_26;
@@ -26,10 +29,10 @@ void main(void) {
 
 		__delay_cycles(500000000/5); 
 		
-		// if((__R31&P8_19) == P8_19) {
-  //          gpio3[GPIO_CLEARDATAOUT]   = USR3;      // Turn on LED
-  //      } else
-  //          gpio3[GPIO_SETDATAOUT]     = USR3;      // Turn off LED
+		if((__R31&P8_19) == P8_19) {
+            gpio3[GPIO_CLEARDATAOUT]   = USR3;      // Turn on LED
+        } else
+            gpio3[GPIO_SETDATAOUT]     = USR3;      // Turn off LED
 	}
 	__halt();
 }

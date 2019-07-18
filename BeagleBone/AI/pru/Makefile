@@ -15,7 +15,7 @@ $(warning TARGET=$(TARGET), PRUN=$(PRUN), MODEL=$(MODEL))
 PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
 GEN_DIR:=/tmp/pru$(PRUN)-gen
-COMMON:=/var/lib/cloud9/BeagleBone/Black/pru/mark
+COMMON:=/var/lib/cloud9/BeagleBone/AI/pru
 
 LINKER_COMMAND_FILE=AM335x_PRU.cmd
 LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
