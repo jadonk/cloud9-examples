@@ -18,4 +18,3 @@ echo MODEL=$MODEL
 
 echo none > /sys/class/leds/beaglebone\:green\:usr1/trigger
 echo none > /sys/class/leds/beaglebone\:green\:usr2/trigger
-echo none > /sys/class/leds/beaglebone\:green\:usr3/trigger
