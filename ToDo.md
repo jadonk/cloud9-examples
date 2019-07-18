@@ -2,6 +2,9 @@
 
 - [ ] README.md
 
+- [ ] AI/README.md
+- [ ] AI/blinkR31.c
+
 ## Black/0README.md
 - [ ] analog2.js
 - [ ] analog3.js
