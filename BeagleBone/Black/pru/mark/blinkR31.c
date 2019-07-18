@@ -1,0 +1,44 @@
+#include <stdint.h>
+#include <pru_cfg.h>
+#include "resource_table_empty.h"
+#include "prugpio.h"
+
+#define	PRUN 1_1
+
+volatile register unsigned int __R30;
+volatile register unsigned int __R31;
+
+void main(void) {
+	int i;
+
+	// Select which pins to toggle.  These are all on pru1_1
+	uint32_t gpio = P9_14 | P9_16 | P8_15 | P8_16 | P8_26;
+
+	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
+	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
+
+	for(i=0; i<100; i++) {
+		__R30 |= gpio;		// Set the GPIO pin to 1
+
+		__delay_cycles(500000000/5);    // Wait 1/2 second
+
+		__R30 &= ~gpio;		// Clearn the GPIO pin
+
+		__delay_cycles(500000000/5); 
+		
+		// if((__R31&P8_19) == P8_19) {
+  //          gpio3[GPIO_CLEARDATAOUT]   = USR3;      // Turn on LED
+  //      } else
+  //          gpio3[GPIO_SETDATAOUT]     = USR3;      // Turn off LED
+	}
+	__halt();
+}
+
+// Turns off triggers
+#pragma DATA_SECTION(init_pins, ".init_pins")
+#pragma RETAIN(init_pins)
+const char init_pins[] =  
+	"/sys/class/gpio/export\0 177\0" \
+	"/sys/class/gpio/gpio177/direction\0out\0" \
+	"\0\0";
+
