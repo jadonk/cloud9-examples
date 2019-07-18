@@ -9,7 +9,7 @@
         // "PRUN=${PRUN#pru*}",            // Remove'pru' from the name
         // "echo base=$base, TARGET=$TARGET",
         // "echo prun=$PRUN",
-        "make -f $file_path/Makefile $args"
+        "make -f /var/lib/cloud9/BeagleBone/Black/pru/mark/Makefile $args"
         ],
 
     "info" : "Started $project_path: $file_name\n\nFile path: $file_path\nFile: $file\nArguments: $args\nFile name: $file_name\nFile extension: $file_extension\nFile base name: $file_base_name\nPackages: $packages\nProject path: $project_path\nProject name: $project_name\nHostname: $hostname\nHostname path: $hostname_path\nURL: $url\nPort: $port\nIP: $ip\nCommand: $command\nPython: $python\nPython path: $python_path",
