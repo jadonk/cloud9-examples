@@ -15,6 +15,7 @@ $(warning TARGET=$(TARGET), PRUN=$(PRUN), MODEL=$(MODEL))
 PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
 GEN_DIR:=/tmp/pru$(PRUN)-gen
+COMMON:=/var/lib/cloud9/BeagleBone/Black/pru/mark
 
 LINKER_COMMAND_FILE=AM335x_PRU.cmd
 LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
@@ -71,7 +72,7 @@ start:
 	@echo "-    Starting PRU $(PRUN)"
 	@echo start | tee $(PRU_DIR)/state
 	@echo write_init_pins.sh
-	@/var/lib/cloud9/extras/pru/write_init_pins.sh /lib/firmware/$(CHIP)-pru$(PRUN)-fw
+	@$(COMMON)/write_init_pins.sh /lib/firmware/$(CHIP)-pru$(PRUN)-fw
 
 install: $(GEN_DIR)/$(TARGET).out
 	@echo '-	copying firmware file $(GEN_DIR)/$(TARGET).out to /lib/firmware/$(CHIP)-pru$(PRUN)-fw'
