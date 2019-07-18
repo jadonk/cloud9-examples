@@ -11,6 +11,7 @@ volatile register unsigned int __R31;
 void main(void) {
 	int i;
 
+	// Points to the GPIO port that is used
 	uint32_t *gpio6 = (uint32_t *)GPIO6;
 
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
@@ -29,7 +30,7 @@ void main(void) {
 	__halt();
 }
 
-// Turns off triggers
+// Set direction of P9_25 (which is port 6 pin 17)
 #pragma DATA_SECTION(init_pins, ".init_pins")
 #pragma RETAIN(init_pins)
 const char init_pins[] =  

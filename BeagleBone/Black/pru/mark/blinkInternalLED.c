@@ -10,6 +10,8 @@ volatile register unsigned int __R31;
 
 void main(void) {
 	int i;
+	
+	// Points to the two GPIO ports that are used
 	uint32_t *gpio3 = (uint32_t *)GPIO3;
 	uint32_t *gpio5 = (uint32_t *)GPIO5;
 

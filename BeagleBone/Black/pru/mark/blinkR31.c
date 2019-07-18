@@ -34,11 +34,4 @@ void main(void) {
 	__halt();
 }
 
-// Turns off triggers
-#pragma DATA_SECTION(init_pins, ".init_pins")
-#pragma RETAIN(init_pins)
-const char init_pins[] =  
-	"/sys/class/gpio/export\0 177\0" \
-	"/sys/class/gpio/gpio177/direction\0out\0" \
-	"\0\0";
-
+// No need to turn off triggers or set pin direction
