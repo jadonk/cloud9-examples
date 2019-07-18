@@ -29,10 +29,10 @@ void main(void) {
 
 		__delay_cycles(500000000/5); 
 		
-		if((__R31&P8_19) == P8_19) {
-            gpio3[GPIO_CLEARDATAOUT]   = USR3;      // Turn on LED
-        } else
+		if(__R31&P8_13) {
             gpio3[GPIO_SETDATAOUT]     = USR3;      // Turn off LED
+        } else
+            gpio3[GPIO_CLEARDATAOUT]   = USR3;      // Turn on LED
 	}
 	__halt();
 }
