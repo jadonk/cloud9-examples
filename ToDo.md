@@ -6,6 +6,7 @@
 - [ ] AI/README.md
 - [ ] AI/pru/blinkR31.c
 - [ ] AI/pru/input.c - Doesn't work.  Check wiring instructions
+- [ ] AI/pru/shared.d - Need PRU address in ARM space
 
 ## Black/0README.md
 - [ ] analog2.js
