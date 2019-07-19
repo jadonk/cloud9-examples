@@ -13,7 +13,6 @@ void main(void) {
 	int i;
 	uint32_t *gpio3 = (uint32_t *)GPIO3;
 
-
 	// Select which pins to toggle.  These are all on pru1_1
 	uint32_t gpio = P9_14 | P9_16 | P8_15 | P8_16 | P8_26;
 
@@ -28,12 +27,7 @@ void main(void) {
 		__R30 &= ~gpio;		// Clearn the GPIO pin
 
 		__delay_cycles(500000000/5); 
-		
-		if(__R31&P8_13) {
-            gpio3[GPIO_SETDATAOUT]     = USR3;      // Turn off LED
-        } else
-            gpio3[GPIO_CLEARDATAOUT]   = USR3;      // Turn on LED
-	}
+			}
 	__halt();
 }
 
