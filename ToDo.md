@@ -1,6 +1,7 @@
 # To Do
 
 - [ ] README.md
+- [ ] fix prudebug
 
 - [ ] AI/README.md
 - [ ] AI/pru/blinkR31.c
