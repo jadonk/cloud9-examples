@@ -3,7 +3,8 @@
 - [ ] README.md
 
 - [ ] AI/README.md
-- [ ] AI/blinkR31.c
+- [ ] AI/pru/blinkR31.c
+- [ ] AI/pru/input.c - Doesn't work.  Check wiring instructions
 
 ## Black/0README.md
 - [ ] analog2.js
