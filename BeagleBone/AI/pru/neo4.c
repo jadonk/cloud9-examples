@@ -22,6 +22,7 @@ volatile register uint32_t __R31;
 /* The PRU-ICSS system events used for RPMsg are defined in the Linux device tree
  * PRU0 uses system event 16 (To ARM) and 17 (From ARM)
  * PRU1 uses system event 18 (To ARM) and 19 (From ARM)
+ * Be sure to change the values in resource_table_0.h too.
  */
 #define TO_ARM_HOST			18	
 #define FROM_ARM_HOST		19
@@ -42,7 +43,7 @@ volatile register uint32_t __R31;
 
 char payload[RPMSG_BUF_SIZE];
 
-#define STR_LEN 24
+#define STR_LEN 40
 #define	oneCyclesOn		700/5	// Stay on for 700ns
 #define oneCyclesOff	600/5
 #define zeroCyclesOn	350/5
