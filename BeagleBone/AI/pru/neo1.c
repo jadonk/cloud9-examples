@@ -7,15 +7,14 @@
 
 #define PRUN 1_1
 
-#define STR_LEN 24
+#define STR_LEN 40
 #define	oneCyclesOn		700/5	// Stay on 700ns
 #define oneCyclesOff	800/5
 #define zeroCyclesOn	350/5
 #define zeroCyclesOff	600/5
 #define resetCycles		60000/5	// Must be at least 50u, use 60u
-#define out 1		// Bit number to output one
 
-#define ONE
+// #define ONE
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;

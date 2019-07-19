@@ -7,13 +7,12 @@
 
 #define PRUN 1_1
 
-#define STR_LEN 3
+#define STR_LEN 40
 #define	oneCyclesOn		700/5	// Stay on 700ns
 #define oneCyclesOff	800/5
 #define zeroCyclesOn	350/5
 #define zeroCyclesOff	600/5
 #define resetCycles		60000/5	// Must be at least 50u, use 60u
-#define out 1		// Bit number to output one
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
@@ -31,7 +30,7 @@ void main(void)
 
 	for(j=0; j<STR_LEN; j++) {
 		for(i=23; i>=0; i--) {
-			if(color[j] & (0x1<<i)) {
+			if(color[j%3] & (0x1<<i)) {
 				__R30 |= gpio;		// Set the GPIO pin to 1
 				__delay_cycles(oneCyclesOn-1);
 				__R30 &= ~gpio;		// Clear the GPIO pin
