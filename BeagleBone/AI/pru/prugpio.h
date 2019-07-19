@@ -55,6 +55,11 @@
 #define USR2 (1<<23)
 #define USR3 (1<<24)
 
+// Shared memory
+#define AM33XX_DATARAM0_PHYS_BASE		0x4a300000
+#define AM33XX_DATARAM1_PHYS_BASE		0x4a302000
+#define AM33XX_PRUSS_SHAREDRAM_BASE		0x4a310000
+
 #endif
 // /4 to convert from byte address to word address
 #define GPIO_CLEARDATAOUT	0x190/4     // Write 1 here to set a given bit    
