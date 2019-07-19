@@ -7,8 +7,8 @@
 - [ ] AI/pru/blinkR31.c
 - [ ] AI/pru/input.c - Doesn't work.  Check wiring instructions
 - [ ] AI/pru/shared.c - Need PRU address in ARM space
-- [ ] AI/pru/neo[1-3].c - Needs testing with real string
-- [ ] AI/pru/neo4.c - Needs help with rmpsg
+- [x] AI/pru/neo[1-3].c - Needs testing with real string
+- [x] AI/pru/neo4.c - Needs help with rmpsg
 
 ## Black/0README.md
 - [ ] analog2.js
