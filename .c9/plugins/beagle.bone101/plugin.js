@@ -49,7 +49,13 @@ define(function(require, exports, module) {
                 iframe.style.width = "100%";
                 iframe.style.height = "100%";
                 iframe.style.border = 0;
-                iframe.src = "http://192.168.6.2";
+                iframe.src = "http://192.168.7.2:8000/";
+                try {
+                    iframe.src = "http://" + location.host + ":8000/";
+                } catch(ex) {
+                    console.log("bone101: location.host not defined");
+                }
+                console.log("bone101 src: " + iframe.src);
                 container.appendChild(iframe);
             });
             plugin.on("documentLoad", function(e){
@@ -70,7 +76,7 @@ define(function(require, exports, module) {
                 console.log("bone101: documentUnload");
             });
             plugin.freezePublicAPI({
-
+                bone101: bone101
             });
             plugin.load(null, "beagle.bone101");
             return plugin;
@@ -92,7 +98,6 @@ define(function(require, exports, module) {
                     bone101("intro");
                 }
             }, handle);
-            bone101("intro");
 
             menus.addItemByPath("BeagleBone", null, 20, handle);
             menus.addItemByPath("BeagleBone/About",new ui.item({
@@ -103,11 +108,19 @@ define(function(require, exports, module) {
             }), 24, handle);
         });
 
+        tabManager.on("ready", function(){
+            bone101("intro");
+        });
+
         function bone101(page) {
-            var filename = options.packagePath + ".bone101";
+            //var filename = options.packagePath + ".bone101";
+            var filename = "/var/lib/cloud9/.c9/plugins/beagle.bone101/plugin.bone101";
             console.log("opening " + filename);
+            var pane = tabManager.getPanes()[0];
+            var newPane = pane.hsplit();
             var tab = tabManager.open({
                 "path": filename,
+                "pane": newPane,
                 "editorType": "bone101",
                 "title": "bone101",
                 "tooltip": "bone101",

@@ -1,4 +1,7 @@
 {
+    "build": {
+        "@saveall": true
+    },
     "language": {
         "tern_defs": {
             "json()": {
@@ -13,6 +16,10 @@
                 }
             }
         }
+    },
+    "python": {
+        "@path": "/usr/lib/python3.7/dist-packages:/usr/local/lib/python3.7/dist-packages",
+        "@version": "python3"
     },
     "run": {
         "configs": {
