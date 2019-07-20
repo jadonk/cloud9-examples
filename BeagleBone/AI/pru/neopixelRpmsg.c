@@ -1,4 +1,17 @@
-// Use rpmsg to control the NeoPixels via /dev/rpmsg_pru30
+////////////////////////////////////////
+//	neopixelRpmsg.c
+//	Uses rpmsg to control the NeoPixels via /dev/rpmsg_pru30 on the ARM
+//	Usage:	echo index R G B > /dev/rpmsg_pru30 to set the color at the given index
+//			echo -1 0 0 0    > /dev/rpmsg_pro30 to update the string
+//			echo 0 0xf0 0 0  > /dev/rpmsg_pru30 Turns pixel 0 to Red
+//			neopixelRainbow.py to display moving rainbow pattern
+//	Wiring:	The NeoPixel Data In goes to P9_14, the plus lead to P9_3 or P9_4
+//			and the ground to P9_1 or P9_2.  If you have more then 40 some 
+//			NeoPixels you will need and external supply.
+//	Setup:	None
+//	See:	 
+//	PRU:	pru1_1
+////////////////////////////////////////
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>			// atoi
