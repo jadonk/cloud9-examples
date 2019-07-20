@@ -33,7 +33,7 @@ void main(void) {
 		__delay_cycles(500000000/5);	 // Wait 1/2 second
 		
 		gpio5[GPIO_CLEARDATAOUT] = USR1;	// Off
-        gpio3[GPIO_SETDATAOUT]   = USR2;	// On
+		gpio3[GPIO_SETDATAOUT]   = USR2;	// On
         
 		__delay_cycles(500000000/5); 
 	}
