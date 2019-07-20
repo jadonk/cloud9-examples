@@ -28,9 +28,9 @@ void main(void)
 	uint32_t color[STR_LEN] = {0x0f0000, 0x000f00, 0x0000f};	// green, red, blue
 	int i, j;
 
-	for(j=0; j<STR_LEN; j++) {
+	for(j=0; j<STR_LEN; j++) {	// Loop for each LED in string
 		for(i=23; i>=0; i--) {
-			if(color[j%3] & (0x1<<i)) {
+			if(color[j%3] & (0x1<<i)) {	// Pick off one bit at a time
 				__R30 |= gpio;		// Set the GPIO pin to 1
 				__delay_cycles(oneCyclesOn-1);
 				__R30 &= ~gpio;		// Clear the GPIO pin

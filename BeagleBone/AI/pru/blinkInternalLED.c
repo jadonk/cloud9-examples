@@ -1,10 +1,17 @@
+////////////////////////////////////////
+//	blinkInternalLED.c
+//	Blinks two of the bulit in USR LEDs using the PRU
+//	Wiring:	None
+//	Setup:	Turn off the USR LEDs triggers
+//	See:	prugpio.h to see to which ports the USR LEDs are attached
+//	PRU:	Any
+////////////////////////////////////////
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
 #include "prugpio.h"
 
-// Tells which PRU to run on.  Can run on any of them.
-#define	PRUN 1_1
+#define	PRUN 1_1	// Tells which PRU to run on.  Can run on any of them.
 
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;

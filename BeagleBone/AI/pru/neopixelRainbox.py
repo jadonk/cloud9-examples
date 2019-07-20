@@ -4,7 +4,7 @@ import math
 
 len = 40
 amp = 12
-f = 41
+f = 44
 shift = 3
 phase = 0
 
@@ -21,7 +21,7 @@ while True:
 
     fo.write("-1 0 0 0\n");
     phase = phase + 1
-    sleep(0.05)
+    sleep(0.1)
 
 # Close opened file
 fo.close()
