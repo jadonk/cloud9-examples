@@ -4,7 +4,7 @@
 - [ ] fix prudebug
 
 - [ ] AI/README.md
-- [x] AI/pru/blinkR31.c
+- [x] AI/pru/blinkR30.c
 - [ ] AI/pru/inputR31.c - Doesn't work.  Check wiring instructions
 - [ ] AI/pru/shared.c - Need PRU address in ARM space
 - [x] AI/pru/neo[1-3].c - Needs testing with real string
