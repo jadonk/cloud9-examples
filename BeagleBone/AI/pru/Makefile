@@ -17,7 +17,7 @@ PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
 GEN_DIR:=/tmp/pru$(PRUN)-gen
 COMMON:=/var/lib/cloud9/BeagleBone/AI/pru
 
-LINKER_COMMAND_FILE=AM335x_PRU.cmd
+LINKER_COMMAND_FILE=AM57xx_PRU.cmd
 LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
 INCLUDE=--include_path=$(PRU_SUPPORT)/include --include_path=$(PRU_SUPPORT)/include/am335x
 
