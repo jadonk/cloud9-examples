@@ -20,7 +20,7 @@ shift = 3
 phase = 0
 
 # Open a file
-fo = open("/dev/rpmsg_pru30", "wb", 0)  # Write binary unbuffered
+fo = open("/dev/rpmsg_pru30", "wb", buffering=False)  # Write binary unbuffered
 
 while True:
     for i in range(0, len):

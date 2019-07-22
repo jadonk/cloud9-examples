@@ -77,7 +77,7 @@ void main(void)
 	uint16_t src, dst, len;
 	volatile uint8_t *status;
 	// Select which pins to output to.  These are all on pru1_1
-	uint32_t gpio = P9_14;
+	uint32_t gpio = P9_16;
 	
 	uint8_t r, g, b;
 	int i, j;
