@@ -24,7 +24,7 @@
 #include "init_pins_empty.h"
 #include "prugpio.h"
 
-#define PRUN 1_1
+#define PRUN 0
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
@@ -37,8 +37,8 @@ volatile register uint32_t __R31;
  * PRU1 uses system event 18 (To ARM) and 19 (From ARM)
  * Be sure to change the values in resource_table_0.h too.
  */
-#define TO_ARM_HOST			18	
-#define FROM_ARM_HOST		19
+#define TO_ARM_HOST			16	
+#define FROM_ARM_HOST		17
 
 /*
 * Using the name 'rpmsg-pru' will probe the rpmsg_pru driver found
@@ -77,7 +77,7 @@ void main(void)
 	uint16_t src, dst, len;
 	volatile uint8_t *status;
 	// Select which pins to output to.  These are all on pru1_1
-	uint32_t gpio = P9_14;
+	uint32_t gpio = P9_29;
 	
 	uint8_t r, g, b;
 	int i, j;

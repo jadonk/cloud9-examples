@@ -58,8 +58,8 @@
 
 /* Mapping sysevts to a channel. Each pair contains a sysevt, channel. */
 struct ch_map pru_intc_map[] = { 
-	{18, 2},
-	{19, 0},
+	{16, 2},
+	{17, 0},
 };
 
 struct my_resource_table {
