@@ -57,7 +57,7 @@ else
 	endif
 endif
 
-$(warning CHIP=$(CHIP), PRU_DIR=$(PRU_DIR))
+$(warning CHIP=$(CHIP), PRU_DIR=$(PRU_DIR), LINKER_COMMAND_FILE=$(LINKER_COMMAND_FILE))
 
 all: stop install start
 	@echo "MODEL   = $(MODEL)"
