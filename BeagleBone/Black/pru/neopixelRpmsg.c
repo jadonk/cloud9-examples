@@ -5,10 +5,10 @@
 //			echo -1 0 0 0    > /dev/rpmsg_pro30 to update the string
 //			echo 0 0xf0 0 0  > /dev/rpmsg_pru30 Turns pixel 0 to Red
 //			neopixelRainbow.py to display moving rainbow pattern
-//	Wiring:	The NeoPixel Data In goes to P9_14, the plus lead to P9_3 or P9_4
+//	Wiring:	The NeoPixel Data In goes to P9_29, the plus lead to P9_3 or P9_4
 //			and the ground to P9_1 or P9_2.  If you have more then 40 some 
 //			NeoPixels you will need and external supply.
-//	Setup:	None
+//	Setup:	config_pin P9_29 pruout
 //	See:	 
 //	PRU:	pru1_1
 ////////////////////////////////////////

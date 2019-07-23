@@ -1,11 +1,11 @@
 ////////////////////////////////////////
 //	neopixelStatic.c
 //	Control a ws2812 (NeoPixel) display, green, red, blue, green, ...
-//	Wiring:	The NeoPixel Data In goes to P9_14, the plus lead to P9_3 or P9_4
+//	Wiring:	The NeoPixel Data In goes to P9_29, the plus lead to P9_3 or P9_4
 //			and the ground to P9_1 or P9_2.  If you have more then 40 some 
 //			NeoPixels you will need and external supply.
-//	Setup:	None
-//	See:	 
+//	Setup:	config_pin P9_29 pruout
+//	See:	
 //	PRU:	pru1_1
 ////////////////////////////////////////
 #include <stdint.h>
@@ -16,7 +16,7 @@
 
 #define PRUN 0
 
-#define STR_LEN 40
+#define STR_LEN 16
 #define	oneCyclesOn		700/5	// Stay on 700ns
 #define oneCyclesOff	800/5
 #define zeroCyclesOn	350/5

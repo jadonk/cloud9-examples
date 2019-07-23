@@ -54,6 +54,10 @@
 #define USR1 (1<<22)
 #define USR2 (1<<23)
 #define USR3 (1<<24)
+// The define a couple of GPIO pin addresses
+// GPIO1
+#define P9_14 (1<<18)
+#define P9_16 (1<<19)
 
 // R30 output bits on pru0
 #define P9_31   (1<<0)
