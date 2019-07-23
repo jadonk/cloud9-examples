@@ -1,7 +1,7 @@
 ////////////////////////////////////////
 //	blinkR30.c
 //	Reads input in P9_25 via the R31 register and blinks the USR3 LED
-//	Wiring:	A switch between P9_25 and ground
+//	Wiring:	A switch between P9_25 and 3.3V (P9_3 or P9_4)
 //	Setup:	config_pin P9_25 pruin
 //	See:	prugpio.h to see which pins attach to R30
 //	PRU:	pru0
@@ -27,10 +27,10 @@ void main(void) {
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
 	while(1) {
-		if(__R31&P9_25) {
-            gpio1[GPIO_SETDATAOUT]   = USR3;      // Turn off LED
+		if(__R31 & P9_25) {
+            gpio1[GPIO_SETDATAOUT]   = USR3;      // Turn on LED
         } else
-            gpio1[GPIO_CLEARDATAOUT] = USR3;      // Turn on LED
+            gpio1[GPIO_CLEARDATAOUT] = USR3;      // Turn off LED
 	}
 	__halt();
 }
