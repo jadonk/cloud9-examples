@@ -1,13 +1,9 @@
 #!/bin/bash
-model=$(awk '{print $NF}' /proc/device-tree/model)
-echo model=$model
-
-if [ $model != "AI" ]; then
+export MODEL=$(awk '{print $NF}' /proc/device-tree/model)
+if [ $MODEL != "AI" ]; then
     export PRUN=0
-    export MODEL=Black
 else
     export PRUN=1_1
-    export MODEL=AI
 fi
 
 export TARGET=blinkInternalLED
