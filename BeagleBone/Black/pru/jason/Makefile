@@ -20,7 +20,7 @@ HEAP_SIZE=0x100
 CFLAGS=-v3 -O2 --display_error_number --endian=little --hardware_mac=on --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing --c_src_interlist # --absolute_listing
 LFLAGS=--reread_libs --warn_sections --stack_size=$(STACK_SIZE) --heap_size=$(HEAP_SIZE) -m $(GEN_DIR)/file.map
 
-GEN_DIR=/tmp/$(PRUN)-gen
+GEN_DIR=/tmp/pru$(PRUN)-gen
 
 #PRU_DIR=$(wildcard /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss/4a33*000.$(PRUN)/remoteproc/remoteproc*)
 ifeq ($(PRUN),pru0)
@@ -36,19 +36,19 @@ all: run
 run: install
 	@echo '-	rebooting $(PRUN) via $(PRU_DIR)'
 	@echo stop | sudo tee $(PRU_DIR)/state || echo Cannot stop $(PRUN)
-	@sudo $(dir $(realpath $(firstword $(MAKEFILE_LIST))))/write_init_pins.sh /lib/firmware/am335x-$(PRUN)-fw
+	@sudo $(dir $(realpath $(firstword $(MAKEFILE_LIST))))/write_init_pins.sh /lib/firmware/am335x-pru$(PRUN)-fw
 	@echo start | sudo tee $(PRU_DIR)/state
-	@echo "-	$(PRUN) is now loaded with $(GEN_DIR)/$(TARGET).out"
+	@echo "-	pru$(PRUN) is now loaded with $(GEN_DIR)/$(TARGET).out"
 
 install: $(GEN_DIR)/$(TARGET).out
-	@echo '-	copying firmware file $(GEN_DIR)/$(TARGET).out to /lib/firmware/am335x-$(PRUN)-fw'
-	@sudo cp $(GEN_DIR)/$(TARGET).out /lib/firmware/am335x-$(PRUN)-fw
+	@echo '-	copying firmware file $(GEN_DIR)/$(TARGET).out to /lib/firmware/am335x-pru$(PRUN)-fw'
+	@sudo cp $(GEN_DIR)/$(TARGET).out /lib/firmware/am335x-pru$(PRUN)-fw
 
 $(GEN_DIR)/$(TARGET).out: $(GEN_DIR)/$(TARGET).obj
 	@echo 'LD	$^' 
 	@lnkpru -i$(PRU_CGT)/lib -i$(PRU_CGT)/include $(LFLAGS) -o $@ $^ $(LINKER_COMMAND_FILE) --library=libc.a $(LIBS) $^
 
-$(GEN_DIR)/$(TARGET).obj: $(TARGET).$(PRUN)c
+$(GEN_DIR)/$(TARGET).obj: $(TARGET).pru$(PRUN)c
 	@mkdir -p $(GEN_DIR)
 	@echo 'CC	$<'
 	@clpru --include_path=$(PRU_CGT)/include $(INCLUDE) $(CFLAGS) -fe $@ $<
