@@ -2,12 +2,13 @@
 // For more information see http://docs.c9.io:8080/#!/api/run-method-run
 {
     "cmd" : [
-        "make",
+        "echo",
         "-f",
-        "$file_path/Makefile",
+        "$project_path/$file_path/Makefile",
         "TARGET=$file_base_name",
         "PRUN=0",
         "MODEL=BLACK",
+        "$(pwd)",
         "$args"
     ],
     "info" : "Started $project_path: $file_name\n\nFile path: $file_path\nFile: $file\nArguments: $args\nFile name: $file_name\nFile extension: $file_extension\nFile base name: $file_base_name\nPackages: $packages\nProject path: $project_path\nProject name: $project_name\nHostname: $hostname\nHostname path: $hostname_path\nURL: $url\nPort: $port\nIP: $ip\nCommand: $command\nPython: $python\nPython path: $python_path",

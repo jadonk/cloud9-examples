@@ -1,66 +1,84 @@
-# 
-# Copyright (c) 2016 Zubeen Tolani <ZeekHuge - zeekhuge@gmail.com>
-# Copyright (c) 2017 Texas Instruments - Jason Kridner <jdk@ti.com>
-# 
-
-# TARGET must be defined as the file to be compiled without the .c.
-# PRUN must be defined as the PRU number (0 or 1) to compile for.
-
-# PRU_CGT environment variable points to the TI PRU compiler directory.
+#
+# Directories (external pacakges, etc.)
+#
+# COMMON points to where this primary Makefile and shell scripts live.
+# PRU_CGT points to the TI PRU compiler directory.
 # PRU_SUPPORT points to pru-software-support-package.
+# PRU_CGT points to the TI PRU compiler directory.
 # GEN_DIR points to where to put the generated files.
 
-$(warning TARGET=$(TARGET), PRUN=$(PRUN), MODEL=$(MODEL))
-
+COMMON:=$(abspath $(lastword $(MAKEFILE_LIST)))
 PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
-GEN_DIR:=/tmp/pru$(PRUN)-gen
-COMMON:=/var/lib/cloud9/BeagleBone/AI/pru
+C6X_CGT:=/usr/share/ti/cgt-c6x
+GEN_DIR:=.
 
-LINKER_COMMAND_FILE=AM57xx_PRU.cmd
-LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
-INCLUDE=--include_path=$(PRU_SUPPORT)/include --include_path=$(PRU_SUPPORT)/include/am335x
+#
+#
+#
+MODEL:=$(shell cat /proc/device-tree/model | sed 's/ /_/g' | tr -d '\000')
+$(warning MODEL=$(MODEL))
 
-STACK_SIZE=0x100
-HEAP_SIZE=0x100
+.c.out:
+	echo "got here: $< $(suffix $(basename $<))"
+	$(eval $(call target-to-proc,$<))
+	$(warning CHIP=$(CHIP),PROC=$(PROC),PRUN=$(PRUN),PRU_DIR=$(PRU_DIR))
 
-CFLAGS=-v3 -O2 --printf_support=minimal --display_error_number --endian=little --hardware_mac=on --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing --c_src_interlist -DAI=$(AI) # --absolute_listing
-
-LFLAGS=--reread_libs --warn_sections --stack_size=$(STACK_SIZE) --heap_size=$(HEAP_SIZE) -m $(GEN_DIR)/$(TARGET).map
+#
+# PRU defines
+#
+# Let's refer to a cmd file in /usr/lib/ti/pru-support-package instead I think
+PRU_LINKER_COMMAND_FILE=AM57xx_PRU.cmd
+PRU_LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
+PRU_INCLUDE=--include_path=$(PRU_SUPPORT)/include --include_path=$(PRU_SUPPORT)/include/am335x
+PRU_STACK_SIZE=0x100
+PRU_HEAP_SIZE=0x100
+PRU_CFLAGS=-v3 -O2 --printf_support=minimal --display_error_number --endian=little --hardware_mac=on --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing --c_src_interlist -DAI=$(AI) # --absolute_listing
+PRU_LFLAGS=--reread_libs --warn_sections --stack_size=$(PRU_STACK_SIZE) --heap_size=$(PRU_HEAP_SIZE) -m $(GEN_DIR)/$(TARGET).map
 
 # Check which model
-PRU_DIR="Invalid PRUN"
-ifeq ($(MODEL), AI)
-	AI=1
-	CHIP=am57xx
-	ifeq ($(PRUN),1_0)
-		PRU_DIR=/sys/class/remoteproc/remoteproc0
-	endif
-	ifeq ($(PRUN),1_1)
-		PRU_DIR=/sys/class/remoteproc/remoteproc1
-	endif
-	ifeq ($(PRUN),2_0)
-		PRU_DIR=/sys/class/remoteproc/remoteproc2
-	endif
-	ifeq ($(PRUN),2_1)
-		PRU_DIR=/sys/class/remoteproc/remoteproc3
-	endif
-else
-	AI=0
-	CHIP=am335x
-	ifeq ($(PRUN),0)
-		PRU_DIR=/sys/class/remoteproc/remoteproc1
-	endif
-	ifeq ($(PRUN),1)
-		PRU_DIR=/sys/class/remoteproc/remoteproc2
-	endif
-endif
-
-$(warning CHIP=$(CHIP), PRU_DIR=$(PRU_DIR))
+define target-to-proc =
+  PROC=ARM
+  ifeq ($(MODEL),BeagleBoard.org_BeagleBone_AI)
+    CHIP=am57xx
+    ifeq ($(suffix $(basename $(1))),.pru1_0)
+      PROC=PRU
+      PRUN=1_0
+      PRU_DIR=/sys/class/remoteproc/remoteproc0
+    endif
+    ifeq ($(suffix $(basename $(1))),.pru1_1)
+      PROC=PRU
+      PRUN=1_1
+      PRU_DIR=/sys/class/remoteproc/remoteproc1
+    endif
+    ifeq ($(suffix $(basename $(1))),.pru2_0)
+      PROC=PRU
+      PRUN=2_0
+      PRU_DIR=/sys/class/remoteproc/remoteproc2
+    endif
+    ifeq ($(suffix $(basename $(1))),.pru2_1)
+      PROC=PRU
+      PRUN=2_1
+      PRU_DIR=/sys/class/remoteproc/remoteproc3
+    endif
+  else
+    CHIP=am335x
+    ifeq ($(suffix $(basename $(1))),.pru0)
+      PROC=PRU
+      PRUN=0
+      PRU_DIR=/sys/class/remoteproc/remoteproc1
+    endif
+    ifeq ($(suffix $(basename $(1))),.pru1)
+      PROC=PRU
+      PRUN=1
+      PRU_DIR=/sys/class/remoteproc/remoteproc2
+    endif
+  endif
+endef
 
 all: stop install start
 	@echo "MODEL   = $(MODEL)"
-	@echo "CHIP    = $(CHIP)"
+	@echo "PROC    = $(PROC)"
 	@echo "PRUN    = $(PRUN)"
 	@echo "PRU_DIR = $(PRU_DIR)"
 
