@@ -4,8 +4,6 @@
 #include <pru_ctrl.h>
 #include "resource_table_empty.h"
 
-#define PRUN 1_1
-
 #define PRU_SRAM  __far __attribute__((cregister("PRU_SHAREDMEM", near)))
 #define PRU_DMEM0 __far __attribute__((cregister("PRU_DMEM_0_1",  near)))
 #define PRU_DMEM1 __far __attribute__((cregister("PRU_DMEM_1_0",  near)))

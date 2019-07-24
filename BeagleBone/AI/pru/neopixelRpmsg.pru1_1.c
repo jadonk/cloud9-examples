@@ -24,8 +24,6 @@
 #include "init_pins_empty.h"
 #include "prugpio.h"
 
-#define PRUN 1_1
-
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
 

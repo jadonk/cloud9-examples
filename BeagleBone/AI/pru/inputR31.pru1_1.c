@@ -6,9 +6,6 @@
 #include "resource_table_empty.h"
 #include "prugpio.h"
 
-// Tells which PRU to run on.  Must run on pru1_1 for the P8 and P9 pins used here.
-#define	PRUN 1_1
-
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;
 

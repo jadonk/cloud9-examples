@@ -14,8 +14,6 @@
 #include "init_pins_empty.h"
 #include "prugpio.h"
 
-#define PRUN 1_1
-
 #define STR_LEN 40
 #define	oneCyclesOn		700/5	// Stay on 700ns
 #define oneCyclesOff	800/5
@@ -32,9 +30,6 @@ void main(void)
 {
 	uint32_t background = 0x00000f;
 	uint32_t foreground = 0x000f00;
-
-	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
-	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
 	// Select which pins to output to.  These are all on pru1_1
 	uint32_t gpio = P9_14;

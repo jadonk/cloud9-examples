@@ -11,8 +11,6 @@
 #include "resource_table_empty.h"
 #include "prugpio.h"
 
-#define	PRUN 1_1	// Tells which PRU to run on.  Can run on any of them.
-
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;
 
