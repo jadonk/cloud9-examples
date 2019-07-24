@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var b = require('bonescript');
 
-var leds = ["USR0", "USR1", "USR2", "USR3", "P9_14"];
+var leds = ["USR0", "USR1", "USR2", "USR3", "P9_25"];
 
 for(var i in leds) {
     b.pinMode(leds[i], b.OUTPUT);
