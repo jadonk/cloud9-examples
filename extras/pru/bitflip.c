@@ -49,14 +49,15 @@ void main() {
 	unsigned int i, j;
 
 	/* Allocate shared memory pointer to PRU0 DATARAM */
-	int mem_dev = open("/dev/mem", O_RDWR | O_SYNC);
+	int mem_dev = open("/dev/uio0", O_RDWR | O_SYNC);
 	volatile void *shared_dataram = mmap(NULL,
-		16,	/* grab 16 bytes */
+		0x10010,	/* have to start from the beginning */
 		PROT_READ | PROT_WRITE,
 		MAP_SHARED,
 		mem_dev,
-		AM33XX_PRUSS_SHAREDRAM_BASE
+		0
 	);
+	shared_dataram += 0x10000;
 
 	printf("shared_dataram = %p\n", shared_dataram);
 	j = *(unsigned int *)shared_dataram;
