@@ -31,13 +31,15 @@ $(warning COMMON=$(COMMON))
 #   COMMON - where to find support files
 #   PRU_SUPPORT - PRU support package files
 #   MODEL - board model (BeagleBoard.org_BeagleBone_AI, TI_AM335x_BeagleBone_Blue, etc.)
-#   CHIP - target system-on-chip (am57xx, am33xx)
+#   CHIP - target system-on-chip (am57xx, am335x)
+#   CHIP_REV - target system-on-chip with rev (am572x_2_0, am335x)
 #   PRUN - identifier for target PRU core
 #
 # Check which model
 define target-to-proc =
 ifeq ($(MODEL),BeagleBoard.org_BeagleBone_AI)
 CHIP=am57xx
+CHIP_REV=am572x_2_0
 ifeq ($(suffix $(basename $(1))),.pru1_0)
 PRU_DIR=/sys/class/remoteproc/remoteproc0
 PRUN=1_0
@@ -53,6 +55,7 @@ PRUN=2_1
 endif
 else
 CHIP=am335x
+CHIP_REV=am335x
 ifeq ($(suffix $(basename $(1))),.pru0)
 PRU_DIR=/sys/class/remoteproc/remoteproc1
 PRUN=0
@@ -63,15 +66,6 @@ endif
 endif
 ifeq ($(findstring pru,$(suffix $(basename $(1)))),pru)
 PROC=PRU
-LINKER_COMMAND_FILE=$(COMMON)/$(CHIP)_$(PROC).cmd
-LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
-INCLUDE=--include_path=$(PRU_SUPPORT)/include --include_path=$(PRU_SUPPORT)/include/am335x
-STACK_SIZE=0x100
-HEAP_SIZE=0x100
-CFLAGS+=-v3 -O2 --printf_support=minimal --display_error_number --endian=little --hardware_mac=on \
-  --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing \
-  --c_src_interlist -DCHIP=$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -DPRUN=$(PRUN) # --absolute_listing
-LDFLAGS+=--reread_libs --warn_sections --stack_size=$(STACK_SIZE) --heap_size=$(HEAP_SIZE) -m $(basename $(1)).map
 else
 PROC=ARM
 endif
@@ -86,11 +80,17 @@ define call-linker =
 $(warning PROC=$(PROC))
 ifeq ($(PROC),PRU)
 LD=lnkpru
-LDFLAGS+=-i$(PRU_CGT)/lib -i$(PRU_CGT)/include $(LFLAGS) $(2) $(LINKER_COMMAND_FILE) --library=libc.a $(LIBS)
+LINKER_COMMAND_FILE=$(COMMON)/$(CHIP)_$(PROC).cmd
+LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
+LDFLAGS=--reread_libs --warn_sections --stack_size=0x100 --heap_size=0x100 -m $(basename $(1)).map \
+  -i$(PRU_CGT)/lib -i$(PRU_CGT)/include $(2) $(LINKER_COMMAND_FILE) --library=libc.a $(LIBS)
 T=-o $(1)
 S=$(2)
 else ifeq ($(PROC),ARM)
-@ld -o $(1) /lib/crt0.o $(2) -lc $(LDFLAGS) $(LDLIBS)
+LD=ld
+LDFLAGS=-lc -lm
+T=-o $(1)
+S=$(2)
 endif
 endef
 
@@ -103,13 +103,17 @@ define call-compiler =
 $(warning PROC=$(PROC))
 ifeq ($(PROC),PRU)
 CC=clpru
-CFLAGS+=--include_path=$(PRU_CGT)/include $(INCLUDE)
+CFLAGS=--include_path=$(PRU_SUPPORT)/include --include_path=$(PRU_SUPPORT)/include/$(CHIP_REV) \
+  --include_path=$(PRU_CGT)/include $(INCLUDE) -DCHIP=$(CHIP) -DCHIP_IS_$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -DPRUN=$(PRUN) \
+  -v3 -O2 --printf_support=minimal --display_error_number --endian=little --hardware_mac=on \
+  --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing \
+  --c_src_interlist # --absolute_listing
 T=-fe $(1)
 S=$(2)
 else ifeq ($(PROC),ARM)
 CC=gcc
-CFLAGS=-DCHIP=$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) $(CFLAGS)
-T=
+CFLAGS=-DCHIP=$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC)
+T=-o $(1)
 S=-c $(2)
 endif
 endef
@@ -126,15 +130,11 @@ $(warning MODEL=$(MODEL),TARGET=$(TARGET))
 
 $(GEN_DIR)/%.out: $(GEN_DIR)/%.o
 	@echo 'LD	$^'
-	$(eval $(call target-to-proc,$@))
-	$(eval $(call call-linker,$@,$^))
-	$(LD) $(LDFLAGS) $(T) $(S)
+	$(eval $(call target-to-proc,$@)) $(eval $(call call-linker,$@,$^)) $(LD) $(LDFLAGS) $(T) $(S)
 
 $(GEN_DIR)/%.o: %.c
 	@echo 'CC	$^'
-	$(eval $(call target-to-proc,$@))
-	$(eval $(call call-compiler,$@,$^))
-	$(CC) $(CFLAGS) $(T) $(S)
+	$(eval $(call target-to-proc,$@)) $(eval $(call call-compiler,$@,$^)) $(CC) $(CFLAGS) $(T) $(S)
 
 ifneq ($(TARGET),)
 $(eval $(call target-to-proc,$(TARGET).out))

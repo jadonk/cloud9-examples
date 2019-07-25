@@ -1,6 +1,6 @@
 // This file defines the GPIO port addresses and PRU address
 
-#if defined(CHIP) && (CHIP == "am57xx")
+#if defined(CHIP) && defined(CHIP_IS_am57xx)
 #warning "Found AI"
 // These are addresses for the am5729
 // First define the 9 GPIO port addresses
