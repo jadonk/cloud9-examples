@@ -87,7 +87,7 @@ LDFLAGS=--reread_libs --warn_sections --stack_size=0x100 --heap_size=0x100 -m $(
 T=-o $(1)
 S=$(2)
 else ifeq ($(PROC),ARM)
-LD=ld
+LD=gcc
 LDFLAGS=-lc -lm
 T=-o $(1)
 S=$(2)
@@ -172,6 +172,6 @@ $(GEN_DIR)/$(TARGET).o: $(TARGET).c
 	$(eval $(call call-compiler,$<,$^))
 
 clean:
-	@echo 'CLEAN	.    PRU $(PRUN)'
-	@rm -rf $(GEN_DIR)
+	@echo 'CLEAN'
+	@rm -f $(GEN_DIR)/*
 endif
