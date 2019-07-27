@@ -44,19 +44,26 @@
 #define AM33XX_DATARAM0_PHYS_BASE		0x4a300000
 #define AM33XX_DATARAM1_PHYS_BASE		0x4a302000
 #define AM33XX_PRUSS_SHAREDRAM_BASE		0x4a310000
+#define AM57XX_PR1_DATARAM0_PHYS_BASE		0x4b200000
+#define AM57XX_PR1_DATARAM1_PHYS_BASE		0x4b202000
+#define AM57XX_PR1_PRUSS_SHAREDRAM_BASE		0x4b210000
+#define AM57XX_PR2_DATARAM0_PHYS_BASE		0x4b280000
+#define AM57XX_PR2_DATARAM1_PHYS_BASE		0x4b282000
+#define AM57XX_PR2_PRUSS_SHAREDRAM_BASE		0x4b290000
 
 void main() {
 	unsigned int i, j;
 
 	/* Allocate shared memory pointer to PRU0 DATARAM */
-	int mem_dev = open("/dev/mem", O_RDWR | O_SYNC);
+	int mem_dev = open("/dev/uio0", O_RDWR | O_SYNC);
 	volatile void *shared_dataram = mmap(NULL,
-		16,	/* grab 16 bytes */
+		0x10010,	/* have to start from the beginning */
 		PROT_READ | PROT_WRITE,
 		MAP_SHARED,
 		mem_dev,
-		AM33XX_PRUSS_SHAREDRAM_BASE
+		0
 	);
+	shared_dataram += 0x10000;
 
 	printf("shared_dataram = %p\n", shared_dataram);
 	j = *(unsigned int *)shared_dataram;

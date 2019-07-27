@@ -74,7 +74,7 @@ void main(void) {
 	unsigned int value = 0;
 
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
-	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
+	//CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
 	/* Set the SHARED_RAM value to 0 */
 	*SHARED_RAM = 0;
