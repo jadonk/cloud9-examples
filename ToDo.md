@@ -4,8 +4,9 @@
 - [ ] fix prudebug
 
 - [ ] AI/README.md
+- [ ] AI/pru/blinkExternalLED.c  Fails every other time on AI due to exporting P9_25
 - [x] AI/pru/blinkR30.c
-- [ ] AI/pru/inputR31.c - Doesn't work.  Check wiring instructions
+- [x] AI/pru/inputR31.c
 - [ ] AI/pru/shared.c - Need PRU address in ARM space
 - [x] AI/pru/neo[1-3].c
 - [x] AI/pru/neo4.c
