@@ -1,20 +1,17 @@
 ////////////////////////////////////////
-//	blinkR30.c
+//	inputR31.c
 //	Reads input in P9_25 via the R31 register and blinks the USR3 LED
 //	Wiring:	A switch between P9_25 and 3.3V (P9_3 or P9_4)
 //	Setup:	config_pin P9_25 pruin
-//	See:	prugpio.h to see which pins attach to R30
+//	See:	prugpio.h to see which pins attach to R31
 //	PRU:	pru0
 ////////////////////////////////////////
-// 
-// Wire 
-
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
 #include "prugpio.h"
 
-// Tells which PRU to run on.  Must run on pru1_1 for the P8 and P9 pins used here.
+// Tells which PRU to run on.  Must run on pru0 for the P8 and P9 pins used here.
 #define	PRUN 0
 
 volatile register unsigned int __R30;
