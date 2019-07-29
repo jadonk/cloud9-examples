@@ -19,7 +19,7 @@ PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
 C6X_CGT:=/usr/share/ti/cgt-c6x
 GEN_DIR=/tmp/cloud9-examples
-$(warning COMMON=$(COMMON))
+$(warning COMMON=$(COMMON), BASE=$(BASE), PROC=$(PROC), TMP=$(TMP))
 
 #
 # Define PROC and build variables
