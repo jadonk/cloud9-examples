@@ -37,32 +37,37 @@ $(warning COMMON=$(COMMON))
 #
 # Check which model
 define target-to-proc =
-ifeq ($(MODEL),BeagleBoard.org_BeagleBone_AI)
+$(warning 1=$(1))
+ifeq ($(suffix $(basename $(1))),.pru1_0)
 CHIP=am57xx
 CHIP_REV=am572x_2_0
-ifeq ($(suffix $(basename $(1))),.pru1_0)
 PRU_DIR=/sys/class/remoteproc/remoteproc0
 PRUN=1_0
 else ifeq ($(suffix $(basename $(1))),.pru1_1)
+CHIP=am57xx
+CHIP_REV=am572x_2_0
 PRU_DIR=/sys/class/remoteproc/remoteproc1
 PRUN=1_1
 else ifeq ($(suffix $(basename $(1))),.pru2_0)
+CHIP=am57xx
+CHIP_REV=am572x_2_0
 PRU_DIR=/sys/class/remoteproc/remoteproc2
 PRUN=2_0
 else ifeq ($(suffix $(basename $(1))),.pru2_1)
+CHIP=am57xx
+CHIP_REV=am572x_2_0
 PRU_DIR=/sys/class/remoteproc/remoteproc3
 PRUN=2_1
-endif
-else
+else ifeq ($(suffix $(basename $(1))),.pru0)
 CHIP=am335x
 CHIP_REV=am335x
-ifeq ($(suffix $(basename $(1))),.pru0)
 PRU_DIR=/sys/class/remoteproc/remoteproc1
 PRUN=0
 else ifeq ($(suffix $(basename $(1))),.pru1)
+CHIP=am335x
+CHIP_REV=am335x
 PRU_DIR=/sys/class/remoteproc/remoteproc2
 PRUN=1
-endif
 endif
 ifeq ($(findstring pru,$(suffix $(basename $(1)))),pru)
 PROC=PRU
