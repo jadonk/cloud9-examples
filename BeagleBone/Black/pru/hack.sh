@@ -1,12 +1,10 @@
 # base is of the form: blinkInternalLED.pru0.c
-base=blinkInternalLED.pru0.c
-# noc is blinkInternalLED.pru0
-noc=${base%.*}
+base=blinkInternalLED.pru0
 # prun is pru0
-export PRUN=${noc##*.}
+export PRUN=${base##*.}
 PRUN=${PRUN#pru*}
 export TARGET=${base%%.*}
 
-echo base=$base, noc=$noc, PRUN=$PRUN, TARGET=$TARGET
+echo base=$base, PRUN=$PRUN, TARGET=$TARGET
 
 make -f /var/lib/cloud9/common/Makefile
