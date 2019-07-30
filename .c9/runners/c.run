@@ -1,22 +1,22 @@
 // Create a custom Cloud9 runner - similar to the Sublime build system
-// For more information see http://docs.c9.io:8080/#!/api/run-method-run
+// For more information see https://docs.c9.io/docs/custom-runners
 {
     "script": [
+        // base is blinkInternalLED.pru0
         "base=$file_base_name",
-// Find which model (Black, AI, Pocket, etc.) is running
-        "export MODEL=$(awk '{print $NF}' /proc/device-tree/model)",
-        "export TARGET=${base%%.*}",    
-// The .c file should have PRUN #defined.  It's read here
-        "export   PRUN=`awk '$1 ~ /^#define/ && $2 ~ /PRUN/ {print $3}' $file_name`",    
-        // "PRUN=${PRUN#pru*}",            // Remove'pru' from the name
-        // "echo base=$base, TARGET=$TARGET",
-        // "echo prun=$PRUN",
-        // "echo MODEL=$MODEL", 
-        "cd $file_path",
-        "make $args"
-        ],
+        // prun is pru0
+        "export PRUN=${base##*.}",
+        // Remove the pru, just have number, 1_1
+        "PRUN=${PRUN#pru*}",
+        // TARGET is blinkInternalLED
+        "export TARGET=${base%%.*}",
+        
+        "echo base=$base, PRUN=$PRUN, TARGET=$TARGET",
 
-//    "info" : "Started $project_path: $file_name\n\nFile path: $file_path\nFile: $file\nArguments: $args\nFile name: $file_name\nFile extension: $file_extension\nFile base name: $file_base_name\nPackages: $packages\nProject path: $project_path\nProject name: $project_name\nHostname: $hostname\nHostname path: $hostname_path\nURL: $url\nPort: $port\nIP: $ip\nCommand: $command\nPython: $python\nPython path: $python_path",
+        "make -f /var/lib/cloud9/common/Makefile $args"
+    ],
+
+    "info" : "Started $project_path: $file_name\n\nFile path: $file_path\nFile: $file\nArguments: $args\nFile name: $file_name\nFile extension: $file_extension\nFile base name: $file_base_name\nPackages: $packages\nProject path: $project_path\nProject name: $project_name\nHostname: $hostname\nHostname path: $hostname_path\nURL: $url\nPort: $port\nIP: $ip\nCommand: $command\nPython: $python\nPython path: $python_path",
     "env" : {},
     "selector" : "source.c"
 }
