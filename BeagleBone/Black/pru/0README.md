@@ -9,14 +9,14 @@ to do things that can’t be done with just a SBC or just a microcontroller.
 
 Here we demonstrate:
 
-blinkInternalLED.c  // Blink some of the built in USR LEDs
-blinkExternalLED.c  // Wire an external LED and blink it
-blinkR31.c          // Blink and external LED using a faster (50MHz) method
+blinkInternalLED.pru0.c  // Blink some of the built in USR LEDs
+blinkExternalLED.pru0.c  // Wire an external LED and blink it
+blinkR31.pru0.c          // Blink and external LED using a faster (50MHz) method
 
-neopixelStatic.c    // Wire up NeoPixel (WS2812) LEDs and set them to a color
-neopixelDynamic.c   // Same LEDs, but a moving display
-neopixelRpmsg.c     // Control the NeoPixels from the ARM using rpmsg for message passing
+neopixelStatic.pru0.c    // Wire up NeoPixel (WS2812) LEDs and set them to a color
+neopixelDynamic.pru0.c   // Same LEDs, but a moving display
+neopixelRpmsg.pru0.c     // Control the NeoPixels from the ARM using rpmsg for message passing
 neopixelRainbox.py  // Runs on the ARM and writes a rainbow pattern to the PRU
 
-input.c             // Reads an input pin via the fast R31 register
-shared.c            // Shows how to share memory between the ARM and the PRU
+inputR31.pru0.c          // Reads an input pin via the fast R31 register
+shared.pru0.c            // Shows how to share memory between the ARM and the PRU

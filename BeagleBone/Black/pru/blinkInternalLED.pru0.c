@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-//	blinkInternalLED.c
+//	blinkInternalLED.pru0.c
 //	Blinks two of the bulit in USR LEDs using the PRU
 //	Wiring:	None
 //	Setup:	Turn off the USR LEDs triggers

@@ -10,7 +10,7 @@
 //			NeoPixels you will need and external supply.
 //	Setup:	config_pin P9_29 pruout
 //	See:	 
-//	PRU:	pru1_1
+//	PRU:	pru0
 ////////////////////////////////////////
 #include <stdint.h>
 #include <stdio.h>
@@ -23,8 +23,6 @@
 #include "resource_table_0.h"
 #include "init_pins_empty.h"
 #include "prugpio.h"
-
-#define PRUN 0
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;

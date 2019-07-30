@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-//	blinkExternalLED.c
+//	blinkExternalLED.pru0.c
 //	Blinks one LED wired to P9_14 by writing to memory using the PRU
 //	Wiring:	P9_14 connects to the plus lead of an LED.  The negative lead of the
 //			LED goes to a 220 Ohm resistor.  The other lead of the resistor goes
@@ -12,9 +12,6 @@
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
 #include "prugpio.h"
-
-// Tells which PRU to run on.  Can run on any of them.
-#define	PRUN 0
 
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;
