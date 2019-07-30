@@ -5,21 +5,24 @@
 #          should have .<proc>(<n>) extension (lower case, check below for valid options)
 #          without TARGET, as of now, we don't have any build targets
 #          TODO: work with a list of targets, rather than a single file
+# PRUN   - TBD
 
 #
-# Directories (external pacakges, etc.)
+# Directories (external packages, etc.)
 #
 # COMMON points to where this primary Makefile and shell scripts live.
 # PRU_CGT points to the TI PRU compiler directory.
 # PRU_SUPPORT points to pru-software-support-package.
 # C6X_CGT points to the TI C6X compiler directory.
 # GEN_DIR points to where to build the binaries.
+# MODEL is the board model (BeagleBoard.org_BeagleBone_AI, TI_AM335x_BeagleBone_Blue, etc.)
 COMMON:=$(abspath $(lastword $(MAKEFILE_LIST)/..))
 PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
 C6X_CGT:=/usr/share/ti/cgt-c6x
-GEN_DIR=/tmp/cloud9-examples
-$(warning COMMON=$(COMMON))
+GEN_DIR:=/tmp/cloud9-examples
+MODEL:=$(shell cat /proc/device-tree/model | sed 's/ /_/g' | tr -d '\000')
+$(warning MODEL=$(MODEL),TARGET=$(TARGET),PRUN=$(PRUN),COMMON=$(COMMON))
 
 #
 # Define PROC and build variables
@@ -27,138 +30,111 @@ $(warning COMMON=$(COMMON))
 # Arguments:
 #   $@ - target name
 #
-# Variables needed:
-#   COMMON - where to find support files
-#   PRU_SUPPORT - PRU support package files
-#   MODEL - board model (BeagleBoard.org_BeagleBone_AI, TI_AM335x_BeagleBone_Blue, etc.)
+# Variables defined:
 #   CHIP - target system-on-chip (am57xx, am335x)
 #   CHIP_REV - target system-on-chip with rev (am572x_2_0, am335x)
+#   PROC - cpu type (arm, pru, c6x, etc.)
 #   PRUN - identifier for target PRU core
+#   PRU_DIR - control directory for the PRU
+#   CC -
+#   LD - 
+#   LDFLAGS - 
+#   CFLAGS -
 #
 # Check which model
 define target-to-proc =
-$(warning 1=$(1))
-ifeq ($(suffix $(basename $(1))),.pru1_0)
-CHIP=am57xx
-CHIP_REV=am572x_2_0
-PRU_DIR=/sys/class/remoteproc/remoteproc0
-PRUN=1_0
-else ifeq ($(suffix $(basename $(1))),.pru1_1)
-CHIP=am57xx
-CHIP_REV=am572x_2_0
-PRU_DIR=/sys/class/remoteproc/remoteproc1
-PRUN=1_1
-else ifeq ($(suffix $(basename $(1))),.pru2_0)
-CHIP=am57xx
-CHIP_REV=am572x_2_0
-PRU_DIR=/sys/class/remoteproc/remoteproc2
-PRUN=2_0
-else ifeq ($(suffix $(basename $(1))),.pru2_1)
-CHIP=am57xx
-CHIP_REV=am572x_2_0
-PRU_DIR=/sys/class/remoteproc/remoteproc3
-PRUN=2_1
-else ifeq ($(suffix $(basename $(1))),.pru0)
-CHIP=am335x
-CHIP_REV=am335x
-PRU_DIR=/sys/class/remoteproc/remoteproc1
-PRUN=0
-else ifeq ($(suffix $(basename $(1))),.pru1)
-CHIP=am335x
-CHIP_REV=am335x
-PRU_DIR=/sys/class/remoteproc/remoteproc2
-PRUN=1
-endif
-ifeq ($(findstring pru,$(suffix $(basename $(1)))),pru)
-PROC=PRU
-else
-PROC=ARM
-endif
+ $(warning 1=$(1))
+ ifeq ($(suffix $(basename $(1))),.pru1_0)
+  CHIP=am57xx
+  CHIP_REV=am572x_2_0
+  PRU_DIR=/sys/class/remoteproc/remoteproc0
+  PRUN=1_0
+ else ifeq ($(suffix $(basename $(1))),.pru1_1)
+  CHIP=am57xx
+  CHIP_REV=am572x_2_0
+  PRU_DIR=/sys/class/remoteproc/remoteproc1
+  PRUN=1_1
+ else ifeq ($(suffix $(basename $(1))),.pru2_0)
+  CHIP=am57xx
+  CHIP_REV=am572x_2_0
+  PRU_DIR=/sys/class/remoteproc/remoteproc2
+  PRUN=2_0
+ else ifeq ($(suffix $(basename $(1))),.pru2_1)
+  CHIP=am57xx
+  CHIP_REV=am572x_2_0
+  PRU_DIR=/sys/class/remoteproc/remoteproc3
+  PRUN=2_1
+ else ifeq ($(suffix $(basename $(1))),.pru0)
+  CHIP=am335x
+  CHIP_REV=am335x
+  PRU_DIR=/sys/class/remoteproc/remoteproc1
+  PRUN=0
+ else ifeq ($(suffix $(basename $(1))),.pru1)
+  CHIP=am335x
+  CHIP_REV=am335x
+  PRU_DIR=/sys/class/remoteproc/remoteproc2
+  PRUN=1
+ endif
+ ifeq ($(findstring pru,$(suffix $(basename $(1)))),pru)
+  PROC=pru
+ else
+  PROC=arm
+ endif
 endef
 
-# Call linker
 #
 # Arguments:
-#   1 - target name
-#   2 - sources
-define call-linker =
-$(warning PROC=$(PROC))
-ifeq ($(PROC),PRU)
-LD=lnkpru
-LINKER_COMMAND_FILE=$(COMMON)/$(CHIP)_$(PROC).cmd
-LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
-LDFLAGS=--reread_libs --warn_sections --stack_size=0x100 --heap_size=0x100 -m $(basename $(1)).map \
-  -i$(PRU_CGT)/lib -i$(PRU_CGT)/include $(2) $(LINKER_COMMAND_FILE) --library=libc.a $(LIBS)
-T=-o $(1)
-S=$(2)
-else ifeq ($(PROC),ARM)
-LD=gcc
-LDFLAGS=-lc -lm
-T=-o $(1)
-S=$(2)
-endif
-endef
-
-# Call compiler
-#
-# Arguments:
-#   1 - target name
-#   2 - sources
-define call-compiler =
-$(warning PROC=$(PROC))
-ifeq ($(PROC),PRU)
-CC=clpru
-CFLAGS=--include_path=$(PRU_SUPPORT)/include --include_path=$(PRU_SUPPORT)/include/$(CHIP_REV) \
-  --include_path=$(PRU_CGT)/include $(INCLUDE) -DCHIP=$(CHIP) -DCHIP_IS_$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -DPRUN=$(PRUN) \
-  -v3 -O2 --printf_support=minimal --display_error_number --endian=little --hardware_mac=on \
-  --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing \
-  --c_src_interlist # --absolute_listing
-T=-fe $(1)
-S=$(2)
-else ifeq ($(PROC),ARM)
-CC=gcc
-CFLAGS=-DCHIP=$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC)
-T=-o $(1)
-S=-c $(2)
-endif
+#   $@ - target name
+# 
+# Variables required:
+#   CHIP - target system-on-chip (am57xx, am335x)
+#   CHIP_REV - target system-on-chip with rev (am572x_2_0, am335x)
+#   PROC - cpu type (arm, pru, c6x, etc.)
+#   PRUN - identifier for target PRU core
+#   PRU_DIR - control directory for the PRU
+define proc-to-build-vars =
+ ifeq ($(PROC),pru)
+  LD=lnkpru -o
+  LDFLAGS=--reread_libs --warn_sections --stack_size=0x100 --heap_size=0x100 -m $(basename $(1)).map \
+   -i$(PRU_CGT)/lib -i$(PRU_CGT)/include $(COMMON)/$(CHIP)_$(PROC).cmd --library=libc.a \
+   --library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
+  CC=clpru -fe
+  CFLAGS=--include_path=$(COMMON) --include_path=$(PRU_SUPPORT)/include \
+   --include_path=$(PRU_SUPPORT)/include/$(CHIP_REV) \
+   --include_path=$(PRU_CGT)/include -DCHIP=$(CHIP) -DCHIP_IS_$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -DPRUN=$(PRUN) \
+   -v3 -O2 --printf_support=minimal --display_error_number --endian=little --hardware_mac=on \
+   --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing \
+   --c_src_interlist
+ else
+  LD=gcc -o
+  LDFLAGS=-lc -lm
+  CC=gcc -c -o
+  CFLAGS=-DCHIP=$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC)
+ endif
 endef
 
 #
 #
 #
-MODEL:=$(shell cat /proc/device-tree/model | sed 's/ /_/g' | tr -d '\000')
-$(warning MODEL=$(MODEL),TARGET=$(TARGET))
-
-%.out: $(GEN_DIR)/%.out
-	@echo 'CP	$^'
-	@cp $^ $@
-
-$(GEN_DIR)/%.out: $(GEN_DIR)/%.o
-	@echo 'LD	$^'
-	$(eval $(call target-to-proc,$@)) $(eval $(call call-linker,$@,$^)) $(LD) $(LDFLAGS) $(T) $(S)
-
-$(GEN_DIR)/%.o: %.c
-	@echo 'CC	$^'
-	$(eval $(call target-to-proc,$@)) $(eval $(call call-compiler,$@,$^)) $(CC) $(CFLAGS) $(T) $(S)
 
 ifneq ($(TARGET),)
 $(eval $(call target-to-proc,$(TARGET).out))
 $(warning GEN_DIR=$(GEN_DIR),CHIP=$(CHIP),PROC=$(PROC),PRUN=$(PRUN),PRU_DIR=$(PRU_DIR))
 
-#all: stop install start
 all: stop install start
 	@echo "MODEL   = $(MODEL)"
 	@echo "PROC    = $(PROC)"
 	@echo "PRUN    = $(PRUN)"
 	@echo "PRU_DIR = $(PRU_DIR)"
 
+# TODO: think about what we want to say if stop fails
 stop:
 	@echo "-    Stopping PRU $(PRUN)"
-	@echo stop | tee $(PRU_DIR)/state || echo Cannot stop $(PRUN)
+	@echo stop > $(PRU_DIR)/state || echo Cannot stop $(PRUN)
 
 start:
 	@echo "-    Starting PRU $(PRUN)"
-	@echo start | tee $(PRU_DIR)/state
+	@echo start > $(PRU_DIR)/state
 	@echo write_init_pins.sh
 	@$(COMMON)/write_init_pins.sh /lib/firmware/$(CHIP)-pru$(PRUN)-fw
 
@@ -166,17 +142,31 @@ install: $(GEN_DIR)/$(TARGET).out
 	@echo '-	copying firmware file $(GEN_DIR)/$(TARGET).out to /lib/firmware/$(CHIP)-pru$(PRUN)-fw'
 	@cp $(GEN_DIR)/$(TARGET).out /lib/firmware/$(CHIP)-pru$(PRUN)-fw
 
-$(GEN_DIR)/$(TARGET).out: $(GEN_DIR)/$(TARGET).o
-	@echo 'LD	$^'
-	$(eval $(call call-linker,$@,$^))
+endif
 
-$(GEN_DIR)/$(TARGET).o: $(TARGET).c
+%.out: $(GEN_DIR)/%.out
+	@echo 'CP	$^'
+	@cp $^ $@
+
+# TODO: look up how Makefiles typically break down the output file specification
+$(GEN_DIR)/%.out: $(GEN_DIR)/%.o
 	@mkdir -p $(GEN_DIR)
-	@echo 'CC	$<'
-	$(warning <=$<,^=$^)
-	$(eval $(call call-compiler,$<,$^))
+	@echo 'LD	$^'
+	$(eval $(call target-to-proc,$@))
+	$(warning CHIP=$(CHIP),PROC=$(PROC))
+	$(eval $(call proc-to-build-vars,$@))
+	$(warning CC=$(CC),LD=$(LD),CFLAGS=$(CFLAGS),LDFLAGS=$(LDFLAGS))
+	$(LD) $@ $^ $(LDFLAGS) 
+
+$(GEN_DIR)/%.o: %.c
+	@mkdir -p $(GEN_DIR)
+	@echo 'CC	$^'
+	$(eval $(call target-to-proc,$@))
+	$(warning CHIP=$(CHIP),PROC=$(PROC))
+	$(eval $(call proc-to-build-vars,$@))
+	$(warning CC=$(CC),LD=$(LD),CFLAGS=$(CFLAGS),LDFLAGS=$(LDFLAGS))
+	$(CC) $@ $^ $(CFLAGS)
 
 clean:
 	@echo 'CLEAN'
-	@rm -f $(GEN_DIR)/*
-endif
+	@rmdir -rf $(GEN_DIR)

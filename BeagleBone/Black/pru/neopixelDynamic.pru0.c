@@ -6,15 +6,13 @@
 //			NeoPixels you will need and external supply.
 //	Setup:	None
 //	See:	 
-//	PRU:	pru1_1
+//	PRU:	pru0
 ////////////////////////////////////////
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
 #include "init_pins_empty.h"
 #include "prugpio.h"
-
-#define PRUN 0
 
 #define STR_LEN 16
 #define	oneCyclesOn		700/5	// Stay on 700ns

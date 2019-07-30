@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-//	blinkR30.c
+//	blinkR30.pru0.c
 //	Blinks LEDs wired to P9_29 (and others) by writing register R30 on the PRU
 //	Wiring:	P9_29 connects to the plus lead of an LED.  The negative lead of the
 //			LED goes to a 220 Ohm resistor.  The other lead of the resistor goes
@@ -12,9 +12,6 @@
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
 #include "prugpio.h"
-
-// Tells which PRU to run on.  Must run on pru1_1 for the P8 and P9 pins used here.
-#define	PRUN 0
 
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;

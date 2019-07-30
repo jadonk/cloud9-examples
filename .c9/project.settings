@@ -24,7 +24,15 @@
     "run": {
         "configs": {
             "@inited": "true",
-            "json()": {}
+            "json()": {
+                "default-c": {
+                    "command": "",
+                    "default": true,
+                    "name": "default-c",
+                    "runner": "c",
+                    "toolbar": true
+                }
+            }
         }
     }
 }

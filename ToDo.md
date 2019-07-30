@@ -30,3 +30,9 @@
 - [ ] Black/pru/0README.md
 - [ ] Black/pru/jason/0README.md
 - [ ] Black/pru/blinkR30.c - How to config-pin P9_29 pruout
+- [ ] Black/pru/shared.c - Should we keep it
+- 
+
+# PocketBeagle
+- [ ] Test PocketBeagle/pru/ring.pru0.c
+- 
