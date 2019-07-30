@@ -14,11 +14,11 @@ $(warning TARGET=$(TARGET), PRUN=$(PRUN))
 
 PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
-GEN_DIR:=/tmp/pru$(PRUN)-gen
+GEN_DIR:=/tmp/cloud9-examples/pru$(PRUN)-gen
 COMMON:=/var/lib/cloud9/common
 
 LIBS=--library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
-INCLUDE=--include_path=$(PRU_SUPPORT)/include --include_path=$(PRU_SUPPORT)/include/am335x
+INCLUDE=--include_path=$(COMMON) --include_path=$(PRU_SUPPORT)/include --include_path=$(PRU_SUPPORT)/include/am335x
 
 STACK_SIZE=0x100
 HEAP_SIZE=0x100
@@ -82,7 +82,7 @@ install: $(GEN_DIR)/$(TARGET).out
 
 $(GEN_DIR)/$(TARGET).out: $(GEN_DIR)/$(TARGET).obj
 	@echo 'LD	$^' 
-	@lnkpru -i$(PRU_CGT)/lib -i$(PRU_CGT)/include $(LFLAGS) -o $@ $^ $(LINKER_COMMAND_FILE) --library=libc.a $(LIBS) $^
+	@lnkpru -i$(PRU_CGT)/lib -i$(PRU_CGT)/include $(LFLAGS) -o $@ $^ $(COMMON)/$(LINKER_COMMAND_FILE) --library=libc.a $(LIBS) $^
 
 $(GEN_DIR)/$(TARGET).obj: $(TARGET).pru$(PRUN).c
 	@mkdir -p $(GEN_DIR)
