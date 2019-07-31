@@ -2,16 +2,10 @@
 // For more information see https://docs.c9.io/docs/custom-runners
 {
     "script": [
-        // base is blinkInternalLED.pru0
-        "base=$file_base_name",
-        // prun is pru0
-        "export PRUN=${base##*.}",
-        // Remove the pru, just have number, 1_1
-        "PRUN=${PRUN#pru*}",
-        // TARGET is blinkInternalLED
-        "export TARGET=${base%%.*}",
+        // TARGET is blinkInternalLED.pru0
+        "export TARGET=$file_base_name",
         
-        "echo base=$base, PRUN=$PRUN, TARGET=$TARGET",
+        "echo TARGET=$TARGET",
 
         "make -f /var/lib/cloud9/common/Makefile $args"
     ],

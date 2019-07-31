@@ -43,7 +43,7 @@ $(warning MODEL=$(MODEL),TARGET=$(TARGET),PRUN=$(PRUN),COMMON=$(COMMON))
 #
 # Check which model
 define target-to-proc =
- $(warning 1=$(1))
+# $(warning 1=$(1))
  ifeq ($(suffix $(basename $(1))),.pru1_0)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
@@ -155,7 +155,7 @@ $(GEN_DIR)/%.out: $(GEN_DIR)/%.o
 	$(eval $(call target-to-proc,$@))
 	$(warning CHIP=$(CHIP),PROC=$(PROC))
 	$(eval $(call proc-to-build-vars,$@))
-	$(warning CC=$(CC),LD=$(LD),CFLAGS=$(CFLAGS),LDFLAGS=$(LDFLAGS))
+	# $(warning CC=$(CC),LD=$(LD),CFLAGS=$(CFLAGS),LDFLAGS=$(LDFLAGS))
 	$(LD) $@ $^ $(LDFLAGS) 
 
 $(GEN_DIR)/%.o: %.c
@@ -164,9 +164,9 @@ $(GEN_DIR)/%.o: %.c
 	$(eval $(call target-to-proc,$@))
 	$(warning CHIP=$(CHIP),PROC=$(PROC))
 	$(eval $(call proc-to-build-vars,$@))
-	$(warning CC=$(CC),LD=$(LD),CFLAGS=$(CFLAGS),LDFLAGS=$(LDFLAGS))
-	$(CC) $@ $^ $(CFLAGS)
+	# $(warning CC=$(CC),LD=$(LD),CFLAGS=$(CFLAGS),LDFLAGS=$(LDFLAGS))
+	@$(CC) $@ $^ $(CFLAGS)
 
 clean:
 	@echo 'CLEAN'
-	@rmdir -rf $(GEN_DIR)
+	@rm -rf $(GEN_DIR)

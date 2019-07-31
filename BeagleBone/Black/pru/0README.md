@@ -16,7 +16,7 @@ blinkR31.pru0.c          // Blink and external LED using a faster (50MHz) method
 neopixelStatic.pru0.c    // Wire up NeoPixel (WS2812) LEDs and set them to a color
 neopixelDynamic.pru0.c   // Same LEDs, but a moving display
 neopixelRpmsg.pru0.c     // Control the NeoPixels from the ARM using rpmsg for message passing
-neopixelRainbox.py  // Runs on the ARM and writes a rainbow pattern to the PRU
+neopixelRainbow.py      // Runs on the ARM and writes a rainbow pattern to the PRU
 
 inputR31.pru0.c          // Reads an input pin via the fast R31 register
 shared.pru0.c            // Shows how to share memory between the ARM and the PRU
