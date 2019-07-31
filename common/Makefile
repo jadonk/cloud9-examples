@@ -43,7 +43,6 @@ $(warning MODEL=$(MODEL),TARGET=$(TARGET),PRUN=$(PRUN),COMMON=$(COMMON))
 #
 # Check which model
 define target-to-proc =
-# $(warning 1=$(1))
  ifeq ($(suffix $(basename $(1))),.pru1_0)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
@@ -119,7 +118,7 @@ endef
 
 ifneq ($(TARGET),)
 $(eval $(call target-to-proc,$(TARGET).out))
-$(warning GEN_DIR=$(GEN_DIR),CHIP=$(CHIP),PROC=$(PROC),PRUN=$(PRUN),PRU_DIR=$(PRU_DIR))
+# $(warning GEN_DIR=$(GEN_DIR),CHIP=$(CHIP),PROC=$(PROC),PRUN=$(PRUN),PRU_DIR=$(PRU_DIR))
 
 all: stop install start
 	@echo "MODEL   = $(MODEL)"
@@ -149,22 +148,20 @@ endif
 	@cp $^ $@
 
 # TODO: look up how Makefiles typically break down the output file specification
+# $(warning CHIP=$(CHIP),PROC=$(PROC))
+# $(warning CC=$(CC),LD=$(LD),CFLAGS=$(CFLAGS),LDFLAGS=$(LDFLAGS))
 $(GEN_DIR)/%.out: $(GEN_DIR)/%.o
 	@mkdir -p $(GEN_DIR)
 	@echo 'LD	$^'
 	$(eval $(call target-to-proc,$@))
-	$(warning CHIP=$(CHIP),PROC=$(PROC))
 	$(eval $(call proc-to-build-vars,$@))
-	# $(warning CC=$(CC),LD=$(LD),CFLAGS=$(CFLAGS),LDFLAGS=$(LDFLAGS))
-	$(LD) $@ $^ $(LDFLAGS) 
+	@$(LD) $@ $^ $(LDFLAGS) 
 
 $(GEN_DIR)/%.o: %.c
 	@mkdir -p $(GEN_DIR)
 	@echo 'CC	$^'
 	$(eval $(call target-to-proc,$@))
-	$(warning CHIP=$(CHIP),PROC=$(PROC))
 	$(eval $(call proc-to-build-vars,$@))
-	# $(warning CC=$(CC),LD=$(LD),CFLAGS=$(CFLAGS),LDFLAGS=$(LDFLAGS))
 	@$(CC) $@ $^ $(CFLAGS)
 
 clean:
