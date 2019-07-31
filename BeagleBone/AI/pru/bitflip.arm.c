@@ -8,11 +8,14 @@
 
 #define PRUSS_SHARED_RAM_OFFSET		0x10000
 
-void main() {
-	unsigned int i, j;
+void main(int argc, const char** argv) {
+	unsigned int i, j, mem_dev;
 
 	/* Allocate shared memory pointer to PRU0 DATARAM */
-	int mem_dev = open("/dev/uio0", O_RDWR | O_SYNC);
+	if(argc==2)
+		mem_dev = open(argv[1], O_RDWR | O_SYNC);
+	else
+		mem_dev = open("/dev/uio0", O_RDWR | O_SYNC);
 	volatile int *shared_dataram = mmap(NULL,
 		16+PRUSS_SHARED_RAM_OFFSET,	/* grab 16 bytes of shared dataram, must allocate with offset of 0 */
 		PROT_READ | PROT_WRITE,
@@ -31,6 +34,6 @@ void main() {
 		*shared_dataram = i;
 		usleep(1);
 		j = *shared_dataram;
-		printf("Read 0x%08x (%s)\n", j, (j^0xAAAAAAAA)==i?"flipped!":"not flipped");
+		printf("Read 0x%08x (%s, Mask=0x%08x)\n", j, j==i?"not flipped":"flipped!", j^i);
 	}
 }
