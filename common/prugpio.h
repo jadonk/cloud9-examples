@@ -69,6 +69,16 @@
 #define P9_91   (1<<6)
 #define P9_25   (1<<7)
 
+// R30 output bits on pru0 on Pocket
+#define P1_36   (1<<0)
+#define P1_33   (1<<1)
+#define P2_32   (1<<2)
+#define P2_30   (1<<3)
+#define P1_31   (1<<4)
+#define P2_34   (1<<5)
+#define P2_28   (1<<6)
+#define P1_29   (1<<7)
+
 // Shared memory
 #define AM33XX_DATARAM0_PHYS_BASE		0x4a300000
 #define AM33XX_DATARAM1_PHYS_BASE		0x4a302000
