@@ -34,4 +34,9 @@ void main(void) {
 	__halt();
 }
 
-// No need to turn off triggers or set pin direction
+// Sets pinmux
+#pragma DATA_SECTION(init_pins, ".init_pins")
+#pragma RETAIN(init_pins)
+const char init_pins[] =  
+	"/sys/devices/platform/ocp/ocp:P1_36_pinmux/state\0pruout\0" \
+	"\0\0";

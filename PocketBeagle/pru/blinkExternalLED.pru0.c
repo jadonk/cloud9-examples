@@ -40,6 +40,7 @@ void main(void) {
 #pragma RETAIN(init_pins)
 const char init_pins[] =  
 	"/sys/class/gpio/gpio42/direction\0out\0" \
+	"/sys/devices/platform/ocp/ocp:P1_32_pinmux/state\0gpio\0" \
 	"\0\0";
 
 // The export doesn't have to be done on the Pocket since 

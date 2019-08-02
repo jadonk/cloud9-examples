@@ -11,7 +11,6 @@
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
-#include "init_pins_empty.h"
 #include "prugpio.h"
 
 #define STR_LEN 16
@@ -77,3 +76,10 @@ void main(void)
 		}
 	}
 }
+
+// Sets pinmux
+#pragma DATA_SECTION(init_pins, ".init_pins")
+#pragma RETAIN(init_pins)
+const char init_pins[] =  
+	"/sys/devices/platform/ocp/ocp:P1_36_pinmux/state\0pruout\0" \
+	"\0\0";

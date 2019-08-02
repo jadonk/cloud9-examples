@@ -5,7 +5,7 @@
 //			echo -1 0 0 0    > /dev/rpmsg_pro30 to update the string
 //			echo 0 0xf0 0 0  > /dev/rpmsg_pru30 Turns pixel 0 to Red
 //			neopixelRainbow.py to display moving rainbow pattern
-//	Wiring:	The NeoPixel Data In goes to P1_369, the plus lead to P1_14
+//	Wiring:	The NeoPixel Data In goes to P1_36, the plus lead to P1_14 (3.3V)
 //			and the ground to P2_22.  If you have more then 40 some 
 //			NeoPixels you will need and external supply.
 //	Setup:	config_pin P1_36 pruout
@@ -21,7 +21,6 @@
 #include <rsc_types.h>
 #include <pru_rpmsg.h>
 #include "resource_table_0.h"
-#include "init_pins_empty.h"
 #include "prugpio.h"
 
 volatile register uint32_t __R30;
@@ -152,3 +151,10 @@ void main(void)
 		}
 	}
 }
+
+// Sets pinmux
+#pragma DATA_SECTION(init_pins, ".init_pins")
+#pragma RETAIN(init_pins)
+const char init_pins[] =  
+	"/sys/devices/platform/ocp/ocp:P1_36_pinmux/state\0pruout\0" \
+	"\0\0";
