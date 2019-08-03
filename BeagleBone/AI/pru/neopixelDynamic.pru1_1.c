@@ -1,7 +1,7 @@
 ////////////////////////////////////////
 //	neopixelDynamic.c
 //	One color appears to move around the ws2812 (NeoPixel) display
-//	Wiring:	The NeoPixel Data In goes to P9_14, the plus lead to P9_3 or P9_4
+//	Wiring:	The NeoPixel Data In goes to P9_16, the plus lead to P9_3 or P9_4 (3.3V)
 //			and the ground to P9_1 or P9_2.  If you have more then 40 some 
 //			NeoPixels you will need and external supply.
 //	Setup:	None
@@ -14,7 +14,7 @@
 #include "init_pins_empty.h"
 #include "prugpio.h"
 
-#define STR_LEN 40
+#define STR_LEN 24
 #define	oneCyclesOn		700/5	// Stay on 700ns
 #define oneCyclesOff	800/5
 #define zeroCyclesOn	350/5
@@ -32,7 +32,7 @@ void main(void)
 	uint32_t foreground = 0x000f00;
 
 	// Select which pins to output to.  These are all on pru1_1
-	uint32_t gpio = P9_14;
+	uint32_t gpio = P9_16;
 	
 	uint32_t color[STR_LEN];	// green, red, blue
 	int i, j;

@@ -1,7 +1,7 @@
 ////////////////////////////////////////
 //	inputR31.c
-//	Reads input in P8_13 via the R31 register and blinks the USR3 LED
-//	Wiring:	Wire a switch between P8_13 and 3.3V (P9_3 or P9_4)
+//	Reads input in P8_19 via the R31 register and blinks the USR3 LED
+//	Wiring:	Wire a switch between P8_19 and 3.3V (P9_3 or P9_4)
 //	Setup:	None
 //	See:	prugpio.h to see which pins attach to R31
 //	PRU:	pru1_1
@@ -21,7 +21,7 @@ void main(void) {
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
 	while(1) {
-		if(__R31&P8_19) {
+		if(__R31 & P8_19) {
             gpio3[GPIO_SETDATAOUT]   = USR3;      // Turn off LED
         } else
             gpio3[GPIO_CLEARDATAOUT] = USR3;      // Turn on LED
