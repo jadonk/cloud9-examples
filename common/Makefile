@@ -128,19 +128,28 @@ all: stop install start
 
 # TODO: think about what we want to say if stop fails
 stop:
+ifneq ($(PRU_DIR),)
 	@echo "-    Stopping PRU $(PRUN)"
 	@echo stop > $(PRU_DIR)/state || echo Cannot stop $(PRUN)
+endif
 
 start:
+ifneq ($(PRU_DIR),)
 	@echo "-    Starting PRU $(PRUN)"
 	@echo start > $(PRU_DIR)/state
 	@echo write_init_pins.sh
 	@$(COMMON)/write_init_pins.sh /lib/firmware/$(CHIP)-pru$(PRUN)-fw
+else
+	./$(TARGET).out
+endif
 
 install: $(GEN_DIR)/$(TARGET).out
+ifneq ($(PRU_DIR),)
 	@echo '-	copying firmware file $(GEN_DIR)/$(TARGET).out to /lib/firmware/$(CHIP)-pru$(PRUN)-fw'
 	@cp $(GEN_DIR)/$(TARGET).out /lib/firmware/$(CHIP)-pru$(PRUN)-fw
-
+else
+	@cp $(GEN_DIR)/$(TARGET).out ./$(TARGET).out
+endif
 endif
 
 %.out: $(GEN_DIR)/%.out
