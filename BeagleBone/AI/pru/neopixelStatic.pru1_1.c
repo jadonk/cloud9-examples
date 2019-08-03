@@ -1,7 +1,7 @@
 ////////////////////////////////////////
 //	neopixelStatic.c
 //	Control a ws2812 (NeoPixel) display, green, red, blue, green, ...
-//	Wiring:	The NeoPixel Data In goes to P9_16, the plus lead to P9_3 or P9_4
+//	Wiring:	The NeoPixel Data In goes to P9_16, the plus lead to P9_3 or P9_4 (3.3V)
 //			and the ground to P9_1 or P9_2.  If you have more then 40 some 
 //			NeoPixels you will need and external supply.
 //	Setup:	None
