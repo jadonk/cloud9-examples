@@ -29,9 +29,10 @@ void main(void) {
 	__halt();
 }
 
-// Turns off triggers
+// Turns off triggers and sets pinmux
 #pragma DATA_SECTION(init_pins, ".init_pins")
 #pragma RETAIN(init_pins)
 const char init_pins[] =  
 	"/sys/class/leds/beaglebone:green:usr3/trigger\0none\0" \
+	"/sys/devices/platform/ocp/ocp:P9_25_pinmux/state\0pruin\0" \
 	"\0\0";

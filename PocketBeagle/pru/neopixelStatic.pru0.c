@@ -1,10 +1,10 @@
 ////////////////////////////////////////
 //	neopixelStatic.pru0.c
 //	Control a ws2812 (NeoPixel) display, green, red, blue, green, ...
-//	Wiring:	The NeoPixel Data In goes to P9_29, the plus lead to P9_3 or P9_4
-//			and the ground to P9_1 or P9_2.  If you have more then 40 some 
+//	Wiring:	The NeoPixel Data In goes to P1_36, the plus lead to P1_14
+//			and the ground to P2_21.  If you have more then 40 some 
 //			NeoPixels you will need and external supply.
-//	Setup:	config_pin P9_29 pruout
+//	Setup:	config_pin P1_36 pruout
 //	See:	
 //	PRU:	pru0
 ////////////////////////////////////////
@@ -29,7 +29,7 @@ void main(void)
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 	
 	// Select which pins to output to.  These are all on pru1_1
-	uint32_t gpio = P9_29;
+	uint32_t gpio = P1_36;
 	
 	uint32_t color[STR_LEN] = {0x0f0000, 0x000f00, 0x0000f};	// green, red, blue
 	int i, j;
@@ -60,5 +60,5 @@ void main(void)
 #pragma DATA_SECTION(init_pins, ".init_pins")
 #pragma RETAIN(init_pins)
 const char init_pins[] =  
-	"/sys/devices/platform/ocp/ocp:P9_29_pinmux/state\0pruout\0" \
+	"/sys/devices/platform/ocp/ocp:P1_36_pinmux/state\0pruout\0" \
 	"\0\0";

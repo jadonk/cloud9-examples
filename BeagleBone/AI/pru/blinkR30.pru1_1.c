@@ -1,7 +1,7 @@
 ////////////////////////////////////////
 //	blinkR30.c
 //	Blinks LEDs wired to P9_25 (and others) by writing register R30 on the PRU
-//	Wiring:	P9_25 connects to the plus lead of an LED.  The negative lead of the
+//	Wiring:	P9_16 connects to the plus lead of an LED.  The negative lead of the
 //			LED goes to a 220 Ohm resistor.  The other lead of the resistor goes
 //			to ground.
 //	Setup:	None
@@ -20,7 +20,7 @@ void main(void) {
 	int i;
 
 	// Select which pins to toggle.  These are all on pru1_1
-	uint32_t gpio = P9_14 | P9_16 | P8_15 | P8_16 | P8_26;
+	uint32_t gpio = P9_16 | P8_15 | P8_16 | P8_26;
 
 	for(i=0; i<10; i++) {
 		__R30 |= gpio;					// Set the GPIO pin to 1

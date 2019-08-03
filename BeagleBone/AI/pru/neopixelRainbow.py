@@ -13,9 +13,9 @@
 from time import sleep
 import math
 
-len = 40
+len = 24
 amp = 12
-f = 44
+f = 26
 shift = 3
 phase = 0
 

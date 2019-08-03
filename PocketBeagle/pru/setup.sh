@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export TARGET=blinkInternalLED.pru1_1
+export TARGET=blinkInternalLED.pru0
 
 echo TARGET=$TARGET
 

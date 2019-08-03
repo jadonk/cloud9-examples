@@ -22,7 +22,7 @@ PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
 C6X_CGT:=/usr/share/ti/cgt-c6x
 GEN_DIR:=/tmp/cloud9-examples
 MODEL:=$(shell cat /proc/device-tree/model | sed 's/ /_/g' | tr -d '\000')
-$(warning MODEL=$(MODEL),TARGET=$(TARGET),PRUN=$(PRUN),COMMON=$(COMMON))
+$(warning MODEL=$(MODEL),TARGET=$(TARGET),COMMON=$(COMMON))
 
 #
 # Define PROC and build variables

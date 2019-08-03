@@ -21,7 +21,6 @@
 #include <rsc_types.h>
 #include <pru_rpmsg.h>
 #include "resource_table_0.h"
-#include "init_pins_empty.h"
 #include "prugpio.h"
 
 volatile register uint32_t __R30;
@@ -152,3 +151,10 @@ void main(void)
 		}
 	}
 }
+
+// Sets pinmux
+#pragma DATA_SECTION(init_pins, ".init_pins")
+#pragma RETAIN(init_pins)
+const char init_pins[] =  
+	"/sys/devices/platform/ocp/ocp:P9_29_pinmux/state\0pruout\0" \
+	"\0\0";
