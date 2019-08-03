@@ -24,8 +24,7 @@
     "run": {
         "configs": {
             "@inited": "true",
-            "json()": {
-            }
+            "json()": {}
         }
     }
 }
