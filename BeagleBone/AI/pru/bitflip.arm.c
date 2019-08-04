@@ -25,7 +25,7 @@ void main(int argc, const char** argv) {
 	);
 	shared_dataram += (PRUSS_SHARED_RAM_OFFSET/4);
 
-	printf("shared_dataram = %p\n", j);
+	printf("shared_dataram = %p\n", shared_dataram);
 	j = *shared_dataram;
 	printf("Read 0x%08x\n", j);
 
