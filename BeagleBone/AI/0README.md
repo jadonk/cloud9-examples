@@ -1,6 +1,6 @@
 # BeagleBone AI examples
 
-BeagleBone AI is XXX. Learn more at https://beagleboard.org/ai.
+Learn more at https://beagleboard.org/ai.
 
 # Directories
 
