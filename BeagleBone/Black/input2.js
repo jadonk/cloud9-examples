@@ -1,4 +1,12 @@
 #!/usr/bin/env node
+////////////////////////////////////////
+//	input2.js
+//      Responds to changes on P8_19 and P9_16 via callbacks.
+//	Wiring:	Connect P8_19 to P9_14 with a 1kOhm resistor
+//          Connect P9_15 to P9_16 with a 1kOhm resistor
+//	Setup:	
+//	See:	
+////////////////////////////////////////
 var b = require('bonescript');
 
 var outputPin = "P9_14";
@@ -13,9 +21,9 @@ var toggleState = b.LOW;
 var toggleState2 = b.LOW;
 
 console.log('Please connect ' + inputPin + ' to ' + outputPin +
-    ' with a 1kohm resistor');
+    ' with a 1kOhm resistor');
 console.log('Please connect ' + inputPin2 + ' to ' + outputPin2 +
-    ' with a 1kohm resistor');
+    ' with a 1kOhm resistor');
 b.pinMode(inputPin, b.INPUT);
 b.pinMode(outputPin, b.OUTPUT);
 b.pinMode(ledPin, b.OUTPUT);

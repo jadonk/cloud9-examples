@@ -1,4 +1,11 @@
 #!/usr/bin/env node
+////////////////////////////////////////
+//	input.js
+//      Responds to changes on P8_19 via a callback.
+//	Wiring:	Connect P8_19 to P9_14 with a 1kOhm resistor.
+//	Setup:	
+//	See:	
+////////////////////////////////////////
 var b = require('bonescript');
 
 var outputPin = "P9_14";
@@ -8,7 +15,7 @@ var mydelay = 100;
 var state = b.LOW;
 
 console.log('Please connect ' + inputPin + ' to ' + outputPin +
-    ' with a 1kohm resistor');
+    ' with a 1kOhm resistor');
 b.pinMode(inputPin, b.INPUT);
 b.pinMode(outputPin, b.OUTPUT);
 b.digitalWrite(outputPin, b.LOW);

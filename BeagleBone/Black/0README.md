@@ -19,24 +19,21 @@ ERROR while launching the debugger:
         "gdbserver" is not installed 
 gbdserver IS installed
 
-blink.py gets: ImportError: No module named Adafruit_BBIO.GPIO
-
-blinky.rb, once installed give:
-`require': cannot load such file -- beaglebone (LoadError)
-
 The following files are:
-analog2.js: ENOENT: no such file or directory, open '/sys/devices/platform/bone_capemgr/slots'
-analog3.js
-analog.js
-blink.c
+
+analog.js       // Reads analog in on P9_36 and adjusts the PWM on P9_14.
+analog2.js      // Reads analog in on P9_36 synchronously and prints it.
+analog3.js      // Reads analog in on P9_36 and prints it via a callback.
+blink.c         // Blinks the USR3 LED via c
+blinkled.js     // Blinks the USR LEDs and P9_14
+blink.py        // Blinks one LED wired to P9_14 via python
+fade.js         // Fades the LED wired to P9_14 using the PWM.
+input.js        // Responds to changes on P8_19 via a callback.
+input2.js       // Responds to changes on P8_19 and P9_16 via callbacks.
+ledswipe.js     // Blinks the USR LEDs in sequence.
+
+Not Working or not able to test:
 Blink.ino
-blinkled.js
-blink.py
-blinky.rb
-fade.js
-input2.js
-input.js
-ledswipe.js
+blinky.rb       // -- beaglebone/spi (LoadError)
 pwmTest.sh
-shiftout.js
-test.js
+shiftout.js     // Demonstrate shiftOut with a 7 segment display

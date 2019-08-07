@@ -1,4 +1,12 @@
 #!/usr/bin/env ruby
+#//////////////////////////////////////
+#	blink.rb
+#	Blinks the bulit in USR LEDs
+#	Wiring:	None
+#	Setup:	sudo apt install ruby (installs ruby)
+#         sudo gem install beaglebone
+#	See:	
+#//////////////////////////////////////
 require 'beaglebone'
 include Beaglebone
 

@@ -28,7 +28,7 @@
 - [ ] shiftout.js
 - [ ] test.js
 
-- [ ] Black/0README.md
+- [ ] Black/0README.md - Fix .js files
 - [x] Black/pru/0README.md
 - [ ] Black/pru/jason/0README.md
 - [ ] Black/pru/blinkR30.c - How to config-pin P9_29 pruout

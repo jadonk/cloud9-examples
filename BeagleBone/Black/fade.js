@@ -1,4 +1,13 @@
 #!/usr/bin/env node
+////////////////////////////////////////
+//	fade.js
+//      Fades the LED wired to P9_14 using the PWM.
+//	Wiring:	P9_14 connects to the plus lead of an LED.  The negative lead of the
+//			LED goes to a 220 Ohm resistor.  The other lead of the resistor goes
+//			to ground.
+//	Setup:	
+//	See:	
+////////////////////////////////////////
 var b = require('bonescript');
 
 // setup starting conditions

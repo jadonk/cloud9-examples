@@ -1,3 +1,10 @@
+////////////////////////////////////////
+//	blink.c
+//      Blinks the USR3 LED.
+//	Wiring:	None
+//	Setup:	
+//	See:	
+////////////////////////////////////////
 #include <stdio.h>
 #include <unistd.h>
 
@@ -11,8 +18,10 @@ int main() {
 	while(1) {
 		fprintf(brightness, "%d\n", on);
 		fflush(brightness);
-		if(!on) on = 1;
-		else on = 0;
+		if(!on) 
+			on = 1;
+		else 
+			on = 0;
 		usleep(500000);
 	}
 }

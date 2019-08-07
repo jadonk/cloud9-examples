@@ -1,4 +1,11 @@
 #!/usr/bin/env node
+////////////////////////////////////////
+//	ledswipe.js
+//      Blinks the USR LEDs in sequence.
+//	Wiring:
+//	Setup:	
+//	See:	
+////////////////////////////////////////
 var b = require('bonescript');
 var leds = ['USR0', 'USR1', 'USR2', 'USR3'];
 var i = 0;
@@ -20,12 +27,16 @@ function ledOn() {
 function ledOff() {
     process.stdout.write("\x1b[" + (n(i)+1) + "G0");
     b.digitalWrite(leds[n(i)], b.LOW);
-    i++; if(i >= 2*leds.length-2) i = 0;
+    i++; 
+    if(i >= 2*leds.length-2) 
+        i = 0;
     //i++; if(i > 3) i = 0;
     ledOn();
 }
 
 function n(i) {
-    if(i >= leds.length) return 2*leds.length-i-2;
-    else return i;
+    if(i >= leds.length) 
+        return 2*leds.length-i-2;
+    else 
+        return i;
 }
