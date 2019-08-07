@@ -2,7 +2,7 @@
 
 ## Setup microSD card
 
-Use https://rcn-ee.net/rootfs/bb.org/testing/2019-03-03/buster-iot/bone-debian-buster-iot-armhf-2019-03-03-4gb.img.xz image or newer
+Use http://debian.beagleboard.org/images/bone-debian-9.9-iot-armhf-2019-08-03-4gb.img.xz image or newer
 
 ## Login
 

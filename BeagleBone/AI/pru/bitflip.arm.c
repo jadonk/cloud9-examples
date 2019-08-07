@@ -18,7 +18,7 @@
 
 #define PRUSS_SHARED_RAM_OFFSET		0x10000
 
-void main(int argc, const char** argv) {
+int main(int argc, const char** argv) {
 	unsigned int i, j, mem_dev;
 
 	/* Allocate shared memory pointer to PRU0 DATARAM */
@@ -46,4 +46,6 @@ void main(int argc, const char** argv) {
 		j = *shared_dataram;
 		printf("Read 0x%08x (%s, Mask=0x%08x)\n", j, j==i?"not flipped":"flipped!", j^i);
 	}
+	
+	return(0);
 }
