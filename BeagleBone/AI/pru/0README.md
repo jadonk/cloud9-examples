@@ -18,7 +18,7 @@ neopixelDynamic.c   // Same LEDs, but a moving display
 neopixelRpmsg.c     // Control the NeoPixels from the ARM using rpmsg for message passing
 neopixelRainbox.py  // Runs on the ARM and writes a rainbow pattern to the PRU
 
-input.c             // Reads an input pin via the fast R31 register
+inputR31.c          // Reads an input pin via the fast R31 register
 bitflip.c           // Shows how to share memory between the ARM and the PRU
 
 ring.c              // Does the "Ring Test" to see how quickly I/O can be toggled
