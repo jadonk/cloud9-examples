@@ -21,6 +21,8 @@ neopixelRainbox.py  // Runs on the ARM and writes a rainbow pattern to the PRU
 input.c             // Reads an input pin via the fast R31 register
 bitflip.c           // Shows how to share memory between the ARM and the PRU
 
+ring.c              // Does the "Ring Test" to see how quickly I/O can be toggled
+
 The AI has four PRUs, pru1_0, pru1_1, pru2_0 and pru2_1.
 
 The filename tells which PRU to run on.  For example blinkInternalLED.pru1_1.c will
