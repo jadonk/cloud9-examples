@@ -6,6 +6,8 @@
 - [ ] AI/README.md - add tidl
 - [ ] AI/pru/blinkExternalLED.c  Fails every other time on AI due to exporting P9_25
 - [x] AI/pru/shared.c - Using bitflip.c
+- [ ] AI/blinkLED.js  - Need bonescript mappings for AI
+- [ ] AI/analongINSync.js - Where are the analog ins?
 
 ## Black/0README.md
 - [ ] Blink.ino
