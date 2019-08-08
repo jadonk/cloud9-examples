@@ -14,6 +14,7 @@
 - [ ] shiftout.js
 
 - [ ] Black/0README.md - Fix .js files
+- [ ] Black/blinkLED.py     - ImportError: No module named Adafruit_BBIO.GPIO
 - [x] Black/pru/0README.md
 - [ ] Black/pru/blinkR30.c - How to config-pin P9_29 pruout
 - [ ] Black/pru/bitflip.c - need /dev/uio

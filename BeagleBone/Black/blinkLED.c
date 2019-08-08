@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-//	blink.c
+//	blinkLED.c
 //      Blinks the USR3 LED.
 //	Wiring:	None
 //	Setup:	

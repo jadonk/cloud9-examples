@@ -15,6 +15,6 @@ loop();
 
 function loop() {
     var value = b.analogRead(inputPin);
-    console.log(value);
+    process.stdout.write(inputPin + ': ' + (value*100).toFixed(1) + '%, ' + (1.8*value).toFixed(3) + 'V   \r');
     setTimeout(loop, 100);
 }
