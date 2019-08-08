@@ -27,4 +27,5 @@
 - [ ] PocketBeagle/sensorTag.js  - Test
 - [ ] PocketBeagle/blinkLED.py   - ImportError: No module named Adafruit_BBIO.GPIO
 - [ ] PocketBeagle/pushbutton.js - attachInterrupt err = attachInterrupt: requires Epoll module
-- 
+- [ ] PocketBeagle/input.js      - very slow to respond
+- [ ] PocketBeagle/input2.js     - very slow to respond too
