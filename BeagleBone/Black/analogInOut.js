@@ -15,12 +15,13 @@ var b = require('bonescript');
 var inputPin  = "P9_36";
 var outputPin = "P9_14";
 
+console.log('Hit ^C to stop');
 b.pinMode(outputPin, b.ANALOG_OUTPUT);
-loop();
+setTimeout(loop, 200);  // work-around to wait for PWM permissions
 
 function loop() {
     var value = b.analogRead(inputPin);
-    // console.log("loop: value = " + value);
+    process.stdout.write(inputPin + '-->' + outputPin + ': ' + (value*100).toFixed(1) + '%   \r');
     b.analogWrite(outputPin, value);
     setTimeout(loop, 10);
 }

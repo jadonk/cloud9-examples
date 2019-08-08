@@ -21,9 +21,9 @@ gbdserver IS installed
 
 The following files are:
 
-analog.js       // Reads analog in on P9_36 and adjusts the PWM on P9_14.
-analog2.js      // Reads analog in on P9_36 synchronously and prints it.
-analog3.js      // Reads analog in on P9_36 and prints it via a callback.
+analogInOut.js          // Reads analog in on P9_36 and adjusts the PWM on P9_14.
+analogInSync.js         // Reads analog in on P9_36 synchronously and prints it.
+analogInCallback.js     // Reads analog in on P9_36 and prints it via a callback.
 blink.c         // Blinks the USR3 LED via c
 blinkled.js     // Blinks the USR LEDs and P9_14
 blink.py        // Blinks one LED wired to P9_14 via python

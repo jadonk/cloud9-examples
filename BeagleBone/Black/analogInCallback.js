@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 ////////////////////////////////////////
-//	analog2.js
+//	analogInCallback.js
 //  Reads analog in on P9_36 and prints it via a callback.
 //	Wiring:	Attach the outer pins on a variable resistor to P9_32 and P9_34.
 //          Attach the wiper (middle pin) of the resistor to P9_36.
@@ -11,12 +11,14 @@ var b = require('bonescript');
 
 var inputPin = "P9_36";
 
-loop();
+console.log('Hit ^C to stop');
+b.analogRead(inputPin, printStatus);
 
-function loop() {
-    b.analogRead(inputPin, function(err, resp){
-        console.log(resp);
-        setTimeout(loop, 100);
-    });
-
+function printStatus(err, x) {
+    if(err) {
+        console.log('Got error: ' + err); 
+        return;
+    };
+    process.stdout.write(inputPin + ': ' + (x*100).toFixed(1) + '%, ' + (1.8*x).toFixed(3) + 'V   \r');
+    b.analogRead(inputPin, printStatus);
 }
