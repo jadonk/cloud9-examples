@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 ////////////////////////////////////////
-//	ledswipe.js
+//	swipeLED.js
 //      Blinks the USR LEDs in sequence.
 //	Wiring:
 //	Setup:	
@@ -10,6 +10,8 @@ var b = require('bonescript');
 var leds = ['USR0', 'USR1', 'USR2', 'USR3'];
 var i = 0;
 var delay = 100;
+
+console.log('Hit ^C to stop');
 
 console.log("Toggling LEDs:");
 for(var x in leds) {

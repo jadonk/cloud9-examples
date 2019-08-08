@@ -1,4 +1,16 @@
 #!/usr/bin/env node
+
+// attachInterrupt err = attachInterrupt: requires Epoll module
+
+
+////////////////////////////////////////
+//	input2.js
+//      Responds to changes on P8_19 and P9_16 via callbacks.
+//	Wiring:	Connect P8_19 to P9_14 with a 1kOhm resistor
+//          Connect P9_15 to P9_16 with a 1kOhm resistor
+//	Setup:	npm install epoll
+//	See:	
+////////////////////////////////////////
 var b = require('bonescript');
 var button = "P2_3";
 

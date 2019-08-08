@@ -22,3 +22,9 @@
 # PocketBeagle
 - [x] PocketBeagle/pru/ring.pru0.c
 - [ ] PocketBeagle/pru/bitflip.c - need /dev/uio
+- [ ] PocketBeagle/0README.md
+- [ ] PocketBeagle/servoMotor.js - Test
+- [ ] PocketBeagle/sensorTag.js  - Test
+- [ ] PocketBeagle/blinkLED.py   - ImportError: No module named Adafruit_BBIO.GPIO
+- [ ] PocketBeagle/pushbutton.js - attachInterrupt err = attachInterrupt: requires Epoll module
+- 
