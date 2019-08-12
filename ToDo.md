@@ -11,6 +11,8 @@
 - [x] AI/pru/neo[1-3].c
 - [x] AI/pru/neo4.c
 
+- [ ] AI/tidl/classification.tidl.cpp
+
 ## Black/0README.md
 - [ ] analog2.js
 - [ ] analog3.js
@@ -36,4 +38,14 @@
 
 # PocketBeagle
 - [ ] Test PocketBeagle/pru/ring.pru0.c
+- 
+
+# Migration from Bone101 (simple BoneScript + hardware examples)
+- [ ] PIRMotionSensors
+- [ ] Potentiometer
+- [ ] Joystick
+- [ ] Ultrasonic Sensor
+- [ ] Accelerometer
+- [ ] Pressure and temperature sensor
+- [ ] Servo
 - 
