@@ -1,4 +1,4 @@
-# BealgeBone Cookbook
+# BeagleBone Cookbook
 
 This are the example files used in the BeagleBone Cookbook[1].
 
