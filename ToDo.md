@@ -9,6 +9,8 @@
 - [ ] AI/blinkLED.js  - Need bonescript mappings for AI
 - [ ] AI/analongINSync.js - Where are the analog ins?
 
+- [ ] AI/tidl/classification.tidl.cpp
+
 ## Black/0README.md
 - [ ] Blink.ino
 - [ ] blinky.rb
@@ -31,3 +33,15 @@
 - [ ] PocketBeagle/pushbutton.js - attachInterrupt err = attachInterrupt: requires Epoll module
 - [ ] PocketBeagle/input.js      - very slow to respond
 - [ ] PocketBeagle/input2.js     - very slow to respond too
+- [ ] Test PocketBeagle/pru/ring.pru0.c
+- 
+
+# Migration from Bone101 (simple BoneScript + hardware examples)
+- [ ] PIRMotionSensors
+- [ ] Potentiometer
+- [ ] Joystick
+- [ ] Ultrasonic Sensor
+- [ ] Accelerometer
+- [ ] Pressure and temperature sensor
+- [ ] Servo
+- 
