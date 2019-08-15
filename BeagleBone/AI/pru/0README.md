@@ -22,8 +22,6 @@ neopixelRainbox.py  // Runs on the ARM and writes a rainbow pattern to the PRU
 <<<<<<< HEAD
 inputR31.c          // Reads an input pin via the fast R31 register
 bitflip.c           // Shows how to share memory between the ARM and the PRU
-=======
-input.c             // Reads an input pin via the fast R31 register
 shared.c            // Shows how to share memory between the ARM and the PRU
 ring.c              // Does the "Ring Test" to see how quickly I/O can be toggled
 
