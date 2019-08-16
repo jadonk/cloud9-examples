@@ -9,6 +9,7 @@ to do things that can’t be done with just a SBC or just a microcontroller.
 
 Here we demonstrate:
 
+```
 blinkInternalLED.c  // Blink some of the built in USR LEDs
 blinkExternalLED.c  // Wire an external LED and blink it
 blinkR31.c          // Blink and external LED using a faster (50MHz) method
@@ -20,4 +21,5 @@ neopixelRainbox.py  // Runs on the ARM and writes a rainbow pattern to the PRU
 
 input.c             // Reads an input pin via the fast R31 register
 shared.c            // Shows how to share memory between the ARM and the PRU
+```
 
