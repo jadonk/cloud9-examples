@@ -99,8 +99,20 @@ bool filter_init(const char * args, void** filter_ctx) {
     int i;
 
     // Read the TI DL configuration file
+    /*
+numFrames   = 999900
+inData   = /home/debian/tidl-api/examples/test/testvecs/input/preproc_0_224x224.y
+outData   = "/home/debian/tidl-api/examples/classification/stats_tool_out.bin"
+netBinFile      = "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/tidl_net_imagenet_jacintonet11v2.bin"
+paramsBinFile   = "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/tidl_param_imagenet_jacintonet11v2.bin"
+preProcType = 0
+inWidth = 224
+inHeight = 224
+inNumChannels = 3
+layerIndex2LayerGroupId = { {12, 2}, {13, 2}, {14, 2} }
+*/
     Configuration configuration;
-    if (!configuration.ReadFromFile("imagenet.txt"))
+    if (!configuration.ReadFromFile("stream_config_j11_v2.txt"))
         return false;
 
     if (verbose)
