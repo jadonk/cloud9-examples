@@ -118,6 +118,7 @@ bool filter_init(const char* args, void** filter_ctx) {
     ctx->size = 0;
     populate_labels(ctx, "/home/debian/tidl-api/examples/classification/imagenet.txt");
 
+    ctx->top_candidates = 3;
     ctx->selected_items_size = 5;
     ctx->selected_items = (int *)malloc(ctx->selected_items_size*sizeof(int));
     if (!ctx->selected_items) {
@@ -392,6 +393,8 @@ int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
   std::priority_queue<val_index, std::vector<val_index>, decltype(cmp)> queue(cmp);
   // initialize priority queue with smallest value on top
   for (int i = 0; i < k; i++) {
+    std::cout << "push(" << f_id << "," << i << "):"
+              << in[i] << std::endl;
     queue.push(val_index(in[i], i));
   }
   // for rest input, if larger than current minimum, pop mininum, push new val
@@ -418,7 +421,7 @@ int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
 
       if (tf_expected_id(ctx, id))
       {
-        std::cout << "Frame:" << ctx->frame_idx << "," << f_id << "]: rank="
+        std::cout << "Frame[" << ctx->frame_idx << "," << f_id << "]: rank="
                   << k-i << ", outval=" << (float)sorted[i].first / 255 << ", "
                   << *(ctx->labels_classes[sorted[i].second]) << std::endl;
         rpt_id = id;
