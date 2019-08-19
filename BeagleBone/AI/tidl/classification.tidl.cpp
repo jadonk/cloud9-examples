@@ -55,6 +55,7 @@
 #define RES_Y 480
 
 #define MAX_EOPS 8
+#define MAX_CLASSES 1100
 
 using namespace tidl;
 using namespace cv;
@@ -67,6 +68,11 @@ struct my_ctx {
     std::vector<ExecutionObjectPipeline *> eops;
     int frame_idx;
     Mat * images[MAX_EOPS];
+    int size;
+    int top_candidates;
+    int selected_items_size;
+    int * selected_items;
+    std::string labels_classes[MAX_CLASSES];
 };
 
 bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
@@ -77,7 +83,9 @@ bool ProcessFrame(ExecutionObjectPipeline* eop, struct my_ctx * ctx,
                   Mat &src);
 void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& dst,
                   struct my_ctx * ctx);
-int tf_postprocess(uchar *in, int size, struct my_ctx * ctx, int f_id);
+int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id);
+bool tf_expected_id(struct my_ctx * ctx, int id);
+void populate_labels(struct my_ctx * ctx, const char* filename);
 
 // exports for the filter
 extern "C" {
@@ -98,33 +106,42 @@ bool filter_init(const char * args, void** filter_ctx) {
     int num_layers_groups = 1;
     int i;
 
-    // Read the TI DL configuration file
-    /*
-numFrames   = 999900
-inData   = /home/debian/tidl-api/examples/test/testvecs/input/preproc_0_224x224.y
-outData   = "/home/debian/tidl-api/examples/classification/stats_tool_out.bin"
-netBinFile      = "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/tidl_net_imagenet_jacintonet11v2.bin"
-paramsBinFile   = "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/tidl_param_imagenet_jacintonet11v2.bin"
-preProcType = 0
-inWidth = 224
-inHeight = 224
-inNumChannels = 3
-layerIndex2LayerGroupId = { {12, 2}, {13, 2}, {14, 2} }
-*/
-    Configuration configuration;
-    if (!configuration.ReadFromFile("stream_config_j11_v2.txt"))
-        return false;
-
-    if (verbose)
-        configuration.enableApiTrace = true;
-
-    if (num_layers_groups == 1)
-        configuration.runFullNet = true; //Force all layers to be in the same group
-
     struct my_ctx * ctx = (struct my_ctx *)malloc(sizeof(struct my_ctx));
     if (!ctx)
         return false;
     *filter_ctx = ctx;
+    
+    ctx->size = 0;
+    populate_labels(ctx, "/home/debian/tidl-api/examples/classification/imagenet.txt");
+
+    ctx->selected_items_size = 5;
+    ctx->selected_items = (int *)malloc(ctx->selected_items_size*sizeof(int));
+    if (!ctx->selected_items) {
+        free(ctx);
+        return false;
+    }
+    ctx->selected_items[0] = 429; /* baseball */
+    ctx->selected_items[1] = 837; /* sunglasses */
+    ctx->selected_items[2] = 504; /* coffee_mug */
+    ctx->selected_items[3] = 441; /* beer_glass */
+    ctx->selected_items[4] = 898; /* water_bottle */
+
+    ctx->configuration.numFrames = 999900;
+    ctx->configuration.inData = 
+        "/home/debian/tidl-api/examples/test/testvecs/input/preproc_0_224x224.y";
+    ctx->configuration.outData = 
+        "/home/debian/tidl-api/examples/classification/stats_tool_out.bin";
+    ctx->configuration.netBinFile = 
+        "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/tidl_net_imagenet_jacintonet11v2.bin";
+    ctx->configuration.paramsBinFile = 
+        "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/tidl_param_imagenet_jacintonet11v2.bin";
+    ctx->configuration.preProcType = 0;
+    ctx->configuration.inWidth = 224;
+    ctx->configuration.inHeight = 224;
+    ctx->configuration.inNumChannels = 3;
+    ctx->configuration.layerIndex2LayerGroupId = { {12, 2}, {13, 2}, {14, 2} };
+    ctx->configuration.enableApiTrace = true;
+    ctx->configuration.runFullNet = true;
 
     try
     {
@@ -350,44 +367,21 @@ void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& dst,
     if(is_object > 0)
     {
         std::cout << "(" << is_object << ")="
-                  << labels_classes[is_object].c_str() << std::endl;
+                  << ctx->labels_classes[is_object].c_str() << std::endl;
 #ifdef PERF_VERBOSE
         std::cout << "Device:" << eop->GetDeviceName() << " eops("
-                  << num_eops << "), FPS:" << avg_fps << std::endl;
+                  << num_eops << ")" << std::endl;
 #endif
     }
 }
 
-
-char imagenet_win[160];
-char tmp_classwindow_string[160];
-
-Mat in_image, image, r_image, cnn_image, show_image, bgr_frames[3];
-Mat to_stream;
-Rect rectCrop;
-// Report average FPS across a sliding window of 16 frames
-AvgFPSWindow fps_window(16);
-
-
-
-extern std::string labels_classes[];
-extern int IMAGE_CLASSES_NUM;
-extern int selected_items_size;
-extern int selected_items[];
-extern int populate_selected_items (char *filename);
-
-std::string labels_classes[MAX_CLASSES];
-int IMAGE_CLASSES_NUM = 0;
-
-
-
 // Function to filter all the reported decisions
-bool tf_expected_id(int id)
+bool tf_expected_id(struct my_ctx * ctx, int id)
 {
    // Filter out unexpected IDs
-   for (int i = 0; i < selected_items_size; i ++)
+   for (int i = 0; i < ctx->selected_items_size; i ++)
    {
-       if(id == selected_items[i]) return true;
+       if(id == ctx->selected_items[i]) return true;
    }
    return false;
 }
@@ -396,7 +390,7 @@ int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
 {
   //prob_i = exp(TIDL_Lib_output_i) / sum(exp(TIDL_Lib_output))
   // sort and get k largest values and corresponding indices
-  const int k = TOP_CANDIDATES;
+  const int k = ctx->top_candidates;
   int rpt_id = -1;
 
   typedef std::pair<uchar, int> val_index;
@@ -407,7 +401,7 @@ int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
     queue.push(val_index(in[i], i));
   }
   // for rest input, if larger than current minimum, pop mininum, push new val
-  for (int i = k; i < size; i++)
+  for (int i = k; i < ctx->size; i++)
   {
     if (in[i] > queue.top().first)
     {
@@ -428,14 +422,34 @@ int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
   {
       int id = sorted[i].second;
 
-      if (tf_expected_id(id))
+      if (tf_expected_id(ctx, id))
       {
         std::cout << "Frame:" << ctx->frame_idx << "," << f_id << "]: rank="
                   << k-i << ", outval=" << (float)sorted[i].first / 255 << ", "
-                  << labels_classes[sorted[i].second] << std::endl;
+                  << ctx->labels_classes[sorted[i].second] << std::endl;
         rpt_id = id;
       }
   }
   return rpt_id;
+}
+
+void populate_labels(struct my_ctx * ctx, const char* filename)
+{
+  ifstream file(filename);
+  if(file.is_open())
+  {
+    string inputLine;
+
+    while (getline(file, inputLine) )                 //while the end of file is NOT reached
+    {
+      ctx->labels_classes[ctx->size++] = string(inputLine);
+    }
+    file.close();
+  }
+#if 1
+  std::cout << "==Total of " << ctx->size << " items!" << std::endl;
+  for (int i = 0; i < ctx->size; i ++)
+    std::cout << i << ") " << ctx->labels_classes[i] << std::endl;
+#endif
 }
 
