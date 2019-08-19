@@ -23,11 +23,13 @@ Where: zeroOffset = 0.0917 and conversionFactor = 0.4584
 
 ## Build and execute instructions
 * Hook up BeagleBone to the breadboard as shown in the diagram.
+
 Pin | Bone  | Pocket
 --- | ----- | ------
 AIN5 | P9_36 | P2_35
 AIN3 | P9_38 | P1_25
 AIN1 | P9_40 | P1_21
+
 * After clicking ‘run’, notice the console output above for the accelerometer data.
 * Experiment by altering the second argument in ```setTimeout(clear, x)``` to 
 another number where x is a value in milliseconds 
