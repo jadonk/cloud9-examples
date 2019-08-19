@@ -17,12 +17,10 @@ volatile register unsigned int __R30;
 volatile register unsigned int __R31;
 
 void main(void) {
-	int i;
-
 	// Select which pins to toggle.  These are all on pru1_1
 	uint32_t gpio = P9_16 | P8_15 | P8_16 | P8_26;
 
-	for(i=0; i<10; i++) {
+	while(1) {
 		__R30 |= gpio;					// Set the GPIO pin to 1
 		__delay_cycles(500000000/5);    // Wait 1/2 second
 		__R30 &= ~gpio;					// Clear the GPIO pin

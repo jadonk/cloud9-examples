@@ -17,15 +17,13 @@ volatile register unsigned int __R30;
 volatile register unsigned int __R31;
 
 void main(void) {
-	int i;
-
 	// Points to the GPIO port that is used
 	uint32_t *gpio1 = (uint32_t *)GPIO1;
 
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
-	for(i=0; i<100; i++) {
+	while(1) {
 		gpio1[GPIO_SETDATAOUT]   = P9_14;	// Turn the USR1 LED on
 		__delay_cycles(500000000/5);		// Wait 1/2 second
 		gpio1[GPIO_CLEARDATAOUT] = P9_14;	// Off
@@ -40,6 +38,7 @@ void main(void) {
 #pragma RETAIN(init_pins)
 const char init_pins[] =  
 	"/sys/class/gpio/gpio50/direction\0out\0" \
+	"/sys/devices/platform/ocp/ocp:P9_14_pinmux/state\0gpio\0" \
 	"\0\0";
 
 // The export doesn't have to be done on the Black since 
