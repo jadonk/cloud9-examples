@@ -11,9 +11,14 @@ with (50,50) being the center location.*
 ![alt text](joystick.png "Joystick")
 
 ## Build and execute instructions
-* Connect the "VCC" pin from the joystick to P9_32 of the BeagleBone.
-* Connect the "VER" pin from the joystick to P9_38 of the BeagleBone.
-* Connect the "HOR" pin from the joystick to P9_36 of the BeagleBone.
-* Connect the "SEL" pin from the joystick to P9_42 of the BeagleBone.
-* Connect the "GND" pin from the joystick to P9_34 of the BeagleBone.
+* Connect the following pins
+
+Joysitck | Pin | Bone  | Pocket
+-------- | --- | ----- | ------
+VCC | 1.8V | P9_32 | P1_18
+GND | GND  | P9_34 | P1_17
+HOR | AIN5 | P9_36 | P2_35
+VER | AIN3 | P9_38 | P1_25
+SEL | GPIO | P9_42 | P1_35
+
 * Click "Run" and it will output both the x and y axis, with 50,50 being the center.
