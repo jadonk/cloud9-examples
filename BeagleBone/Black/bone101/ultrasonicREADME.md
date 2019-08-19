@@ -1,8 +1,7 @@
 # Demo: Maxbotic Ultrasonic Sensor
 
-The [LV-MaxSonar-EZ2 High Performance Sonar Range Finder]
-(http://www.maxbotix.com/Ultrasonic_Sensors/MB1020.htm) provides very short to 
-long-range detection and ranging, in an incredibly small package. 
+The [LV-MaxSonar-EZ2 High Performance Sonar Range Finder](http://www.maxbotix.com/Ultrasonic_Sensors/MB1020.htm) 
+provides very short to long-range detection and ranging, in an incredibly small package. 
 The sonar detects objects from 0-254 inches and provides sonar range information 
 from 6-inches out to 254-inches with 1-inch resolution.
 
