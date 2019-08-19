@@ -8,8 +8,13 @@ the kernel to load the driver and then start reading values.
 ## Build and execute instructions
 
 * Disconnect your board from power (including USB)
-* Connect BMP085 GND to P9_1
-* Connect BMP085 VCC to P9_3
-* Connect BMP085 SCL to P9_19
-* Connect BMP085 SDA to P9_20
-* Reapply power and refresh this page before running the demo code
+* Connect the pins as follows:
+
+BMP085 | Pin | Bone  | Pocket
+-------| --- | ----- | ------
+GND | GND  | P9_1  | P2_15
+V+  | 3.3V | P9_3  | P1_14
+SCL | SCL  | P9_19 | P1_28
+SDA | SDA  | P9_20 | P1_26
+
+* Reapply power before running the demo code
