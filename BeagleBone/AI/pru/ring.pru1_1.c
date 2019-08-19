@@ -4,7 +4,8 @@
 //	Reads P8_19 and writes it to P9_16 as fast as it can.
 //	Wiring:	P9_16 connects to the plus lead of an LED.  The negative lead of the
 //			LED goes to a 220 Ohm resistor.  The other lead of the resistor goes
-//			to ground (P2_21).
+//			to ground (P9_1 or P9_2).
+//			Wire P8_19 to P9_16 to produce the 'ring' circuit.
 //              A Switch goes to P8_19 and 3.3V  (P9_3 or P9_4).
 //	Setup:	config_pin P9_16 pruout and config_pin P8_19 to pruin
 //	See:	prugpio.h to see which pins attach to R30

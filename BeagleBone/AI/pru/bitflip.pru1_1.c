@@ -6,7 +6,8 @@
 //	Wiring:	None
 //	Setup:	Run this on a PRU and run bitflip.arm.c on the ARM using /dev/uio0.
 //	See:	 
-//	PRU:	pru1_0 or pru1_1
+//	PRU:	pru1_0 or pru1_1.  Rename this file flipbit.pru1_0.c to run on the
+//			other pru.
 ////////////////////////////////////////
 #include <stdint.h>
 #include <pru_cfg.h>

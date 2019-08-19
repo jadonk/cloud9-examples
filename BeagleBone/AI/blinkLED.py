@@ -1,8 +1,8 @@
 #!/usr/bin/python
 #//////////////////////////////////////
 #	blink.py
-#	Blinks one LED wired to P9_14.
-#	Wiring:	P9_14 connects to the plus lead of an LED.  The negative lead of the
+#	Blinks one LED wired to P9_15.
+#	Wiring:	P9_15 connects to the plus lead of an LED.  The negative lead of the
 #			LED goes to a 220 Ohm resistor.  The other lead of the resistor goes
 #			to ground.
 #	Setup:	

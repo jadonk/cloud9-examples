@@ -4,9 +4,9 @@
 //	Usage:	This takes the first word of SHARED_RAM and flips every other bit
 //				over and over.
 //	Wiring:	None
-//	Setup:	Run this on a PRU and run bitflip.arm.c on the ARM using /dev/uio1
+//	Setup:	Run this on the ARM and run bitflip.pru1_1.c or bitflip.pru2_1 on the PRU
 //	See:	 
-//	PRU:	pru2_0 or pru2_1
+//	PRU:	
 ////////////////////////////////////////
 #include <stdio.h>
 #include <sys/types.h>

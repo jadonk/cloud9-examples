@@ -2,7 +2,7 @@
 ////////////////////////////////////////
 //	blinkLED.js
 //      Blinks the USR LEDs and P9_15.
-//	Wiring:	P9_14 connects to the plus lead of an LED.  The negative lead of the
+//	Wiring:	P9_15 connects to the plus lead of an LED.  The negative lead of the
 //			LED goes to a 220 Ohm resistor.  The other lead of the resistor goes
 //			to ground.
 //	Setup:	
