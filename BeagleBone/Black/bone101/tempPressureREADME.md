@@ -13,4 +13,3 @@ the kernel to load the driver and then start reading values.
 * Connect BMP085 SCL to P9_19
 * Connect BMP085 SDA to P9_20
 * Reapply power and refresh this page before running the demo code
-* 
