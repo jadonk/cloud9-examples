@@ -22,7 +22,7 @@ void main(void) {
 		if(value != *SHARED_RAM) {
 			/* Flip every other bit and write the value back */
 			value = *SHARED_RAM;
-			value ^= 0xAAAAAAAA;
+			value ^= 0x55555555;
 			*SHARED_RAM = value;
 		}
 	}

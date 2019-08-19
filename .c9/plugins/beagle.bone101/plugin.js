@@ -84,13 +84,13 @@ define(function(require, exports, module) {
 
         handle.on("load", function(){
             console.log("bone101: load");
-            commands.addCommand({
-                name: "bone101_about",
-                isAvailable: function(){ return true; },
-                exec: function() {
-                    bone101("about");
-                }
-            }, handle);
+            //commands.addCommand({
+            //    name: "bone101_about",
+            //    isAvailable: function(){ return true; },
+            //    exec: function() {
+            //        bone101("about");
+            //    }
+            //}, handle);
             commands.addCommand({
                 name: "bone101_intro",
                 isAvailable: function(){ return true; },
@@ -100,9 +100,9 @@ define(function(require, exports, module) {
             }, handle);
 
             menus.addItemByPath("BeagleBone", null, 20, handle);
-            menus.addItemByPath("BeagleBone/About",new ui.item({
-                command: "bone101_about"
-            }), 22, handle);
+            //menus.addItemByPath("BeagleBone/About",new ui.item({
+            //    command: "bone101_about"
+            //}), 22, handle);
             menus.addItemByPath("BeagleBone/Introduction", new ui.item({
                 command: "bone101_intro"
             }), 24, handle);
@@ -116,11 +116,11 @@ define(function(require, exports, module) {
             //var filename = options.packagePath + ".bone101";
             var filename = "/var/lib/cloud9/.c9/plugins/beagle.bone101/plugin.bone101";
             console.log("opening " + filename);
-            var pane = tabManager.getPanes()[0];
-            var newPane = pane.hsplit();
+            //var pane = tabManager.getPanes()[0];
+            //var newPane = pane.hsplit();
             var tab = tabManager.open({
                 "path": filename,
-                "pane": newPane,
+                //"pane": newPane,
                 "editorType": "bone101",
                 "title": "bone101",
                 "tooltip": "bone101",

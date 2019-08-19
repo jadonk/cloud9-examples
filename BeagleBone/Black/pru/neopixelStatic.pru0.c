@@ -1,20 +1,17 @@
 ////////////////////////////////////////
-//	neopixelStatic.c
+//	neopixelStatic.pru0.c
 //	Control a ws2812 (NeoPixel) display, green, red, blue, green, ...
 //	Wiring:	The NeoPixel Data In goes to P9_29, the plus lead to P9_3 or P9_4
 //			and the ground to P9_1 or P9_2.  If you have more then 40 some 
 //			NeoPixels you will need and external supply.
 //	Setup:	config_pin P9_29 pruout
 //	See:	
-//	PRU:	pru1_1
+//	PRU:	pru0
 ////////////////////////////////////////
 #include <stdint.h>
 #include <pru_cfg.h>
 #include "resource_table_empty.h"
-#include "init_pins_empty.h"
 #include "prugpio.h"
-
-#define PRUN 0
 
 #define STR_LEN 16
 #define	oneCyclesOn		700/5	// Stay on 700ns
@@ -58,3 +55,10 @@ void main(void)
 	
 	__halt();
 }
+
+// Sets pinmux
+#pragma DATA_SECTION(init_pins, ".init_pins")
+#pragma RETAIN(init_pins)
+const char init_pins[] =  
+	"/sys/devices/platform/ocp/ocp:P9_29_pinmux/state\0pruout\0" \
+	"\0\0";

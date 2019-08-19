@@ -1,6 +1,6 @@
 // This file defines the GPIO port addresses and PRU address
 
-#if AI == 1
+#if defined(CHIP) && defined(CHIP_IS_am57xx)
 #warning "Found AI"
 // These are addresses for the am5729
 // First define the 9 GPIO port addresses
@@ -54,10 +54,14 @@
 #define USR1 (1<<22)
 #define USR2 (1<<23)
 #define USR3 (1<<24)
-// The define a couple of GPIO pin addresses
+// The define a couple of GPIO pin addresses on Black
 // GPIO1
 #define P9_14 (1<<18)
 #define P9_16 (1<<19)
+
+// The define a couple of GPIO pin addresses on Pocket
+// GPIO1
+#define P1_32 (1<<10)
 
 // R30 output bits on pru0
 #define P9_31   (1<<0)
@@ -68,6 +72,16 @@
 #define P9_27   (1<<5)
 #define P9_91   (1<<6)
 #define P9_25   (1<<7)
+
+// R30 output bits on pru0 on Pocket
+#define P1_36   (1<<0)
+#define P1_33   (1<<1)
+#define P2_32   (1<<2)
+#define P2_30   (1<<3)
+#define P1_31   (1<<4)
+#define P2_34   (1<<5)
+#define P2_28   (1<<6)
+#define P1_29   (1<<7)
 
 // Shared memory
 #define AM33XX_DATARAM0_PHYS_BASE		0x4a300000
