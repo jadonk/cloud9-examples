@@ -17,15 +17,13 @@ volatile register unsigned int __R30;
 volatile register unsigned int __R31;
 
 void main(void) {
-	int i;
-
 	// Points to the GPIO port that is used
 	uint32_t *gpio1 = (uint32_t *)GPIO1;
 
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
-	for(i=0; i<100; i++) {
+	while(1) {
 		gpio1[GPIO_SETDATAOUT]   = P1_32;	// Turn the USR1 LED on
 		__delay_cycles(500000000/5);		// Wait 1/2 second
 		gpio1[GPIO_CLEARDATAOUT] = P1_32;	// Off

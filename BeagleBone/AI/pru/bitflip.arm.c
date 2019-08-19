@@ -1,3 +1,13 @@
+////////////////////////////////////////
+//	flipbit.arm.c
+//	Demo of shared memory
+//	Usage:	This takes the first word of SHARED_RAM and flips every other bit
+//				over and over.
+//	Wiring:	None
+//	Setup:	Run this on the ARM and run bitflip.pru1_1.c or bitflip.pru2_1 on the PRU
+//	See:	 
+//	PRU:	
+////////////////////////////////////////
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>

@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 ////////////////////////////////////////
-//	analogInOut.js
-//  Reads analog in on P91_19 and adjusts the PWM on P1_36.
-//	Wiring:	Attach the outer pins on a variable resistor to P1_17 and P1_18
-//          Attach the wiper (middle pin) of the resistor to P1_19.
-//          P91_36 connects to the plus lead of an LED.  The negative lead of the
+//	analog.js
+//  Reads analog in on P9_36 and adjusts the PWM on P9_14.
+//	Wiring:	Attach the outer pins on a variable resistor to P9_32 and P9_34.
+//          Attach the wiper (middle pin) of the resistor to P9_36.
+//          P9_14 connects to the plus lead of an LED.  The negative lead of the
 //			LED goes to a 220 Ohm resistor.  The other lead of the resistor goes
-//			to 3.3V (P1_14).
+//			to ground.
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
 var b = require('bonescript');
 
-var inputPin  = "P1_19";
-var outputPin = "P1_36";
+var inputPin  = "P9_36";
+var outputPin = "P9_14";
 
 console.log('Hit ^C to stop');
 b.pinMode(outputPin, b.ANALOG_OUTPUT);
