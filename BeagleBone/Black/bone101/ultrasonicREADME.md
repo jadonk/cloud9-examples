@@ -20,7 +20,7 @@ Since the AIN pin has a maximum voltage capacity of 1.8V,
 we will set a voltage divider to account for that difference. 
 With the voltage divider, a supply of 5V yields ~6.99mV/in. and 3.3V yields ~4.57mV/in.
 
-![alt text](ultrasonic.png.png "Maxbotic Ultrasonic Sensor")
+![alt text](ultrasonic.png "Maxbotic Ultrasonic Sensor")
 
 ## Build and execute instructions
 * Connect the "GND" pin from the sensor to P9_1 of the board
@@ -32,4 +32,4 @@ bottom to ground, as shown in the diagram.
 * Click "Run" on the code and it will output the distance, in inches,
 that the sensor is detecting... updating every 5 seconds
 * Move the sensor nearer to or farther from an object to see the change in distance
-* 
+*
