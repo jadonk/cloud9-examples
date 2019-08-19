@@ -19,8 +19,14 @@ More information regarding PWMs can be found on the
 ![alt text](servo.png "Micro Servo Motor")
 
 ## Build and execute instructions
-* Connect the "GND" pin from the Servo Motor to P9_1 of the board
-* Connect the "V+" pin from the Servo Motor to P9_3 of the board
+* Connect the pins as follows:
+
+Servo | Pin | Bone  | Pocket
+----- | --- | ----- | ------
+GND | GND  | P9_1  | P2_15
+V+  | 3.3V | P9_3  | P1_14
+PWM | PWM via 1kOhm resistor | P9_14 | P1_36
+
 * Connect a 1kohm resistor to the "PWM" pin of the Servo Motor and to P9_14 of the board.
 * Click "Run" on the code. The value of 'position' will go between 0 and 1 
 changing by 'increment' amount with updates every 200ms.
