@@ -37,7 +37,8 @@
 - 
 
 # Migration from Bone101 (simple BoneScript + hardware examples)
-- [ ] PIRMotionSensors
+- [ ] PIRMotionSensors - missing wiring diagram
+- [x] The below are done for the Black.
 - [ ] Potentiometer
 - [ ] Joystick
 - [ ] Ultrasonic Sensor
