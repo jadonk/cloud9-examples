@@ -81,7 +81,7 @@ bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
 void AllocateMemory(const std::vector<ExecutionObjectPipeline*>& eops);
 bool ProcessFrame(ExecutionObjectPipeline* eop, struct my_ctx * ctx,
                   Mat &src);
-void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& dst,
+void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst,
                   struct my_ctx * ctx);
 int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id);
 bool tf_expected_id(struct my_ctx * ctx, int id);
@@ -153,7 +153,7 @@ bool filter_init(const char* args, void** filter_ctx) {
     configuration.inNumChannels = 3;
     configuration.layerIndex2LayerGroupId = { {12, 2}, {13, 2}, {14, 2} };
 #endif
-    configuration.enableApiTrace = true;
+    configuration.enableApiTrace = false;
     configuration.runFullNet = true;
 
     try
@@ -204,18 +204,21 @@ void filter_process(void* filter_ctx, Mat& src, Mat& dst) {
         // Wait for previous frame on the same eo to finish processing
         if (eop->ProcessFrameWait())
         {
-            std::cout << "display(" << ctx->frame_idx << ")"
-                      << std::endl;
-            DisplayFrame(eop, dst, ctx);
+            if(configuration.enableApiTrace)
+                std::cout << "display(" << ctx->frame_idx << ")"
+                          << std::endl;
+            DisplayFrame(eop, src, dst, ctx);
         }
         else
         {
-            std::cout << "copy(" << ctx->frame_idx << ")"
-                      << std::endl;
+            if(configuration.enableApiTrace)
+                std::cout << "copy(" << ctx->frame_idx << ")"
+                          << std::endl;
             dst = src;
         }
 
-        std::cout << "process(" << ctx->frame_idx << ")"
+        if(configuration.enableApiTrace)
+            std::cout << "process(" << ctx->frame_idx << ")"
                   << std::endl;
 
         ProcessFrame(eop, ctx, src);
@@ -335,15 +338,17 @@ bool ProcessFrame(ExecutionObjectPipeline* eop, struct my_ctx * ctx,
     int loc_ymin = 0;
     int loc_w = src.size().height;
     int loc_h = src.size().height;
-    std::cout << "crop(" << loc_xmin << ","
-              << loc_ymin << "," << loc_w << "," << loc_h << ")" << std::endl;
+    if(configuration.enableApiTrace)
+        std::cout << "crop(" << loc_xmin << ","
+                  << loc_ymin << "," << loc_w << "," << loc_h << ")" << std::endl;
 
     //cv::resize(src, image, Size(RES_X, RES_Y));
     cv::resize(src(Rect(loc_xmin, loc_ymin, loc_w, loc_h)), *(ctx->images[ctx->frame_idx % MAX_EOPS]), Size(RES_X, RES_Y));
 
     //*(ctx->images[ctx->frame_idx]) = Mat(image, rectCrop);
 
-    std::cout << "preprocess()" << std::endl;
+    if(configuration.enableApiTrace)
+        std::cout << "preprocess()" << std::endl;
     imgutil::PreprocessImage(*(ctx->images[ctx->frame_idx % MAX_EOPS]), 
                              eop->GetInputBufferPtr(), configuration);
     eop->SetFrameIndex(ctx->frame_idx);
@@ -353,11 +358,13 @@ bool ProcessFrame(ExecutionObjectPipeline* eop, struct my_ctx * ctx,
 }
 
 
-void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& dst,
+void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst,
                   struct my_ctx * ctx)
 {
     int f_id = eop->GetFrameIndex();
-    std::cout << "postprocess(" << ctx->frame_idx << "," << f_id << ")" << std::endl;
+    dst = src;
+    if(configuration.enableApiTrace)
+        std::cout << "postprocess(" << ctx->frame_idx << "," << f_id << ")" << std::endl;
     int is_object = tf_postprocess((uchar*) eop->GetOutputBufferPtr(), ctx, f_id);
     if(is_object > 0)
     {
@@ -367,6 +374,14 @@ void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& dst,
         std::cout << "Device:" << eop->GetDeviceName() << " eops("
                   << num_eops << ")" << std::endl;
 #endif
+        cv::putText(
+            dst,
+            (*(ctx->labels_classes[is_object])).c_str(),
+            cv::Point(5, 40),
+            cv::FONT_HERSHEY_SCRIPT_SIMPLEX,
+            1.0,
+            cv::Scalar(0,255,0), 1, 8
+        );
     }
 }
 
@@ -393,8 +408,9 @@ int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
   std::priority_queue<val_index, std::vector<val_index>, decltype(cmp)> queue(cmp);
   // initialize priority queue with smallest value on top
   for (int i = 0; i < k; i++) {
-    std::cout << "push(" << f_id << "," << i << "):"
-              << in[i] << std::endl;
+    if(configuration.enableApiTrace)
+        std::cout << "push(" << f_id << "," << i << "):"
+                  << in[i] << std::endl;
     queue.push(val_index(in[i], i));
   }
   // for rest input, if larger than current minimum, pop mininum, push new val
@@ -421,9 +437,10 @@ int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
 
       if (tf_expected_id(ctx, id))
       {
-        std::cout << "Frame[" << ctx->frame_idx << "," << f_id << "]: rank="
-                  << k-i << ", outval=" << (float)sorted[i].first / 255 << ", "
-                  << *(ctx->labels_classes[sorted[i].second]) << std::endl;
+        if(configuration.enableApiTrace)
+            std::cout << "Frame[" << ctx->frame_idx << "," << f_id << "]: rank="
+                      << k-i << ", outval=" << (float)sorted[i].first / 255 << ", "
+                      << *(ctx->labels_classes[sorted[i].second]) << std::endl;
         rpt_id = id;
       }
   }
