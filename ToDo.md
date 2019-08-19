@@ -37,11 +37,11 @@
 - 
 
 # Migration from Bone101 (simple BoneScript + hardware examples)
-- [ ] PIRMotionSensors
-- [ ] Potentiometer
-- [ ] Joystick
-- [ ] Ultrasonic Sensor
-- [ ] Accelerometer
-- [ ] Pressure and temperature sensor
-- [ ] Servo
+- [ ] PIRMotionSensors - missing wiring diagram
+- [x] Potentiometer
+- [x] Joystick
+- [x] Ultrasonic Sensor
+- [x] Accelerometer
+- [x] Pressure and temperature sensor
+- [x] Servo
 - 
