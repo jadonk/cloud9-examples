@@ -31,4 +31,3 @@ bottom to ground, as shown in the diagram.
 * Click "Run" on the code and it will output the distance, in inches,
 that the sensor is detecting... updating every 5 seconds
 * Move the sensor nearer to or farther from an object to see the change in distance
-*
