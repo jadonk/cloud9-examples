@@ -3,7 +3,7 @@
 A specific voltage can be sent to the ADC1 channel using a potentiometer. 
 Please keep in mind that each one of the ADC pins can only **handle 1.8V maximum**.
 
-![alt text](Potentiometer_bb.png "Potentiometer")
+![alt text](potentiometer_bb.png "Potentiometer")
 
 ## Build and execute instructions
 * Hook up a BeagleBone or BeagleBone Black to the breadboard as shown in the diagram.
