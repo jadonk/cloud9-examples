@@ -8,7 +8,7 @@ There are many projects that use the PRU
 to do things that can’t be done with just a SBC or just a microcontroller.
 
 Here we demonstrate:
-
+```
 blinkInternalLED.c  // Blink some of the built in USR LEDs
 blinkExternalLED.c  // Wire an external LED and blink it
 blinkR31.c          // Blink and external LED using a faster (50MHz) method
@@ -22,7 +22,7 @@ inputR31.c          // Reads an input pin via the fast R31 register
 bitflip.c           // Shows how to share memory between the ARM and the PRU
 
 ring.c              // Does the "Ring Test" to see how quickly I/O can be toggled
-
+```
 The Pocket has two PRUs, pru0 and pru1.
 
 The filename tells which PRU to run on.  For example blinkInternalLED.pru0.c will

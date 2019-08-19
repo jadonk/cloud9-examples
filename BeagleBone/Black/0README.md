@@ -20,7 +20,7 @@ ERROR while launching the debugger:
 gbdserver IS installed
 
 The following files are:
-
+```
 analogInOut.js      // Reads analog in on P9_36 and adjusts the PWM on P9_14.
 analogInSync.js     // Reads analog in on P9_36 synchronously and prints it.
 analogInCallback.js // Reads analog in on P9_36 and prints it via a callback.
@@ -31,8 +31,9 @@ fadeLED.js          // Fades the LED wired to P9_14 using the PWM.
 input.js            // Responds to changes on P8_19 via a callback.
 input2.js           // Responds to changes on P8_19 and P9_16 via callbacks.
 swipeLED.js         // Blinks the USR LEDs in sequence.
-
+```
 Not Working or not able to test:
+```
 Blink.ino
 blinky.rb       // -- beaglebone/spi (LoadError)
 pwmTest.sh
@@ -41,3 +42,4 @@ shiftout.js     // Demonstrate shiftOut with a 7 segment display
 pushbutton.js
 sensorTag.js
 servoMotor.js
+```
