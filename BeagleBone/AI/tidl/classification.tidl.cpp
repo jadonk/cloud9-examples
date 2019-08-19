@@ -168,8 +168,8 @@ bool filter_init(const char* args, void** filter_ctx) {
         std::cout << "allocating I/O memory for each EOP" << std::endl;
         AllocateMemory(eops);
 
-        int num_eops = eops.size();
-        for (i=0; i < num_eops; i++)
+        //int num_eops = eops.size();
+        for (i=0; i < MAX_EOPS; i++)
         {
             ctx->images[i] = new Mat(Size(RES_X, RES_Y), CV_8UC4);
         }
@@ -203,12 +203,19 @@ void filter_process(void* filter_ctx, Mat& src, Mat& dst) {
         // Wait for previous frame on the same eo to finish processing
         if (eop->ProcessFrameWait())
         {
-             DisplayFrame(eop, dst, ctx);
+            std::cout << "display(" << ctx->frame_idx << ")"
+                      << std::endl;
+            DisplayFrame(eop, dst, ctx);
         }
         else
         {
+            std::cout << "copy(" << ctx->frame_idx << ")"
+                      << std::endl;
             dst = src;
         }
+
+        std::cout << "process(" << ctx->frame_idx << ")"
+                  << std::endl;
 
         ProcessFrame(eop, ctx, src);
         //if (ProcessFrame(eop, ctx, src))
@@ -236,7 +243,7 @@ void filter_free(void* filter_ctx) {
 
     try
     {
-        int num_eops = eops.size();
+        //int num_eops = eops.size();
 
         // Cleanup
         for (auto eop : eops)
@@ -248,7 +255,7 @@ void filter_free(void* filter_ctx) {
         if (e_dsp) delete e_dsp;
         if (e_eve) delete e_eve;
 
-        for (int i=0; i < num_eops; i++)
+        for (int i=0; i < MAX_EOPS; i++)
         {
             delete ctx->images[i];
         }
@@ -331,12 +338,12 @@ bool ProcessFrame(ExecutionObjectPipeline* eop, struct my_ctx * ctx,
               << loc_ymin << "," << loc_w << "," << loc_h << ")" << std::endl;
 
     //cv::resize(src, image, Size(RES_X, RES_Y));
-    cv::resize(src(Rect(loc_xmin, loc_ymin, loc_w, loc_h)), *(ctx->images[ctx->frame_idx]), Size(RES_X, RES_Y));
+    cv::resize(src(Rect(loc_xmin, loc_ymin, loc_w, loc_h)), *(ctx->images[ctx->frame_idx % MAX_EOPS]), Size(RES_X, RES_Y));
 
     //*(ctx->images[ctx->frame_idx]) = Mat(image, rectCrop);
 
     std::cout << "preprocess()" << std::endl;
-    imgutil::PreprocessImage(*(ctx->images[ctx->frame_idx]), 
+    imgutil::PreprocessImage(*(ctx->images[ctx->frame_idx % MAX_EOPS]), 
                              eop->GetInputBufferPtr(), configuration);
     eop->SetFrameIndex(ctx->frame_idx);
     eop->ProcessFrameStartAsync();
@@ -349,6 +356,7 @@ void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& dst,
                   struct my_ctx * ctx)
 {
     int f_id = eop->GetFrameIndex();
+    std::cout << "postprocess(" << ctx->frame_idx << "," << f_id << ")" << std::endl;
     int is_object = tf_postprocess((uchar*) eop->GetOutputBufferPtr(), ctx, f_id);
     if(is_object > 0)
     {
