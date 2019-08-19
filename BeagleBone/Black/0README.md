@@ -8,9 +8,6 @@ pru - contains demos for the Programmable Real-time Unit
 Notes:
 I'm using P9_14 for the PRU, so we need to find another GPIO to use
 
-    .js files run from command line, but gets the following from c9:
-(node:19484) [DEP0062] DeprecationWarning: `node --debug` and `node --debug-brk` are invalid. Please use `node --inspect` or `node --inspect-brk` instead. 
-
 blink.c compiles/runs from command line but get the following from c9:
 Compiling /var/lib/cloud9/BeagleBone/Black/blink.c ...    
 
