@@ -24,6 +24,6 @@ Where: zeroOffset = 0.0917 and conversionFactor = 0.4584
 ## Build and execute instructions
 * Hook up BeagleBone to the breadboard as shown in the diagram.
 * After clicking ‘run’, notice the console output above for the accelerometer data.
-* Experiment by altering the second argument in ‘setTimeout(clear, x) to 
+* Experiment by altering the second argument in ```setTimeout(clear, x)``` to 
 another number where x is a value in milliseconds 
 (this value determines how long the example will run).
