@@ -1,4 +1,4 @@
-all: classification.tidl.out
+all: classification.tidl.so
 
 include /var/lib/cloud9/common/Makefile
 

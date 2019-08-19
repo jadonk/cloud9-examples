@@ -172,6 +172,10 @@ endif
 	@echo 'CP	$^'
 	@cp $^ $@
 
+%.so: $(GEN_DIR)/%.so
+	@echo 'CP	$^'
+	@cp $^ $@
+
 # TODO: look up how Makefiles typically break down the output file specification
 # $(warning CHIP=$(CHIP),PROC=$(PROC))
 # $(warning CC=$(CC),LD=$(LD),CFLAGS=$(CFLAGS),LDFLAGS=$(LDFLAGS))
@@ -181,6 +185,13 @@ $(GEN_DIR)/%.out: $(GEN_DIR)/%.o
 	$(eval $(call target-to-proc,$@))
 	$(eval $(call proc-to-build-vars,$@))
 	@$(LD) $@ $^ $(LDFLAGS) 
+
+$(GEN_DIR)/%.so: $(GEN_DIR)/%.o
+	@mkdir -p $(GEN_DIR)
+	@echo 'LD	$^'
+	$(eval $(call target-to-proc,$@))
+	$(eval $(call proc-to-build-vars,$@))
+	@$(LD) $@ -shared $^ $(LDFLAGS) 
 
 $(GEN_DIR)/%.o: %.c
 	@mkdir -p $(GEN_DIR)
