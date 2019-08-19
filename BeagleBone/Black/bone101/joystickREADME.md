@@ -8,7 +8,7 @@ The joystick also includes an extra digital input that will let you read the swi
 *The console will output both the x-axis and y-axis with readings from 0-100, 
 with (50,50) being the center location.*
 
-![alt text](joysitck.png "Joystick")
+![alt text](joystick.png "Joystick")
 
 ## Build and execute instructions
 * Connect the "VCC" pin from the joystick to P9_32 of the BeagleBone.
