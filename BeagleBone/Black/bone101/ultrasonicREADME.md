@@ -22,12 +22,17 @@ With the voltage divider, a supply of 5V yields ~6.99mV/in. and 3.3V yields ~4.5
 ![alt text](ultrasonic.png "Maxbotic Ultrasonic Sensor")
 
 ## Build and execute instructions
-* Connect the "GND" pin from the sensor to P9_1 of the board
-* Connect the "+5" pin from the sensor to P9_3 of the board
 * Connect the 1.2kohm resistor to the AN pin of the supersonic sensor.
 * Connect the 3k ohm resistor in series with the 1.2k ohm resistor and tie the 
 bottom to ground, as shown in the diagram.
-* Connect P9_40 of BeagleBone in series with the 3k ohm and 1.k ohm resistor.
+* Connect the pins as follows:
+
+Ultrasound | Pin | Bone  | Pocket
+---------- | --- | ----- | ------
+GND        | GND  | P9_1  | P2_15
++5         | 3.3V | P9_3  | P1_14
+series with 3k ohm and 1.2k ohm resistor | AIN1 | P9_40 | P1_21
+
 * Click "Run" on the code and it will output the distance, in inches,
 that the sensor is detecting... updating every 5 seconds
 * Move the sensor nearer to or farther from an object to see the change in distance

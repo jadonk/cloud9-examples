@@ -14,7 +14,7 @@ BMP085 | Pin | Bone  | Pocket
 -------| --- | ----- | ------
 GND | GND  | P9_1  | P2_15
 V+  | 3.3V | P9_3  | P1_14
-SCL | SCL  | P9_19 | P1_28
-SDA | SDA  | P9_20 | P1_26
+SCL | I2C2 SCL  | P9_19 | P1_28
+SDA | I2C2 SDA  | P9_20 | P1_26
 
 * Reapply power before running the demo code
