@@ -9,9 +9,9 @@ to do things that can’t be done with just a SBC or just a microcontroller.
 
 Here we demonstrate:
 
-blinkInternalLED.c  // Blink some of the built in USR LEDs
-blinkExternalLED.c  // Wire an external LED and blink it
-blinkR31.c          // Blink an external LED using a faster (50MHz) method
+ blinkInternalLED.c  // Blink some of the built in USR LEDs
+ blinkExternalLED.c  // Wire an external LED and blink it
+ blinkR31.c          // Blink an external LED using a faster (50MHz) method
 
 neopixelStatic.c    // Wire up NeoPixel (WS2812) LEDs and set them to a color
 neopixelDynamic.c   // Same LEDs, but a moving display
