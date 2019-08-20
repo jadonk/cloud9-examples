@@ -14,12 +14,14 @@
 # PRU_CGT points to the TI PRU compiler directory.
 # PRU_SUPPORT points to pru-software-support-package.
 # C6X_CGT points to the TI C6X compiler directory.
+# TIDL_API_DIR points to the TIDL API install directory.
 # GEN_DIR points to where to build the binaries.
 # MODEL is the board model (BeagleBoard.org_BeagleBone_AI, TI_AM335x_BeagleBone_Blue, etc.)
 COMMON:=$(abspath $(lastword $(MAKEFILE_LIST)/..))
 PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
 C6X_CGT:=/usr/share/ti/cgt-c6x
+TIDL_API_DIR:=/usr/share/ti/tidl/tidl_api
 GEN_DIR:=/tmp/cloud9-examples
 MODEL:=$(shell cat /proc/device-tree/model | sed 's/ /_/g' | tr -d '\000')
 $(warning MODEL=$(MODEL),TARGET=$(TARGET),COMMON=$(COMMON))
@@ -48,34 +50,40 @@ define target-to-proc =
   CHIP_REV=am572x_2_0
   PRU_DIR=/sys/class/remoteproc/remoteproc0
   PRUN=1_0
+  PROC=pru
  else ifeq ($(suffix $(basename $(1))),.pru1_1)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
   PRU_DIR=/sys/class/remoteproc/remoteproc1
   PRUN=1_1
+  PROC=pru
  else ifeq ($(suffix $(basename $(1))),.pru2_0)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
   PRU_DIR=/sys/class/remoteproc/remoteproc2
   PRUN=2_0
+  PROC=pru
  else ifeq ($(suffix $(basename $(1))),.pru2_1)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
   PRU_DIR=/sys/class/remoteproc/remoteproc3
   PRUN=2_1
+  PROC=pru
  else ifeq ($(suffix $(basename $(1))),.pru0)
   CHIP=am335x
   CHIP_REV=am335x
   PRU_DIR=/sys/class/remoteproc/remoteproc1
   PRUN=0
+  PROC=pru
  else ifeq ($(suffix $(basename $(1))),.pru1)
   CHIP=am335x
   CHIP_REV=am335x
   PRU_DIR=/sys/class/remoteproc/remoteproc2
   PRUN=1
- endif
- ifeq ($(findstring pru,$(suffix $(basename $(1)))),pru)
   PROC=pru
+ else ifeq ($(suffix $(basename $(1))),.tidl)
+  CHIP=am57xx
+  PROC=tidl
  else
   PROC=arm
  endif
@@ -104,6 +112,14 @@ define proc-to-build-vars =
    -v3 -O2 --printf_support=minimal --display_error_number --endian=little --hardware_mac=on \
    --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing \
    --c_src_interlist
+ else ifeq ($(PROC),tidl)
+  LD=gcc -o
+  LDFLAGS=-lopencv_highgui -lopencv_imgcodecs -lopencv_videoio -lopencv_imgproc -lopencv_core \
+   $(TIDL_API_DIR)/tidl_api.a $(TIDL_API_DIR)/tidl_imgutil.a \
+   -lTIOpenCL -locl_util -lpthread
+  CXX=g++ -c -o
+  CXXFLAGS=-DCHIP=$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -O3 -Wall -Werror -Wno-error=ignored-attributes \
+   -I. -I$(TIDL_API_DIR)/inc -std=c++11 -I/usr/share/ti/opencl 
  else
   LD=gcc -o
   LDFLAGS=-lc -lm
@@ -156,6 +172,10 @@ endif
 	@echo 'CP	$^'
 	@cp $^ $@
 
+%.so: $(GEN_DIR)/%.so
+	@echo 'CP	$^'
+	@cp $^ $@
+
 # TODO: look up how Makefiles typically break down the output file specification
 # $(warning CHIP=$(CHIP),PROC=$(PROC))
 # $(warning CC=$(CC),LD=$(LD),CFLAGS=$(CFLAGS),LDFLAGS=$(LDFLAGS))
@@ -166,12 +186,26 @@ $(GEN_DIR)/%.out: $(GEN_DIR)/%.o
 	$(eval $(call proc-to-build-vars,$@))
 	@$(LD) $@ $^ $(LDFLAGS) 
 
+$(GEN_DIR)/%.so: $(GEN_DIR)/%.o
+	@mkdir -p $(GEN_DIR)
+	@echo 'LD	$^'
+	$(eval $(call target-to-proc,$@))
+	$(eval $(call proc-to-build-vars,$@))
+	@$(LD) $@ -shared $^ $(LDFLAGS) 
+
 $(GEN_DIR)/%.o: %.c
 	@mkdir -p $(GEN_DIR)
 	@echo 'CC	$^'
 	$(eval $(call target-to-proc,$@))
 	$(eval $(call proc-to-build-vars,$@))
 	@$(CC) $@ $^ $(CFLAGS)
+
+$(GEN_DIR)/%.o: %.cpp
+	@mkdir -p $(GEN_DIR)
+	@echo 'CXX	$^'
+	$(eval $(call target-to-proc,$@))
+	$(eval $(call proc-to-build-vars,$@))
+	@$(CXX) $@ $^ $(CXXFLAGS)
 
 clean:
 	@echo 'CLEAN'
