@@ -13,9 +13,9 @@ var trigger = 'P9_16',  // Pin to trigger the ultrasonic pulse
 var startTime, pulseTime;
     
 b.pinMode(echo,   b.INPUT, 7, 'pulldown', 'fast', doAttach);
-function doAttach(x) {
-    if(x.err) {
-        console.log('x.err = ' + x.err);
+function doAttach(err, value) {
+    if(err) {
+        console.log('err = ' + err);
         return;
     }
     // Call pingEnd when the pulse ends
@@ -38,8 +38,8 @@ function ping() {
 }
 
 // Compute the total time and get ready to trigger again.
-function pingEnd(x) {
-    if(x.attached) {
+function pingEnd(err, attached) {
+    if(attached) {
         console.log("Interrupt handler attached");
         return;
     }
