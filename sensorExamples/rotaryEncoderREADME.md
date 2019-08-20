@@ -8,7 +8,7 @@ Use a rotary encoder (also called a _quadrature encoder_) connected to one of th
 
 We are using a quadrature rotary encoder, which has two switches inside that open and close in such a manner that you can tell which way the shaft is turning. In this particular encoder, the two switches have a common lead, which is wired to ground. It also has a pushbutton switch wired to the other side of the device, which we aren't using. 
 
-Wire the encoder to +P8_11+ and +P8_12+, as shown.
+Wire the encoder to ```P8_11``` and ```P8_12```, as shown.
 
 BeagleBone Black has built-in hardware for reading up to three encoders.  
 Here, we use the _eQEP2_ encoder.
