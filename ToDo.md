@@ -46,3 +46,4 @@
 - [x] Servo
 - [ ] rotaryEncoder - Only for Black
 - [ ] hc-sr04 - Only for Black
+- [ ] i2cTemp - Black only.  Needs testing
