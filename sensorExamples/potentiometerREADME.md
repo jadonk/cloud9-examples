@@ -8,11 +8,11 @@ Please keep in mind that each one of the ADC pins can only **handle 1.8V maximum
 ## Build and execute instructions
 * Hook up a BeagleBone or BeagleBone Black to the breadboard as shown in the diagram.
 
-Pin  | Bone  | Pocket
----  | ----- | ------
-1.8V | P9_32 | P1_18
-GND  | P9_34 | P1_17
-AIN1 | P9_40 | P1_21
+Potentiometer  | Pin  | Bone  | Pocket
+-------------- | ---  | ----- | ------
+outer terminal | 1.8V | P9_32 | P1_18
+outer terminal | GND  | P9_34 | P1_17
+wiper (middle) | AIN1 | P9_40 | P1_21
 
 * After clicking ‘run’, the ADC1 channel will output a reading between 0-1, 
 where 0 is 0V and 1 is the maximum input voltage (1.8V).
