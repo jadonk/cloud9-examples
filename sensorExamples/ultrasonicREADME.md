@@ -22,7 +22,7 @@ With the voltage divider, a supply of 5V yields ~6.99mV/in. and 3.3V yields ~4.5
 ![alt text](ultrasonic.png "Maxbotic Ultrasonic Sensor")
 
 ## Build and execute instructions
-* Connect the 1.2kohm resistor to the AN pin of the supersonic sensor.
+* Connect the 1.2k ohm resistor to the AN pin of the supersonic sensor.
 * Connect the 3k ohm resistor in series with the 1.2k ohm resistor and tie the 
 bottom to ground, as shown in the diagram.
 * Connect the pins as follows:
