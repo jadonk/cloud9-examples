@@ -28,9 +28,9 @@ Accelerometer | Pin  | Bone  | Pocket
 ------------- | ---  | ----- | ------
 GND           | GND  | P9_1  | P2_15
 VCC           | 3.3V | P9_3  | P1_14
-X             | AIN5 | P9_36 | P2_35
-Y             | AIN3 | P9_38 | P1_25
-Z             | AIN1 | P9_40 | P1_21
+X             | A5   | P9_36 | P2_35
+Y             | A3   | P9_38 | P1_25
+Z             | A1   | P9_40 | P1_21
 
 * After clicking ‘run’, notice the console output above for the accelerometer data.
 * Experiment by altering the second argument in ```setTimeout(clear, x)``` to 
