@@ -44,4 +44,5 @@
 - [x] Accelerometer
 - [x] Pressure and temperature sensor
 - [x] Servo
-- 
+- [ ] rotaryEncoder - Only for Black
+- [ ] hc-sr04 - Only for Black
