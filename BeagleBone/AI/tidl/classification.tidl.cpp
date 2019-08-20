@@ -210,8 +210,9 @@ void filter_process(void* filter_ctx, Mat& src, Mat& dst) {
             dst = src;
         }
 
-        if (ProcessFrame(eop, ctx, src))
-            eop->ProcessFrameStartAsync();
+        ProcessFrame(eop, ctx, src);
+        //if (ProcessFrame(eop, ctx, src))
+            //eop->ProcessFrameStartAsync();
 
         if (ctx->frame_idx < configuration.numFrames + num_eops)
             ctx->frame_idx++;
@@ -326,11 +327,15 @@ bool ProcessFrame(ExecutionObjectPipeline* eop, struct my_ctx * ctx,
     int loc_ymin = 0;
     int loc_w = src.size().height;
     int loc_h = src.size().height;
+    std::cout << "crop(" << loc_xmin << ","
+              << loc_ymin << "," << loc_w << "," << loc_h << ")" << std::endl;
 
-    cv::resize(src(Rect(loc_xmin, loc_ymin, loc_w, loc_h)), image, Size(RES_X, RES_Y));
+    //cv::resize(src, image, Size(RES_X, RES_Y));
+    cv::resize(src(Rect(loc_xmin, loc_ymin, loc_w, loc_h)), *(ctx->images[ctx->frame_idx]), Size(RES_X, RES_Y));
 
-    *(ctx->images[ctx->frame_idx]) = Mat(image, rectCrop);
+    //*(ctx->images[ctx->frame_idx]) = Mat(image, rectCrop);
 
+    std::cout << "preprocess()" << std::endl;
     imgutil::PreprocessImage(*(ctx->images[ctx->frame_idx]), 
                              eop->GetInputBufferPtr(), configuration);
     eop->SetFrameIndex(ctx->frame_idx);
