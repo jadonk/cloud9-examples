@@ -1,6 +1,6 @@
 # Demo: Potentiometer
 
-A specific voltage can be sent to the ADC1 channel using a potentiometer. 
+A specific voltage can be sent to the AIN1 channel using a potentiometer. 
 Please keep in mind that each one of the ADC pins can only **handle 1.8V maximum**.
 
 ![alt text](potentiometer_bb.png "Potentiometer")
