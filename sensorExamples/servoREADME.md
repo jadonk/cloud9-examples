@@ -21,11 +21,11 @@ More information regarding PWMs can be found on the
 ## Build and execute instructions
 * Connect the pins as follows:
 
-Servo | Pin | Bone  | Pocket
------ | --- | ----- | ------
-GND | GND  | P9_1  | P2_15
-V+  | 3.3V | P9_3  | P1_14
-PWM | PWM via 1kOhm resistor | P9_14 | P1_36
+Servo | Pin  | Bone  | Pocket
+----- | ---  | ----- | ------
+GND   | GND  | P9_1  | P2_15
+V+    | 3.3V | P9_3  | P1_14
+PWM   | PWM via 1kOhm resistor | P9_14 | P1_36
 
 * Connect a 1kohm resistor to the "PWM" pin of the Servo Motor and to P9_14 of the board.
 * Click "Run" on the code. The value of 'position' will go between 0 and 1 

@@ -1,8 +1,8 @@
 # Sensor Examples
 Here are examples of how to interface common sensors and input devices.
 
-Script | Description
------- | -----------
+Script            | Description
+------            | -----------
 accelerometer.js  | This example reads values from Sparkfun’s ADXL335 3-axis accelerometer. 
 joystick.js       | The Analog 2-axis Thumb Joystick allows you to easily mount a PSP/Xbox-like thumb joystick to your project.
 motionSensor.js   | The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of the room and it detects changes in heat.

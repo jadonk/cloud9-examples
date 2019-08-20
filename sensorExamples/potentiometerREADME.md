@@ -8,8 +8,8 @@ Please keep in mind that each one of the ADC pins can only **handle 1.8V maximum
 ## Build and execute instructions
 * Hook up a BeagleBone or BeagleBone Black to the breadboard as shown in the diagram.
 
-Pin | Bone  | Pocket
---- | ----- | ------
+Pin  | Bone  | Pocket
+---  | ----- | ------
 1.8V | P9_32 | P1_18
 GND  | P9_34 | P1_17
 AIN1 | P9_40 | P1_21
