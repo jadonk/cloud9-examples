@@ -25,6 +25,7 @@ A schematic showing all available ADC channels are listed
 Analog pin mapping on AI
 
 Bone P9 | AIN | /sys/bus/iio/devices/iio:device0/in_voltage*_raw
+------- | --- | ---
 39      | 0   | 0
 40      | 1   | 1
 37      | 2   | 3
@@ -36,6 +37,7 @@ Bone P9 | AIN | /sys/bus/iio/devices/iio:device0/in_voltage*_raw
 Analog pin mapping on Black/Pocket
 
 Black P9 | Pocket P | AIN | /sys/bus/iio/devices/iio:device0/in_voltage*_raw
+-------- | -------- | --- | ---
 39       | 1_19     | 0   | 0
 40       | 1_21     | 1   | 1
 37       | 1_23     | 2   | 2
