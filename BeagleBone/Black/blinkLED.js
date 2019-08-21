@@ -21,7 +21,7 @@ for(var i in leds) {
     b.digitalWrite(leds[i], state);
 }
 
-setInterval(toggle, 100);
+setInterval(toggle, 250);
 
 function toggle() {
     if(state == b.LOW) 
