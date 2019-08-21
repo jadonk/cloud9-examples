@@ -23,3 +23,13 @@ function printStatus(err, value) {
     console.log("There is an object " + 
     parseFloat(distanceInches).toFixed(3) + " inches away.");
 }
+
+// Bone  | Pocket | AIN
+// ----- | ------ | --- 
+// P9_39 | P1_19  | A0
+// P9_40 | P1_21  | A1
+// P9_37 | P1_23  | A2
+// P9_38 | P1_25  | A3
+// P9_33 | P1_27  | A4
+// P9_36 | P2_35  | A5
+// P9_35 | P1_02  | A6

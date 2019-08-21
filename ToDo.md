@@ -37,7 +37,7 @@
 - 
 
 # Migration from Bone101 (simple BoneScript + hardware examples)
-- [ ] PIRMotionSensors - missing wiring diagram
+- [ ] PIRMotionSensors
 - [x] Potentiometer
 - [x] Joystick
 - [x] Ultrasonic Sensor
