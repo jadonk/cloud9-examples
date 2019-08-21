@@ -7,7 +7,7 @@
 var b = require('bonescript');
 
 var trigger = 'P9_16',  // Pin to trigger the ultrasonic pulse
-    echo    = 'P9_23',  // Pin to measure to pulse width related to the distance
+    echo    = 'P9_41',  // Pin to measure to pulse width related to the distance
     ms = 250;           // Trigger period in ms
     
 var startTime, pulseTime;
