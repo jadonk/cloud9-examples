@@ -10,7 +10,11 @@ var pos = {};
 // VER      | A3      | P9_38 | P1_25
 // SEL      | GPIO0_7 | P9_42 | P2_29
 
-b.analogRead('A5', onX);
+function start() {
+    b.analogRead('A5', onX);
+}
+
+setInterval(start, 1000);
 
 function onX(err, value) {
     pos.x= parseFloat(value * 100).toFixed(2);
@@ -21,3 +25,13 @@ function onY(err, value) {
     pos.y = parseFloat(value * 100).toFixed(2);
 	console.log(JSON.stringify(pos));
 }
+
+// Bone  | Pocket | AIN
+// ----- | ------ | --- 
+// P9_39 | P1_19  | A0
+// P9_40 | P1_21  | A1
+// P9_37 | P1_23  | A2
+// P9_38 | P1_25  | A3
+// P9_33 | P1_27  | A4
+// P9_36 | P2_35  | A5
+// P9_35 | P1_02  | A6
