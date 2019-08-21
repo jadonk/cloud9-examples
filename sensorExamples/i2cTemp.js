@@ -2,7 +2,7 @@
 
 var b = require('bonescript');
 var bus = '/dev/i2c-2'              // <1>
-var TMP102 = 0x49;                  // <2>
+var TMP102 = 0x48;                  // <2>
 
 b.i2cOpen(bus, TMP102);             // <3>
 b.i2cReadByte(bus, onReadByte);     // <4>
