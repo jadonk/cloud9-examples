@@ -41,7 +41,7 @@
 - [x] Potentiometer
 - [x] Joystick
 - [x] Ultrasonic Sensor
-- [x] Accelerometer
+- [ ] Accelerometer - Don't have one to test
 - [x] Pressure and temperature sensor
 - [x] Servo
 - [ ] rotaryEncoder - Only for Black

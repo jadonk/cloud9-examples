@@ -7,7 +7,7 @@
 var b = require('bonescript');
 
 var trigger = 'P9_16',  // Pin to trigger the ultrasonic pulse
-    echo    = 'P9_41',  // Pin to measure to pulse width related to the distance
+    echo    = 'P9_23',  // Pin to measure to pulse width related to the distance
     ms = 250;           // Trigger period in ms
     
 var startTime, pulseTime;
@@ -38,9 +38,9 @@ function ping() {
 }
 
 // Compute the total time and get ready to trigger again.
-function pingEnd(err, attached) {
-    if(attached) {
-        console.log("Interrupt handler attached");
+function pingEnd(err, x) {
+    if(x.attached) {
+        console.log("Interrupt handler attached: " + x.pin.key);
         return;
     }
     if(startTime) {
