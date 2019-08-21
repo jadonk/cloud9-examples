@@ -10,15 +10,25 @@ var pos = {};
 // VER      | A3      | P9_38 | P1_25
 // SEL      | GPIO0_7 | P9_42 | P2_29
 
+var HOR = 'A5';
+var VER = 'A3';
+var SEL = 'P9_42';
+b.pinMode(SEL, b.INPUT, 7, 'pullup');
+
 function start() {
-    b.analogRead('A5', onX);
+    b.analogRead(HOR, onX);
 }
 
-setInterval(start, 1000);
+setInterval(start, 500);
+b.attachInterrupt(SEL, readButton, b.CHANGE);
+
+function readButton(x) {
+    console.log("readButton: ", x.pin.key);
+}
 
 function onX(err, value) {
     pos.x= parseFloat(value * 100).toFixed(2);
-    b.analogRead('A3', onY);
+    b.analogRead(VER, onY);
 }
 
 function onY(err, value) {
