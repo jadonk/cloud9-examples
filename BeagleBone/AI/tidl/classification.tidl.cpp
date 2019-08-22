@@ -104,7 +104,7 @@ bool filter_init(const char* args, void** filter_ctx) {
     uint32_t num_eves = 2;
     uint32_t num_dsps = 2;
     int num_layers_groups = 1;
-    int i;
+    //int i;
 
     std::cout << "Initializing filter" << std::endl;
         
