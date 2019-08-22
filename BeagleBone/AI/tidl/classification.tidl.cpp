@@ -133,7 +133,7 @@ bool filter_init(const char* args, void** filter_ctx) {
     ctx->selected_items[4] = 898; /* water_bottle */
 
     std::cout << "loading configuration" << std::endl;
-#if 1
+#if 0
     if (!configuration.ReadFromFile("stream_config_j11_v2.txt"))
         return false;
     std::cout << "done loading configuration" << std::endl;
@@ -169,7 +169,8 @@ bool filter_init(const char* args, void** filter_ctx) {
         std::cout << "allocating I/O memory for each EOP" << std::endl;
         AllocateMemory(eops);
 
-        //int num_eops = eops.size();
+        int num_eops = eops.size();
+        std::cout << "num_eops=" << num_eops << std::endl;
         for (i=0; i < MAX_EOPS; i++)
         {
             ctx->images[i] = new Mat(Size(RES_X, RES_Y), CV_8UC4);
@@ -178,6 +179,7 @@ bool filter_init(const char* args, void** filter_ctx) {
         ctx->frame_idx = 0;
 
         std::cout << "About to start ProcessFrame loop!!" << std::endl;
+        std::cout << "http://192.168.6.2:8090/?action=stream" << std::endl;
     }
     catch (tidl::Exception &e)
     {
@@ -193,39 +195,44 @@ bool filter_init(const char* args, void** filter_ctx) {
 */
 void filter_process(void* filter_ctx, Mat& src, Mat& dst) {
     struct my_ctx * ctx = static_cast<struct my_ctx *>(filter_ctx);
+    int num_eops = eops.size();
 
     try
     {
-        // Process frames with available EOPs in a pipelined manner
-        // additional num_eops iterations to flush the pipeline (epilogue)
-        int num_eops = eops.size();
-        ExecutionObjectPipeline* eop = eops[ctx->frame_idx % num_eops];
+        // only process every other frame
+        if(!(ctx->frame_idx%2)) {
+            // Process frames with available EOPs in a pipelined manner
+            // additional num_eops iterations to flush the pipeline (epilogue)
+            ExecutionObjectPipeline* eop = eops[ctx->frame_idx/2 % num_eops];
 
-        // Wait for previous frame on the same eo to finish processing
-        if (eop->ProcessFrameWait())
-        {
+            // Wait for previous frame on the same eo to finish processing
+            if (eop->ProcessFrameWait())
+            {
+                if(configuration.enableApiTrace)
+                    std::cout << "display(" << ctx->frame_idx << ")"
+                              << std::endl;
+                DisplayFrame(eop, src, dst, ctx);
+            }
+            else
+            {
+                if(configuration.enableApiTrace)
+                    std::cout << "copy(" << ctx->frame_idx << ")"
+                              << std::endl;
+                dst = src;
+            }
+
             if(configuration.enableApiTrace)
-                std::cout << "display(" << ctx->frame_idx << ")"
-                          << std::endl;
-            DisplayFrame(eop, src, dst, ctx);
-        }
-        else
-        {
-            if(configuration.enableApiTrace)
-                std::cout << "copy(" << ctx->frame_idx << ")"
-                          << std::endl;
+                std::cout << "process(" << ctx->frame_idx << ")"
+                      << std::endl;
+
+            ProcessFrame(eop, ctx, src);
+            //if (ProcessFrame(eop, ctx, src))
+                //eop->ProcessFrameStartAsync();
+        } else {
             dst = src;
         }
 
-        if(configuration.enableApiTrace)
-            std::cout << "process(" << ctx->frame_idx << ")"
-                  << std::endl;
-
-        ProcessFrame(eop, ctx, src);
-        //if (ProcessFrame(eop, ctx, src))
-            //eop->ProcessFrameStartAsync();
-
-        if (ctx->frame_idx < configuration.numFrames + num_eops)
+        if (ctx->frame_idx < configuration.numFrames + 2*num_eops)
             ctx->frame_idx++;
         else
             ctx->frame_idx = 0;
@@ -343,13 +350,13 @@ bool ProcessFrame(ExecutionObjectPipeline* eop, struct my_ctx * ctx,
                   << loc_ymin << "," << loc_w << "," << loc_h << ")" << std::endl;
 
     //cv::resize(src, image, Size(RES_X, RES_Y));
-    cv::resize(src(Rect(loc_xmin, loc_ymin, loc_w, loc_h)), *(ctx->images[ctx->frame_idx % MAX_EOPS]), Size(RES_X, RES_Y));
+    cv::resize(src(Rect(loc_xmin, loc_ymin, loc_w, loc_h)), *(ctx->images[ctx->frame_idx/2 % MAX_EOPS]), Size(RES_X, RES_Y));
 
     //*(ctx->images[ctx->frame_idx]) = Mat(image, rectCrop);
 
     if(configuration.enableApiTrace)
         std::cout << "preprocess()" << std::endl;
-    imgutil::PreprocessImage(*(ctx->images[ctx->frame_idx % MAX_EOPS]), 
+    imgutil::PreprocessImage(*(ctx->images[ctx->frame_idx/2 % MAX_EOPS]), 
                              eop->GetInputBufferPtr(), configuration);
     eop->SetFrameIndex(ctx->frame_idx);
     eop->ProcessFrameStartAsync();
