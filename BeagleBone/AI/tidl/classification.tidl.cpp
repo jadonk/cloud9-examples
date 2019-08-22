@@ -63,7 +63,7 @@ using namespace std;
 
 struct my_ctx {
     int frame_idx;
-    Mat * images[MAX_EOPS];
+    //Mat * images[MAX_EOPS];
     int size;
     int top_candidates;
     int selected_items_size;
@@ -171,10 +171,10 @@ bool filter_init(const char* args, void** filter_ctx) {
 
         int num_eops = eops.size();
         std::cout << "num_eops=" << num_eops << std::endl;
-        for (i=0; i < MAX_EOPS; i++)
-        {
-            ctx->images[i] = new Mat(Size(RES_X, RES_Y), CV_8UC4);
-        }
+        //for (i=0; i < MAX_EOPS; i++)
+        //{
+        //    ctx->images[i] = new Mat(Size(RES_X, RES_Y), CV_8UC4);
+        //}
 
         ctx->frame_idx = 0;
 
@@ -266,10 +266,10 @@ void filter_free(void* filter_ctx) {
         if (e_dsp) delete e_dsp;
         if (e_eve) delete e_eve;
 
-        for (int i=0; i < MAX_EOPS; i++)
-        {
-            delete ctx->images[i];
-        }
+        //for (int i=0; i < MAX_EOPS; i++)
+        //{
+        //    delete ctx->images[i];
+        //}
     }
     catch (tidl::Exception& e)
     {
@@ -350,13 +350,15 @@ bool ProcessFrame(ExecutionObjectPipeline* eop, struct my_ctx * ctx,
                   << loc_ymin << "," << loc_w << "," << loc_h << ")" << std::endl;
 
     //cv::resize(src, image, Size(RES_X, RES_Y));
-    cv::resize(src(Rect(loc_xmin, loc_ymin, loc_w, loc_h)), *(ctx->images[ctx->frame_idx/2 % MAX_EOPS]), Size(RES_X, RES_Y));
+    //cv::resize(src(Rect(loc_xmin, loc_ymin, loc_w, loc_h)), *(ctx->images[ctx->frame_idx/2 % MAX_EOPS]), Size(RES_X, RES_Y));
 
     //*(ctx->images[ctx->frame_idx]) = Mat(image, rectCrop);
 
     if(configuration.enableApiTrace)
         std::cout << "preprocess()" << std::endl;
-    imgutil::PreprocessImage(*(ctx->images[ctx->frame_idx/2 % MAX_EOPS]), 
+    //imgutil::PreprocessImage(*(ctx->images[ctx->frame_idx/2 % MAX_EOPS]), 
+    //                         eop->GetInputBufferPtr(), configuration);
+    imgutil::PreprocessImage(src, 
                              eop->GetInputBufferPtr(), configuration);
     eop->SetFrameIndex(ctx->frame_idx);
     eop->ProcessFrameStartAsync();
@@ -384,9 +386,9 @@ void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst,
         cv::putText(
             dst,
             (*(ctx->labels_classes[is_object])).c_str(),
-            cv::Point(5, 40),
-            cv::FONT_HERSHEY_SCRIPT_SIMPLEX,
-            1.0,
+            cv::Point(15, 60),
+            cv::FONT_HERSHEY_SIMPLEX,
+            1.5,
             cv::Scalar(0,255,0), 1, 8
         );
     }
