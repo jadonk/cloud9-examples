@@ -389,7 +389,9 @@ void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst,
             cv::Point(15, 60),
             cv::FONT_HERSHEY_SIMPLEX,
             1.5,
-            cv::Scalar(0,255,0), 1, 8
+            cv::Scalar(0,255,0),
+            3,  /* thickness */
+            8
         );
     }
 }
