@@ -72,6 +72,7 @@ Configuration configuration;
 Executor *e_eve = nullptr;
 Executor *e_dsp = nullptr;
 std::vector<ExecutionObjectPipeline *> eops;
+int last_rpt_id = -1;
 
 bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
                                     uint32_t num_layers_groups);
@@ -296,10 +297,8 @@ void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst)
     if(configuration.enableApiTrace)
         std::cout << "postprocess()" << std::endl;
     int is_object = tf_postprocess((uchar*) eop->GetOutputBufferPtr());
-    if(is_object > 0)
+    if(is_object >= 0)
     {
-        std::cout << "(" << is_object << ")="
-                  << (*(labels_classes[is_object])).c_str() << std::endl;
         cv::putText(
             dst,
             (*(labels_classes[is_object])).c_str(),
@@ -310,6 +309,14 @@ void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst)
             3,  /* thickness */
             8
         );
+    }
+    if(last_rpt_id != is_object) {
+        if(is_object >= 0)
+        {
+            std::cout << "(" << is_object << ")="
+                      << (*(labels_classes[is_object])).c_str() << std::endl;
+        }
+        last_rpt_id = is_object;
     }
 }
 
