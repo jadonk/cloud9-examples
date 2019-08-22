@@ -61,31 +61,26 @@ using namespace tidl;
 using namespace cv;
 using namespace std;
 
-struct my_ctx {
-    int frame_idx;
-    //Mat * images[MAX_EOPS];
-    int size;
-    int top_candidates;
-    int selected_items_size;
-    int * selected_items;
-    std::string * labels_classes[MAX_CLASSES];
-};
+int current_eop = 0;
+int num_eops = 0;
+int top_candidates = 3;
+int size = 0;
+int selected_items_size;
+int * selected_items;
+std::string * labels_classes[MAX_CLASSES];
 Configuration configuration;
 Executor *e_eve = nullptr;
 Executor *e_dsp = nullptr;
 std::vector<ExecutionObjectPipeline *> eops;
 
 bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
-                                    uint32_t num_layers_groups,
-                                    struct my_ctx * ctx);
+                                    uint32_t num_layers_groups);
 void AllocateMemory(const std::vector<ExecutionObjectPipeline*>& eops);
-bool ProcessFrame(ExecutionObjectPipeline* eop, struct my_ctx * ctx,
-                  Mat &src);
-void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst,
-                  struct my_ctx * ctx);
-int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id);
-bool tf_expected_id(struct my_ctx * ctx, int id);
-void populate_labels(struct my_ctx * ctx, const char* filename);
+bool ProcessFrame(ExecutionObjectPipeline* eop, Mat &src);
+void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst);
+int tf_postprocess(uchar *in);
+bool tf_expected_id(int id);
+void populate_labels(const char* filename);
 
 // exports for the filter
 extern "C" {
@@ -104,40 +99,24 @@ bool filter_init(const char* args, void** filter_ctx) {
     uint32_t num_eves = 2;
     uint32_t num_dsps = 2;
     int num_layers_groups = 1;
-    //int i;
 
     std::cout << "Initializing filter" << std::endl;
         
-    struct my_ctx * ctx = (struct my_ctx *)malloc(sizeof(struct my_ctx));
-    if (!ctx) {
-        std::cout << "ctx malloc failed" << std::endl;
-        return false;
-    }
-    *filter_ctx = ctx;
-    
-    ctx->size = 0;
-    populate_labels(ctx, "/home/debian/tidl-api/examples/classification/imagenet.txt");
+    populate_labels("/home/debian/tidl-api/examples/classification/imagenet.txt");
 
-    ctx->top_candidates = 3;
-    ctx->selected_items_size = 5;
-    ctx->selected_items = (int *)malloc(ctx->selected_items_size*sizeof(int));
-    if (!ctx->selected_items) {
+    selected_items_size = 5;
+    selected_items = (int *)malloc(selected_items_size*sizeof(int));
+    if (!selected_items) {
         std::cout << "selected_items malloc failed" << std::endl;
-        free(ctx);
         return false;
     }
-    ctx->selected_items[0] = 429; /* baseball */
-    ctx->selected_items[1] = 837; /* sunglasses */
-    ctx->selected_items[2] = 504; /* coffee_mug */
-    ctx->selected_items[3] = 441; /* beer_glass */
-    ctx->selected_items[4] = 898; /* water_bottle */
+    selected_items[0] = 429; /* baseball */
+    selected_items[1] = 837; /* sunglasses */
+    selected_items[2] = 504; /* coffee_mug */
+    selected_items[3] = 441; /* beer_glass */
+    selected_items[4] = 898; /* water_bottle */
 
     std::cout << "loading configuration" << std::endl;
-#if 0
-    if (!configuration.ReadFromFile("stream_config_j11_v2.txt"))
-        return false;
-    std::cout << "done loading configuration" << std::endl;
-#else
     configuration.numFrames = 999900;
     configuration.inData = 
         "/home/debian/tidl-api/examples/test/testvecs/input/preproc_0_224x224.y";
@@ -152,7 +131,6 @@ bool filter_init(const char* args, void** filter_ctx) {
     configuration.inHeight = 224;
     configuration.inNumChannels = 3;
     configuration.layerIndex2LayerGroupId = { {12, 2}, {13, 2}, {14, 2} };
-#endif
     configuration.enableApiTrace = false;
     configuration.runFullNet = true;
 
@@ -162,22 +140,14 @@ bool filter_init(const char* args, void** filter_ctx) {
         
         // Create ExecutionObjectPipelines
         if (! CreateExecutionObjectPipelines(num_eves, num_dsps,
-                                        num_layers_groups, ctx))
+                                        num_layers_groups))
             return false;
 
         // Allocate input/output memory for each EOP
         std::cout << "allocating I/O memory for each EOP" << std::endl;
         AllocateMemory(eops);
-
-        int num_eops = eops.size();
+        num_eops = eops.size();
         std::cout << "num_eops=" << num_eops << std::endl;
-        //for (i=0; i < MAX_EOPS; i++)
-        //{
-        //    ctx->images[i] = new Mat(Size(RES_X, RES_Y), CV_8UC4);
-        //}
-
-        ctx->frame_idx = 0;
-
         std::cout << "About to start ProcessFrame loop!!" << std::endl;
         std::cout << "http://192.168.6.2:8090/?action=stream" << std::endl;
     }
@@ -194,48 +164,34 @@ bool filter_init(const char* args, void** filter_ctx) {
     Called by the OpenCV plugin upon each frame
 */
 void filter_process(void* filter_ctx, Mat& src, Mat& dst) {
-    struct my_ctx * ctx = static_cast<struct my_ctx *>(filter_ctx);
-    int num_eops = eops.size();
-
     try
     {
-        // only process every other frame
-        if(!(ctx->frame_idx%2)) {
-            // Process frames with available EOPs in a pipelined manner
-            // additional num_eops iterations to flush the pipeline (epilogue)
-            ExecutionObjectPipeline* eop = eops[ctx->frame_idx/2 % num_eops];
+        // Process frames with available EOPs in a pipelined manner
+        // additional num_eops iterations to flush the pipeline (epilogue)
+        ExecutionObjectPipeline* eop = eops[current_eop];
 
-            // Wait for previous frame on the same eo to finish processing
-            if (eop->ProcessFrameWait())
-            {
-                if(configuration.enableApiTrace)
-                    std::cout << "display(" << ctx->frame_idx << ")"
-                              << std::endl;
-                DisplayFrame(eop, src, dst, ctx);
-            }
-            else
-            {
-                if(configuration.enableApiTrace)
-                    std::cout << "copy(" << ctx->frame_idx << ")"
-                              << std::endl;
-                dst = src;
-            }
-
+        // Wait for previous frame on the same eo to finish processing
+        if (eop->ProcessFrameWait())
+        {
             if(configuration.enableApiTrace)
-                std::cout << "process(" << ctx->frame_idx << ")"
-                      << std::endl;
-
-            ProcessFrame(eop, ctx, src);
-            //if (ProcessFrame(eop, ctx, src))
-                //eop->ProcessFrameStartAsync();
-        } else {
+                std::cout << "display()" << std::endl;
+            DisplayFrame(eop, src, dst);
+        }
+        else
+        {
+            if(configuration.enableApiTrace)
+                std::cout << "copy()" << std::endl;
             dst = src;
         }
 
-        if (ctx->frame_idx < configuration.numFrames + 2*num_eops)
-            ctx->frame_idx++;
-        else
-            ctx->frame_idx = 0;
+        if(configuration.enableApiTrace)
+            std::cout << "process()" << std::endl;
+
+        ProcessFrame(eop, src);
+        
+        current_eop++;
+        if(current_eop >= num_eops)
+            current_eop = 0;
     }
     catch (tidl::Exception &e)
     {
@@ -250,12 +206,8 @@ void filter_process(void* filter_ctx, Mat& src, Mat& dst) {
     Called when the input plugin is cleaning up
 */
 void filter_free(void* filter_ctx) {
-    struct my_ctx * ctx = static_cast<struct my_ctx *>(filter_ctx);
-
     try
     {
-        //int num_eops = eops.size();
-
         // Cleanup
         for (auto eop : eops)
         {
@@ -265,25 +217,17 @@ void filter_free(void* filter_ctx) {
         }
         if (e_dsp) delete e_dsp;
         if (e_eve) delete e_eve;
-
-        //for (int i=0; i < MAX_EOPS; i++)
-        //{
-        //    delete ctx->images[i];
-        //}
     }
     catch (tidl::Exception& e)
     {
         std::cerr << e.what() << std::endl;
     }
 
-    free(ctx);
-
     return;
 }
 
 bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
-                                    uint32_t num_layers_groups,
-                                    struct my_ctx * ctx)
+                                    uint32_t num_layers_groups)
 {
     DeviceIds ids_eve, ids_dsp;
     for (uint32_t i = 0; i < num_eves; i++)
@@ -334,58 +278,31 @@ void AllocateMemory(const std::vector<ExecutionObjectPipeline*>& eops)
 }
 
 
-bool ProcessFrame(ExecutionObjectPipeline* eop, struct my_ctx * ctx,
-                  Mat &src)
+bool ProcessFrame(ExecutionObjectPipeline* eop, Mat &src)
 {
-    Mat image;
-    Rect rectCrop;
-
-    //Crop central square portion
-    int loc_xmin = (src.size().width - src.size().height) / 2; //Central position
-    int loc_ymin = 0;
-    int loc_w = src.size().height;
-    int loc_h = src.size().height;
-    if(configuration.enableApiTrace)
-        std::cout << "crop(" << loc_xmin << ","
-                  << loc_ymin << "," << loc_w << "," << loc_h << ")" << std::endl;
-
-    //cv::resize(src, image, Size(RES_X, RES_Y));
-    //cv::resize(src(Rect(loc_xmin, loc_ymin, loc_w, loc_h)), *(ctx->images[ctx->frame_idx/2 % MAX_EOPS]), Size(RES_X, RES_Y));
-
-    //*(ctx->images[ctx->frame_idx]) = Mat(image, rectCrop);
-
     if(configuration.enableApiTrace)
         std::cout << "preprocess()" << std::endl;
-    //imgutil::PreprocessImage(*(ctx->images[ctx->frame_idx/2 % MAX_EOPS]), 
-    //                         eop->GetInputBufferPtr(), configuration);
     imgutil::PreprocessImage(src, 
                              eop->GetInputBufferPtr(), configuration);
-    eop->SetFrameIndex(ctx->frame_idx);
     eop->ProcessFrameStartAsync();
         
     return false;
 }
 
 
-void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst,
-                  struct my_ctx * ctx)
+void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst)
 {
-    int f_id = eop->GetFrameIndex();
     dst = src;
     if(configuration.enableApiTrace)
-        std::cout << "postprocess(" << ctx->frame_idx << "," << f_id << ")" << std::endl;
-    int is_object = tf_postprocess((uchar*) eop->GetOutputBufferPtr(), ctx, f_id);
+        std::cout << "postprocess()" << std::endl;
+    int is_object = tf_postprocess((uchar*) eop->GetOutputBufferPtr());
     if(is_object > 0)
     {
         std::cout << "(" << is_object << ")="
-                  << (*(ctx->labels_classes[is_object])).c_str() << std::endl;
-#ifdef PERF_VERBOSE
-        std::cout << "Device:" << eop->GetDeviceName() << " eops("
-                  << num_eops << ")" << std::endl;
-#endif
+                  << (*(labels_classes[is_object])).c_str() << std::endl;
         cv::putText(
             dst,
-            (*(ctx->labels_classes[is_object])).c_str(),
+            (*(labels_classes[is_object])).c_str(),
             cv::Point(15, 60),
             cv::FONT_HERSHEY_SIMPLEX,
             1.5,
@@ -397,21 +314,21 @@ void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst,
 }
 
 // Function to filter all the reported decisions
-bool tf_expected_id(struct my_ctx * ctx, int id)
+bool tf_expected_id(int id)
 {
    // Filter out unexpected IDs
-   for (int i = 0; i < ctx->selected_items_size; i ++)
+   for (int i = 0; i < selected_items_size; i ++)
    {
-       if(id == ctx->selected_items[i]) return true;
+       if(id == selected_items[i]) return true;
    }
    return false;
 }
 
-int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
+int tf_postprocess(uchar *in)
 {
   //prob_i = exp(TIDL_Lib_output_i) / sum(exp(TIDL_Lib_output))
   // sort and get k largest values and corresponding indices
-  const int k = ctx->top_candidates;
+  const int k = top_candidates;
   int rpt_id = -1;
 
   typedef std::pair<uchar, int> val_index;
@@ -420,12 +337,12 @@ int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
   // initialize priority queue with smallest value on top
   for (int i = 0; i < k; i++) {
     if(configuration.enableApiTrace)
-        std::cout << "push(" << f_id << "," << i << "):"
+        std::cout << "push(" << i << "):"
                   << in[i] << std::endl;
     queue.push(val_index(in[i], i));
   }
   // for rest input, if larger than current minimum, pop mininum, push new val
-  for (int i = k; i < ctx->size; i++)
+  for (int i = k; i < size; i++)
   {
     if (in[i] > queue.top().first)
     {
@@ -446,19 +363,15 @@ int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
   {
       int id = sorted[i].second;
 
-      if (tf_expected_id(ctx, id))
+      if (tf_expected_id(id))
       {
-        if(configuration.enableApiTrace)
-            std::cout << "Frame[" << ctx->frame_idx << "," << f_id << "]: rank="
-                      << k-i << ", outval=" << (float)sorted[i].first / 255 << ", "
-                      << *(ctx->labels_classes[sorted[i].second]) << std::endl;
         rpt_id = id;
       }
   }
   return rpt_id;
 }
 
-void populate_labels(struct my_ctx * ctx, const char* filename)
+void populate_labels(const char* filename)
 {
   ifstream file(filename);
   if(file.is_open())
@@ -467,14 +380,14 @@ void populate_labels(struct my_ctx * ctx, const char* filename)
 
     while (getline(file, inputLine) )                 //while the end of file is NOT reached
     {
-      ctx->labels_classes[ctx->size++] = new string(inputLine);
+      labels_classes[size++] = new string(inputLine);
     }
     file.close();
   }
 #if 1
-  std::cout << "==Total of " << ctx->size << " items!" << std::endl;
-  for (int i = 0; i < ctx->size; i ++)
-    std::cout << i << ") " << *(ctx->labels_classes[i]) << std::endl;
+  std::cout << "==Total of " << size << " items!" << std::endl;
+  for (int i = 0; i < size; i ++)
+    std::cout << i << ") " << *(labels_classes[i]) << std::endl;
 #endif
 }
 
