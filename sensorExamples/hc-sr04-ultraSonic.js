@@ -5,10 +5,11 @@
 //   to the end of the Echo pulse
 
 var b = require('bonescript');
+var util = require("util");
 
 var trigger = 'P9_16',  // Pin to trigger the ultrasonic pulse
     echo    = 'P9_41',  // Pin to measure to pulse width related to the distance
-    ms = 250;           // Trigger period in ms
+    ms = 2500;           // Trigger period in ms
     
 var startTime, pulseTime;
     
@@ -32,13 +33,14 @@ setInterval(ping, ms);
 
 // Pull trigger low and start timing.
 function ping() {
-    // console.log('ping');
+    console.log('ping');
     b.digitalWrite(trigger, 0);
     startTime = process.hrtime();
 }
 
 // Compute the total time and get ready to trigger again.
 function pingEnd(err, x) {
+    console.log("x: ", util.inspect(x));
     if(x.attached) {
         console.log("Interrupt handler attached: " + x.pin.key);
         return;

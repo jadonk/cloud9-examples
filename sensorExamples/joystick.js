@@ -23,7 +23,7 @@ setInterval(start, 500);
 b.attachInterrupt(SEL, readButton, b.CHANGE);
 
 function readButton(x) {
-    console.log("readButton: ", x.pin.key);
+    console.log("readButton: ", x.pin.key, x.value);
 }
 
 function onX(err, value) {
