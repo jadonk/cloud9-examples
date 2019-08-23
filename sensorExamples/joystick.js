@@ -34,6 +34,7 @@ function onX(err, value) {
 function onY(err, value) {
     pos.y = parseFloat(value * 100).toFixed(2);
 	console.log(JSON.stringify(pos));
+	console.log(SEL + ' ' + b.digitalRead(SEL));
 }
 
 // Bone  | Pocket | AIN
