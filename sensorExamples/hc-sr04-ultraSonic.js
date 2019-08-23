@@ -8,12 +8,14 @@ var b = require('bonescript');
 var util = require("util");
 
 var trigger = 'P9_16',  // Pin to trigger the ultrasonic pulse
-    echo    = 'P9_41',  // Pin to measure to pulse width related to the distance
+    echo    = 'P9_29',  // Pin to measure to pulse width related to the distance
     ms = 2500;           // Trigger period in ms
     
 var startTime, pulseTime;
     
-b.pinMode(echo,   b.INPUT, 7, 'pulldown', 'fast', doAttach);
+b.pinMode(echo,    b.INPUT, 7, 'pulldown', 'fast', doAttach);
+b.pinMode(trigger, b.OUTPUT);
+
 function doAttach(err, value) {
     if(err) {
         console.log('err = ' + err);
@@ -22,8 +24,6 @@ function doAttach(err, value) {
     // Call pingEnd when the pulse ends
     b.attachInterrupt(echo, true, b.FALLING, pingEnd);
 }
-
-b.pinMode(trigger, b.OUTPUT);
 
 b.digitalWrite(trigger, 1);     // Unit triggers on a falling edge.
                                 // Set trigger to high so we call pull it low later
