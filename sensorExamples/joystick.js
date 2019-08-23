@@ -10,8 +10,8 @@ var pos = {};
 // VER      | A3      | P9_38 | P1_25
 // SEL      | GPIO0_7 | P9_42 | P2_29
 
-var HOR = 'A5';
-var VER = 'A3';
+var HOR = 'A6';     // A4
+var VER = 'A2';     // A3
 var SEL = 'P9_18';
 b.pinMode(SEL, b.INPUT, 7, 'pullup');
 
@@ -33,7 +33,7 @@ function onX(err, value) {
 
 function onY(err, value) {
     pos.y = parseFloat(value * 100).toFixed(2);
-	console.log(JSON.stringify(pos));
+	console.log(JSON.stringify(pos), b.digitalRead(SEL));
 }
 
 // Bone  | Pocket | AIN
