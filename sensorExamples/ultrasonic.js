@@ -12,7 +12,7 @@ var analogVoltage = 0;
 setInterval(read, 2000);
 
 function read(){
-    b.analogRead('A1', printStatus);
+    b.analogRead('A0', printStatus);
 }
 
 function printStatus(err, value) {
