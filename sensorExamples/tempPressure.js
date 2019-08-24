@@ -3,17 +3,19 @@
 //             sudo chmod g+w /sys/class/i2c-adapter/i2c-2/new_device
 const b = require('bonescript');
 const fs = require('fs');
-const bus = 2;
+const bus = 3;    // 2 for Black, 3 for AI
+const addr = '77';
 const model = 'bmp280';
-const iic = '/sys/class/i2c-adapter/i2c-' + bus + '/';
+const i2c = '/sys/class/i2c-adapter/i2c-' + bus + '/';
+const device = 'iio:device1';
 
 //Sensor Locations on the BeagleBone Black
-var temperature = '/sys/bus/i2c/drivers/' + model + '/' + bus + '-0077/iio:device1/in_temp_input';
-var pressure    = '/sys/bus/i2c/drivers/' + model + '/' + bus + '-0077/iio:device1/in_pressure_input';
+var temperature = i2c+bus+'-00'+addr+'/'+device+'/in_temp_input';
+var pressure    = i2c+bus+'-00'+addr+'/'+device+'/in_pressure_input';
 
 // We will initialize the driver for the BMP085 sensor located at I2C location 0x77
 // This will cause an error it if is already there
-b.writeTextFile(iic + 'new_device', 'bmp085 0x77');
+b.writeTextFile(i2c + 'new_device', model+' 0x'+addr);
 
 // Opens,reads, and prints pressure and temperature
 b.readTextFile(pressure, printPressure);
@@ -21,6 +23,7 @@ b.readTextFile(temperature, printTemperature);
 
 // Prints Pressure
 function printPressure(err, x) {
+   if(err) console.log("printPressure err: ", err);
    x = x.slice(0,-1);   // Remove trailing \n
    x *= 10;
    console.log("Pressure: ", x + " millibar");
@@ -29,6 +32,7 @@ function printPressure(err, x) {
 
 // Prints Temperature
 function printTemperature(err, x) {
+   if(err) console.log("printTemperture err: ", err);
    x = x.slice(0,-1);   // Remove trailing \n
    x /= 1000;           // conver to degrees
    // '\xB0' is the degree symbol in hexademical
