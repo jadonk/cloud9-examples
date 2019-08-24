@@ -3,7 +3,6 @@
 //    sudo chgrp i2c /sys/class/i2c-adapter/i2c-2/new_device
 //    sudo chmod g+w /sys/class/i2c-adapter/i2c-2/new_device
 const b = require('bonescript');
-const fs = require('fs');
 const bus = 2;    // 2 for Black, 3 for AI
 const addr = '40';
 const model = 'si7020';
