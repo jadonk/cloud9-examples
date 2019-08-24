@@ -8,7 +8,7 @@ var b = require('bonescript');
 // wiper (middle) | A5   | P9_46 | P1_21
 
 function start() {
-    b.analogRead('A5', printA);
+    b.analogRead('A2', printA);
 }
 
 setInterval(start, 500);
