@@ -15,11 +15,11 @@ const eQEP0 = "/sys/devices/platform/ocp/48300000.epwmss/48300180.eqep/",
 // eQEP1:	P8.33 and P8.35
 // eQEP2:	P8.11 and P8.12 or P9.19 and P9.41
 // eQEP3:	P8.24 abd P8.25 or P9.27 and P9.42
-const eQEP1AI = "/sys/devices/platform/44000000.ocp/48442000.epwmss/48442180.eqep/",
-      eQEP2AI = "/sys/devices/platform/44000000.ocp/4843e000.epwmss/4843e180.eqep/",
-      eQEP3AI = "/sys/devices/platform/44000000.ocp/48440000.epwmss/48440180.eqep/"
+const eQEP1AI = "/sys/devices/platform/44000000.ocp/4843e000.epwmss/4843e180.eqep/",
+      eQEP2AI = "/sys/devices/platform/44000000.ocp/48440000.epwmss/48440180.eqep/",
+      eQEP3AI = "/sys/devices/platform/44000000.ocp/48442000.epwmss/48442180.eqep/"
     
-const eQEP = eQEP2;
+const eQEP = eQEP1AI;
 	
 var oldData,			// pervious data read
     period = 100;		// in ms
