@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-// Run before: sudo chgrp i2c /sys/class/i2c-adapter/i2c-2/new_device
-//             sudo chmod g+w /sys/class/i2c-adapter/i2c-2/new_device
+// Run before: 
+//    sudo chgrp i2c /sys/class/i2c-adapter/i2c-2/new_device
+//    sudo chmod g+w /sys/class/i2c-adapter/i2c-2/new_device
 const b = require('bonescript');
-const fs = require('fs');
-const bus = 3;    // 2 for Black, 3 for AI
+const bus = 2;    // 2 for Black, 3 for AI
 const addr = '40';
 const model = 'si7020';
 const i2c = '/sys/class/i2c-adapter/i2c-' + bus + '/';
-const device = 'iio:device2';
+const device = 'iio:device1';
 
 //Sensor Locations on the BeagleBone
 var temperature = i2c+bus+'-00'+addr+'/'+device+'/in_temp_scale';

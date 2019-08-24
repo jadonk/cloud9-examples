@@ -45,5 +45,6 @@
 - [x] Potentiometer - tested
 - [x] rotaryEncoder - Only for Black - tested
 - [x] Servo - tested
+- [ ] Humidity and temp, si7021 - Same interface as BMP085, but gives wrong values
 - [ ] Pressure and temperature sensor - BMP085 - tested - Needs udev rule
 - [x] Ultrasonic Sensor - tested
