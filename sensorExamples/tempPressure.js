@@ -9,7 +9,7 @@ const model = 'bmp280';
 const i2c = '/sys/class/i2c-adapter/i2c-' + bus + '/';
 const device = 'iio:device1';
 
-//Sensor Locations on the BeagleBone Black
+//Sensor Locations on the BeagleBone
 var temperature = i2c+bus+'-00'+addr+'/'+device+'/in_temp_input';
 var pressure    = i2c+bus+'-00'+addr+'/'+device+'/in_pressure_input';
 
