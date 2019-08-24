@@ -3,19 +3,23 @@
 
 const fs = require('fs');
 
-// Black  
+// Black
+// eQEP0:	P9.27 and P9.42
+// eQEP1:	P9.33 and P9.35
+// eQEP2:	P8.11 and P8.12
 const eQEP0 = "/sys/devices/platform/ocp/48300000.epwmss/48300180.eqep/",
 	  eQEP1 = "/sys/devices/platform/ocp/48302000.epwmss/48302180.eqep/",
 	  eQEP2 = "/sys/devices/platform/ocp/48304000.epwmss/48304180.eqep/"
 
-// AI
-// eQEP2:  P8.33 and P8.45
-// eQEP3:  P8.11 and P8.12 or P9.27 and P9.42
-const eQEP2AI = "/sys/devices/platform/44000000.ocp/4843e000.epwmss/4843e180.eqep/",
-      eQEPXAI = "/sys/devices/platform/44000000.ocp/48442000.epwmss/48442180.eqep/",
+// AI\
+// eQEP1:	P8.33 and P8.35
+// eQEP2:	P8.11 and P8.12 or P9.19 and P9.41
+// eQEP3:	P8.24 abd P8.25 or P9.27 and P9.42
+const eQEP1AI = "/sys/devices/platform/44000000.ocp/48442000.epwmss/48442180.eqep/",
+      eQEP2AI = "/sys/devices/platform/44000000.ocp/4843e000.epwmss/4843e180.eqep/",
       eQEP3AI = "/sys/devices/platform/44000000.ocp/48440000.epwmss/48440180.eqep/"
     
-eQEP = eQEP2AI;
+const eQEP = eQEP2;
 	
 var oldData,			// pervious data read
     period = 100;		// in ms
