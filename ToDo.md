@@ -38,13 +38,13 @@
 
 # Migration from Bone101 (simple BoneScript + hardware examples)
 - [ ] Accelerometer - Don't have one to test
-- [ ] hc-sr04 - Only for Black - Not working, try different sensor
+- [x] hc-sr04 - tested Black/AI
 - [ ] i2cTemp - Black only.  Needs testing - Doesn't work
-- [x] Joystick - tested
-- [x] PIRMotionSensors - tested
-- [x] Potentiometer - tested
-- [x] rotaryEncoder - Only for Black - tested
-- [x] Servo - tested
+- [x] Joystick - tested Black/AI
+- [x] PIRMotionSensors - tested Black/AI
+- [x] Potentiometer - tested Black/AI
+- [x] rotaryEncoder - tested Black/AI
+- [x] Servo - Figure out PWM on AI
 - [ ] Humidity and temp, si7021 - Same interface as BMP085, but gives wrong values
-- [ ] Pressure and temperature sensor - BMP085 - tested - Needs udev rule
-- [x] Ultrasonic Sensor - tested
+- [ ] Pressure and temperature sensor - BMP085 - tested Black/AI - Needs udev rule
+- [x] Ultrasonic Sensor - tested Black
