@@ -10,5 +10,6 @@ motionSensor.js   | The PIR Motion Sensor, or Passive Infrared Sensor, is a sens
 potentiometer.js  | A specific voltage can be sent to the AIN1 channel using a potentiometer. 
 rotaryEncoder.js  | How do use a rotary encoder (_quadrature encoder_) connected to the Bone's eQEP ports
 servo.js          | The Micro Servo Motor can rotate 180 degrees and is usually used in applications such as robotics, CNC machinery, or automated manufacturing.
+tempHumidity.js   | Uses si7021 to red temp and humidity via I2C. 
 tempPressure.js   | The BMP085 is a readily available pressure/temperature sensor using I2C. 
 ultrasonic.js     | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder provides very short to long-range detection and ranging, in an incredibly small package. 
