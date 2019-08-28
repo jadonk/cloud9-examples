@@ -3,15 +3,15 @@
 
 const fs = require('fs');
 
-// Black
-// eQEP0:	P9.27 and P9.42
+// Black OR Pocket
+// eQEP0:	P9.27 and P9.42 OR P1_33 and P2_34
 // eQEP1:	P9.33 and P9.35
-// eQEP2:	P8.11 and P8.12
+// eQEP2:	P8.11 and P8.12 OR P2_24 and P2_33
 const eQEP0 = "/sys/devices/platform/ocp/48300000.epwmss/48300180.eqep/",
 	  eQEP1 = "/sys/devices/platform/ocp/48302000.epwmss/48302180.eqep/",
 	  eQEP2 = "/sys/devices/platform/ocp/48304000.epwmss/48304180.eqep/"
 
-// AI\
+// AI
 // eQEP1:	P8.33 and P8.35
 // eQEP2:	P8.11 and P8.12 or P9.19 and P9.41
 // eQEP3:	P8.24 abd P8.25 or P9.27 and P9.42
