@@ -27,7 +27,7 @@
 		__overlay__ {
 			#address-cells = <1>;
 			#size-cells = <0>;
-			mma8453@1c {
+			mma8453: mma8453@1c {
 				status = "okay";
 				compatible = "fsl,mma8453";
 				reg = <0x1c>;

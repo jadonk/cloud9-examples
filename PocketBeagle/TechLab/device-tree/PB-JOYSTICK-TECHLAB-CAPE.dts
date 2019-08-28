@@ -1,0 +1,27 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/am33xx.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+
+/ {
+	fragment@1 {
+		target = <&ocp>;
+		__overlay__ {
+			P2_33_pinmux { status = "disabled"; }; /* Left - gpio3_21 */
+			P1_29_pinmux { status = "disabled"; }; /* Right - gpio1_13 */
+			cape-universal { status = "disabled"; };
+	
+			joystick {
+				compatible = "bborg,techjoy";
+				pinctrl-0 = <&P2_33_gpio_input_pin>,
+					    <&P1_29_gpio_input_pin>;
+				io-channels = <&mma8453 0>, <&mma8453 1>;
+				io-channel-names = "accel_x", "accel_y";
+				button-gpios = <&gpio3 21 GPIO_ACTIVE_LOW>,
+					       <&gpio1 13 GPIO_ACTIVE_LOW>;
+			};
+		};
+	};
+};
