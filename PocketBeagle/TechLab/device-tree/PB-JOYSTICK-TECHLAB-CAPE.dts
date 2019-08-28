@@ -1,9 +1,11 @@
+/* See https://github.com/konsulko/techjoy/blob/master/techjoy.dts */
+
+/* This version requires PB-I2C2-ACCEL-TECHLAB-CAPE.dts */
+
 /dts-v1/;
 /plugin/;
 
 #include <dt-bindings/gpio/gpio.h>
-#include <dt-bindings/pinctrl/am33xx.h>
-#include <dt-bindings/interrupt-controller/irq.h>
 
 / {
 	fragment@1 {
