@@ -24,13 +24,13 @@ Where: zeroOffset = 0.0917 and conversionFactor = 0.4584
 ## Build and execute instructions
 * Hook up BeagleBone to the breadboard as shown in the diagram.
 
-Accelerometer | Pin  | Bone  | Pocket
-------------- | ---  | ----- | ------
+Accelerometer | Pin  | Bone  | Pocket | Grove
+------------- | ---  | ----- | ------ | -----
 GND           | GND  | P9_1  | P2_15
 VCC           | 3.3V | P9_3  | P1_14
-X             | A5   | P9_36 | P2_35
-Y             | A3   | P9_38 | P1_25
-Z             | A1   | P9_40 | P1_21
+X             | A5   | P9_36 | P2_35  | A5-1
+Y             | A3   | P9_38 | P1_25  | A2-2
+Z             | A1   | P9_40 | P1_21  | A0-2
 
 * After clicking ‘run’, notice the console output above for the accelerometer data.
 * Experiment by altering the second argument in ```setTimeout(clear, x)``` to 
