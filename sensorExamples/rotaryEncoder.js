@@ -52,8 +52,9 @@ function readEncoder(x) {
 
 function printValue(err, data) {
 	if (err) throw err;
+	data = data.slice(0, -1);		// Remove \n
 	if (oldData !== data) {
-		console.log('position: '+data+' speed: '+(oldData-data));
+		console.log('position:', data, ', speed:', oldData-data);
 		oldData = data;
 	}
 }
