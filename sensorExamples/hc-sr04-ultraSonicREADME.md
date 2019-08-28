@@ -12,3 +12,10 @@ device, so the _banded_ wire (running from ```P9_7``` on the Bone to VCC on the 
 ![alt text](hc-sr04-ultraSonic_bb.png "Wiring an HC-SR04 Ultrasonic Sensor")
 
 This code is more complex than others, because we have to tell the device when to start measuring and time the return pulse.
+
+HC-SR04 | Pin   | Bone  | Pocket
+------- | ---   | ----  | ------
+GND     | GND   | P9_1  | P2_15
+V+      | 3.3V  | P9_3  | P1_14
+trigger | out   | P9_15 | 
+echo    | in    | P9_17 | 

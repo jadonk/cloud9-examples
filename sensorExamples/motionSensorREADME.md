@@ -17,3 +17,9 @@ with a 10kohm resistor.
 * Connect the LED with a 470ohm resistor
 * Click "Run" on the code. Every 2.5 seconds, the console will tell you if 
 there was motion detected. If there was motion detected, the LED will also turn on.
+
+PIR     | Pin   | Bone  | Pocket
+------- | ---   | ----  | ------
+GND     | GND   | P9_1  | P2_15
+V+      | 5V    | P9_7  | P1_24
+in      | in    | P9_17 | P1_34
