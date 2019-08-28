@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var b = require('bonescript');
-var LED = "P9_16";
+var LED = "P9_15";
 var AL  = "P9_29";
 
 b.pinMode(LED, b.OUTPUT);
