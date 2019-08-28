@@ -46,5 +46,5 @@
 - [x] rotaryEncoder - tested Black/AI
 - [x] Servo - Figure out PWM on AI
 - [ ] Humidity and temp, si7021 - Same interface as BMP085, but gives wrong values
-- [ ] Pressure and temperature sensor - BMP085 - tested Black/AI - Needs udev rule
+- [ ] Pressure and temperature sensor - BMP085 - tested Black/AI - Needs udev rule - Need delay between new_device and reading values
 - [x] Ultrasonic Sensor - tested Black/AI

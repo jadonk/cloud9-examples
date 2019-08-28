@@ -28,4 +28,4 @@ rotaryEncoder.js     |     |        | P8_33, P8_35 | down
 servo.js             | PWM |
 tempHumidity.js      |     |        |       |      | P9_19, P9_20
 tempPressure.js      |     |        |       |      | P9_19, P9_20
-ultrasonic.js        | AIN
+ultrasonic.js        | AIN |
