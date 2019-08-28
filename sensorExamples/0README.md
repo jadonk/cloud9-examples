@@ -13,3 +13,19 @@ servo.js          | The Micro Servo Motor can rotate 180 degrees and is usually 
 tempHumidity.js   | Uses si7021 to red temp and humidity via I2C. 
 tempPressure.js   | The BMP085 is a readily available pressure/temperature sensor using I2C. 
 ultrasonic.js     | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder provides very short to long-range detection and ranging, in an incredibly small package. 
+
+# Pins used
+
+Demo                 | AIN | Output | Input | Pull
+----                 | --- | ------ | ----- | ----
+accelerometer.js     | [x] |
+hc-sr04-ultraSonic.js
+i2cTemp.js
+joystick.js
+motionSensor.js
+potentiometer.js
+rotaryEncoder.js
+servo.js
+tempHumidity.js
+tempPressure.js
+ultrasonic.js
