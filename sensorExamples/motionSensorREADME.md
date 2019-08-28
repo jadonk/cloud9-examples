@@ -6,7 +6,7 @@ it needs a pull-up resistor on the alarm pin, which allows multiple motion senso
 be connected on a single input pin. If motion is detected in this
 demo, it will output "Motion Detected" on the console and will turn on the LED.
 
-
+![alt text](motionSensor.jpg "PRI Motion Sensor")
 
 ## Build and execute instructions
 * Connect the '+' pin from the sensor to 'P9_5' of the BeagleBoard in series with

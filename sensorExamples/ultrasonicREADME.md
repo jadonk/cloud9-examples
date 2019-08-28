@@ -27,11 +27,11 @@ With the voltage divider, a supply of 5V yields ~6.99mV/in. and 3.3V yields ~4.5
 bottom to ground, as shown in the diagram.
 * Connect the pins as follows:
 
-Ultrasound | Pin | Bone  | Pocket
----------- | --- | ----- | ------
+Ultrasound | Pin  | Bone  | Pocket
+---------- | ---  | ----- | ------
 GND        | GND  | P9_1  | P2_15
 +5         | 3.3V | P9_3  | P1_14
-series with 3k ohm and 1.2k ohm resistor | AIN1 | P9_40 | P1_21
+series with 3k ohm and 1.2k ohm resistor | A1 | P9_40 | P1_21
 
 * Click "Run" on the code and it will output the distance, in inches,
 that the sensor is detecting... updating every 5 seconds

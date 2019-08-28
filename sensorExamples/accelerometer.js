@@ -3,10 +3,18 @@ var b = require('bonescript');
 var zeroOffset  = 0.4584;
 var conversionFactor = 0.0917;
 
+// Accelerometer | Pin  | Bone  | Pocket
+// ------------- | ---  | ----- | ------
+// GND           | GND  | P9_1  | P2_15
+// VCC           | 3.3V | P9_3  | P1_14
+// X             | A5   | P9_36 | P2_35
+// Y             | A3   | P9_38 | P1_25
+// Z             | A1   | P9_40 | P1_21
+
 function callADC(){
-    b.analogRead('P9_36', printX);
-    b.analogRead('P9_38', printY);
-    b.analogRead('P9_40', printZ);
+    b.analogRead('A5', printX);
+    b.analogRead('A3', printY);
+    b.analogRead('A1', printZ);
 }
 
 function printX(err, value) {

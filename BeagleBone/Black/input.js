@@ -10,9 +10,9 @@ var b = require('bonescript');
 
 var outputPin = "P9_14";
 var inputPin  = "P8_19";
-var ledPin   = "USR3";
-var mydelay = 100;
-var state = b.LOW;
+var ledPin    = "USR3";
+var mydelay = 250;
+var state   = b.LOW;
 
 console.log('Please connect ' + inputPin + ' to ' + outputPin +
     ' with a 1kOhm resistor');
@@ -32,5 +32,5 @@ function setLED(x) {
 function toggle() {
     state = (state == b.LOW) ? b.HIGH : b.LOW;
     b.digitalWrite(outputPin, state);
-    setTimeout(toggle, mydelay);
+    setTimeout(toggle, mydelay);        // Waut a bit, and then toggle again
 }
