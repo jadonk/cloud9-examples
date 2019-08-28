@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 // Run before: 
+// Black:
 //    sudo chgrp i2c /sys/class/i2c-adapter/i2c-2/new_device
 //    sudo chmod g+w /sys/class/i2c-adapter/i2c-2/new_device
+// AI:
+//    sudo chgrp i2c /sys/class/i2c-adapter/i2c-3/new_device
+//    sudo chmod g+w /sys/class/i2c-adapter/i2c-3/new_device
 const b = require('bonescript');
-const bus = 2;    // 2 for Black, 3 for AI
+const bus = 3;    // 2 for Black, 3 for AI
 const addr = '40';
 const model = 'si7020';
 const i2c = '/sys/class/i2c-adapter/i2c-' + bus + '/';
