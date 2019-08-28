@@ -13,7 +13,7 @@ var trigger = 'P9_15',  // Pin to trigger the ultrasonic pulse
     
 var startTime, pulseTime;
     
-b.pinMode(echo,    b.INPUT, 7, 'pullup', 'fast');
+b.pinMode(echo,    b.INPUT);
 b.pinMode(trigger, b.OUTPUT);
 
 b.attachInterrupt(echo, pingEnd, b.FALLING);
