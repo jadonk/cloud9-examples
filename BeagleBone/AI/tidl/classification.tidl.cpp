@@ -102,7 +102,7 @@ bool filter_init(const char* args, void** filter_ctx) {
         
     populate_labels("/home/debian/tidl-api/examples/classification/imagenet.txt");
 
-    selected_items_size = 5;
+    selected_items_size = 9;
     selected_items = (int *)malloc(selected_items_size*sizeof(int));
     if (!selected_items) {
         std::cout << "selected_items malloc failed" << std::endl;
@@ -113,6 +113,10 @@ bool filter_init(const char* args, void** filter_ctx) {
     selected_items[2] = 504; /* coffee_mug */
     selected_items[3] = 441; /* beer_glass */
     selected_items[4] = 898; /* water_bottle */
+    selected_items[5] = 931; /* bagel */
+    selected_items[6] = 531; /* digital_watch */
+    selected_items[7] = 487; /* cellular_telephone */
+    selected_items[8] = 722; /* ping-pong_ball */
 
     std::cout << "loading configuration" << std::endl;
     configuration.numFrames = 0;
