@@ -8,6 +8,8 @@ demo, it will output "Motion Detected" on the console and will turn on the LED.
 
 ![alt text](motionSensor.jpg "PRI Motion Sensor")
 
+[Grove Motion Sensor](http://wiki.seeedstudio.com/Grove-PIR_Motion_Sensor/)
+
 ## Build and execute instructions
 * Connect the '+' pin from the sensor to 'P9_5' of the BeagleBoard in series with
 a 10kohm resistor.
@@ -22,4 +24,4 @@ PIR     | Pin   | Bone  | Pocket
 ------- | ---   | ----  | ------
 GND     | GND   | P9_1  | P2_15
 V+      | 5V    | P9_7  | P1_24
-in      | in    | P9_17 | P1_34
+in      | in    | P9_29 | P1_34
