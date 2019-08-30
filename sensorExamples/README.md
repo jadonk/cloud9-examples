@@ -5,7 +5,7 @@ Script            | Description
 ------            | -----------
 [accelerometer.js](#demo--accelerometer)                    | This example reads values from Sparkfun’s ADXL335 3-axis accelerometer. 
 [hc-sr04-ultraSonic.js](#demo--adafruit-2-axis-thumb-joystick) | Shows how to use a HC-SR04 Ultrasonic Range Sensor
-[joystick.js](#demo--adafruit-2-axis-thumb-joystick          | The Analog 2-axis Thumb Joystick allows you to easily mount a PSP/Xbox-like thumb joystick to your project.
+[joystick.js](#demo--adafruit-2-axis-thumb-joystick)        | The Analog 2-axis Thumb Joystick allows you to easily mount a PSP/Xbox-like thumb joystick to your project.
 motionSensor.js   | The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of the room and it detects changes in heat.
 potentiometer.js  | A specific voltage can be sent to the AIN1 channel using a potentiometer. 
 rotaryEncoder.js  | How do use a rotary encoder (_quadrature encoder_) connected to the Bone's eQEP ports
@@ -15,6 +15,8 @@ tempPressure.js   | The BMP085 is a readily available pressure/temperature senso
 ultrasonic.js     | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder provides very short to long-range detection and ranging, in an incredibly small package. 
 
 
+- [Sensor Examples](#sensor-examples)
+- [Pins used](#pins-used)
 - [Demo: Accelerometer](#demo--accelerometer)
   * [Build and execute instructions](#build-and-execute-instructions)
 - [Demo: Reading a Distance Sensor (Variable Pulse Width Sensor)](#demo--reading-a-distance-sensor--variable-pulse-width-sensor-)
