@@ -18,6 +18,8 @@ More information regarding PWMs can be found on the
 
 ![alt text](servo.png "Micro Servo Motor")
 
+[Grove servo](http://wiki.seeedstudio.com/Grove-Servo/)
+
 ## Build and execute instructions
 * Connect the pins as follows:
 

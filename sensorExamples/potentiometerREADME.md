@@ -5,6 +5,8 @@ Please keep in mind that each one of the ADC pins can only **handle 1.8V maximum
 
 ![alt text](potentiometer_bb.png "Potentiometer")
 
+[Grove potentiometer](http://wiki.seeedstudio.com/Grove-Slide_Potentiometer/)
+
 ## Build and execute instructions
 * Hook up a BeagleBone or BeagleBone Black to the breadboard as shown in the diagram.
 

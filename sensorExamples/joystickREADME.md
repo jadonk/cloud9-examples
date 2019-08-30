@@ -10,6 +10,8 @@ with (50,50) being the center location.*
 
 ![alt text](joystick.png "Joystick")
 
+[Grove Joystick](http://wiki.seeedstudio.com/Grove-Thumb_Joystick/)
+
 ## Build and execute instructions
 * Connect the following pins
 
