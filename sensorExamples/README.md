@@ -15,6 +15,8 @@ tempPressure.js   | The BMP085 is a readily available pressure/temperature senso
 ultrasonic.js     | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder provides very short to long-range detection and ranging, in an incredibly small package. 
 
 
+- [Sensor Examples](#sensor-examples)
+- [Pins used](#pins-used)
 - [Demo: Accelerometer](#demo--accelerometer)
   * [Build and execute instructions](#build-and-execute-instructions)
 - [Demo: Reading a Distance Sensor (Variable Pulse Width Sensor)](#demo--reading-a-distance-sensor--variable-pulse-width-sensor-)
