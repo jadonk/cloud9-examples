@@ -51,9 +51,6 @@
 #include "opencv2/highgui.hpp"
 #include "opencv2/videoio.hpp"
 
-#define RES_X 480
-#define RES_Y 480
-
 #define MAX_EOPS 8
 #define MAX_CLASSES 1100
 
@@ -97,7 +94,7 @@ bool verbose = false;
     filter_process function, and should be freed by the filter_free function
 */
 bool filter_init(const char* args, void** filter_ctx) {
-    uint32_t num_eves = 2;
+    uint32_t num_eves = 0;
     uint32_t num_dsps = 2;
     int num_layers_groups = 1;
 
@@ -105,7 +102,7 @@ bool filter_init(const char* args, void** filter_ctx) {
         
     populate_labels("/home/debian/tidl-api/examples/classification/imagenet.txt");
 
-    selected_items_size = 5;
+    selected_items_size = 9;
     selected_items = (int *)malloc(selected_items_size*sizeof(int));
     if (!selected_items) {
         std::cout << "selected_items malloc failed" << std::endl;
@@ -116,9 +113,13 @@ bool filter_init(const char* args, void** filter_ctx) {
     selected_items[2] = 504; /* coffee_mug */
     selected_items[3] = 441; /* beer_glass */
     selected_items[4] = 898; /* water_bottle */
+    selected_items[5] = 931; /* bagel */
+    selected_items[6] = 531; /* digital_watch */
+    selected_items[7] = 487; /* cellular_telephone */
+    selected_items[8] = 722; /* ping-pong_ball */
 
     std::cout << "loading configuration" << std::endl;
-    configuration.numFrames = 999900;
+    configuration.numFrames = 0;
     configuration.inData = 
         "/home/debian/tidl-api/examples/test/testvecs/input/preproc_0_224x224.y";
     configuration.outData = 
@@ -172,14 +173,17 @@ void filter_process(void* filter_ctx, Mat& src, Mat& dst) {
         ExecutionObjectPipeline* eop = eops[current_eop];
 
         // Wait for previous frame on the same eo to finish processing
+        //std::cout << "+" << std::endl;
         if (eop->ProcessFrameWait())
         {
+            //std::cout << "-" << std::endl;
             if(configuration.enableApiTrace)
                 std::cout << "display()" << std::endl;
             DisplayFrame(eop, src, dst);
         }
         else
         {
+            //std::cout << "." << std::endl;
             if(configuration.enableApiTrace)
                 std::cout << "copy()" << std::endl;
             dst = src;
@@ -235,7 +239,7 @@ bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
         ids_eve.insert(static_cast<DeviceId>(i));
     for (uint32_t i = 0; i < num_dsps; i++)
         ids_dsp.insert(static_cast<DeviceId>(i));
-    const uint32_t buffer_factor = 2;
+    const uint32_t buffer_factor = 1;
 
     std::cout << "allocating executors" << std::endl;
     e_eve = num_eves == 0 ? nullptr :

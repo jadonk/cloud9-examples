@@ -1,4 +1,4 @@
-obj-m += red-module.o
+obj-m += red-module.o techjoy.o
 
 export KROOT=/lib/modules/$(shell uname -r)/build
 
