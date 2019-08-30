@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-var b = require('bonescript');
-var analogVoltage;
+const b = require('bonescript');
 const scale = 2;    // Set to 1 for Black and 2 for AI
 
 // Ultrasound | Pin  | Bone  | Pocket
@@ -19,6 +18,7 @@ function read(){
 }
 
 function printStatus(err, value) {
+    var analogVoltage;
     var distanceInches;
     analogVoltage = value*1.8; // ADC Value converted to voltage
     console.log('value = ' + analogVoltage); 
