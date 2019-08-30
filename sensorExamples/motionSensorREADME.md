@@ -25,3 +25,4 @@ PIR     | Pin   | Bone  | Pocket
 GND     | GND   | P9_1  | P2_15
 V+      | 5V    | P9_7  | P1_24
 in      | in    | P9_29 | P1_34
+

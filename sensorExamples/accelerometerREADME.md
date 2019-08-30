@@ -36,3 +36,4 @@ Z             | A1   | P9_40 | P1_21  | A0-2
 * Experiment by altering the second argument in ```setTimeout(clear, x)``` to 
 another number where x is a value in milliseconds 
 (this value determines how long the example will run).
+

@@ -24,3 +24,4 @@ VER      | A3      | P9_38 | P1_25  | A2-2
 SEL      | GPIO0_7 | P9_42 | P2_29
 
 * Click "Run" and it will output both the x and y axis, with 50,50 being the center.
+

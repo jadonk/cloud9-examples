@@ -32,3 +32,4 @@ PWM   | PWM via 1kOhm resistor | P9_14 | P1_36 | PWM-1
 * Connect a 1kohm resistor to the "PWM" pin of the Servo Motor and to P9_14 of the board.
 * Click "Run" on the code. The value of 'position' will go between 0 and 1 
 changing by 'increment' amount with updates every 200ms.
+

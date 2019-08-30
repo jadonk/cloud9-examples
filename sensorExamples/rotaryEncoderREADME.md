@@ -14,3 +14,4 @@ BeagleBone Black has built-in hardware for reading up to three encoders.
 Here, we use the _eQEP2_ encoder.
 
 Try rotating the encoder clockwise and counter-clockwise. The values you get for ```speed``` and ```position``` will depend on which way you are turning the device and how quickly. You will need to press ^C (Ctrl-C) to end the program.
+
