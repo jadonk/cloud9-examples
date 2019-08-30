@@ -14,6 +14,29 @@ tempHumidity.js   | Uses si7021 to red temp and humidity via I2C.
 tempPressure.js   | The BMP085 is a readily available pressure/temperature sensor using I2C. 
 ultrasonic.js     | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder provides very short to long-range detection and ranging, in an incredibly small package. 
 
+
+- [Sensor Examples](#sensor-examples)
+- [Pins used](#pins-used)
+- [Demo: Accelerometer](#demo--accelerometer)
+  * [Build and execute instructions](#build-and-execute-instructions)
+- [Demo: Reading a Distance Sensor (Variable Pulse Width Sensor)](#demo--reading-a-distance-sensor--variable-pulse-width-sensor-)
+- [Demo: Adafruit 2-Axis Thumb Joystick](#demo--adafruit-2-axis-thumb-joystick)
+  * [Build and execute instructions](#build-and-execute-instructions-1)
+- [Demo: PIR Motion Sensor](#demo--pir-motion-sensor)
+  * [Build and execute instructions](#build-and-execute-instructions-2)
+- [Demo: Potentiometer](#demo--potentiometer)
+  * [Build and execute instructions](#build-and-execute-instructions-3)
+- [Demo: Accurately Reading the Position of a Motor or Dial: Rotary Encoders](#demo--accurately-reading-the-position-of-a-motor-or-dial--rotary-encoders)
+- [Demo: Micro Servo Motor](#demo--micro-servo-motor)
+  * [Build and execute instructions](#build-and-execute-instructions-4)
+- [BMP085 I2C pressure/temperature sensor demo](#bmp085-i2c-pressure-temperature-sensor-demo)
+  * [Build and execute instructions](#build-and-execute-instructions-5)
+- [Demo: Maxbotic Ultrasonic Sensor](#demo--maxbotic-ultrasonic-sensor)
+  * [Build and execute instructions](#build-and-execute-instructions-6)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
 # Pins used
 
 Demo                 |     | Output | Input | Pull | I2C
