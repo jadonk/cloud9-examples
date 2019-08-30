@@ -17,7 +17,7 @@ Joysitck | Pin     | Bone  | Pocket | Grove
 -------- | ---     | ----- | ------ | -----
 VCC      | 1.8V    | P9_32 | P1_18
 GND      | GND     | P9_34 | P1_17
-HOR      | A5      | P9_36 | P2_35  | A5-1
+HOR      | A2      | P9_37 | P1_23  | A2-1
 VER      | A3      | P9_38 | P1_25  | A2-2
 SEL      | GPIO0_7 | P9_42 | P2_29
 
