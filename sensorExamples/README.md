@@ -51,7 +51,7 @@ Gs for us in our software. This formula for us is:
 
 Where: zeroOffset = 0.0917 and conversionFactor = 0.4584
 
-![alt text](accelerometer.png "Accelerometer")
+![alt text](accelerometer.png "Accelerometer" | width=200)
 
 ## Build and execute instructions
 * Hook up BeagleBone to the breadboard as shown in the diagram.
@@ -75,7 +75,7 @@ You want to use a HC-SR04 Ultrasonic Range Sensor with BeagleBone Black.
 
 The HC-SR04 Ultrasonic Range Sensor (shown in below) works by sending a trigger pulse to the _Trigger_ input and then measuring the pulse width on the _Echo_ output. The width of the pulse tells you the distance.
 
-![alt text](hc-sr04.jpg "HC-SR04 Ultrasonic Sensor")
+![alt text](hc-sr04.jpg "HC-SR04 Ultrasonic Sensor" | width=100)
 
 Wire the sensor as shown below. Note that the HC-SR04 is a 5 V
 device, so the _banded_ wire (running from ```P9_7``` on the Bone to VCC on the range finder) attaches the HC-SR04 to the Bone's 5 V power supply. 
