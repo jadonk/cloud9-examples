@@ -4,7 +4,8 @@ Here are examples of how to interface common sensors and input devices.
 Script            | Description
 ------            | -----------
 [accelerometer.js](#accelerometer)                    | This example reads values from Sparkfun’s ADXL335 3-axis accelerometer. 
-[hc-sr04-ultraSonic.js](#adafruit-2-axis-thumb-joystick) | Shows how to use a HC-SR04 Ultrasonic Range Sensor
+[hc-sr04-ultraSonic.js](#adafruit-2-axis-thumb-joystick) | Shows how to use a HC-SR04 Ultrasonic Range Sensor.
+[i2cTemp.js](#measuring-a-temperature)                | Use TMP102 sensor to measure a temp va i2c.
 [joystick.js](#adafruit-2-axis-thumb-joystick)        | The Analog 2-axis Thumb Joystick allows you to easily mount a PSP/Xbox-like thumb joystick to your project.
 [motionSensor.js](#pir-motion-sensor)                 | The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of the room and it detects changes in heat.
 [potentiometer.js](#potentiometer)                    | A specific voltage can be sent to the AIN1 channel using a potentiometer. 
@@ -89,7 +90,9 @@ HC-SR04 | Pin   | Bone  | Pocket
 GND     | GND   | P9_1  | P2_15
 V+      | 3.3V  | P9_3  | P1_14
 trigger | out   | P9_15 | 
-echo    | in    | P9_17 | # Measuring a Temperature
+echo    | in    | P9_17 | 
+
+# Measuring a Temperature
 
 You want to measure a temperature using a digital temperature sensor.
 
@@ -130,7 +133,7 @@ The joystick also includes an extra digital input that will let you read the swi
 *The console will output both the x-axis and y-axis with readings from 0-100, 
 with (50,50) being the center location.*
 
-![alt text](joystick.png "Joystick")
+<img src="joystick.png" width="500">
 
 [Grove Joystick](http://wiki.seeedstudio.com/Grove-Thumb_Joystick/)
 
@@ -155,7 +158,7 @@ it needs a pull-up resistor on the alarm pin, which allows multiple motion senso
 be connected on a single input pin. If motion is detected in this
 demo, it will output "Motion Detected" on the console and will turn on the LED.
 
-![alt text](motionSensor.jpg "PRI Motion Sensor")
+<img src="motionSensor.jpg" width="500">
 
 [Grove Motion Sensor](http://wiki.seeedstudio.com/Grove-PIR_Motion_Sensor/)
 
@@ -180,7 +183,7 @@ in      | in    | P9_29 | P1_34
 A specific voltage can be sent to the AIN1 channel using a potentiometer. 
 Please keep in mind that each one of the ADC pins can only **handle 1.8V maximum**.
 
-![alt text](potentiometer_bb.png "Potentiometer")
+<img src="potentiometer_bb.png" width="500">
 
 [Grove potentiometer](http://wiki.seeedstudio.com/Grove-Slide_Potentiometer/)
 
@@ -232,7 +235,7 @@ You have a motor or dial and want to detect rotation using a rotary encoder.
 
 Use a rotary encoder (also called a _quadrature encoder_) connected to one of the Bone's eQEP ports, as shown below.
 
-![alt text](rotaryEncoder_bb.png "Wiring a rotary encoder using eQEP2")
+<img src="rotaryEncoder_bb.png" width="500">
 
 We are using a quadrature rotary encoder, which has two switches inside that open and close in such a manner that you can tell which way the shaft is turning. In this particular encoder, the two switches have a common lead, which is wired to ground. It also has a pushbutton switch wired to the other side of the device, which we aren't using. 
 
@@ -262,7 +265,7 @@ The example below, when run, will adjust the position of the servo motor between
 More information regarding PWMs can be found on the 
 [Wikipedia pulse-width modulation page](https://en.wikipedia.org/wiki/Pulse-width_modulation).
 
-![alt text](servo.png "Micro Servo Motor")
+<img src="servo.png" width="500">
 
 [Grove servo](http://wiki.seeedstudio.com/Grove-Servo/)
 
@@ -285,7 +288,7 @@ The BMP085 is a readily available pressure/temperature sensor using I2C.
 It is directly supported by the Linux kernel, so all you have to do is ask 
 the kernel to load the driver and then start reading values.
 
-![alt text](tempPressure.png "I2C pressure/temperature sensor")
+<img src="tempPressure.png" width="500">
 
 [Grove barometer sensor](http://wiki.seeedstudio.com/Grove-Barometer_Sensor/)
 
@@ -321,7 +324,7 @@ Since the AIN pin has a maximum voltage capacity of 1.8V,
 we will set a voltage divider to account for that difference. 
 With the voltage divider, a supply of 5V yields ~6.99mV/in. and 3.3V yields ~4.57mV/in.
 
-![alt text](ultrasonic.png "Maxbotic Ultrasonic Sensor")
+<img src="ultrasonic.png" width="500">
 
 ## Build and execute instructions
 * Connect the 1.2k ohm resistor to the AN pin of the supersonic sensor.
