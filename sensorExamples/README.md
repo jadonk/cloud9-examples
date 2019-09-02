@@ -51,7 +51,7 @@ Gs for us in our software. This formula for us is:
 
 Where: zeroOffset = 0.0917 and conversionFactor = 0.4584
 
-<img src="accelerometer.png " width="300">
+<img src="accelerometer.png" width="500">
 
 ## Build and execute instructions
 * Hook up BeagleBone to the breadboard as shown in the diagram.
@@ -80,7 +80,7 @@ The HC-SR04 Ultrasonic Range Sensor (shown in below) works by sending a trigger 
 Wire the sensor as shown below. Note that the HC-SR04 is a 5 V
 device, so the _banded_ wire (running from ```P9_7``` on the Bone to VCC on the range finder) attaches the HC-SR04 to the Bone's 5 V power supply. 
 
-![alt text](hc-sr04-ultraSonic_bb.png "Wiring an HC-SR04 Ultrasonic Sensor")
+<img src="hc-sr04-ultraSonic_bb.png" width="200">
 
 This code is more complex than others, because we have to tell the device when to start measuring and time the return pulse.
 
@@ -97,7 +97,7 @@ The TMP102 sensor is a common digital temperature sensor that uses a standard I2
 
 Wire the TMP102, as shown.
 
-![alt text](i2cTemp_bb.png "Wiring an I2C TMP102 temperature sensor")
+<img src="i2cTemp_bb.png" width="500">
 
 There are two I2C buses brought out to the headers. <<sensors_cape_headers_i2c>> shows that you have wired your device to I2C bus ```2```, but watch out: the buses aren't always numbered the same. When you work with BoneScript, they are numbered ```1``` and ```2```, but if you work from the Linux command line, they are numbered ```0``` and ```1```. Confusing, huh?
 
