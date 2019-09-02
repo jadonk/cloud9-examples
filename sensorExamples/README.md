@@ -52,6 +52,9 @@ Gs for us in our software. This formula for us is:
 Where: zeroOffset = 0.0917 and conversionFactor = 0.4584
 
 ![alt text](accelerometer.png "Accelerometer" | width=200)
+
+![alt text](accelerometer.png "Accelerometer" +100x)
+
 ![](accelerometer.png | width=200)
 
 ## Build and execute instructions
