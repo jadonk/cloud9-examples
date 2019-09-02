@@ -11,7 +11,7 @@ Script            | Description
 [potentiometer.js](#potentiometer)                    | A specific voltage can be sent to the AIN1 channel using a potentiometer. 
 [rotaryEncoder.js](#accurately-reading-the-position-of-a-motor-or-dial--rotary-encoders)  | How do use a rotary encoder (_quadrature encoder_) connected to the Bone's eQEP ports
 [servo.js](#micro-servo-motor)                        | The Micro Servo Motor can rotate 180 degrees and is usually used in applications such as robotics, CNC machinery, or automated manufacturing.
-[tempHumidity.js]                                     | Uses si7021 to red temp and humidity via I2C. 
+[tempHumidity.js]                                     | Uses si7021 to read temp and humidity via I2C. 
 [tempPressure.js](#bmp085-i2c-pressure-temperature-sensor-demo)   | The BMP085 is a readily available pressure/temperature sensor using I2C. 
 [ultrasonic.js](#maxbotic-ultrasonic-sensor)          | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder provides very short to long-range detection and ranging, in an incredibly small package. 
 
