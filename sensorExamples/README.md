@@ -17,21 +17,21 @@ ultrasonic.js     | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder prov
 
 - [Sensor Examples](#sensor-examples)
 - [Pins used](#pins-used)
-- [Demo: Accelerometer](#demo--accelerometer)
+- [Accelerometer](#accelerometer)
   * [Build and execute instructions](#build-and-execute-instructions)
-- [Demo: Reading a Distance Sensor (Variable Pulse Width Sensor)](#demo--reading-a-distance-sensor--variable-pulse-width-sensor-)
-- [Demo: Adafruit 2-Axis Thumb Joystick](#demo--adafruit-2-axis-thumb-joystick)
+- [Reading a Distance Sensor (Variable Pulse Width Sensor)](#demo--reading-a-distance-sensor--variable-pulse-width-sensor-)
+- [Adafruit 2-Axis Thumb Joystick](#demo--adafruit-2-axis-thumb-joystick)
   * [Build and execute instructions](#build-and-execute-instructions-1)
-- [Demo: PIR Motion Sensor](#demo--pir-motion-sensor)
+- [PIR Motion Sensor](#demo--pir-motion-sensor)
   * [Build and execute instructions](#build-and-execute-instructions-2)
-- [Demo: Potentiometer](#demo--potentiometer)
+- [Potentiometer](#demo--potentiometer)
   * [Build and execute instructions](#build-and-execute-instructions-3)
-- [Demo: Accurately Reading the Position of a Motor or Dial: Rotary Encoders](#demo--accurately-reading-the-position-of-a-motor-or-dial--rotary-encoders)
-- [Demo: Micro Servo Motor](#demo--micro-servo-motor)
+- [Accurately Reading the Position of a Motor or Dial: Rotary Encoders](#demo--accurately-reading-the-position-of-a-motor-or-dial--rotary-encoders)
+- [Micro Servo Motor](#demo--micro-servo-motor)
   * [Build and execute instructions](#build-and-execute-instructions-4)
 - [BMP085 I2C pressure/temperature sensor demo](#bmp085-i2c-pressure-temperature-sensor-demo)
   * [Build and execute instructions](#build-and-execute-instructions-5)
-- [Demo: Maxbotic Ultrasonic Sensor](#demo--maxbotic-ultrasonic-sensor)
+- [Maxbotic Ultrasonic Sensor](#demo--maxbotic-ultrasonic-sensor)
   * [Build and execute instructions](#build-and-execute-instructions-6)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
@@ -53,7 +53,7 @@ tempHumidity.js      |     |        |       |      | P9_19, P9_20
 tempPressure.js      |     |        |       |      | P9_19, P9_20
 ultrasonic.js        | AIN |
 
-# Demo: Accelerometer
+# Accelerometer
 
 This example reads values from Sparkfun’s ADXL335 3-axis accelerometer. 
 Because the output of the ADXL335 is between 0-3.3V and because BeagleBone's 
@@ -92,7 +92,7 @@ Z             | A1   | P9_40 | P1_21  | A0-2
 another number where x is a value in milliseconds 
 (this value determines how long the example will run).
 
-# Demo: Reading a Distance Sensor (Variable Pulse Width Sensor)
+# Reading a Distance Sensor (Variable Pulse Width Sensor)
 
 You want to use a HC-SR04 Ultrasonic Range Sensor with BeagleBone Black.
 
@@ -143,7 +143,7 @@ bone# i2cdetect -y -r 1
 bone# i2cget -y 1 0x49
 0x18
 ```
-# Demo: Adafruit 2-Axis Thumb Joystick
+# Adafruit 2-Axis Thumb Joystick
 
 The [Analog 2-axis Thumb Joystick](http://www.adafruit.com/products/512) 
 allows you to easily mount a PSP/Xbox-like thumb joystick to your project. 
@@ -170,7 +170,7 @@ SEL      | GPIO0_7 | P9_42 | P2_29
 
 * Click "Run" and it will output both the x and y axis, with 50,50 being the center.
 
-# Demo: PIR Motion Sensor
+# PIR Motion Sensor
 The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot 
 of the room and sets the ```alarm``` pin to ```LOW``` if it detects changes in heat. 
 Since this sensor is an [open collector](http://en.wikipedia.org/wiki/Open_collector),
@@ -198,7 +198,7 @@ GND     | GND   | P9_1  | P2_15
 V+      | 5V    | P9_7  | P1_24
 in      | in    | P9_29 | P1_34
 
-# Demo: Potentiometer
+# Potentiometer
 
 A specific voltage can be sent to the AIN1 channel using a potentiometer. 
 Please keep in mind that each one of the ADC pins can only **handle 1.8V maximum**.
@@ -249,7 +249,7 @@ P9_36 | P2_35  | 5   | 5
 P9_35 | P1_02  | 6   | 6
 
 
-# Demo: Accurately Reading the Position of a Motor or Dial: Rotary Encoders
+# Accurately Reading the Position of a Motor or Dial: Rotary Encoders
 
 You have a motor or dial and want to detect rotation using a rotary encoder.
 
@@ -267,7 +267,7 @@ Here, we use the _eQEP2_ encoder.
 Try rotating the encoder clockwise and counter-clockwise. The values you get for ```speed``` and ```position``` will depend on which way you are turning the device and how quickly. You will need to press ^C (Ctrl-C) to end the program.
 
 
-# Demo: Micro Servo Motor
+# Micro Servo Motor
 *Output a pulse width modulated signal on a Servo Motor.*
 
 The [Micro Servo Motor](http://www.adafruit.com/products/169) 
@@ -323,7 +323,7 @@ V+     | 3.3V      | P9_3  | P1_14
 SCL    | I2C2 SCL  | P9_19 | P1_28  | I2C2-1
 SDA    | I2C2 SDA  | P9_20 | P1_26  | I2C2-2
 
-# Demo: Maxbotic Ultrasonic Sensor
+# Maxbotic Ultrasonic Sensor
 
 The [LV-MaxSonar-EZ2 High Performance Sonar Range Finder](http://www.maxbotix.com/Ultrasonic_Sensors/MB1020.htm) 
 provides very short to long-range detection and ranging, in an incredibly small package. 
