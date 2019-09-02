@@ -57,6 +57,8 @@ Where: zeroOffset = 0.0917 and conversionFactor = 0.4584
 
 ![](accelerometer.png | width=200)
 
+<img src="accelerometer.png " width="100">
+
 ## Build and execute instructions
 * Hook up BeagleBone to the breadboard as shown in the diagram.
 
