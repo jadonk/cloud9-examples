@@ -3,9 +3,9 @@ Here are examples of how to interface common sensors and input devices.
 
 Script            | Description
 ------            | -----------
-[accelerometer.js](#demo--accelerometer)                    | This example reads values from Sparkfun’s ADXL335 3-axis accelerometer. 
-[hc-sr04-ultraSonic.js](#demo--adafruit-2-axis-thumb-joystick) | Shows how to use a HC-SR04 Ultrasonic Range Sensor
-[joystick.js](#demo--adafruit-2-axis-thumb-joystick)        | The Analog 2-axis Thumb Joystick allows you to easily mount a PSP/Xbox-like thumb joystick to your project.
+[accelerometer.js](#accelerometer)                    | This example reads values from Sparkfun’s ADXL335 3-axis accelerometer. 
+[hc-sr04-ultraSonic.js](#adafruit-2-axis-thumb-joystick) | Shows how to use a HC-SR04 Ultrasonic Range Sensor
+[joystick.js](#adafruit-2-axis-thumb-joystick)        | The Analog 2-axis Thumb Joystick allows you to easily mount a PSP/Xbox-like thumb joystick to your project.
 motionSensor.js   | The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of the room and it detects changes in heat.
 potentiometer.js  | A specific voltage can be sent to the AIN1 channel using a potentiometer. 
 rotaryEncoder.js  | How do use a rotary encoder (_quadrature encoder_) connected to the Bone's eQEP ports
@@ -18,21 +18,14 @@ ultrasonic.js     | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder prov
 - [Sensor Examples](#sensor-examples)
 - [Pins used](#pins-used)
 - [Accelerometer](#accelerometer)
-  * [Build and execute instructions](#build-and-execute-instructions)
-- [Reading a Distance Sensor (Variable Pulse Width Sensor)](#demo--reading-a-distance-sensor--variable-pulse-width-sensor-)
-- [Adafruit 2-Axis Thumb Joystick](#demo--adafruit-2-axis-thumb-joystick)
-  * [Build and execute instructions](#build-and-execute-instructions-1)
-- [PIR Motion Sensor](#demo--pir-motion-sensor)
-  * [Build and execute instructions](#build-and-execute-instructions-2)
-- [Potentiometer](#demo--potentiometer)
-  * [Build and execute instructions](#build-and-execute-instructions-3)
-- [Accurately Reading the Position of a Motor or Dial: Rotary Encoders](#demo--accurately-reading-the-position-of-a-motor-or-dial--rotary-encoders)
-- [Micro Servo Motor](#demo--micro-servo-motor)
-  * [Build and execute instructions](#build-and-execute-instructions-4)
+- [Reading a Distance Sensor (Variable Pulse Width Sensor)](#reading-a-distance-sensor--variable-pulse-width-sensor-)
+- [Adafruit 2-Axis Thumb Joystick](#adafruit-2-axis-thumb-joystick)
+- [PIR Motion Sensor](#pir-motion-sensor)
+- [Potentiometer](#potentiometer)
+- [Accurately Reading the Position of a Motor or Dial: Rotary Encoders](#accurately-reading-the-position-of-a-motor-or-dial--rotary-encoders)
+- [Micro Servo Motor](#micro-servo-motor)
 - [BMP085 I2C pressure/temperature sensor demo](#bmp085-i2c-pressure-temperature-sensor-demo)
-  * [Build and execute instructions](#build-and-execute-instructions-5)
-- [Maxbotic Ultrasonic Sensor](#demo--maxbotic-ultrasonic-sensor)
-  * [Build and execute instructions](#build-and-execute-instructions-6)
+- [Maxbotic Ultrasonic Sensor](#maxbotic-ultrasonic-sensor)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
