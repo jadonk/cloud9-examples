@@ -102,7 +102,7 @@ Wire the TMP102, as shown.
 
 <img src="i2cTemp_bb.png" width="500">
 
-There are two I2C buses brought out to the headers. <<sensors_cape_headers_i2c>> shows that you have wired your device to I2C bus ```2```, but watch out: the buses aren't always numbered the same. When you work with BoneScript, they are numbered ```1``` and ```2```, but if you work from the Linux command line, they are numbered ```0``` and ```1```. Confusing, huh?
+There are two I2C buses brought out to the headers. The figure shows that you have wired your device to I2C bus ```2```, but watch out: the buses aren't always numbered the same. When you work with BoneScript, they are numbered ```1``` and ```2```, but if you work from the Linux command line, they are numbered ```0``` and ```1```. Confusing, huh?
 
 ![alt text](cape-headers-i2c.png "Table of I2C outputs")
 
@@ -273,7 +273,7 @@ More information regarding PWMs can be found on the
 * Connect the pins as follows:
 
 Servo | Pin  | Bone  | Pocket | Grove
------ | ---  | ----- | ------
+----- | ---  | ----- | ------ | -----
 GND   | GND  | P9_1  | P2_15
 V+    | 3.3V | P9_3  | P1_14
 PWM   | PWM via 1kOhm resistor | P9_14 | P1_36 | PWM-1
