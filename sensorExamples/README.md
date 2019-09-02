@@ -6,29 +6,13 @@ Script            | Description
 [accelerometer.js](#accelerometer)                    | This example reads values from Sparkfun’s ADXL335 3-axis accelerometer. 
 [hc-sr04-ultraSonic.js](#adafruit-2-axis-thumb-joystick) | Shows how to use a HC-SR04 Ultrasonic Range Sensor
 [joystick.js](#adafruit-2-axis-thumb-joystick)        | The Analog 2-axis Thumb Joystick allows you to easily mount a PSP/Xbox-like thumb joystick to your project.
-motionSensor.js   | The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of the room and it detects changes in heat.
-potentiometer.js  | A specific voltage can be sent to the AIN1 channel using a potentiometer. 
-rotaryEncoder.js  | How do use a rotary encoder (_quadrature encoder_) connected to the Bone's eQEP ports
-servo.js          | The Micro Servo Motor can rotate 180 degrees and is usually used in applications such as robotics, CNC machinery, or automated manufacturing.
-tempHumidity.js   | Uses si7021 to red temp and humidity via I2C. 
-tempPressure.js   | The BMP085 is a readily available pressure/temperature sensor using I2C. 
-ultrasonic.js     | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder provides very short to long-range detection and ranging, in an incredibly small package. 
-
-
-- [Sensor Examples](#sensor-examples)
-- [Pins used](#pins-used)
-- [Accelerometer](#accelerometer)
-- [Reading a Distance Sensor (Variable Pulse Width Sensor)](#reading-a-distance-sensor--variable-pulse-width-sensor-)
-- [Adafruit 2-Axis Thumb Joystick](#adafruit-2-axis-thumb-joystick)
-- [PIR Motion Sensor](#pir-motion-sensor)
-- [Potentiometer](#potentiometer)
-- [Accurately Reading the Position of a Motor or Dial: Rotary Encoders](#accurately-reading-the-position-of-a-motor-or-dial--rotary-encoders)
-- [Micro Servo Motor](#micro-servo-motor)
-- [BMP085 I2C pressure/temperature sensor demo](#bmp085-i2c-pressure-temperature-sensor-demo)
-- [Maxbotic Ultrasonic Sensor](#maxbotic-ultrasonic-sensor)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
+[motionSensor.js](#pir-motion-sensor)                 | The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of the room and it detects changes in heat.
+[potentiometer.js](#potentiometer)                    | A specific voltage can be sent to the AIN1 channel using a potentiometer. 
+[rotaryEncoder.js](#accurately-reading-the-position-of-a-motor-or-dial--rotary-encoders)  | How do use a rotary encoder (_quadrature encoder_) connected to the Bone's eQEP ports
+[servo.js](#micro-servo-motor)                        | The Micro Servo Motor can rotate 180 degrees and is usually used in applications such as robotics, CNC machinery, or automated manufacturing.
+[tempHumidity.js]                                     | Uses si7021 to red temp and humidity via I2C. 
+[tempPressure.js](#bmp085-i2c-pressure-temperature-sensor-demo)   | The BMP085 is a readily available pressure/temperature sensor using I2C. 
+[ultrasonic.js](#maxbotic-ultrasonic-sensor)          | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder provides very short to long-range detection and ranging, in an incredibly small package. 
 
 # Pins used
 
