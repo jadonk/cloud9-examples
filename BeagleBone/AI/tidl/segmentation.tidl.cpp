@@ -102,39 +102,23 @@ bool filter_init(const char* args, void** filter_ctx) {
         
     populate_labels("/home/debian/tidl-api/examples/classification/imagenet.txt");
 
-    selected_items_size = 9;
-    selected_items = (int *)malloc(selected_items_size*sizeof(int));
-    if (!selected_items) {
-        std::cout << "selected_items malloc failed" << std::endl;
-        return false;
-    }
-    selected_items[0] = 429; /* baseball */
-    selected_items[1] = 837; /* sunglasses */
-    selected_items[2] = 504; /* coffee_mug */
-    selected_items[3] = 441; /* beer_glass */
-    selected_items[4] = 898; /* water_bottle */
-    selected_items[5] = 931; /* bagel */
-    selected_items[6] = 531; /* digital_watch */
-    selected_items[7] = 487; /* cellular_telephone */
-    selected_items[8] = 722; /* ping-pong_ball */
-
     std::cout << "loading configuration" << std::endl;
-    configuration.numFrames = 0;
+    configuration.numFrames = 9;
     configuration.inData = 
-        "/home/debian/tidl-api/examples/test/testvecs/input/preproc_0_224x224.y";
+        "/home/debian/tidl-api/examples/test/testvecs/input/input/000100_1024x512_bgr.y";
     configuration.outData = 
-        "/home/debian/tidl-api/examples/classification/stats_tool_out.bin";
+        "./stats_tool_out.bin";
     configuration.netBinFile = 
-        "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/tidl_net_imagenet_jacintonet11v2.bin";
+        "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/jsegnet21/tidl_net_jsegnet21v2.bin";
     configuration.paramsBinFile = 
-        "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/tidl_param_imagenet_jacintonet11v2.bin";
+        "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/jsegnet21/tidl_param_jsegnet21v2.bin";
     configuration.preProcType = 0;
-    configuration.inWidth = 224;
-    configuration.inHeight = 224;
+    configuration.inWidth = 1024;
+    configuration.inHeight = 512;
     configuration.inNumChannels = 3;
-    configuration.layerIndex2LayerGroupId = { {12, 2}, {13, 2}, {14, 2} };
-    configuration.enableApiTrace = false;
-    configuration.runFullNet = true;
+    //configuration.layerIndex2LayerGroupId = { {12, 2}, {13, 2}, {14, 2} };
+    //configuration.enableApiTrace = false;
+    //configuration.runFullNet = true;
 
     try
     {

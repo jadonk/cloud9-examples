@@ -94,7 +94,7 @@ bool verbose = false;
     filter_process function, and should be freed by the filter_free function
 */
 bool filter_init(const char* args, void** filter_ctx) {
-    uint32_t num_eves = 0;
+    uint32_t num_eves = 2;
     uint32_t num_dsps = 2;
     int num_layers_groups = 1;
 
@@ -151,7 +151,7 @@ bool filter_init(const char* args, void** filter_ctx) {
         num_eops = eops.size();
         std::cout << "num_eops=" << num_eops << std::endl;
         std::cout << "About to start ProcessFrame loop!!" << std::endl;
-        std::cout << "http://192.168.6.2:8090/?action=stream" << std::endl;
+        std::cout << "http://localhost:8090/?action=stream" << std::endl;
     }
     catch (tidl::Exception &e)
     {
