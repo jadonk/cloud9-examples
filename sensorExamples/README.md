@@ -52,7 +52,7 @@ Gs for us in our software. This formula for us is:
 
 Where: zeroOffset = 0.0917 and conversionFactor = 0.4584
 
-<img src="accelerometer.png" width="500">
+<img src="images/accelerometer.png" width="500">
 
 ## Build and execute instructions
 * Hook up BeagleBone to the breadboard as shown in the diagram.
@@ -76,12 +76,12 @@ You want to use a HC-SR04 Ultrasonic Range Sensor with BeagleBone Black.
 
 The HC-SR04 Ultrasonic Range Sensor (shown in below) works by sending a trigger pulse to the _Trigger_ input and then measuring the pulse width on the _Echo_ output. The width of the pulse tells you the distance.
 
-<img src="hc-sr04.jpg" width="200">
+<img src="images/hc-sr04.jpg" width="200">
 
 Wire the sensor as shown below. Note that the HC-SR04 is a 5 V
 device, so the _banded_ wire (running from ```P9_7``` on the Bone to VCC on the range finder) attaches the HC-SR04 to the Bone's 5 V power supply. 
 
-<img src="hc-sr04-ultraSonic_bb.png" width="500">
+<img src="images/hc-sr04-ultraSonic_bb.png" width="500">
 
 This code is more complex than others, because we have to tell the device when to start measuring and time the return pulse.
 
@@ -100,11 +100,11 @@ The TMP102 sensor is a common digital temperature sensor that uses a standard I2
 
 Wire the TMP102, as shown.
 
-<img src="i2cTemp_bb.png" width="500">
+<img src="images/i2cTemp_bb.png" width="500">
 
 There are two I2C buses brought out to the headers. The figure shows that you have wired your device to I2C bus ```2```, but watch out: the buses aren't always numbered the same. When you work with BoneScript, they are numbered ```1``` and ```2```, but if you work from the Linux command line, they are numbered ```0``` and ```1```. Confusing, huh?
 
-![alt text](cape-headers-i2c.png "Table of I2C outputs")
+![alt text](images/cape-headers-i2c.png "Table of I2C outputs")
 
 Once the I2C  device is wired up, you can use a couple handy I2C tools to test the device. Because these are Linux command-line tools, you have to use ```1``` as the bus number. ```i2cdetect```, shown below, shows which I2C devices are on the bus. The ```-r``` flag indicates which bus to use. Our TMP102 is appearing at address ```0x49```. You can use the ```i2cget``` command to read the value. It returns the temperature in hexidecimal and degrees C. In this example, 0x18 = 24C, which is 75.2F. (Hmmm, the office is a bit warm today.) Try warming up the TMP102 with your finger and running ```i2cget``` again.
 
@@ -133,7 +133,7 @@ The joystick also includes an extra digital input that will let you read the swi
 *The console will output both the x-axis and y-axis with readings from 0-100, 
 with (50,50) being the center location.*
 
-<img src="joystick.png" width="500">
+<img src="images/joystick.png" width="500">
 
 [Grove Joystick](http://wiki.seeedstudio.com/Grove-Thumb_Joystick/)
 
@@ -158,7 +158,7 @@ it needs a pull-up resistor on the alarm pin, which allows multiple motion senso
 be connected on a single input pin. If motion is detected in this
 demo, it will output "Motion Detected" on the console and will turn on the LED.
 
-<img src="motionSensor.jpg" width="500">
+<img src="images/motionSensor.jpg" width="500">
 
 [Grove Motion Sensor](http://wiki.seeedstudio.com/Grove-PIR_Motion_Sensor/)
 
@@ -183,7 +183,7 @@ in      | in    | P9_29 | P1_34
 A specific voltage can be sent to the AIN1 channel using a potentiometer. 
 Please keep in mind that each one of the ADC pins can only **handle 1.8V maximum**.
 
-<img src="potentiometer_bb.png" width="500">
+<img src="images/potentiometer_bb.png" width="500">
 
 [Grove potentiometer](http://wiki.seeedstudio.com/Grove-Slide_Potentiometer/)
 
@@ -235,7 +235,7 @@ You have a motor or dial and want to detect rotation using a rotary encoder.
 
 Use a rotary encoder (also called a _quadrature encoder_) connected to one of the Bone's eQEP ports, as shown below.
 
-<img src="rotaryEncoder_bb.png" width="500">
+<img src="images/rotaryEncoder_bb.png" width="500">
 
 We are using a quadrature rotary encoder, which has two switches inside that open and close in such a manner that you can tell which way the shaft is turning. In this particular encoder, the two switches have a common lead, which is wired to ground. It also has a pushbutton switch wired to the other side of the device, which we aren't using. 
 
@@ -265,7 +265,7 @@ The example below, when run, will adjust the position of the servo motor between
 More information regarding PWMs can be found on the 
 [Wikipedia pulse-width modulation page](https://en.wikipedia.org/wiki/Pulse-width_modulation).
 
-<img src="servo.png" width="500">
+<img src="images/servo.png" width="500">
 
 [Grove servo](http://wiki.seeedstudio.com/Grove-Servo/)
 
@@ -288,7 +288,7 @@ The BMP085 is a readily available pressure/temperature sensor using I2C.
 It is directly supported by the Linux kernel, so all you have to do is ask 
 the kernel to load the driver and then start reading values.
 
-<img src="tempPressure.png" width="500">
+<img src="images/tempPressure.png" width="500">
 
 [Grove barometer sensor](http://wiki.seeedstudio.com/Grove-Barometer_Sensor/)
 
@@ -324,7 +324,7 @@ Since the AIN pin has a maximum voltage capacity of 1.8V,
 we will set a voltage divider to account for that difference. 
 With the voltage divider, a supply of 5V yields ~6.99mV/in. and 3.3V yields ~4.57mV/in.
 
-<img src="ultrasonic.png" width="500">
+<img src="images/ultrasonic.png" width="500">
 
 ## Build and execute instructions
 * Connect the 1.2k ohm resistor to the AN pin of the supersonic sensor.
