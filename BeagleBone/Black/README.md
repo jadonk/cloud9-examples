@@ -5,17 +5,6 @@ Software and Hardware Problems and Solutions](http://shop.oreilly.com/product/06
 
 pru - contains demos for the Programmable Real-time Unit
 
-Notes:
-I'm using P9_14 for the PRU, so we need to find another GPIO to use
-
-blink.c compiles/runs from command line but get the following from c9:
-Compiling /var/lib/cloud9/BeagleBone/Black/blink.c ...    
-
-cc     blink.c   -o blink               
-ERROR while launching the debugger:                 
-        "gdbserver" is not installed 
-gbdserver IS installed
-
 The following files are:
 ```
 analogInOut.js      // Reads analog in on P9_36 and adjusts the PWM on P9_14.

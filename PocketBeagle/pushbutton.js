@@ -4,15 +4,15 @@
 
 
 ////////////////////////////////////////
-//	input2.js
+//	pushbutton.js
 //      Responds to changes on P8_19 and P9_16 via callbacks.
 //	Wiring:	Connect P8_19 to P9_14 with a 1kOhm resistor
 //          Connect P9_15 to P9_16 with a 1kOhm resistor
 //	Setup:	npm install epoll
 //	See:	
 ////////////////////////////////////////
-var b = require('bonescript');
-var button = "P2_3";
+const b = require('bonescript');
+const button = "P2_3";
 
 console.log('Hit ^C to stop');
 b.pinMode(button, b.INPUT, 7, 'pulldown', 'fast', doAttach);

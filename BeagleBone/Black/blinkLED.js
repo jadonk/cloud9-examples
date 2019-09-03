@@ -8,9 +8,9 @@
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
-var b = require('bonescript');
+const b = require('bonescript');
 
-var leds = ["USR0", "USR1", "USR2", "USR3", "P9_14"];
+const leds = ["USR0", "USR1", "USR2", "USR3", "P9_14"];
 
 for(var i in leds) {
     b.pinMode(leds[i], b.OUTPUT);

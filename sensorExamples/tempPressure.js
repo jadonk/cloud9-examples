@@ -1,17 +1,21 @@
 #!/usr/bin/env node
 // Run before: 
+// Black:
 //    sudo chgrp i2c /sys/class/i2c-adapter/i2c-2/new_device
 //    sudo chmod g+w /sys/class/i2c-adapter/i2c-2/new_device
+// AI:
+//    sudo chgrp i2c /sys/class/i2c-adapter/i2c-3/new_device
+//    sudo chmod g+w /sys/class/i2c-adapter/i2c-3/new_device
 const b = require('bonescript');
-const bus = 3;    // 2 for Black, 3 for AI
+const bus = 2;    // 2 for Black, 3 for AI
 const addr = '77';
 const model = 'bmp280';
 const i2c = '/sys/class/i2c-adapter/i2c-' + bus + '/';
 const device = 'iio:device1'; // 1 for Black, 2 for AI
 
 //Sensor Locations on the BeagleBone
-var temperature = i2c+bus+'-00'+addr+'/'+device+'/in_temp_input';
-var pressure    = i2c+bus+'-00'+addr+'/'+device+'/in_pressure_input';
+const temperature = i2c+bus+'-00'+addr+'/'+device+'/in_temp_input';
+const pressure    = i2c+bus+'-00'+addr+'/'+device+'/in_pressure_input';
 
 // We will initialize the driver for the BMP085 sensor located at I2C location 0x77
 // This will cause an error it if is already there

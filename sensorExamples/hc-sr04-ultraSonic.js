@@ -4,10 +4,10 @@
 // This version measures from the fall of the Trigger pulse 
 //   to the end of the Echo pulse
 
-var b = require('bonescript');
-var util = require("util");
+const b = require('bonescript');
+const util = require("util");
 
-var trigger = 'P9_15',  // Pin to trigger the ultrasonic pulse
+const trigger = 'P9_15',  // Pin to trigger the ultrasonic pulse
     echo    = 'P9_17',  // Pin to measure to pulse width related to the distance
     ms = 2500;           // Trigger period in ms
     

@@ -7,9 +7,9 @@
 //	Setup:	
 //	See:
 ////////////////////////////////////////
-var b = require('bonescript');
+const b = require('bonescript');
 
-var inputPin = "A5";
+const inputPin = "A5";
 
 console.log('Hit ^C to stop');
 b.analogRead(inputPin, printStatus);
