@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const b = require('bonescript');
 const SERVO = 'P9_14';
-var duty_min = 0.03;
+const duty_min = 0.03;
 var position = 0;
 var increment = 0.1;
 var timer;

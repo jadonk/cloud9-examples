@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var b = require('bonescript');
+const b = require('bonescript');
 var pos = {};
 
 // Joysitck | Pin  | Bone  | Pocket | Grove
@@ -10,9 +10,9 @@ var pos = {};
 // VER      | A3   | P9_38 | P1_25  | A2-2
 // SEL      | GPIO | P9_18 | P2_29
 
-var HOR = 'A2';
-var VER = 'A3';
-var SEL = 'P9_18';
+const HOR = 'A2';
+const VER = 'A3';
+const SEL = 'P9_18';
 b.pinMode(SEL, b.INPUT, 7, 'pullup');
 
 function start() {

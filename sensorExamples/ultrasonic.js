@@ -18,11 +18,9 @@ function read(){
 }
 
 function printStatus(err, value) {
-    var analogVoltage;
-    var distanceInches;
-    analogVoltage = value*1.8; // ADC Value converted to voltage
+    var analogVoltage = value*1.8; // ADC Value converted to voltage
     console.log('value = ' + analogVoltage); 
-    distanceInches = scale * analogVoltage / 0.00699;
+    var distanceInches = scale * analogVoltage / 0.00699;
     console.log("There is an object " + 
     parseFloat(distanceInches).toFixed(3) + " inches away.");
 }
