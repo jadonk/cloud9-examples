@@ -9,10 +9,10 @@ Script            | Description
 [joystick.js](#adafruit-2-axis-thumb-joystick)        | The Analog 2-axis Thumb Joystick allows you to easily mount a PSP/Xbox-like thumb joystick to your project.
 [motionSensor.js](#pir-motion-sensor)                 | The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of the room and it detects changes in heat.
 [potentiometer.js](#potentiometer)                    | A specific voltage can be sent to the AIN1 channel using a potentiometer. 
-[rotaryEncoder.js](#accurately-reading-the-position-of-a-motor-or-dial--rotary-encoders)  | How do use a rotary encoder (_quadrature encoder_) connected to the Bone's eQEP ports
+[rotaryEncoder.js](#rotary-encoders)  | How do use a rotary encoder (_quadrature encoder_) connected to the Bone's eQEP ports
 [servo.js](#micro-servo-motor)                        | The Micro Servo Motor can rotate 180 degrees and is usually used in applications such as robotics, CNC machinery, or automated manufacturing.
 [tempHumidity.js]                                     | Uses si7021 to read temp and humidity via I2C. 
-[tempPressure.js](#bmp085-i2c-pressure-temperature-sensor-demo)   | The BMP085 is a readily available pressure/temperature sensor using I2C. 
+[tempPressure.js](#bmp085-i2c-pressure,-temperature-sensor-demo)   | The BMP085 is a readily available pressure/temperature sensor using I2C. 
 [ultrasonic.js](#maxbotic-ultrasonic-sensor)          | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder provides very short to long-range detection and ranging, in an incredibly small package. 
 
 # Pins used
@@ -229,7 +229,7 @@ P9_36 | P2_35  | 5   | 5
 P9_35 | P1_02  | 6   | 6
 
 
-# Accurately Reading the Position of a Motor or Dial: Rotary Encoders
+# Rotary Encoders
 
 You have a motor or dial and want to detect rotation using a rotary encoder.
 
@@ -283,7 +283,7 @@ PWM   | PWM via 1kOhm resistor | P9_14 | P1_36 | PWM-1
 changing by 'increment' amount with updates every 200ms.
 
 
-# BMP085 I2C pressure/temperature sensor demo
+# BMP085 I2C pressure, temperature sensor demo
 The BMP085 is a readily available pressure/temperature sensor using I2C. 
 It is directly supported by the Linux kernel, so all you have to do is ask 
 the kernel to load the driver and then start reading values.
