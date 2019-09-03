@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "c9", "Previewer", "fs", "dialog.error", "commands", "tabManager", 
-        "layout", "settings"
+        "layout", "settings", "vfs"
     ];
     main.provides = ["preview.markdown"];
     return main;
@@ -12,6 +12,7 @@ define(function(require, exports, module) {
         var Previewer = imports.Previewer;
         var c9 = imports.c9;
         var fs = imports.fs;
+        var vfs = imports.vfs;
         var commands = imports.commands;
         var layout = imports.layout;
         var settings = imports.settings;
@@ -44,7 +45,8 @@ define(function(require, exports, module) {
         
         var counter = 0;
         var HTMLURL, previewOrigin;
-        
+        var vfsURL = vfs.serviceUrl;
+
         /***** Methods *****/
         
         function getPreviewUrl(fn) {
@@ -53,11 +55,9 @@ define(function(require, exports, module) {
             else if (HTMLURL)
                 return fn(HTMLURL);
             
-            HTMLURL = (options.staticPrefix 
-                ? (options.local ? dirname(document.baseURI) + "/static" : options.staticPrefix) 
-                    + options.htmlPath
-                : "/static/plugins/c9.ide.preview/previewers/markdown.html")
-                    + "?host=" + (options.local ? "local" : location.origin);
+            HTMLURL = vfsURL
+                + "/workspace/.c9/plugins/c9.ide.preview.markdown/markdown.html"
+                + "?host=" + (options.local ? "local" : location.origin);
                 
             if (HTMLURL.charAt(0) == "/")
                 HTMLURL = location.protocol + "//" + location.host + HTMLURL;
