@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-var b = require('bonescript');
-var zeroOffset  = 0.4584;
-var conversionFactor = 0.0917;
+const b = require('bonescript');
+const zeroOffset  = 0.4584;
+const conversionFactor = 0.0917;
 
 // Accelerometer | Pin  | Bone  | Pocket
 // ------------- | ---  | ----- | ------

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-var b = require('bonescript');
-var bus = '/dev/i2c-2'              // <1>
-var TMP102 = 0x48;                  // <2>
+const b = require('bonescript');
+const bus = '/dev/i2c-2'              // <1>
+const TMP102 = 0x48;                  // <2>
 
 b.i2cOpen(bus, TMP102);             // <3>
 b.i2cReadByte(bus, onReadByte);     // <4>

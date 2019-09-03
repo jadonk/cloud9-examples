@@ -14,8 +14,8 @@ const i2c = '/sys/class/i2c-adapter/i2c-' + bus + '/';
 const device = 'iio:device1';
 
 //Sensor Locations on the BeagleBone
-var temperature = i2c+bus+'-00'+addr+'/'+device+'/in_temp_scale';
-var humidity    = i2c+bus+'-00'+addr+'/'+device+'/in_humidityrelative_scale';
+const temperature = i2c+bus+'-00'+addr+'/'+device+'/in_temp_scale';
+const humidity    = i2c+bus+'-00'+addr+'/'+device+'/in_humidityrelative_scale';
 
 // We will initialize the driver for the si7020 sensor located at I2C location 0x40
 // This will cause an error it if is already there

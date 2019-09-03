@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-var b = require('bonescript');
-var LED = "P9_15";
-var AL  = "P9_29";
+const b = require('bonescript');
+const LED = "P9_15";
+const AL  = "P9_29";
 
 b.pinMode(LED, b.OUTPUT);
 b.pinMode(AL, b.INPUT);

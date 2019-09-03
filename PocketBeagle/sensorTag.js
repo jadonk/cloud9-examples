@@ -3,10 +3,10 @@
 
 // Reads temperature
 
-var util = require('util');             // <1>
-var async = require('async');
-var SensorTag = require('sensortag');
-var fs = require('fs');
+const util = require('util');             // <1>
+const async = require('async');
+const SensorTag = require('sensortag');
+const fs = require('fs');
 
 console.log("Be sure sensorTag is on");
 

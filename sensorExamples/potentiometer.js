@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var b = require('bonescript');
+const b = require('bonescript');
 
 // Potentiometer  | Pin  | Bone  | Pocket
 // -------------- | ---  | ----- | ------
