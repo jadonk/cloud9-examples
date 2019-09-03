@@ -12,7 +12,7 @@ Script            | Description
 [rotaryEncoder.js](#rotary-encoders)  | How do use a rotary encoder (_quadrature encoder_) connected to the Bone's eQEP ports
 [servo.js](#micro-servo-motor)                        | The Micro Servo Motor can rotate 180 degrees and is usually used in applications such as robotics, CNC machinery, or automated manufacturing.
 [tempHumidity.js]                                     | Uses si7021 to read temp and humidity via I2C. 
-[tempPressure.js](#bmp085-i2c-pressure,-temperature-sensor-demo)   | The BMP085 is a readily available pressure/temperature sensor using I2C. 
+[tempPressure.js](#bmp085-i2c-pressure-temperature-sensor-demo)   | The BMP085 is a readily available pressure/temperature sensor using I2C. 
 [ultrasonic.js](#maxbotic-ultrasonic-sensor)          | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder provides very short to long-range detection and ranging, in an incredibly small package. 
 
 # Pins used
@@ -283,7 +283,7 @@ PWM   | PWM via 1kOhm resistor | P9_14 | P1_36 | PWM-1
 changing by 'increment' amount with updates every 200ms.
 
 
-# BMP085 I2C pressure, temperature sensor demo
+# BMP085 I2C pressure temperature sensor demo
 The BMP085 is a readily available pressure/temperature sensor using I2C. 
 It is directly supported by the Linux kernel, so all you have to do is ask 
 the kernel to load the driver and then start reading values.
