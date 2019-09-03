@@ -1,0 +1,58 @@
+From cecb8cf0e5028c49b69ece0aeeff16ae0bbf9033 Mon Sep 17 00:00:00 2001
+From: Jason Kridner <jdk@ti.com>
+Date: Tue, 3 Sep 2019 19:35:50 +0000
+Subject: [PATCH] c9.ide.preview.markdown: fix to work as local plugin
+
+---
+ markdown.js | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/markdown.js b/markdown.js
+index f613fad..0e645b9 100644
+--- a/markdown.js
++++ b/markdown.js
+@@ -1,7 +1,7 @@
+ define(function(require, exports, module) {
+     main.consumes = [
+         "c9", "Previewer", "fs", "dialog.error", "commands", "tabManager", 
+-        "layout", "settings"
++        "layout", "settings", "vfs"
+     ];
+     main.provides = ["preview.markdown"];
+     return main;
+@@ -12,6 +12,7 @@ define(function(require, exports, module) {
+         var Previewer = imports.Previewer;
+         var c9 = imports.c9;
+         var fs = imports.fs;
++        var vfs = imports.vfs;
+         var commands = imports.commands;
+         var layout = imports.layout;
+         var settings = imports.settings;
+@@ -44,7 +45,8 @@ define(function(require, exports, module) {
+         
+         var counter = 0;
+         var HTMLURL, previewOrigin;
+-        
++        var vfsURL = vfs.serviceUrl;
++
+         /***** Methods *****/
+         
+         function getPreviewUrl(fn) {
+@@ -53,11 +55,9 @@ define(function(require, exports, module) {
+             else if (HTMLURL)
+                 return fn(HTMLURL);
+             
+-            HTMLURL = (options.staticPrefix 
+-                ? (options.local ? dirname(document.baseURI) + "/static" : options.staticPrefix) 
+-                    + options.htmlPath
+-                : "/static/plugins/c9.ide.preview/previewers/markdown.html")
+-                    + "?host=" + (options.local ? "local" : location.origin);
++            HTMLURL = vfsURL
++                + "/workspace/.c9/plugins/c9.ide.preview.markdown/markdown.html"
++                + "?host=" + (options.local ? "local" : location.origin);
+                 
+             if (HTMLURL.charAt(0) == "/")
+                 HTMLURL = location.protocol + "//" + location.host + HTMLURL;
+-- 
+2.11.0
+
