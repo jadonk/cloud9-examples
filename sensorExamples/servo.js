@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-var b = require('bonescript');
-var SERVO = 'P9_14';
-var duty_min = 0.03;
+const b = require('bonescript');
+const SERVO = 'P9_14';
+const duty_min = 0.03;
 var position = 0;
 var increment = 0.1;
+var timer;
 
 b.pinMode(SERVO, b.OUTPUT);
 updateDuty();
@@ -30,5 +31,12 @@ function scheduleNextUpdate() {
     }
     
     // call updateDuty after 200ms
-    setTimeout(updateDuty, 200);
+    timer = setTimeout(updateDuty, 200);
 }
+
+// Turn motor off when done
+process.on('SIGINT', function() {
+    console.log('Got SIGINT, turning motor off');
+    clearTimeout(timer);            // Stop the timer
+    b.analogWrite(SERVO, 0, 60);    // Turn motor off
+});

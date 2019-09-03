@@ -1,18 +1,18 @@
 #!/usr/bin/env node
-var b = require('bonescript');
+const b = require('bonescript');
 var pos = {};
 
-// Joysitck | Pin     | Bone  | Pocket
-// -------- | ---     | ----- | ------
-// VCC      | 1.8V    | P9_32 | P1_18
-// GND      | GND     | P9_34 | P1_17
-// HOR      | A5      | P9_36 | P2_35
-// VER      | A3      | P9_38 | P1_25
-// SEL      | GPIO0_7 | P9_42 | P2_29
+// Joysitck | Pin  | Bone  | Pocket | Grove
+// -------- | ---  | ----- | ------ | -----
+// VCC      | 1.8V | P9_32 | P1_18
+// GND      | GND  | P9_34 | P1_17
+// HOR      | A2   | P9_37 | P1_23  | A2-1
+// VER      | A3   | P9_38 | P1_25  | A2-2
+// SEL      | GPIO | P9_18 | P2_29
 
-var HOR = 'A6';     // A4
-var VER = 'A2';     // A3
-var SEL = 'P9_18';
+const HOR = 'A2';
+const VER = 'A3';
+const SEL = 'P9_18';
 b.pinMode(SEL, b.INPUT, 7, 'pullup');
 
 function start() {
@@ -33,7 +33,7 @@ function onX(err, value) {
 
 function onY(err, value) {
     pos.y = parseFloat(value * 100).toFixed(2);
-	console.log(JSON.stringify(pos), b.digitalRead(SEL));
+	console.log("x:", pos.x, " y:", pos.y);
 }
 
 // Bone  | Pocket | AIN

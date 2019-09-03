@@ -8,8 +8,8 @@
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
-var b = require('bonescript');
-var LED = 'P1_36';  // Pin to use
+const b = require('bonescript');
+const LED = 'P1_36';  // Pin to use
 var step = 0.02,    // Step size
     min = 0.02,     // dimmest value
     max = 1,        // brightest value
