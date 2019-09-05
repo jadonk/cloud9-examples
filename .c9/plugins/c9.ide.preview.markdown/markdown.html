@@ -2256,6 +2256,14 @@ function escapeHtml(str) {
   }
   return str;
 }
+
+var UNESCAPE_MD_RE = /\\([\\!"#$%&'()*+,.\/:;<=>?@[\]^_`{|}~-])/g;
+
+function unescapeMd(str) {
+  if (str.indexOf('\\') < 0) { return str; }
+  return str.replace(UNESCAPE_MD_RE, '$1');
+}
+
                 
                 var count = 0;
                 
@@ -2333,7 +2341,21 @@ function escapeHtml(str) {
                     }
                     return '<a href="' + url + '"' + title + target + '>';
                 };
-                
+
+                md.renderer.rules.image = function(tokens, idx, options) {
+                    var url = escapeHtml(tokens[idx].src) + '"';
+                    var title = tokens[idx].title ? (' title="' + escapeHtml(replaceEntities(tokens[idx].title)) + '"') : '';
+                    var alt = ' alt="' + (tokens[idx].alt ? escapeHtml(replaceEntities(unescapeMd(tokens[idx].alt))) : '') + '"';
+                    var suffix = options.xhtmlOut ? ' /' : '';
+                    if (!(/^https?:\/\//i.test(url))) {
+                        var myBase = document.baseURI.replace(/\.c9\/plugins\/c9\.ide\.preview\.markdown.*/, "");
+                        url = myBase + url;
+                    }
+                    var src = ' src="' + url;
+                    return '<img' + src + alt + title + suffix + '>';
+                };
+
+
                 // Build offsets for each line (lines can be wrapped)
                 // That's a bit dirty to process each line everytime, but ok for demo.
                 // Optimizations are required only for big texts.
