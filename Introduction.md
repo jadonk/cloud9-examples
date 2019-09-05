@@ -6,8 +6,8 @@ Visit [bbb.io/upgrade](https://beagleboard.org/upgrade) to learn how
 ## Need to connect to a WiFi access point first?</p>
 Use the command-line terminal block below to run the commands in bold, modifying as appropriate for your network.
 
-```
-debian@beaglebone:/var/lib/cloud9$ `**`sudo connmanctl&#x23CE;`**`
+<pre>
+debian@beaglebone:/var/lib/cloud9$ <b>sudo connmanctl&#x23CE;</b>
 [sudo] password for debian: `**`temppwd&#x23CE;`**`
 connmanctl> `**`scan wifi&#x23CE;`**`
 Scan completed for wifi
@@ -23,6 +23,6 @@ Passphrase? `**`MySecretPassphrase&#x23CE;`**`
 Connected wifi_1234567890_1234567890123456_managed_psk
 connmanctl> `**`quit&#x23CE;`**`
 debian@beaglebone:/var/lib/cloud9$
-```
+</pre>
 
 Now you can click [bbb.io/upgrade](https://beagleboard.org/upgrade)
