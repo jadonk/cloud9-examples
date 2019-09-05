@@ -50,6 +50,7 @@ define(function(require, exports, module) {
         /***** Methods *****/
         
         function getPreviewUrl(fn) {
+            /*global location*/
             if (options.local && document.baseURI.substr(0, 5) == "file:")
                 return setTimeout(getPreviewUrl.bind(null, fn), 100);
             else if (HTMLURL)
@@ -188,14 +189,31 @@ define(function(require, exports, module) {
                             emit("update", { previewDocument: doc });
                     }
                     else {
-                        fs.readFile(session.path, function(err, data) {
+                        fs.stat(session.path, function (err, data) {
                             if (err)
                                 return showError(err.message);
-                            
-                            session.source.postMessage({
-                                type: "document",
-                                content: data
-                            }, "*");
+                                    
+                            if(data.mime == "inode/directory") {
+                                fs.readFile(session.path+"/README.md", function(err, data) {
+                                    if (err)
+                                        return showError(err.message);
+                                    
+                                    session.source.postMessage({
+                                        type: "document",
+                                        content: data
+                                    }, "*");
+                                });
+                            } else {
+                                fs.readFile(session.path, function(err, data) {
+                                    if (err)
+                                        return showError(err.message);
+                                    
+                                    session.source.postMessage({
+                                        type: "document",
+                                        content: data
+                                  }, "*");
+                                });
+                            }
                         });
                     }
                     
