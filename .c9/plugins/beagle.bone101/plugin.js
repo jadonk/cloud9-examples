@@ -98,6 +98,13 @@ define(function(require, exports, module) {
                     bone101("intro");
                 }
             }, handle);
+            commands.addCommand({
+                name: "bone101_node-red",
+                isAvailable: function(){ return true; },
+                exec: function() {
+                    bone101("node-red");
+                }
+            }, handle);
 
             menus.addItemByPath("BeagleBone", null, 20, handle);
             //menus.addItemByPath("BeagleBone/About",new ui.item({
@@ -106,6 +113,9 @@ define(function(require, exports, module) {
             menus.addItemByPath("BeagleBone/Introduction", new ui.item({
                 command: "bone101_intro"
             }), 24, handle);
+            menus.addItemByPath("BeagleBone/Node-RED", new ui.item({
+                command: "bone101_node-red"
+            }), 26, handle);
         });
 
         tabManager.on("ready", function(){
@@ -113,21 +123,18 @@ define(function(require, exports, module) {
         });
 
         function bone101(page) {
-            //var filename = options.packagePath + ".bone101";
-            var filename = "/var/lib/cloud9/.c9/plugins/beagle.bone101/plugin.bone101";
-            console.log("opening " + filename);
-            //var pane = tabManager.getPanes()[0];
-            //var newPane = pane.hsplit();
-            var tab = tabManager.open({
-                "path": filename,
-                //"pane": newPane,
-                "editorType": "bone101",
-                "title": "bone101",
-                "tooltip": "bone101",
-                "focus": true
-            }, function(err, tab){
-                if (err) return console.error(err);
-            });
+            switch(page) {
+            case "intro":
+                tabManager.preview({
+                    "path": "/Introduction.md",
+                    "editorType": "preview",
+                    "focus": true
+                }, function(err, tab) {
+                    if (err) return console.error(err);
+                });
+                break;
+            default:
+            }
         }
 
         register(null, {
