@@ -84,18 +84,25 @@ define(function(require, exports, module) {
 
         handle.on("load", function(){
             console.log("bone101: load");
-            //commands.addCommand({
-            //    name: "bone101_about",
-            //    isAvailable: function(){ return true; },
-            //    exec: function() {
-            //        bone101("about");
-            //    }
-            //}, handle);
+            commands.addCommand({
+                name: "bone101_about",
+                isAvailable: function(){ return true; },
+                exec: function() {
+                    bone101("about");
+                }
+            }, handle);
             commands.addCommand({
                 name: "bone101_intro",
                 isAvailable: function(){ return true; },
                 exec: function() {
                     bone101("intro");
+                }
+            }, handle);
+            commands.addCommand({
+                name: "bone101_examples",
+                isAvailable: function(){ return true; },
+                exec: function() {
+                    bone101("examples");
                 }
             }, handle);
             commands.addCommand({
@@ -107,15 +114,18 @@ define(function(require, exports, module) {
             }, handle);
 
             menus.addItemByPath("BeagleBone", null, 20, handle);
-            //menus.addItemByPath("BeagleBone/About",new ui.item({
-            //    command: "bone101_about"
-            //}), 22, handle);
+            menus.addItemByPath("BeagleBone/About",new ui.item({
+                command: "bone101_about"
+            }), 22, handle);
             menus.addItemByPath("BeagleBone/Introduction", new ui.item({
                 command: "bone101_intro"
             }), 24, handle);
+            menus.addItemByPath("BeagleBone/Examples", new ui.item({
+                command: "bone101_examples"
+            }), 26, handle);
             menus.addItemByPath("BeagleBone/Node-RED", new ui.item({
                 command: "bone101_node-red"
-            }), 26, handle);
+            }), 28, handle);
         });
 
         tabManager.on("ready", function(){
@@ -124,19 +134,41 @@ define(function(require, exports, module) {
 
         function bone101(page) {
             switch(page) {
+            case "about":
+                var tab = tabManager.preview({
+                    "path": "/About.md",
+                    "editorType": "preview",
+                    "active": true,
+                    "focus": true
+                }, function(err, tab) {
+                    if (err) return console.error(err);
+                });
+                break;
             case "intro":
-                tabManager.preview({
+                var tab = tabManager.preview({
                     "path": "/Introduction.md",
                     "editorType": "preview",
+                    "active": true,
+                    "focus": true
+                }, function(err, tab) {
+                    if (err) return console.error(err);
+                });
+                break;
+            case "examples":
+                var tab = tabManager.preview({
+                    "path": "/README.md",
+                    "editorType": "preview",
+                    "active": true,
                     "focus": true
                 }, function(err, tab) {
                     if (err) return console.error(err);
                 });
                 break;
             case "node-red":
-                tabManager.preview({
+                var tab = tabManager.preview({
                     "path": "/extras/node-red.html",
                     "editorType": "preview",
+                    "active": true,
                     "focus": true
                 }, function(err, tab) {
                     if (err) return console.error(err);
