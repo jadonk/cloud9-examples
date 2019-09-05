@@ -189,6 +189,7 @@ define(function(require, exports, module) {
                             emit("update", { previewDocument: doc });
                     }
                     else {
+                        //showError("Testing: " + session.path);
                         fs.stat(session.path, function (err, data) {
                             if (err)
                                 return showError(err.message);
