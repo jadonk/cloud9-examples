@@ -25,4 +25,4 @@ connmanctl> `**`quit&#x23CE;`**`
 debian@beaglebone:/var/lib/cloud9$
 ```
 
-Now you can click [bbb.io/upgrade](https://beagleboard.org/upgrade]
+Now you can click [bbb.io/upgrade](https://beagleboard.org/upgrade)
