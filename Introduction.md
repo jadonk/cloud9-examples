@@ -1,4 +1,4 @@
-![](common/images/beagleboard-logo.svg)
+![](extras/images/beagleboard-logo.svg)
 # Please upgrade your software
 
 Visit [bbb.io/upgrade](https://beagleboard.org/upgrade) to learn how

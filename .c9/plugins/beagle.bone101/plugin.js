@@ -133,6 +133,15 @@ define(function(require, exports, module) {
                     if (err) return console.error(err);
                 });
                 break;
+            case "node-red":
+                tabManager.preview({
+                    "path": "/extras/node-red.html",
+                    "editorType": "preview",
+                    "focus": true
+                }, function(err, tab) {
+                    if (err) return console.error(err);
+                });
+                break;
             default:
             }
         }
