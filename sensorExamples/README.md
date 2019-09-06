@@ -7,6 +7,7 @@ Script            | Description
 [hc-sr04-ultraSonic.js](#adafruit-2-axis-thumb-joystick) | Shows how to use a HC-SR04 Ultrasonic Range Sensor.
 [i2cTemp.js](#measuring-a-temperature)                | Use TMP102 sensor to measure a temp va i2c.
 [joystick.js](#adafruit-2-axis-thumb-joystick)        | The Analog 2-axis Thumb Joystick allows you to easily mount a PSP/Xbox-like thumb joystick to your project.
+[LCD-display.sh](#LCD-Display-SPI)                    | Display an image using a ili9341 TFT LCD display via SPI
 [motionSensor.js](#pir-motion-sensor)                 | The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of the room and it detects changes in heat.
 [potentiometer.js](#potentiometer)                    | A specific voltage can be sent to the AIN1 channel using a potentiometer. 
 [rotaryEncoder.js](#rotary-encoders)  | How do use a rotary encoder (_quadrature encoder_) connected to the Bone's eQEP ports
@@ -149,6 +150,10 @@ VER      | A3      | P9_38 | P1_25  | A2-2
 SEL      | GPIO0_7 | P9_42 | P2_29
 
 * Click "Run" and it will output both the x and y axis, with 50,50 being the center.
+
+# LCD Display SPI
+
+Here's 
 
 # PIR Motion Sensor
 The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot 
