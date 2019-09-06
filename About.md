@@ -20,17 +20,50 @@ open source developer communities as well as Texas Instruments and other
 technology suppliers. This location is meant to capture some of their names
 and contributions.
 
-* Gerald Coley
-* Khasim Syed Mohammed
-* Steve Kipisz
-* Joel Fernandes
-* Koen Kooi
-* Pantelis Antoniou
-* Mans Rulgard
-* Cathy Wicks
+* Gerald Coley - designs of all Beagles up to BeagleBoard-X15
+* Khasim Syed Mohammed - brainstorming and debug
+* Steve Kipisz - debug
+* Joel Fernandes - debug
+* Koen Kooi - kernel and distro support on all Beagles up to BeagleBone Black
+* Pantelis Antoniou - dynamic overlays
+* Mans Rullgard
+* Matt Porter
+* Cathy Wicks - GSoC, blog, manuals, university engagements
+* Bill Mills
 * Nishanth Menon
 * Tom Rini
-* David Anders
-* Erik Welsh
+* David Anders - Bacon Cape
+* Michael Welling
+* James Strawson - librobotcontrol, Robotics Cape, 
+* Matthijs van Duin - show-pins.pl, udev rules, #beagle
+* Cody Lacey
+* Erik Welsh - BeagleBone Blue layout, BeagleBone Black Wireless debug
+* Charles Steinkuehler - machinekit, cape-universal* 
+* Trammell Hudson - ledscape
+* Anuj Deshpande
+* David Lechner
+* Robert P. J. Day
+* Andrew Henderson
+* Baozhu Zuo
+* Vlad Ungureanu
+* Víctor Mayoral Vilches
+* Henner Zeller
+* Andrew McPherson
+* Vaishnav M A
+* Parthi
+* Dick Hollenbeck
+* William Hermans
+* John Syne
+* Maxim Podbereznyy
+* Josh Datko
+* Shabaz Yousaf
+* Matt Ranostay
+* Vagrant Cascadian
+* Elias Bakken
+* Matt Richardson
+* David Scheltema
+* Steven Barrett
+* Mirko Denecke
+* Patrick Poirier
 
 TODO: Please help with the above list
