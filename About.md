@@ -49,6 +49,7 @@ and contributions.
 * Víctor Mayoral Vilches
 * Henner Zeller
 * Andrew McPherson
+* Derek Molloy
 * Vaishnav M A
 * Parthi
 * Dick Hollenbeck
@@ -65,5 +66,22 @@ and contributions.
 * Steven Barrett
 * Mirko Denecke
 * Patrick Poirier
+* Damjan Marion
+* Tim Kientzle
+* Frank Hunleth
+* Justin Cooper
+* David Planella
+* Yiğit Yüce
+* Thomas Freiherr
+* Brian Cooke
+* John Seamons
+* Bill Mar
+* Grégoire Gentil
+* Eric Stackpole
+* Jack Armitage
+* Jessica Calloway
+* Philip Parker
+* Alejandro Erives
+* Gerard Andrews
 
 TODO: Please help with the above list
