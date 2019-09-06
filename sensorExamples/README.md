@@ -153,7 +153,61 @@ SEL      | GPIO0_7 | P9_42 | P2_29
 
 # LCD Display SPI
 
-Here's 
+Here's how to interface the [Adafruit 2.4" TFT LCD](https://www.adafruit.com/product/2478).
+THe LCD display uses a ili9341 interface, so these directions will work with most
+any display using the ili9341.  The ili9341 uses a 
+[SPI serial interface](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface).
+The Beagles have multiple SPI interfaces
+
+### Using SPI 0
+
+Pin     | Black | gpio # | Pocket | gpio #
+---     | ----- |------- | ------ | -----
+MISO    | P9_21 | 3      | P1.10  | 
+LED     | P9_16 | 51     | P2.01  |
+SCK     | P9_22 | 2      | P1.08
+MOSI    | P9_18 | 4      | P1.12
+D/C     | P9_19 | 13     | P2.04  | 58
+RESET   | P9_20 | 12     | P2.06  | 57
+CS      | P9_17 | 5      | P1.06
+|
+GND     | P9_2  |        | P1.16
+VCC     | P9_4  |        | P1.14
+
+#### SPI 1
+Pin     | Black | gpio # 
+---     | ----- |------- 
+MISO    | P9_29 |   
+LED     | P9_26 | 14   
+SCK     | P9_31 |
+MOSI    | P9_30 | 
+D/C     | P9_27 | 115
+RESET   | P9_25 | 117
+CS      | P9_28 | 113
+
+#### SPI 2
+Pin     | AI     | gpio # | 
+---     | -----  |------- 
+MISO    | P9_18a |        | (Switched from Black)
+LED     | P9_26  |   
+SCK     | P9_22b |
+MOSI    | P9_21b |        | (Switched from Black)
+D/C     | P9_27  | 
+RESET   | P9_25  | 
+CS      | P9_17a  | 
+
+#### SPI 3
+Pin     | AI     | gpio # | 
+---     | -----  |------- 
+MISO    | P9_30  |        | (Switched from Black)
+LED     | P9_26  |   
+SCK     | P9_31  |
+MOSI    | P9_29a |        | (Switched from Black)
+D/C     | P9_27  | 
+RESET   | P9_25  | 
+CS      | P9_28  | 
+
+
 
 # PIR Motion Sensor
 The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot 
