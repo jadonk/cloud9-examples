@@ -6,7 +6,7 @@ demos that are for the Beagle you are running.
 Demo                                 | Description
 ----                                 | -----------
 autorun                              | Place files in here that you want to run whenever the Beagle starts.
-[BeagleBone](BeagleBone)             | Here you'll find demos for all of the BeagleBones.  The PocketBeagle demos are in another folder.
+[BeagleBone](BeagleBone/README.md)             | Here you'll find demos for all of the BeagleBones.  The PocketBeagle demos are in another folder.
 [BeagleBone/AI](BeagleBone/AI)       | Demos for the BeagleBone AI.
 [BeagleBone/Black](BeagleBone/Black) | Demos for the Black and Green families of Bones.  This includes the wirelss versions too.
 [BeagleBone/Blue](BeagleBone/Blue)   | Demos that run on the EduMIP balancing robot.
