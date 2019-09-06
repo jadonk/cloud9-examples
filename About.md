@@ -87,5 +87,7 @@ and contributions.
 * Zubeen Tolani
 * Kumar Abhishek
 * Ravi Kumar Prasad
+* Victor Meyerson
+* Steve Sakoman
 
 TODO: Please help with the above list
