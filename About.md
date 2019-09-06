@@ -83,5 +83,8 @@ and contributions.
 * Philip Parker
 * Alejandro Erives
 * Gerard Andrews
+* Hunyue Yau
+* Zubeen Tolani
+* Kumar Abhishek
 
 TODO: Please help with the above list
