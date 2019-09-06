@@ -86,5 +86,6 @@ and contributions.
 * Hunyue Yau
 * Zubeen Tolani
 * Kumar Abhishek
+* Ravi Kumar Prasad
 
 TODO: Please help with the above list
