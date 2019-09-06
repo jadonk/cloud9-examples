@@ -14,4 +14,4 @@ autorun                              | Place files in here that you want to run 
 common                               | PRU files that are common to all the Beagles.
 [extras](extras)                     | Lots of other demos.
 [PocketBeagle](PocketBeagle)         | Demos for the smallest of Beagles.
-[sensorExamples](sensorExamples)     | Examples for interfacing various sensors.  Works on all Beagles
+[sensorExamples](sensorExamples/README.md)     | Examples for interfacing various sensors.  Works on all Beagles
