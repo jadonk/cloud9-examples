@@ -154,7 +154,7 @@ SEL      | GPIO0_7 | P9_42 | P2_29
 # LCD Display SPI
 
 Here's how to interface the [Adafruit 2.4" TFT LCD](https://www.adafruit.com/product/2478).
-THe LCD display uses a ili9341 interface, so these directions will work with most
+The LCD display uses a ili9341 interface, so these directions will work with most
 any display using the ili9341.  The ili9341 uses a 
 [SPI serial interface](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface).
 The Beagles have multiple SPI interfaces
@@ -189,7 +189,7 @@ CS      | P9_28 | 113
 Pin     | AI     | gpio # | 
 ---     | -----  |------- 
 MISO    | P9_18a |        | (Switched from Black)
-LED     | P9_26  |   
+LED     | P9_26  | 174
 SCK     | P9_22b |
 MOSI    | P9_21b |        | (Switched from Black)
 D/C     | P9_27  | 
@@ -200,7 +200,7 @@ CS      | P9_17a  |
 Pin     | AI     | gpio # | 
 ---     | -----  |------- 
 MISO    | P9_30  |        | (Switched from Black)
-LED     | P9_26  |   
+LED     | P9_26  | 174
 SCK     | P9_31  |
 MOSI    | P9_29a |        | (Switched from Black)
 D/C     | P9_27  | 
