@@ -5,7 +5,8 @@ Script            | Description
 ------            | -----------
 [accelerometer.js](#accelerometer)                    | This example reads values from Sparkfun’s ADXL335 3-axis accelerometer. 
 [hc-sr04-ultraSonic.js](#adafruit-2-axis-thumb-joystick) | Shows how to use a HC-SR04 Ultrasonic Range Sensor.
-[i2cTemp.js](#measuring-a-temperature)                | Use TMP102 sensor to measure a temp va i2c.
+[i2cTemp.js](#measuring-a-temperature)                | Use TMP102 sensor to measure a temp va i2c and JavaScript.
+[i2cTemp.py](#measuring-a-temperature)                | Use TMP102 sensor to measure a temp va i2c and python.
 [joystick.js](#adafruit-2-axis-thumb-joystick)        | The Analog 2-axis Thumb Joystick allows you to easily mount a PSP/Xbox-like thumb joystick to your project.
 [LCD-display.sh](#LCD-Display-SPI)                    | Display an image using a ili9341 TFT LCD display via SPI
 [motionSensor.js](#pir-motion-sensor)                 | The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of the room and it detects changes in heat.
@@ -110,7 +111,7 @@ There are two I2C buses brought out to the headers. The figure shows that you ha
 Once the I2C  device is wired up, you can use a couple handy I2C tools to test the device. Because these are Linux command-line tools, you have to use ```1``` as the bus number. ```i2cdetect```, shown below, shows which I2C devices are on the bus. The ```-r``` flag indicates which bus to use. Our TMP102 is appearing at address ```0x49```. You can use the ```i2cget``` command to read the value. It returns the temperature in hexidecimal and degrees C. In this example, 0x18 = 24C, which is 75.2F. (Hmmm, the office is a bit warm today.) Try warming up the TMP102 with your finger and running ```i2cget``` again.
 
 ```
-bone# i2cdetect -y -r 1
+bone# i2cdetect -y -r 2
      0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
@@ -124,6 +125,7 @@ bone# i2cdetect -y -r 1
 bone# i2cget -y 1 0x49
 0x18
 ```
+
 # Adafruit 2-Axis Thumb Joystick
 
 The [Analog 2-axis Thumb Joystick](http://www.adafruit.com/products/512) 

@@ -5,7 +5,7 @@ import smbus
 import time
 
 bus = smbus.SMBus(2)    # Bus Number
-address = 0x48          # Device address
+address = 0x49          # Device address
 
 while True:
     temp = bus.read_byte_data(address, 0) # 0 is register to read
