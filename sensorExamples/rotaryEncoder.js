@@ -3,7 +3,7 @@
 
 const fs = require('fs');
 
-// Black OR Pocket
+// Black or Pocket
 // eQEP0:	P9.27 and P9.42 OR P1_33 and P2_34
 // eQEP1:	P9.33 and P9.35
 // eQEP2:	P8.11 and P8.12 OR P2_24 and P2_33
