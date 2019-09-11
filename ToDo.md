@@ -43,7 +43,7 @@
 - [x] Joystick - tested Black/AI
 - [x] PIRMotionSensors - tested Black/AI
 - [x] Potentiometer - tested Black/AI
-- [x] rotaryEncoder - tested Black/AI
+- [x] rotaryEncoder - tested Black/AI - Document python version
 - [x] Servo - Figure out PWM on AI
 - [ ] Humidity and temp, si7021 - Same interface as BMP085, but gives wrong values
 - [ ] Pressure and temperature sensor - BMP085 - tested Black/AI - Needs udev rule - Need delay between new_device and reading values
