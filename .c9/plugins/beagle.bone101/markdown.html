@@ -2336,7 +2336,7 @@ function unescapeMd(str) {
                     var target = options.linkTarget ? (' target="' + options.linkTarget + '"') : '';
                     var url = "" + escapeHtml(tokens[idx].href);
                     if (!(/^https?:\/\//i.test(url))) {
-                        var myBase = document.baseURI.replace(/\.c9\/plugins\/c9\.ide\.preview\.markdown.*/, "");
+                        var myBase = document.baseURI.replace(/\.c9\/plugins\/beagle\.bone101.*/, "");
                         url = myBase + url;
                     }
                     return '<a href="' + url + '"' + title + target + '>';
@@ -2348,7 +2348,7 @@ function unescapeMd(str) {
                     var alt = ' alt="' + (tokens[idx].alt ? escapeHtml(replaceEntities(unescapeMd(tokens[idx].alt))) : '') + '"';
                     var suffix = options.xhtmlOut ? ' /' : '';
                     if (!(/^https?:\/\//i.test(url))) {
-                        var myBase = document.baseURI.replace(/\.c9\/plugins\/c9\.ide\.preview\.markdown.*/, "");
+                        var myBase = document.baseURI.replace(/\.c9\/plugins\/beagle\.bone101.*/, "");
                         url = myBase + url;
                     }
                     var src = ' src="' + url;
