@@ -97,6 +97,62 @@ define(function(require, exports, module) {
             session.scrollHook = session.previewTab;
         }
 
+        function bone101(page) {
+            switch(page) {
+            case "about":
+                tabManager.preview({
+                    "path": "/About.md",
+                    "editorType": "preview",
+                    "active": true,
+                    "focus": true
+                }, function(err, tab) {
+                    if (err) return console.error(err);
+                });
+                break;
+            case "intro":
+                tabManager.preview({
+                    "path": "/Introduction.md",
+                    "editorType": "preview",
+                    "active": true,
+                    "focus": true
+                }, function(err, tab) {
+                    if (err) return console.error(err);
+                });
+                break;
+            case "examples":
+                tabManager.preview({
+                    "path": "/README.md",
+                    "editorType": "preview",
+                    "active": true,
+                    "focus": true
+                }, function(err, tab) {
+                    if (err) return console.error(err);
+                });
+                break;
+            case "node-red":
+                tabManager.preview({
+                    "path": "/extras/node-red.html",
+                    "editorType": "preview",
+                    "active": true,
+                    "focus": true
+                }, function(err, tab) {
+                    if (err) return console.error(err);
+                });
+                break;
+            case "mjpg-stream":
+                tabManager.preview({
+                    "path": "/extras/mjpg-stream.html",
+                    "editorType": "preview",
+                    "active": true,
+                    "focus": true
+                }, function(err, tab) {
+                    if (err) return console.error(err);
+                });
+                break;
+            default:
+            }
+        }
+
         /***** Lifecycle *****/
         
         plugin.on("load", function() {
@@ -361,10 +417,11 @@ define(function(require, exports, module) {
             window.open(src);
         });
         plugin.on("enable", function() {
-            
+            console.log("beagle.bone101: enabled")
+            //bone101("intro");
         });
         plugin.on("disable", function() {
-            
+            console.log("beagle.bone101: disabled")
         });
         plugin.on("unload", function() {
         });
@@ -376,66 +433,6 @@ define(function(require, exports, module) {
          **/
         plugin.freezePublicAPI({
         });
-
-        tabManager.on("ready", function(){
-            bone101("intro");
-        });
-
-        function bone101(page) {
-            switch(page) {
-            case "about":
-                tabManager.preview({
-                    "path": "/About.md",
-                    "editorType": "preview",
-                    "active": true,
-                    "focus": true
-                }, function(err, tab) {
-                    if (err) return console.error(err);
-                });
-                break;
-            case "intro":
-                tabManager.preview({
-                    "path": "/Introduction.md",
-                    "editorType": "preview",
-                    "active": true,
-                    "focus": true
-                }, function(err, tab) {
-                    if (err) return console.error(err);
-                });
-                break;
-            case "examples":
-                tabManager.preview({
-                    "path": "/README.md",
-                    "editorType": "preview",
-                    "active": true,
-                    "focus": true
-                }, function(err, tab) {
-                    if (err) return console.error(err);
-                });
-                break;
-            case "node-red":
-                tabManager.preview({
-                    "path": "/extras/node-red.html",
-                    "editorType": "preview",
-                    "active": true,
-                    "focus": true
-                }, function(err, tab) {
-                    if (err) return console.error(err);
-                });
-                break;
-            case "mjpg-stream":
-                tabManager.preview({
-                    "path": "/extras/mjpg-stream.html",
-                    "editorType": "preview",
-                    "active": true,
-                    "focus": true
-                }, function(err, tab) {
-                    if (err) return console.error(err);
-                });
-                break;
-            default:
-            }
-        }
 
         register(null, {
             "preview.markdown": plugin
