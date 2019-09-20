@@ -397,7 +397,8 @@ define(function(require, exports, module) {
             }, "*");
             
            enableScroll(session);
-           
+
+if(0) { // not working right now, but also don't know that it is needed
             setTimeout(function() {
                 if (!session.previewTab || !session.previewTab.loaded) 
                     return;
@@ -405,6 +406,7 @@ define(function(require, exports, module) {
                 var doc = session.previewTab.document;
                 doc.getSession().session._emit("changeScrollTop");
             }, 100);
+}
         });
         plugin.on("reload", function() {
             var iframe = plugin.activeSession.iframe;
@@ -417,8 +419,7 @@ define(function(require, exports, module) {
             window.open(src);
         });
         plugin.on("enable", function() {
-            console.log("beagle.bone101: enabled")
-            //bone101("intro");
+            console.log("beagle.bone101: enabled");
         });
         plugin.on("disable", function() {
             console.log("beagle.bone101: disabled")
@@ -433,6 +434,11 @@ define(function(require, exports, module) {
          **/
         plugin.freezePublicAPI({
         });
+
+        // Cannot quite figure out what event to do this on
+        setTimeout(function() {
+            bone101("intro");
+        }, 500);
 
         register(null, {
             "preview.markdown": plugin
