@@ -4,7 +4,7 @@ define(function(require, exports, module) {
         "layout", "settings", "vfs",
         "menus", "ui"
     ];
-    main.provides = ["beagle.bone101"];
+    main.provides = ["preview.markdown"];
     return main;
 
     function main(options, imports, register) {
@@ -26,8 +26,8 @@ define(function(require, exports, module) {
         /***** Initialization *****/
         
         var plugin = new Previewer("Ajax.org", main.consumes, {
-            caption: "Markdown",
-            index: 200,
+            caption: "Beagle Markdown",
+            index: 100,
             selector: function(path) {
                 return path && path.match(/(?:\.md|\.markdown)$/i);
             }
@@ -42,7 +42,7 @@ define(function(require, exports, module) {
             "dark": "rgba(255, 255, 255, 0.88)",
             "dark-gray": "rgba(255, 255, 255, 0.88)" 
         };
-        
+
         var counter = 0;
         var HTMLURL, previewOrigin;
         var vfsURL = vfs.serviceUrl;
@@ -129,6 +129,13 @@ define(function(require, exports, module) {
                     bone101("node-red");
                 }
             }, plugin);
+            commands.addCommand({
+                name: "bone101_mjpg-stream",
+                isAvailable: function(){ return true; },
+                exec: function() {
+                    bone101("mjpg-stream");
+                }
+            }, plugin);
 
             menus.addItemByPath("BeagleBone", null, 20, plugin);
             menus.addItemByPath("BeagleBone/About",new ui.item({
@@ -143,6 +150,9 @@ define(function(require, exports, module) {
             menus.addItemByPath("BeagleBone/Node-RED", new ui.item({
                 command: "bone101_node-red"
             }), 28, plugin);
+            menus.addItemByPath("BeagleBone/MJPG-Streamer", new ui.item({
+                command: "bone101_mjpg-stream"
+            }), 30, plugin);
         });
         plugin.on("sessionStart", function(e) {
             var doc = e.doc;
@@ -366,7 +376,7 @@ define(function(require, exports, module) {
          **/
         plugin.freezePublicAPI({
         });
-        
+
         tabManager.on("ready", function(){
             bone101("intro");
         });
@@ -413,12 +423,22 @@ define(function(require, exports, module) {
                     if (err) return console.error(err);
                 });
                 break;
+            case "mjpg-stream":
+                tabManager.preview({
+                    "path": "/extras/mjpg-stream.html",
+                    "editorType": "preview",
+                    "active": true,
+                    "focus": true
+                }, function(err, tab) {
+                    if (err) return console.error(err);
+                });
+                break;
             default:
             }
         }
 
         register(null, {
-            "beagle.bone101": plugin
+            "preview.markdown": plugin
         });
     }
 });
