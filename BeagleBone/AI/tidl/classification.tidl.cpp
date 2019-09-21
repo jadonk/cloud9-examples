@@ -100,7 +100,7 @@ bool filter_init(const char* args, void** filter_ctx) {
 
     std::cout << "Initializing filter" << std::endl;
 
-    populate_labels("/home/debian/tidl-api/examples/classification/imagenet.txt");
+    populate_labels("/usr/share/ti/examples/tidl/classification/imagenet.txt");
 
     selected_items_size = 10;
     selected_items = (int *)malloc(selected_items_size*sizeof(int));
@@ -122,13 +122,13 @@ bool filter_init(const char* args, void** filter_ctx) {
     std::cout << "loading configuration" << std::endl;
     configuration.numFrames = 0;
     configuration.inData = 
-        "/home/debian/tidl-api/examples/test/testvecs/input/preproc_0_224x224.y";
+        "/usr/share/ti/examples/tidl/test/testvecs/input/preproc_0_224x224.y";
     configuration.outData = 
-        "/home/debian/tidl-api/examples/classification/stats_tool_out.bin";
+        "/usr/share/ti/examples/tidl/classification/stats_tool_out.bin";
     configuration.netBinFile = 
-        "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/tidl_net_imagenet_jacintonet11v2.bin";
+        "/usr/share/ti/examples/tidl/test/testvecs/config/tidl_models/tidl_net_imagenet_jacintonet11v2.bin";
     configuration.paramsBinFile = 
-        "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/tidl_param_imagenet_jacintonet11v2.bin";
+        "/usr/share/ti/examples/tidl/test/testvecs/config/tidl_models/tidl_param_imagenet_jacintonet11v2.bin";
     configuration.preProcType = 0;
     configuration.inWidth = 224;
     configuration.inHeight = 224;

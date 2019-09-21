@@ -165,7 +165,7 @@ ifneq ($(PRU_DIR),)
 	@$(COMMON)/write_init_pins.sh /lib/firmware/$(CHIP)-pru$(PRUN)-fw
 else ifeq ($(PROC),tidl)
 	ti-mct-heap-check -c
-	sudo mjpg_streamer -i "input_opencv.so -r 640x480 --filter ./$(TARGET)$(EXE)" -o "output_http.so -p ${MYPORT} -w /usr/share/mjpg-streamer/www"
+	sudo mjpg_streamer -i "input_opencv.so -r 640x480 --filter ./$(TARGET)$(EXE)" -o "output_http.so -p 8080 -w /usr/share/mjpg-streamer/www"
 else
 	./$(TARGET)$(EXE)
 endif
