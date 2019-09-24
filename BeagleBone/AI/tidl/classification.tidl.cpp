@@ -95,7 +95,7 @@ bool verbose = false;
 */
 bool filter_init(const char* args, void** filter_ctx) {
     uint32_t num_eves = 4;
-    uint32_t num_dsps = 0;
+    uint32_t num_dsps = 1;
     int num_layers_groups = 1;
 
     std::cout << "Initializing filter" << std::endl;
