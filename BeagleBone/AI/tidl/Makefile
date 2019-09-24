@@ -1,4 +1,4 @@
-all: classification.tidl.so
+all: classification.tidl.so segmentation.tidl.so
 
 include /var/lib/cloud9/common/Makefile
 

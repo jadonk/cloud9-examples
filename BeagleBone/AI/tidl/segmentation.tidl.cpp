@@ -60,11 +60,6 @@ using namespace std;
 
 int current_eop = 0;
 int num_eops = 0;
-int top_candidates = 3;
-int size = 0;
-int selected_items_size;
-int * selected_items;
-std::string * labels_classes[MAX_CLASSES];
 Configuration configuration;
 Executor *e_eve = nullptr;
 Executor *e_dsp = nullptr;
@@ -76,9 +71,8 @@ bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
 void AllocateMemory(const std::vector<ExecutionObjectPipeline*>& eops);
 bool ProcessFrame(ExecutionObjectPipeline* eop, Mat &src);
 void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst);
-int tf_postprocess(uchar *in);
-bool tf_expected_id(int id);
-void populate_labels(const char* filename);
+void CreateMask(uchar *classes, uchar *mb, uchar *mg, uchar* mr,
+                int channel_size);
 
 // exports for the filter
 extern "C" {
@@ -99,20 +93,18 @@ bool filter_init(const char* args, void** filter_ctx) {
     int num_layers_groups = 1;
 
     std::cout << "Initializing filter" << std::endl;
-        
-    populate_labels("/home/debian/tidl-api/examples/classification/imagenet.txt");
 
     std::cout << "loading configuration" << std::endl;
-    configuration.numFrames = 9;
+    configuration.numFrames = 1;
+    configuration.preProcType = 0;
     configuration.inData = 
-        "/home/debian/tidl-api/examples/test/testvecs/input/input/000100_1024x512_bgr.y";
+        "/usr/share/ti/examples/tidl/test/testvecs/input/input/000100_1024x512_bgr.y";
     configuration.outData = 
         "./stats_tool_out.bin";
     configuration.netBinFile = 
-        "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/jsegnet21/tidl_net_jsegnet21v2.bin";
+        "/usr/share/ti/examples/tidl/test/testvecs/config/tidl_models/tidl_net_jsegnet21v2.bin";
     configuration.paramsBinFile = 
-        "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/jsegnet21/tidl_param_jsegnet21v2.bin";
-    configuration.preProcType = 0;
+        "/usr/share/ti/examples/tidl/test/testvecs/config/tidl_models/tidl_param_jsegnet21v2.bin";
     configuration.inWidth = 1024;
     configuration.inHeight = 512;
     configuration.inNumChannels = 3;
@@ -135,7 +127,7 @@ bool filter_init(const char* args, void** filter_ctx) {
         num_eops = eops.size();
         std::cout << "num_eops=" << num_eops << std::endl;
         std::cout << "About to start ProcessFrame loop!!" << std::endl;
-        std::cout << "http://192.168.6.2:8090/?action=stream" << std::endl;
+        std::cout << "http://localhost:8080/?action=stream" << std::endl;
     }
     catch (tidl::Exception &e)
     {
@@ -281,108 +273,48 @@ bool ProcessFrame(ExecutionObjectPipeline* eop, Mat &src)
 
 void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst)
 {
-    dst = src;
-    if(configuration.enableApiTrace)
-        std::cout << "postprocess()" << std::endl;
-    int is_object = tf_postprocess((uchar*) eop->GetOutputBufferPtr());
-    if(is_object >= 0)
-    {
-        cv::putText(
-            dst,
-            (*(labels_classes[is_object])).c_str(),
-            cv::Point(15, 60),
-            cv::FONT_HERSHEY_SIMPLEX,
-            1.5,
-            cv::Scalar(0,255,0),
-            3,  /* thickness */
-            8
-        );
-    }
-    if(last_rpt_id != is_object) {
-        if(is_object >= 0)
-        {
-            std::cout << "(" << is_object << ")="
-                      << (*(labels_classes[is_object])).c_str() << std::endl;
-        }
-        last_rpt_id = is_object;
-    }
+    unsigned char *out = (unsigned char *) eop->GetOutputBufferPtr();
+    int width          = configuration.inWidth;
+    int height         = configuration.inHeight;
+    int channel_size   = width * height;
+
+    Mat mask, frame, blend, r_blend, bgr[3];
+    // Create overlay mask
+    bgr[0] = Mat(height, width, CV_8UC(1));
+    bgr[1] = Mat(height, width, CV_8UC(1));
+    bgr[2] = Mat(height, width, CV_8UC(1));
+    CreateMask(out, bgr[0].ptr(), bgr[1].ptr(), bgr[2].ptr(), channel_size);
+    cv::merge(bgr, 3, mask);
+
+    // Asseembly original frame
+    unsigned char *in = (unsigned char *) eop.GetInputBufferPtr();
+    bgr[0] = Mat(height, width, CV_8UC(1), in);
+    bgr[1] = Mat(height, width, CV_8UC(1), in + channel_size);
+    bgr[2] = Mat(height, width, CV_8UC(1), in + channel_size*2);
+    cv::merge(bgr, 3, frame);
+
+    // Create overlayed frame
+    cv::addWeighted(frame, 0.7, mask, 0.3, 0.0, blend);
+
+    // Resize to output width/height, keep aspect ratio
+    uint32_t output_width = opts.output_width;
+    if (output_width == 0)  output_width = orig_width;
+    uint32_t output_height = (output_width*1.0f) / orig_width * orig_height;
+    cv::resize(blend, r_blend, Size(output_width, output_height));
+
+    dst = r_blend;
 }
 
-// Function to filter all the reported decisions
-bool tf_expected_id(int id)
+// Create Overlay mask for pixel-level segmentation
+void CreateMask(uchar *classes, uchar *mb, uchar *mg, uchar* mr,
+                int channel_size)
 {
-   // Filter out unexpected IDs
-   for (int i = 0; i < selected_items_size; i ++)
-   {
-       if(id == selected_items[i]) return true;
-   }
-   return false;
-}
-
-int tf_postprocess(uchar *in)
-{
-  //prob_i = exp(TIDL_Lib_output_i) / sum(exp(TIDL_Lib_output))
-  // sort and get k largest values and corresponding indices
-  const int k = top_candidates;
-  int rpt_id = -1;
-
-  typedef std::pair<uchar, int> val_index;
-  auto constexpr cmp = [](val_index &left, val_index &right) { return left.first > right.first; };
-  std::priority_queue<val_index, std::vector<val_index>, decltype(cmp)> queue(cmp);
-  // initialize priority queue with smallest value on top
-  for (int i = 0; i < k; i++) {
-    if(configuration.enableApiTrace)
-        std::cout << "push(" << i << "):"
-                  << in[i] << std::endl;
-    queue.push(val_index(in[i], i));
-  }
-  // for rest input, if larger than current minimum, pop mininum, push new val
-  for (int i = k; i < size; i++)
-  {
-    if (in[i] > queue.top().first)
+    for (int i = 0; i < channel_size; i++)
     {
-      queue.pop();
-      queue.push(val_index(in[i], i));
+        const ObjectClass& object_class = object_classes->At(classes[i]);
+        mb[i] = object_class.color.blue;
+        mg[i] = object_class.color.green;
+        mr[i] = object_class.color.red;
     }
-  }
-
-  // output top k values in reverse order: largest val first
-  std::vector<val_index> sorted;
-  while (! queue.empty())
-   {
-    sorted.push_back(queue.top());
-    queue.pop();
-  }
-
-  for (int i = 0; i < k; i++)
-  {
-      int id = sorted[i].second;
-
-      if (tf_expected_id(id))
-      {
-        rpt_id = id;
-      }
-  }
-  return rpt_id;
-}
-
-void populate_labels(const char* filename)
-{
-  ifstream file(filename);
-  if(file.is_open())
-  {
-    string inputLine;
-
-    while (getline(file, inputLine) )                 //while the end of file is NOT reached
-    {
-      labels_classes[size++] = new string(inputLine);
-    }
-    file.close();
-  }
-#if 1
-  std::cout << "==Total of " << size << " items!" << std::endl;
-  for (int i = 0; i < size; i ++)
-    std::cout << i << ") " << *(labels_classes[i]) << std::endl;
-#endif
 }
 
