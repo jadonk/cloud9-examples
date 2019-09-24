@@ -329,22 +329,20 @@ To calibrate the LV-MAX Sonar, cycle power then command a read cycle.*
 
 The AN pin outputs a voltage with a scaling factor of (Vcc/512) per inch. 
 Since the AIN pin has a maximum voltage capacity of 1.8V, 
-we will set a voltage divider to account for that difference. 
-With the voltage divider, a supply of 5V yields ~6.99mV/in. and 3.3V yields ~4.57mV/in.
+you may have to add a voltage divider to scale the voltage if you are using
+long distances.
 
-<img src="images/ultrasonic.png" width="500">
+<img src="images/ultrasonicRange_bb.png" width="500">
 
 ## Build and execute instructions
-* Connect the 1.2k ohm resistor to the AN pin of the supersonic sensor.
-* Connect the 3k ohm resistor in series with the 1.2k ohm resistor and tie the 
-bottom to ground, as shown in the diagram.
+
 * Connect the pins as follows:
 
 Ultrasound | Pin  | Bone  | Pocket
 ---------- | ---  | ----- | ------
 GND        | GND  | P9_1  | P2_15
 +5         | 3.3V | P9_3  | P1_14
-series with 3k ohm and 1.2k ohm resistor | A1 | P9_40 | P1_21
+An         | A1   | P9_40 | P1_21
 
 * Click "Run" on the code and it will output the distance, in inches,
 that the sensor is detecting... updating every 5 seconds
