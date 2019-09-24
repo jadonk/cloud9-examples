@@ -94,8 +94,8 @@ bool verbose = false;
     filter_process function, and should be freed by the filter_free function
 */
 bool filter_init(const char* args, void** filter_ctx) {
-    uint32_t num_eves = 0;
-    uint32_t num_dsps = 2;
+    uint32_t num_eves = 4;
+    uint32_t num_dsps = 0;
     int num_layers_groups = 1;
 
     std::cout << "Initializing filter" << std::endl;
