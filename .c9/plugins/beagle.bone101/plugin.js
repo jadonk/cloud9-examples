@@ -45,7 +45,6 @@ define(function(require, exports, module) {
 
         var counter = 0;
         var HTMLURL, previewOrigin;
-        var vfsURL = vfs.serviceUrl;
 
         /***** Methods *****/
         
@@ -56,7 +55,7 @@ define(function(require, exports, module) {
             else if (HTMLURL)
                 return fn(HTMLURL);
             
-            HTMLURL = vfsURL
+            HTMLURL = vfs.serviceUrl
                 + "/workspace/.c9/plugins/beagle.bone101/markdown.html"
                 + "?host=" + (options.local ? "local" : location.origin);
                 
