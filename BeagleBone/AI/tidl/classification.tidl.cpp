@@ -71,11 +71,10 @@ Executor *e_dsp = nullptr;
 std::vector<ExecutionObjectPipeline *> eops;
 int last_rpt_id = -1;
 
-bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
-                                    uint32_t num_layers_groups);
+bool CreateExecutionObjectPipelines();
 void AllocateMemory(const std::vector<ExecutionObjectPipeline*>& eops);
 bool ProcessFrame(ExecutionObjectPipeline* eop, Mat &src);
-void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst);
+void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& dst);
 int tf_postprocess(uchar *in);
 bool tf_expected_id(int id);
 void populate_labels(const char* filename);
@@ -94,10 +93,6 @@ bool verbose = false;
     filter_process function, and should be freed by the filter_free function
 */
 bool filter_init(const char* args, void** filter_ctx) {
-    uint32_t num_eves = 4;
-    uint32_t num_dsps = 1;
-    int num_layers_groups = 1;
-
     std::cout << "Initializing filter" << std::endl;
 
     populate_labels("/usr/share/ti/examples/tidl/classification/imagenet.txt");
@@ -142,8 +137,7 @@ bool filter_init(const char* args, void** filter_ctx) {
         std::cout << "allocating execution object pipelines (EOP)" << std::endl;
         
         // Create ExecutionObjectPipelines
-        if (! CreateExecutionObjectPipelines(num_eves, num_dsps,
-                                        num_layers_groups))
+        if (! CreateExecutionObjectPipelines())
             return false;
 
         // Allocate input/output memory for each EOP
@@ -167,6 +161,9 @@ bool filter_init(const char* args, void** filter_ctx) {
     Called by the OpenCV plugin upon each frame
 */
 void filter_process(void* filter_ctx, Mat& src, Mat& dst) {
+    int doDisplay = 0;
+    dst = src;
+
     try
     {
         // Process frames with available EOPs in a pipelined manner
@@ -174,27 +171,11 @@ void filter_process(void* filter_ctx, Mat& src, Mat& dst) {
         ExecutionObjectPipeline* eop = eops[current_eop];
 
         // Wait for previous frame on the same eo to finish processing
-        //std::cout << "+" << std::endl;
-        if (eop->ProcessFrameWait())
-        {
-            //std::cout << "-" << std::endl;
-            if(configuration.enableApiTrace)
-                std::cout << "display()" << std::endl;
-            DisplayFrame(eop, src, dst);
-        }
-        else
-        {
-            //std::cout << "." << std::endl;
-            if(configuration.enableApiTrace)
-                std::cout << "copy()" << std::endl;
-            dst = src;
-        }
-
-        if(configuration.enableApiTrace)
-            std::cout << "process()" << std::endl;
+        if(eop->ProcessFrameWait()) doDisplay = 1;
 
         ProcessFrame(eop, src);
-        
+        if(doDisplay) DisplayFrame(eop, dst);
+
         current_eop++;
         if(current_eop >= num_eops)
             current_eop = 0;
@@ -202,7 +183,6 @@ void filter_process(void* filter_ctx, Mat& src, Mat& dst) {
     catch (tidl::Exception &e)
     {
         std::cerr << e.what() << std::endl;
-        dst = src;
     }
 
     return;
@@ -232,17 +212,43 @@ void filter_free(void* filter_ctx) {
     return;
 }
 
-bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
-                                    uint32_t num_layers_groups)
+bool CreateExecutionObjectPipelines()
 {
+    const uint32_t num_eves = 4;
+    const uint32_t num_dsps = 1;
+    const uint32_t buffer_factor = 1;
+
     DeviceIds ids_eve, ids_dsp;
     for (uint32_t i = 0; i < num_eves; i++)
         ids_eve.insert(static_cast<DeviceId>(i));
     for (uint32_t i = 0; i < num_dsps; i++)
         ids_dsp.insert(static_cast<DeviceId>(i));
-    const uint32_t buffer_factor = 1;
 
+#if 1
+    // Create Executors with the approriate core type, number of cores
+    // and configuration specified
+    // EVE will run layersGroupId 1 in the network, while
+    // DSP will run layersGroupId 2 in the network
     std::cout << "allocating executors" << std::endl;
+    e_eve = num_eves == 0 ? nullptr :
+            new Executor(DeviceType::EVE, ids_eve, configuration, 1);
+    e_dsp = num_dsps == 0 ? nullptr :
+            new Executor(DeviceType::DSP, ids_dsp, configuration, 2);
+
+    // Construct ExecutionObjectPipeline that utilizes multiple
+    // ExecutionObjects to process a single frame, each ExecutionObject
+    // processes one layerGroup of the network
+    // If buffer_factor == 2, duplicating EOPs for pipelining at
+    // EO level rather than at EOP level, in addition to double buffering
+    // and overlapping host pre/post-processing with device processing
+    std::cout << "allocating individual EOPs" << std::endl;
+    for (uint32_t j = 0; j < buffer_factor; j++)
+    {
+        for (uint32_t i = 0; i < std::max(num_eves, num_dsps); i++)
+            eops.push_back(new ExecutionObjectPipeline(
+                            {(*e_eve)[i%num_eves], (*e_dsp)[i%num_dsps]}));
+    }
+#else
     e_eve = num_eves == 0 ? nullptr :
             new Executor(DeviceType::EVE, ids_eve, configuration);
     e_dsp = num_dsps == 0 ? nullptr :
@@ -253,7 +259,6 @@ bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
     // as many DSP and EVE cores that we have on hand.
     // If buffer_factor == 2, duplicating EOPs for double buffering
     // and overlapping host pre/post-processing with device processing
-    std::cout << "allocating individual EOPs" << std::endl;
     for (uint32_t j = 0; j < buffer_factor; j++)
     {
         for (uint32_t i = 0; i < num_eves; i++)
@@ -261,6 +266,7 @@ bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
         for (uint32_t i = 0; i < num_dsps; i++)
             eops.push_back(new ExecutionObjectPipeline({(*e_dsp)[i]}));
     }
+#endif
 
     return true;
 }
@@ -296,9 +302,8 @@ bool ProcessFrame(ExecutionObjectPipeline* eop, Mat &src)
 }
 
 
-void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& src, Mat& dst)
+void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& dst)
 {
-    dst = src;
     if(configuration.enableApiTrace)
         std::cout << "postprocess()" << std::endl;
     int is_object = tf_postprocess((uchar*) eop->GetOutputBufferPtr());
