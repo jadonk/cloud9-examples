@@ -51,38 +51,38 @@
 #include "opencv2/highgui.hpp"
 #include "opencv2/videoio.hpp"
 
-#define RES_X 480
-#define RES_Y 480
-
 #define MAX_EOPS 8
+#define MAX_CLASSES 1100
 
 using namespace tidl;
 using namespace cv;
 using namespace std;
 
-struct my_ctx {
-    Configuration configuration;
-    Executor * e_eve;
-    Executor * e_dsp;
-    std::vector<ExecutionObjectPipeline *> eops;
-    int frame_idx;
-    Mat * images[MAX_EOPS];
-};
+int current_eop = 0;
+int num_eops = 0;
+int top_candidates = 3;
+int size = 0;
+int selected_items_size;
+int * selected_items;
+std::string * labels_classes[MAX_CLASSES];
+Configuration configuration;
+Executor *e_eve = nullptr;
+Executor *e_dsp = nullptr;
+std::vector<ExecutionObjectPipeline *> eops;
+int last_rpt_id = -1;
 
-bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
-                                    uint32_t num_layers_groups,
-                                    struct my_ctx * ctx);
+bool CreateExecutionObjectPipelines();
 void AllocateMemory(const std::vector<ExecutionObjectPipeline*>& eops);
-bool ProcessFrame(ExecutionObjectPipeline* eop, struct my_ctx * ctx,
-                  Mat &src);
-void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& dst,
-                  struct my_ctx * ctx);
-int tf_postprocess(uchar *in, int size, struct my_ctx * ctx, int f_id);
+bool ProcessFrame(ExecutionObjectPipeline* eop, Mat &src);
+void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& dst);
+int tf_postprocess(uchar *in);
+bool tf_expected_id(int id);
+void populate_labels(const char* filename);
 
 // exports for the filter
 extern "C" {
-    bool filter_init(const char * args, void** filter_ctx);
-    void filter_process(void* filter_ctx, Mat &src, Mat &dst);
+    bool filter_init(const char* args, void** filter_ctx);
+    void filter_process(void* filter_ctx, Mat& src, Mat& dst);
     void filter_free(void* filter_ctx);
 }
 
@@ -92,61 +92,61 @@ bool verbose = false;
     Initializes the filter. If you return something, it will be passed to the
     filter_process function, and should be freed by the filter_free function
 */
-bool filter_init(const char * args, void** filter_ctx) {
-    uint32_t num_eves = 2;
-    uint32_t num_dsps = 2;
-    int num_layers_groups = 1;
-    int i;
+bool filter_init(const char* args, void** filter_ctx) {
+    std::cout << "Initializing filter" << std::endl;
 
-    // Read the TI DL configuration file
-    /*
-numFrames   = 999900
-inData   = /home/debian/tidl-api/examples/test/testvecs/input/preproc_0_224x224.y
-outData   = "/home/debian/tidl-api/examples/classification/stats_tool_out.bin"
-netBinFile      = "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/tidl_net_imagenet_jacintonet11v2.bin"
-paramsBinFile   = "/home/debian/tidl-api/examples/test/testvecs/config/tidl_models/tidl_param_imagenet_jacintonet11v2.bin"
-preProcType = 0
-inWidth = 224
-inHeight = 224
-inNumChannels = 3
-layerIndex2LayerGroupId = { {12, 2}, {13, 2}, {14, 2} }
-*/
-    Configuration configuration;
-    if (!configuration.ReadFromFile("stream_config_j11_v2.txt"))
+    populate_labels("/usr/share/ti/examples/tidl/classification/imagenet.txt");
+
+    selected_items_size = 10;
+    selected_items = (int *)malloc(selected_items_size*sizeof(int));
+    if (!selected_items) {
+        std::cout << "selected_items malloc failed" << std::endl;
         return false;
+    }
+    selected_items[0] = 429; /* baseball */
+    selected_items[1] = 837; /* sunglasses */
+    selected_items[2] = 504; /* coffee_mug */
+    selected_items[3] = 441; /* beer_glass */
+    selected_items[4] = 898; /* water_bottle */
+    selected_items[5] = 931; /* bagel */
+    selected_items[6] = 531; /* digital_watch */
+    selected_items[7] = 487; /* cellular_telephone */
+    selected_items[8] = 722; /* ping-pong_ball */
+    selected_items[9] = 720; /* pill_bottle */
 
-    if (verbose)
-        configuration.enableApiTrace = true;
-
-    if (num_layers_groups == 1)
-        configuration.runFullNet = true; //Force all layers to be in the same group
-
-    struct my_ctx * ctx = (struct my_ctx *)malloc(sizeof(struct my_ctx));
-    if (!ctx)
-        return false;
-    *filter_ctx = ctx;
+    std::cout << "loading configuration" << std::endl;
+    configuration.numFrames = 0;
+    configuration.inData = 
+        "/usr/share/ti/examples/tidl/test/testvecs/input/preproc_0_224x224.y";
+    configuration.outData = 
+        "/usr/share/ti/examples/tidl/classification/stats_tool_out.bin";
+    configuration.netBinFile = 
+        "/usr/share/ti/examples/tidl/test/testvecs/config/tidl_models/tidl_net_imagenet_jacintonet11v2.bin";
+    configuration.paramsBinFile = 
+        "/usr/share/ti/examples/tidl/test/testvecs/config/tidl_models/tidl_param_imagenet_jacintonet11v2.bin";
+    configuration.preProcType = 0;
+    configuration.inWidth = 224;
+    configuration.inHeight = 224;
+    configuration.inNumChannels = 3;
+    configuration.layerIndex2LayerGroupId = { {12, 2}, {13, 2}, {14, 2} };
+    configuration.enableApiTrace = false;
+    configuration.runFullNet = true;
 
     try
     {
+        std::cout << "allocating execution object pipelines (EOP)" << std::endl;
+        
         // Create ExecutionObjectPipelines
-        ctx->e_eve = nullptr;
-        ctx->e_dsp = nullptr;
-        if (! CreateExecutionObjectPipelines(num_eves, num_dsps,
-                                        num_layers_groups, ctx))
+        if (! CreateExecutionObjectPipelines())
             return false;
 
         // Allocate input/output memory for each EOP
-        AllocateMemory(ctx->eops);
-
-        int num_eops = ctx->eops.size();
-        for (i=0; i < num_eops; i++)
-        {
-            ctx->images[i] = new Mat(Size(RES_X, RES_Y), CV_8UC4);
-        }
-
-        ctx->frame_idx = 0;
-
+        std::cout << "allocating I/O memory for each EOP" << std::endl;
+        AllocateMemory(eops);
+        num_eops = eops.size();
+        std::cout << "num_eops=" << num_eops << std::endl;
         std::cout << "About to start ProcessFrame loop!!" << std::endl;
+        std::cout << "http://localhost:8080/?action=stream" << std::endl;
     }
     catch (tidl::Exception &e)
     {
@@ -161,37 +161,28 @@ layerIndex2LayerGroupId = { {12, 2}, {13, 2}, {14, 2} }
     Called by the OpenCV plugin upon each frame
 */
 void filter_process(void* filter_ctx, Mat& src, Mat& dst) {
-    struct my_ctx * ctx = static_cast<struct my_ctx *>(filter_ctx);
+    int doDisplay = 0;
+    dst = src;
 
     try
     {
         // Process frames with available EOPs in a pipelined manner
         // additional num_eops iterations to flush the pipeline (epilogue)
-        int num_eops = ctx->eops.size();
-        ExecutionObjectPipeline* eop = ctx->eops[ctx->frame_idx % num_eops];
+        ExecutionObjectPipeline* eop = eops[current_eop];
 
         // Wait for previous frame on the same eo to finish processing
-        if (eop->ProcessFrameWait())
-        {
-             DisplayFrame(eop, dst, ctx);
-        }
-        else
-        {
-            dst = src;
-        }
+        if(eop->ProcessFrameWait()) doDisplay = 1;
 
-        if (ProcessFrame(eop, ctx, src))
-            eop->ProcessFrameStartAsync();
+        ProcessFrame(eop, src);
+        if(doDisplay) DisplayFrame(eop, dst);
 
-        if (ctx->frame_idx < ctx->configuration.numFrames + num_eops)
-            ctx->frame_idx++;
-        else
-            ctx->frame_idx = 0;
+        current_eop++;
+        if(current_eop >= num_eops)
+            current_eop = 0;
     }
     catch (tidl::Exception &e)
     {
         std::cerr << e.what() << std::endl;
-        dst = src;
     }
 
     return;
@@ -201,99 +192,81 @@ void filter_process(void* filter_ctx, Mat& src, Mat& dst) {
     Called when the input plugin is cleaning up
 */
 void filter_free(void* filter_ctx) {
-    struct my_ctx * ctx = static_cast<struct my_ctx *>(filter_ctx);
-
     try
     {
-        int num_eops = ctx->eops.size();
-
         // Cleanup
-        for (auto eop : ctx->eops)
+        for (auto eop : eops)
         {
             free(eop->GetInputBufferPtr());
             free(eop->GetOutputBufferPtr());
             delete eop;
         }
-        if (ctx->e_dsp) delete ctx->e_dsp;
-        if (ctx->e_eve) delete ctx->e_eve;
-
-        for (int i=0; i < num_eops; i++)
-        {
-            delete ctx->images[i];
-        }
+        if (e_dsp) delete e_dsp;
+        if (e_eve) delete e_eve;
     }
     catch (tidl::Exception& e)
     {
         std::cerr << e.what() << std::endl;
     }
 
-    free(ctx);
-
     return;
 }
 
-bool CreateExecutionObjectPipelines(uint32_t num_eves, uint32_t num_dsps,
-                                    uint32_t num_layers_groups,
-                                    struct my_ctx * ctx)
+bool CreateExecutionObjectPipelines()
 {
+    const uint32_t num_eves = 4;
+    const uint32_t num_dsps = 1;
+    const uint32_t buffer_factor = 1;
+
     DeviceIds ids_eve, ids_dsp;
     for (uint32_t i = 0; i < num_eves; i++)
         ids_eve.insert(static_cast<DeviceId>(i));
     for (uint32_t i = 0; i < num_dsps; i++)
         ids_dsp.insert(static_cast<DeviceId>(i));
-    const uint32_t buffer_factor = 2;
 
-    switch(num_layers_groups)
+#if 1
+    // Create Executors with the approriate core type, number of cores
+    // and configuration specified
+    // EVE will run layersGroupId 1 in the network, while
+    // DSP will run layersGroupId 2 in the network
+    std::cout << "allocating executors" << std::endl;
+    e_eve = num_eves == 0 ? nullptr :
+            new Executor(DeviceType::EVE, ids_eve, configuration, 1);
+    e_dsp = num_dsps == 0 ? nullptr :
+            new Executor(DeviceType::DSP, ids_dsp, configuration, 2);
+
+    // Construct ExecutionObjectPipeline that utilizes multiple
+    // ExecutionObjects to process a single frame, each ExecutionObject
+    // processes one layerGroup of the network
+    // If buffer_factor == 2, duplicating EOPs for pipelining at
+    // EO level rather than at EOP level, in addition to double buffering
+    // and overlapping host pre/post-processing with device processing
+    std::cout << "allocating individual EOPs" << std::endl;
+    for (uint32_t j = 0; j < buffer_factor; j++)
     {
-    case 1: // Single layers group
-        ctx->e_eve = num_eves == 0 ? nullptr :
-                new Executor(DeviceType::EVE, ids_eve, ctx->configuration);
-        ctx->e_dsp = num_dsps == 0 ? nullptr :
-                new Executor(DeviceType::DSP, ids_dsp, ctx->configuration);
-
-        // Construct ExecutionObjectPipeline with single Execution Object to
-        // process each frame. This is parallel processing of frames with
-        // as many DSP and EVE cores that we have on hand.
-        // If buffer_factor == 2, duplicating EOPs for double buffering
-        // and overlapping host pre/post-processing with device processing
-        for (uint32_t j = 0; j < buffer_factor; j++)
-        {
-            for (uint32_t i = 0; i < num_eves; i++)
-                ctx->eops.push_back(new ExecutionObjectPipeline({(*(ctx->e_eve))[i]}));
-            for (uint32_t i = 0; i < num_dsps; i++)
-                ctx->eops.push_back(new ExecutionObjectPipeline({(*(ctx->e_dsp))[i]}));
-        }
-        break;
-
-    case 2: // Two layers group
-        // Create Executors with the approriate core type, number of cores
-        // and configuration specified
-        // EVE will run layersGroupId 1 in the network, while
-        // DSP will run layersGroupId 2 in the network
-        ctx->e_eve = num_eves == 0 ? nullptr :
-                new Executor(DeviceType::EVE, ids_eve, ctx->configuration, 1);
-        ctx->e_dsp = num_dsps == 0 ? nullptr :
-                new Executor(DeviceType::DSP, ids_dsp, ctx->configuration, 2);
-
-        // Construct ExecutionObjectPipeline that utilizes multiple
-        // ExecutionObjects to process a single frame, each ExecutionObject
-        // processes one layerGroup of the network
-        // If buffer_factor == 2, duplicating EOPs for pipelining at
-        // EO level rather than at EOP level, in addition to double buffering
-        // and overlapping host pre/post-processing with device processing
-        for (uint32_t j = 0; j < buffer_factor; j++)
-        {
-            for (uint32_t i = 0; i < std::max(num_eves, num_dsps); i++)
-                ctx->eops.push_back(new ExecutionObjectPipeline(
-                                {(*(ctx->e_eve))[i%num_eves], (*(ctx->e_dsp))[i%num_dsps]}));
-        }
-        break;
-
-    default:
-        std::cout << "Layers groups can be either 1 or 2!" << std::endl;
-        return false;
-        break;
+        for (uint32_t i = 0; i < std::max(num_eves, num_dsps); i++)
+            eops.push_back(new ExecutionObjectPipeline(
+                            {(*e_eve)[i%num_eves], (*e_dsp)[i%num_dsps]}));
     }
+#else
+    e_eve = num_eves == 0 ? nullptr :
+            new Executor(DeviceType::EVE, ids_eve, configuration);
+    e_dsp = num_dsps == 0 ? nullptr :
+            new Executor(DeviceType::DSP, ids_dsp, configuration);
+
+    // Construct ExecutionObjectPipeline with single Execution Object to
+    // process each frame. This is parallel processing of frames with
+    // as many DSP and EVE cores that we have on hand.
+    // If buffer_factor == 2, duplicating EOPs for double buffering
+    // and overlapping host pre/post-processing with device processing
+    for (uint32_t j = 0; j < buffer_factor; j++)
+    {
+        for (uint32_t i = 0; i < num_eves; i++)
+            eops.push_back(new ExecutionObjectPipeline({(*e_eve)[i]}));
+        for (uint32_t i = 0; i < num_dsps; i++)
+            eops.push_back(new ExecutionObjectPipeline({(*e_dsp)[i]}));
+    }
+#endif
 
     return true;
 }
@@ -317,69 +290,45 @@ void AllocateMemory(const std::vector<ExecutionObjectPipeline*>& eops)
 }
 
 
-bool ProcessFrame(ExecutionObjectPipeline* eop, struct my_ctx * ctx,
-                  Mat &src)
+bool ProcessFrame(ExecutionObjectPipeline* eop, Mat &src)
 {
-    Mat image;
-    Rect rectCrop;
-
-    //Crop central square portion
-    int loc_xmin = (src.size().width - src.size().height) / 2; //Central position
-    int loc_ymin = 0;
-    int loc_w = src.size().height;
-    int loc_h = src.size().height;
-
-    cv::resize(src(Rect(loc_xmin, loc_ymin, loc_w, loc_h)), image, Size(RES_X, RES_Y));
-
-    *(ctx->images[ctx->frame_idx]) = Mat(image, rectCrop);
-
-    imgutil::PreprocessImage(*(ctx->images[ctx->frame_idx]), 
-                             eop->GetInputBufferPtr(), ctx->configuration);
-    eop->SetFrameIndex(ctx->frame_idx);
+    if(configuration.enableApiTrace)
+        std::cout << "preprocess()" << std::endl;
+    imgutil::PreprocessImage(src, 
+                             eop->GetInputBufferPtr(), configuration);
     eop->ProcessFrameStartAsync();
         
     return false;
 }
 
 
-void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& dst,
-                  struct my_ctx * ctx)
+void DisplayFrame(const ExecutionObjectPipeline* eop, Mat& dst)
 {
-    int f_id = eop->GetFrameIndex();
-    int is_object = tf_postprocess((uchar*) eop->GetOutputBufferPtr(), ctx, f_id);
-    if(is_object > 0)
+    if(configuration.enableApiTrace)
+        std::cout << "postprocess()" << std::endl;
+    int is_object = tf_postprocess((uchar*) eop->GetOutputBufferPtr());
+    if(is_object >= 0)
     {
-        std::cout << "(" << is_object << ")="
-                  << labels_classes[is_object].c_str() << std::endl;
-#ifdef PERF_VERBOSE
-        std::cout << "Device:" << eop->GetDeviceName() << " eops("
-                  << num_eops << "), FPS:" << avg_fps << std::endl;
-#endif
+        cv::putText(
+            dst,
+            (*(labels_classes[is_object])).c_str(),
+            cv::Point(15, 60),
+            cv::FONT_HERSHEY_SIMPLEX,
+            1.5,
+            cv::Scalar(0,255,0),
+            3,  /* thickness */
+            8
+        );
+    }
+    if(last_rpt_id != is_object) {
+        if(is_object >= 0)
+        {
+            std::cout << "(" << is_object << ")="
+                      << (*(labels_classes[is_object])).c_str() << std::endl;
+        }
+        last_rpt_id = is_object;
     }
 }
-
-
-char imagenet_win[160];
-char tmp_classwindow_string[160];
-
-Mat in_image, image, r_image, cnn_image, show_image, bgr_frames[3];
-Mat to_stream;
-Rect rectCrop;
-// Report average FPS across a sliding window of 16 frames
-AvgFPSWindow fps_window(16);
-
-
-
-extern std::string labels_classes[];
-extern int IMAGE_CLASSES_NUM;
-extern int selected_items_size;
-extern int selected_items[];
-extern int populate_selected_items (char *filename);
-
-std::string labels_classes[MAX_CLASSES];
-int IMAGE_CLASSES_NUM = 0;
-
-
 
 // Function to filter all the reported decisions
 bool tf_expected_id(int id)
@@ -392,11 +341,11 @@ bool tf_expected_id(int id)
    return false;
 }
 
-int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
+int tf_postprocess(uchar *in)
 {
   //prob_i = exp(TIDL_Lib_output_i) / sum(exp(TIDL_Lib_output))
   // sort and get k largest values and corresponding indices
-  const int k = TOP_CANDIDATES;
+  const int k = top_candidates;
   int rpt_id = -1;
 
   typedef std::pair<uchar, int> val_index;
@@ -404,6 +353,9 @@ int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
   std::priority_queue<val_index, std::vector<val_index>, decltype(cmp)> queue(cmp);
   // initialize priority queue with smallest value on top
   for (int i = 0; i < k; i++) {
+    if(configuration.enableApiTrace)
+        std::cout << "push(" << i << "):"
+                  << in[i] << std::endl;
     queue.push(val_index(in[i], i));
   }
   // for rest input, if larger than current minimum, pop mininum, push new val
@@ -430,12 +382,29 @@ int tf_postprocess(uchar *in, struct my_ctx * ctx, int f_id)
 
       if (tf_expected_id(id))
       {
-        std::cout << "Frame:" << ctx->frame_idx << "," << f_id << "]: rank="
-                  << k-i << ", outval=" << (float)sorted[i].first / 255 << ", "
-                  << labels_classes[sorted[i].second] << std::endl;
         rpt_id = id;
       }
   }
   return rpt_id;
+}
+
+void populate_labels(const char* filename)
+{
+  ifstream file(filename);
+  if(file.is_open())
+  {
+    string inputLine;
+
+    while (getline(file, inputLine) )                 //while the end of file is NOT reached
+    {
+      labels_classes[size++] = new string(inputLine);
+    }
+    file.close();
+  }
+#if 0
+  std::cout << "==Total of " << size << " items!" << std::endl;
+  for (int i = 0; i < size; i ++)
+    std::cout << i << ") " << *(labels_classes[i]) << std::endl;
+#endif
 }
 

@@ -15,8 +15,6 @@ volatile register unsigned int __R30;
 volatile register unsigned int __R31;
 
 void main(void) {
-	int i;
-	
 	// Points to the two GPIO ports that are used
 	uint32_t *gpio3 = (uint32_t *)GPIO3;
 	uint32_t *gpio5 = (uint32_t *)GPIO5;
@@ -24,7 +22,7 @@ void main(void) {
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
-	for(i=0; i<100; i++) {
+	while(1) {
 		gpio5[GPIO_SETDATAOUT]   = USR1;	// Turn the USR1 LED on
 		gpio3[GPIO_CLEARDATAOUT] = USR2;	// Turn USR2 LED off
 		

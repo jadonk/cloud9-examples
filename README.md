@@ -1,66 +1,17 @@
-# cloud9-examples.
+# cloud9-examples
 
-.
-├── autorun
-├── BeagleBone
-│   ├── AI
-│   │   └── pru
-│   ├── Black
-│   │   ├── Cookbook
-│   │   │   ├── 02-sensors
-│   │   │   ├── 03-displays
-│   │   │   ├── 04-motors
-│   │   │   ├── 05-beyond
-│   │   │   ├── 06-iot
-│   │   │   ├── 07-kernel
-│   │   │   ├── 08-realtime
-│   │   │   └── 09-capes
-│   │   └── pru
-│   │       └── jason
-│   ├── Blue
-│   │   └── EduMIP
-│   │       └── python
-│   └── Green
-│       └── Grove
-│           └── Software
-│               └── Python
-│                   ├── Adafruit\_Python\_BMP
-│                   │   ├── Adafruit\_BMP
-│                   │   └── examples
-│                   ├── Grove\_3\_Axis\_Compass
-│                   ├── Grove\_3\_Axis\_Digital\_Gyro
-│                   ├── Grove\_Digital\_Light\_Sensor
-│                   ├── Grove\_Fingerprint
-│                   └── Grove\_IMU\_10DOF
-├── common
-├── extras
-│   ├── bacon\_cape
-│   │   └── flot
-│   ├── botspeak
-│   │   ├── css
-│   │   └── images
-│   ├── C-modulesFromJS
-│   │   └── MRAA\_Examples
-│   │       ├── ain
-│   │       ├── blink
-│   │       ├── gpio\_advanced
-│   │       ├── hello\_mraa
-│   │       ├── spi
-│   │       ├── uart
-│   │       └── writeCmodule
-│   ├── escbrazil
-│   ├── MarkAYoder
-│   ├── mfba2014
-│   ├── sensortag
-│   │   └── IoTDetroit2014
-│   ├── simulator
-│   └── Userspace-Arduino
-├── PocketBeagle
-│   ├── Grove
-│   │   └── VL53L0X
-│   └── TechLab
-│       ├── device-tree
-│       └── modules-kbuild
-└── TechLab
+This contains many demos for the various Beagles.  Be sure to find the
+demos that are for the Beagle you are running.
 
-61 directories
+Demo                                 | Description
+----                                 | -----------
+autorun                              | Place files in here that you want to run whenever the Beagle starts.
+[BeagleBone](BeagleBone/README.md)             | Here you'll find demos for all of the BeagleBones.  The PocketBeagle demos are in another folder.
+[BeagleBone/AI](BeagleBone/AI)       | Demos for the BeagleBone AI.
+[BeagleBone/Black](BeagleBone/Black) | Demos for the Black and Green families of Bones.  This includes the wirelss versions too.
+[BeagleBone/Blue](BeagleBone/Blue)   | Demos that run on the EduMIP balancing robot.
+[BeagleBone/Green](BeagleBone/Green) | Additional demos that run on the Grove system on the Green.
+common                               | PRU files that are common to all the Beagles.
+[extras](extras)                     | Lots of other demos.
+[PocketBeagle](PocketBeagle)         | Demos for the smallest of Beagles.
+[sensorExamples](sensorExamples/README.md)     | Examples for interfacing various sensors.  Works on all Beagles

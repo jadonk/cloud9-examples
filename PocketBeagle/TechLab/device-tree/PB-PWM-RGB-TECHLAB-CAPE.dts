@@ -25,7 +25,7 @@
 	fragment@2 {
 		target-path="/";
 		__overlay__ {
-			techlab_rgb {
+			techlab_rgb: techlab_rgb {
 				compatible = "pwm-leds";
 
 				techlab_pwm_red {

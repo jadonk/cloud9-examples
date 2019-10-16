@@ -1,9 +1,9 @@
 # BeagleBone AI examples
 
-BeagleBone AI is XXX. Learn more at https://beagleboard.org/ai.
+Learn more at https://beagleboard.org/ai.
 
-# Directories
-
-* tidl - Learn how to use the built-in embedded machine learning accelerators.
-* pru - Learn how to use the on-board ultra-low latency PRU microcontrollers.
-
+Directory    | Learn how to use the ...
+----------   | -----------
+[tidl](tidl) | built-in embedded machine learning accelerators.
+[pru](pru)   | on-board ultra-low latency PRU microcontrollers.
+[c66](c66)   | on-board digital signal processors.

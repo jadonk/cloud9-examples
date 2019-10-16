@@ -51,41 +51,49 @@ define target-to-proc =
   PRU_DIR=/sys/class/remoteproc/remoteproc0
   PRUN=1_0
   PROC=pru
+  EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru1_1)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
   PRU_DIR=/sys/class/remoteproc/remoteproc1
   PRUN=1_1
   PROC=pru
+  EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru2_0)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
   PRU_DIR=/sys/class/remoteproc/remoteproc2
   PRUN=2_0
   PROC=pru
+  EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru2_1)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
   PRU_DIR=/sys/class/remoteproc/remoteproc3
   PRUN=2_1
   PROC=pru
+  EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru0)
   CHIP=am335x
   CHIP_REV=am335x
   PRU_DIR=/sys/class/remoteproc/remoteproc1
   PRUN=0
   PROC=pru
+  EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru1)
   CHIP=am335x
   CHIP_REV=am335x
   PRU_DIR=/sys/class/remoteproc/remoteproc2
   PRUN=1
   PROC=pru
+  EXE=.out
  else ifeq ($(suffix $(basename $(1))),.tidl)
   CHIP=am57xx
   PROC=tidl
+  EXE=.so
  else
   PROC=arm
+  EXE=.out
  endif
 endef
 
@@ -113,7 +121,7 @@ define proc-to-build-vars =
    --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing \
    --c_src_interlist
  else ifeq ($(PROC),tidl)
-  LD=gcc -o
+  LD=g++ -o
   LDFLAGS=-lopencv_highgui -lopencv_imgcodecs -lopencv_videoio -lopencv_imgproc -lopencv_core \
    $(TIDL_API_DIR)/tidl_api.a $(TIDL_API_DIR)/tidl_imgutil.a \
    -lTIOpenCL -locl_util -lpthread
@@ -134,7 +142,7 @@ endef
 
 ifneq ($(TARGET),)
 $(eval $(call target-to-proc,$(TARGET).out))
-# $(warning GEN_DIR=$(GEN_DIR),CHIP=$(CHIP),PROC=$(PROC),PRUN=$(PRUN),PRU_DIR=$(PRU_DIR))
+$(warning GEN_DIR=$(GEN_DIR),CHIP=$(CHIP),PROC=$(PROC),PRUN=$(PRUN),PRU_DIR=$(PRU_DIR),EXE=$(EXE))
 
 all: stop install start
 	@echo "MODEL   = $(MODEL)"
@@ -155,20 +163,27 @@ ifneq ($(PRU_DIR),)
 	@echo start > $(PRU_DIR)/state
 	@echo write_init_pins.sh
 	@$(COMMON)/write_init_pins.sh /lib/firmware/$(CHIP)-pru$(PRUN)-fw
+else ifeq ($(PROC),tidl)
+	ti-mct-heap-check -c
+	sudo mjpg_streamer -i "input_opencv.so -r 640x480 --filter ./$(TARGET)$(EXE)" -o "output_http.so -p 8080 -w /usr/share/mjpg-streamer/www"
 else
-	./$(TARGET).out
+	./$(TARGET)$(EXE)
 endif
 
-install: $(GEN_DIR)/$(TARGET).out
+install: $(GEN_DIR)/$(TARGET)$(EXE)
 ifneq ($(PRU_DIR),)
 	@echo '-	copying firmware file $(GEN_DIR)/$(TARGET).out to /lib/firmware/$(CHIP)-pru$(PRUN)-fw'
-	@cp $(GEN_DIR)/$(TARGET).out /lib/firmware/$(CHIP)-pru$(PRUN)-fw
+	@cp $(GEN_DIR)/$(TARGET)$(EXE) /lib/firmware/$(CHIP)-pru$(PRUN)-fw
 else
-	@cp $(GEN_DIR)/$(TARGET).out ./$(TARGET).out
+	@cp $(GEN_DIR)/$(TARGET)$(EXE) ./$(TARGET)$(EXE)
 endif
 endif
 
 %.out: $(GEN_DIR)/%.out
+	@echo 'CP	$^'
+	@cp $^ $@
+
+%.so: $(GEN_DIR)/%.so
 	@echo 'CP	$^'
 	@cp $^ $@
 
@@ -181,6 +196,13 @@ $(GEN_DIR)/%.out: $(GEN_DIR)/%.o
 	$(eval $(call target-to-proc,$@))
 	$(eval $(call proc-to-build-vars,$@))
 	@$(LD) $@ $^ $(LDFLAGS) 
+
+$(GEN_DIR)/%.so: $(GEN_DIR)/%.o
+	@mkdir -p $(GEN_DIR)
+	@echo 'LD	$^'
+	$(eval $(call target-to-proc,$@))
+	$(eval $(call proc-to-build-vars,$@))
+	@$(LD) $@ -shared $^ $(LDFLAGS) 
 
 $(GEN_DIR)/%.o: %.c
 	@mkdir -p $(GEN_DIR)

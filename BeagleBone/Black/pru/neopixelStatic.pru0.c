@@ -32,6 +32,7 @@ void main(void)
 	uint32_t gpio = P9_29;
 	
 	uint32_t color[STR_LEN] = {0x0f0000, 0x000f00, 0x0000f};	// green, red, blue
+	// uint32_t color[STR_LEN] = {0x000000, 0x000000, 0x00000};	// green, red, blue
 	int i, j;
 
 	for(j=0; j<STR_LEN; j++) {	// Loop for each LED in string
