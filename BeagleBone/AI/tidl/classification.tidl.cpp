@@ -215,7 +215,7 @@ void filter_free(void* filter_ctx) {
 bool CreateExecutionObjectPipelines()
 {
     const uint32_t num_eves = 4;
-    const uint32_t num_dsps = 1;
+    const uint32_t num_dsps = 0;
     const uint32_t buffer_factor = 1;
 
     DeviceIds ids_eve, ids_dsp;
@@ -224,7 +224,7 @@ bool CreateExecutionObjectPipelines()
     for (uint32_t i = 0; i < num_dsps; i++)
         ids_dsp.insert(static_cast<DeviceId>(i));
 
-#if 1
+#if 0
     // Create Executors with the approriate core type, number of cores
     // and configuration specified
     // EVE will run layersGroupId 1 in the network, while
