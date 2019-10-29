@@ -1,7 +1,15 @@
-# Grove-Music-Kit-for-Pocket-Beagle
+# Grove Music Kit for Pocket Beagle
 
 
 ![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/_DAS6325.jpg)
+
+
+
+PocketBeagle is an ultra-tiny-yet-complete open-source USB-key-fob computer. PocketBeagle features an incredibly low cost, slick design, and simple usage, making PocketBeagle the ideal development board for beginners and professionals alike. Its rich features allow users to programmatically control external devices and obtain data from external devices.
+
+Grove is a modular, standardized connector prototyping system. Consisting of Sensor, Actuator, Display, Communication, and Other function modules. Grove takes a building block approach to assemble electronics. Compared to the jumper or solder based system, it is easier to connect, experiment and build and simplifies the learning system. 
+
+The Grove Music Kit for Pocket Beagle combines the Grove sensor modules with the powerful programming capabilities of Pocket Beagle, allowing students to interact with music using real-world information such as light, touch, keyboard, Slide Potentiometer, posture and so on, to create cool projects.
 
 
 
@@ -67,13 +75,17 @@ to be continue ... ...
 ```
 
 
+!!!success
+        Now please turn the rotary angle sensor slowly, and see how the RGB LED changes its color.
+
+
 -------------
 
 ## Lesson – 2. Musical Note
 
 ### Description:
 
-In this lesson, students can move their hand in front of the ultrasonic sensor, the LCD will show the distance of the hand, and speaker will play different musical note based on different distance.
+In this lesson, students can move their hand in front of the ultrasonic distance sensor, the LCD will show the distance of the hand, and speaker will play different musical note based on different distance.
 
 ### Hardware Requirement:
 
@@ -99,6 +111,13 @@ In this lesson, students can move their hand in front of the ultrasonic sensor, 
 ```
 to be continue ... ...
 ```
+
+
+!!!success
+        Now please please slowly change the distance between your hand and the ultrasonic distance sensor, you can find the distance value in the LCD change and the music switched by the distance.
+
+
+
 
 --------
 
@@ -132,6 +151,12 @@ In this lesson, students will learn how to use the 2 buttons to select the next 
 ```
 to be continue ... ...
 ```
+
+
+!!!success
+        Now please try to press the two buttons, check the LCD, and listen to the music.
+
+
 
 -----
 
@@ -167,6 +192,9 @@ to be continue ... ...
 ```
 
 
+!!!success
+        Default music is boring and bad taste? Now, with the help of WiFi, you can download the music meet your own flavor.
+
 ----
 
 
@@ -197,6 +225,10 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 ```
 to be continue ... ...
 ```
+
+
+!!!success
+        Try to touch the Capacitive key, image it as a keyboard, and play your music.
 
 
 ----
@@ -237,6 +269,11 @@ to be continue ... ...
 ```
 
 
+!!!success
+        Just control the music as lesson 5, and you can see the color of RGB LED change.
+
+
+
 ----
 
 
@@ -270,5 +307,8 @@ In this lesson, students will learn how to use the Grove – 3-Axis Acceleromete
 to be continue ... ...
 ```
 
+
+!!!success
+        Here you go, a smart music box. Just rotate the music box and dance with different music.
 
 ----
