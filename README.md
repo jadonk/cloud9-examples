@@ -28,7 +28,7 @@
 - <font size="4" color="red">⑫</font> [10pcs Alligator Cable](https://www.seeedstudio.com/10pcs-alligator-clip-test-lead-500mm-22awg-p-3087.html)
 - <font size="4" color="red">⑬</font> SD+TF Card Reader
 - <font size="4" color="red">⑭</font> WiFi Dongle
-- <font size="4" color="red">⑮</font> WiFi Dongle
+- <font size="4" color="red">⑮</font> Acrylic shell
 
 
 
@@ -190,6 +190,78 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 
 
 ![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project-5.jpg)
+
+
+### Software
+
+```
+to be continue ... ...
+```
+
+
+----
+
+
+## Lesson – 6. Start the Party
+
+
+### Description:
+
+In this lesson, students will learn how to use the capacitive touch sensor to play the song <Twinkle Star>. And the RGB LED will have different color based on different music note.
+
+### Hardware Requirement:
+
+- [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
+- [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - Slide Potentiometer](http://wiki.seeedstudio.com/Grove-Slide_Potentiometer/)
+- [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+
+
+
+### Hardware Connection
+ 
+- Plug the Grove – Speaker into **A5** port
+- Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C** port
+- Plug the Grove - Slide Potentiometer into **A2** port
+- Plug the Chainable RGB LED into **PWM** port
+- Power the Pocket Beagle via the **micro USB** port
+
+
+![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project-6.jpg)
+
+
+### Software
+
+```
+to be continue ... ...
+```
+
+
+----
+
+
+## Lesson – 7. Music Box
+
+### Description:
+
+In this lesson, students will learn how to use the Grove – 3-Axis Accelerometer to control RGB LED and Speaker. At last, he can make a smart box, by putting different side of the box on the table, the box will have different color and play different music.
+
+
+### Hardware Requirement:
+
+- [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/)
+- [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+
+
+### Hardware Connection
+
+- Plug the Grove – Speaker into **A5** port
+- Plug the Grove - 3 Axis Digital Accelerometer into **A2** port
+- Plug the Chainable RGB LED into **PWM** port
+- Power the Pocket Beagle via the **micro USB** port
+
+![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project-7.jpg)
 
 
 ### Software
