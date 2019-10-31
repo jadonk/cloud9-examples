@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 ////////////////////////////////////////
 //	input.js
-//      Responds to changes on P8_19 via a callback.
-//	Wiring:	Connect P8_19 to P9_14 with a 1kOhm resistor.
+//      Responds to changes on P8_18 via a callback.
+//	Wiring:	Connect P8_18 to P8_14 with a 1kOhm resistor.
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
 const b = require('bonescript');
 
-const outputPin = "P9_14";
-const inputPin  = "P8_19";
+const outputPin = "P8_14";
+const inputPin  = "P8_18";
 const ledPin    = "USR3";
 const mydelay = 250;
 var state   = b.LOW;
