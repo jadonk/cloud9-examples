@@ -4,6 +4,8 @@ This is a set of examples for using Seeed Grove modules with PocketBeagle, prima
 the BeagleBoard.org PocketBeagle Grove Cape, but some other wiring options are examined as
 well.
 
+Forthcoming documentation fixes: https://github.com/SeeedDocument/wiki_english/pull/28
+
 # BeagleBoard.org PocketBeagle Grove Cape
 
 | Grove socket and pin | PocketBeagle pin(s) | default |
