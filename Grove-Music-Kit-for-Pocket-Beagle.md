@@ -192,7 +192,7 @@ _AIN_DEFS = [
    ]
 def GetAdcData(AIN):
     try:
-        with open('/sys/bus/iio/devices/iio:device1/%s'%_AIN_DEFS[AIN], 'r') as f:
+        with open('/sys/bus/iio/devices/iio:device0/%s'%_AIN_DEFS[AIN], 'r') as f:
             text = f.readlines()
             text[0] = text[0].strip('\n')
             return text[0]
