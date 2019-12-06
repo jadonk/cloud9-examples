@@ -191,16 +191,28 @@ _AIN_DEFS = [
    'in_voltage7_raw'
    ]
 def GetAdcData(AIN):
-    with open('/sys/bus/iio/devices/iio:device0/%s'%_AIN_DEFS[AIN], 'r') as f:
-        text = f.readlines()
-        text[0] = text[0].strip('\n')
-        return text[0]
+    try:
+        with open('/sys/bus/iio/devices/iio:device1/%s'%_AIN_DEFS[AIN], 'r') as f:
+            text = f.readlines()
+            text[0] = text[0].strip('\n')
+            return text[0]
+    except IOError as err:
+        print("File Error:"+str(err))
+        print("maybe you should reinstall the driver of ADC")
 def InitRGBLed(leds):    
-    with open('/dev/p981x0', 'w') as f:
-        f.write('N %d\n'%leds)   
+    try:
+        with open('/dev/p981x0', 'w') as f:
+            f.write('N %d\n'%leds)   
+    except IOError as err:
+        print("File Error:"+str(err))      
+        print("maybe you should reinstall the driver of p981x")
 def setColorRGB(led, red, green, blue):
-    with open('/dev/p981x0', 'w') as f:
-        f.write('D %d %d %d %d\n'%(led,red,green,blue))    
+    try:
+        with open('/dev/p981x0', 'w') as f:
+            f.write('D %d %d %d %d\n'%(led,red,green,blue))    
+    except IOError as err:
+        print("File Error:"+str(err))
+        print("maybe you should reinstall the driver of p981x")
 def main():
     InitRGBLed(1)
     while True:
@@ -395,19 +407,27 @@ _SCALE_DEFS = [
    'ti.wav'
    ]
 def setText(text):
-    with open('/dev/lcd0', 'w') as f:
-        f.write('\x1b[2J')
-        f.write('\x1b[H')
+    try:
+        with open('/dev/lcd0', 'w') as f:
+            f.write('\x1b[2J')
+            f.write('\x1b[H')
+    except IOError as err:
+        print("File Error:"+str(err))
+        print("maybe you should reinstall the driver of hd44780")     
     with open('/dev/lcd0', 'w') as f:
         f.write('%s'%text)
     time.sleep(.5)
-def get_distance(): 
-    with open('/sys/bus/iio/devices/iio:device1/in_distance_input', 'r') as f:
-        text = f.readlines()
-        text[0] = text[0].strip('\n')
-        return text[0]
+def get_distance():
+    try:
+        with open('/sys/bus/iio/devices/iio:device1/in_distance_input', 'r') as f:
+            text = f.readlines()
+            text[0] = text[0].strip('\n')
+            return text[0]
+    except IOError as err:
+        print("File Error:"+str(err))
+        print("maybe you should reinstall the driver of hcsr04") 
 def Play_Music(file):
-    # define stream chunk 
+    # define stream chunk
     chunk = 1024
     # open a wav format music
     f = wave.open(file,"rb")
@@ -447,6 +467,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
 - Step 5. run Musical_Note.py
 
 ```bash
@@ -518,12 +539,20 @@ import wave
 import os
 import pyaudio
 def Get_Key_Status():  
-    key = InputDevice("/dev/input/event1")
+    try:
+        key = InputDevice("/dev/input/event1")
+    except IOError as err:
+        print("File Error:"+str(err))
+        print("maybe you should reinstall the driver of button")
     return key.active_keys()
 def setText(text):
-    with open('/dev/lcd0', 'w') as f:
-        f.write('\x1b[2J')
-        f.write('\x1b[H')
+    try:
+        with open('/dev/lcd0', 'w') as f:
+            f.write('\x1b[2J')
+            f.write('\x1b[H')
+    except IOError as err:
+        print("File Error:"+str(err))
+        print("maybe you should reinstall the driver of hd44780")
     with open('/dev/lcd0', 'w') as f:
         f.write('%s'%text)
 def Play_Music(file):
@@ -557,6 +586,7 @@ def Play_Music(file):
 
 def main():
     MusciIndex = 0
+    setText("Hello World")
     files= os.listdir("/home/debian/scale")
     print(files)
     while True:
@@ -741,10 +771,14 @@ def parse_and_print_result(result):
                     print("Channel %d is released"%i)
         return touch_flag
 def GetMpr121Data():
-    with open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r') as f:
-        text = f.readlines()
-        text[0] = text[0].strip('\n')
-        return text[0]
+    try:
+        with open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r') as f:
+            text = f.readlines()
+            text[0] = text[0].strip('\n')
+            return text[0]
+    except IOError as err:
+        print("File Error:"+str(err))
+        print("maybe you should reinstall the driver of mpr121")    
 def main():
     while True:
         Mpr121Data = parse_and_print_result(int(GetMpr121Data()))
