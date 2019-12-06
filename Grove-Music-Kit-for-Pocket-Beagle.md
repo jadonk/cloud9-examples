@@ -40,6 +40,37 @@ The Grove Music Kit for Pocket Beagle combines the Grove sensor modules with the
 
 ## Setup the driver on pocketbeagle
 
+firstly, you should visit [Getting_Started](https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#331_Getting_Started) to get a start. the driver includes codec, wifi, and seeed-linux-overlays. we will describe it separately.
+
+### connect wifi by using connmanctl
+
+`connmanctl` is a tool that connects Pockbeagle to the internet with WiFi Dongle,please refer below command
+
+```bash
+robot@ev3dev:~$ sudo connmanctl
+Error getting VPN connections: The name net.connman.vpn was not provided by any
+connmanctl> enable wifi
+Enabled wifi
+connmanctl> scan wifi
+Scan completed for wifi
+connmanctl> services
+*AO Wired                ethernet_b827ebbde13c_cable
+                         wifi_e8de27077de3_hidden_managed_none
+    AH04044914           wifi_e8de27077de3_41483034303434393134_managed_psk
+    Frissie              wifi_e8de27077de3_46726973736965_managed_psk
+    ruijgt gast          wifi_e8de27077de3_7275696a67742067617374_managed_psk
+    schuur               wifi_e8de27077de3_736368757572_managed_psk
+connmanctl> agent on
+Agent registered
+connmanctl> connect wifi_e8de27077de3_41      # You can use the TAB key at this point to autocomplete the name
+connmanctl> connect wifi_e8de27077de3_41483034303434393134_managed_psk
+Agent RequestInput wifi_e8de27077de3_41483034303434393134_managed_psk
+  Passphrase = [ Type=psk, Requirement=mandatory ]
+Passphrase? *************
+Connected wifi_e8de27077de3_41483034303434393134_managed_psk
+connmanctl> quit
+```
+
 ### Setup the codec on pocketbeagle
 
 Although pocket beagle has not a codec, we use the TLV320AIC3104 codec to play music.And you should refer below introduce to install it.
@@ -47,6 +78,9 @@ Although pocket beagle has not a codec, we use the TLV320AIC3104 codec to play m
 - Step 1. Get the `TLV320AIC3104` codec source code, install and reboot.
 
 ```bash
+sudo apt update
+sudo apt install linux-image-4.19.79-ti-r30 linux-headers-4.19.79-ti-r30 -y
+sudo reboot
 git clone -b beagle-master https://github.com/turmary/bb.org-overlays.git
 cd ~/bb.org-overlays
 make && sudo make install
@@ -88,40 +122,31 @@ sudo alsactl restore 0 -f tlv320aic3104.state
 seeed-linux-dtoverlay is a packet that can make some Grove become a file that can be read and write on Linux.
 
 ```bash
+cd ~
 git clone https://github.com/Seeed-Studio/seeed-linux-dtverlays
 cd ~/seeed-linux-dtverlays
-make 
-sudo make install_bb
+make && sudo make install_bb
+sudo echo uboot_overlay_addr1=/lib/firmware/BB-GPIO-P9813.dtbo >> /boot/uEnv.txt
+sudo echo uboot_overlay_addr2=/lib/firmware/BB-GPIO-HCSR04.dtbo >> /boot/uEnv.txt
+sudo echo uboot_overlay_addr3=/lib/firmware/BB-GPIO-GROVE-BUTTON.dtbo >> /boot/uEnv.txt
+sudo echo uboot_overlay_addr4=/lib/firmware/BB-I2C1-JHD1802.dtbo >> /boot/uEnv.txt
+sudo echo uboot_overlay_addr5=/lib/firmware/BB-I2C2-ADXL34X.dtbo >> /boot/uEnv.txt
+sudo echo uboot_overlay_addr6=/lib/firmware/BB-I2C2-MPR121.dtbo >> /boot/uEnv.txt
+cd ~/seeed-linux-dtverlays/modules/p9813
+make && sudo make install
+cd ~/seeed-linux-dtverlays/modules/hd44780
+make && sudo make install
+cd ~/seeed-linux-dtverlays/modules/hcsr04
+make && sudo make install
+cd ~/seeed-linux-dtverlays/modules/adxl34x
+make && sudo make install
+cd ~/seeed-linux-dtverlays/modules/mpr121
+make && sudo make install
+sudo reboot
 ```
+!!!Note
+        Please connect Grove with Pocket Beagle with Grove shield firstly, then reboot.
 
-### connect wifi by using connmanctl
-
-`connmanctl` is a tool that connects Pockbeagle to the internet with WiFi Dongle,please refer below command
-
-```bash
-robot@ev3dev:~$ sudo connmanctl
-Error getting VPN connections: The name net.connman.vpn was not provided by any
-connmanctl> enable wifi
-Enabled wifi
-connmanctl> scan wifi
-Scan completed for wifi
-connmanctl> services
-*AO Wired                ethernet_b827ebbde13c_cable
-                         wifi_e8de27077de3_hidden_managed_none
-    AH04044914           wifi_e8de27077de3_41483034303434393134_managed_psk
-    Frissie              wifi_e8de27077de3_46726973736965_managed_psk
-    ruijgt gast          wifi_e8de27077de3_7275696a67742067617374_managed_psk
-    schuur               wifi_e8de27077de3_736368757572_managed_psk
-connmanctl> agent on
-Agent registered
-connmanctl> connect wifi_e8de27077de3_41      # You can use the TAB key at this point to autocomplete the name
-connmanctl> connect wifi_e8de27077de3_41483034303434393134_managed_psk
-Agent RequestInput wifi_e8de27077de3_41483034303434393134_managed_psk
-  Passphrase = [ Type=psk, Requirement=mandatory ]
-Passphrase? *************
-Connected wifi_e8de27077de3_41483034303434393134_managed_psk
-connmanctl> quit
-```
 
 
 ## Lesson – 1. Control the Light
@@ -151,21 +176,7 @@ In this lesson, students will light up the RGB LED, and learn how to use sound a
 
 ### Software
 
-- Step 1.Use `echo ` to add `BB-GPIO-P9813.dtbo` to /boot/uEnv.txt then reboot. 
-
-```bash
-sudo echo uboot_overlay_addr1=/lib/firmware/BB-GPIO-P9813.dtbo >> /boot/uEnv.txt
-sudo reboot
-```
-!!!Note
-        Please connect Grove with Pocket Beagle with Grove shield firstly, then reboot.
-- Step 2.make and install driver of rgb led
-
-```bash
-cd ~/seeed-linux-dtverlays/modules/p9813
-make && sudo make install
-```
-- Step 3. Build Control_the_Light.py by using `nano` and please follow below code.
+- Step 1. Build Control_the_Light.py by using `nano` and please follow below code.
 ```
 nano Control_the_Light.py
 ```
@@ -221,12 +232,11 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-- Step 4. run Control_the_Light.py
+- Step 2. run Control_the_Light.py
 
 ```bash
    sudo python3 Control_the_Light.py
 ```
-
 !!!success
         Now please turn the rotary angle sensor slowly, and see how the RGB LED changes its light.
 
@@ -248,7 +258,7 @@ In this lesson, students can move their hand in front of the ultrasonic distance
 
 ### Hardware Connection
  
-- Plug the Grove - Ultrasonic Distance Sensor into **A2** port
+- Plug the Grove - Ultrasonic Distance Sensor into **A0** port
 - Plug the Grove – 16x2 LCD into **I2C1** port
 - Plug the Grove – Speaker into **UART2** port
 - Power the Pocket Beagle via the **micro USB** port
@@ -258,47 +268,29 @@ In this lesson, students can move their hand in front of the ultrasonic distance
 
 ### Software
 
-- Step 1.Remove `uboot_overlay_addr1=/lib/firmware/BB-GPIO-P9813.dtbo` in /boot/uEnv.txt and Use `echo ` to add `BB-GPIO-HCSR04.dtbo`,`BB-I2C1-JHD1802` to /boot/uEnv.txt then reboot. 
+- Step 1.make then install driver of 16x2 LCD and driver of Ultrasonic Distance Sensor. 
 
 ```bash
-# sudo apt install linux-image-4.19.79-ti-r30 linux-headers-4.19.79-ti-r30
-sudo echo uboot_overlay_addr1=/lib/firmware/BB-GPIO-HCSR04.dtbo >> /boot/uEnv.txt 
-sudo echo uboot_overlay_addr2=/lib/firmware/BB-I2C1-JHD1802.dtbo >> /boot/uEnv.txt 
-sudo reboot
-```
-
-!!!Note
-        Please connect Grove with Pocket Beagle with Grove shield firstly, then reboot.
-
-- Step 2.make then install driver of 16x2 LCD and driver of Ultrasonic Distance Sensor. 
-
-```bash
-cd ~/seeed-linux-dtverlays/modules/hd44780
-make && sudo make install
 sudo modprobe hd44780
-cd ~/seeed-linux-dtverlays/modules/hcsr04
-make && sudo make install
+sudo config-pin P1_31 gpio
 ```
 
-- Step 3.install pyaudio and tqdm
+- Step 2.install pyaudio and tqdm
 
 ```bash
+cd ~
 sudo apt install portaudio19-dev python-all-dev python3-all-dev -y
-wget http://portaudio.com/archives/pa_stable_v190600_20161030.tgz
-tar   zxvf pa_stable_v190600_20161030.tgz
-cd ~/portaudio
-.configure
-make && sudo make install 
 sudo pip3 install pyaudio 
 sudo pip3 install tqdm
 ```
 
-- Step 4. New scale file and genarate tone by using below python code 
+- Step 3. New scale file and genarate tone by using below python code 
 
 ```bash
 mkdir ~/scale
 nano tone_generator.py
 ```
+
 ```python 
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*- 
@@ -377,7 +369,7 @@ sudo python3 tone_generator.py
 ```
 
 
-- Step 5. Build Musical_Note.py by using `nano` and please follow below code.
+- Step 4. Build Musical_Note.py by using `nano` and please follow below code.
 
 ```bash
 nano Musical_Note.py
@@ -452,7 +444,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-- Step 6. run Musical_Note.py
+- Step 5. run Musical_Note.py
 
 ```bash
    sudo python3 Musical_Note.py
@@ -460,12 +452,6 @@ if __name__ == "__main__":
 
 !!!success
         Now please please slowly change the distance between your hand and the ultrasonic distance sensor, you can find the distance value in the LCD change and the music switched by the distance.
-
-
-
-
---------
-
 
 ## Lesson – 3. Switch the Music
 
@@ -482,7 +468,7 @@ In this lesson, students will learn how to use the 2 buttons to select the next 
 
 ### Hardware Connection
  
-- Plug the Grove – Button into **A0** and **A2** port
+- Plug the Grove – Button into **A5** and **UART4** port
 - Plug the Grove – 16x2 LCD into **I2C1** port
 - Plug the Grove – Speaker into **UART2** port
 - Power the Pocket Beagle via the **micro USB** port
@@ -493,32 +479,21 @@ In this lesson, students will learn how to use the 2 buttons to select the next 
 
 ### Software
 
-- Step 1.Remove `uboot_overlay_addr1=/lib/firmware/BB-GPIO-HCSR04.dtbo` in /boot/uEnv.txt and Use `echo ` to add `BB-GPIO-GROVE-BUTTON.dtbo`,`BB-I2C1-JHD1802` to /boot/uEnv.txt then reboot. 
-
-```bash
-# sudo apt install linux-image-4.19.79-ti-r30 linux-headers-4.19.79-ti-r30
-sudo echo uboot_overlay_addr3=/lib/firmware/BB-GPIO-GROVE-BUTTON.dtbo >> /boot/uEnv.txt 
-sudo echo uboot_overlay_addr2=/lib/firmware/BB-I2C1-JHD1802.dtbo >> /boot/uEnv.txt 
-sudo reboot
-```
-
-!!!Note
-        Please connect Grove with Pocket Beagle with Grove shield firstly, then reboot.
-
-- Step 2.install driver of 16x2 LCD and config pin of button. 
+- Step 1.install driver of 16x2 LCD and config pin of button. 
 
 ```bash
 sudo modprobe hd44780
-config-pin P1_31 gpio
+sudo config-pin P2_35 gpio
+sudo config-pin P2_05 gpio
 ```
 
-- Step 3.install evdev
+- Step 2.Install evdev
 
 ```bash
 sudo pip3 install evdev
 ```
 
-- Step 4. Build Switch_the_Music.py by using `nano` and please follow below code.
+- Step 3. Build Switch_the_Music.py by using `nano` and please follow below code.
 
 ```bash
 nano Switch_the_Music.py
@@ -534,7 +509,6 @@ import os
 import pyaudio
 def Get_Key_Status():  
     key = InputDevice("/dev/input/event1")
-    # print(key.active_keys())
     return key.active_keys()
 def setText(text):
     with open('/dev/lcd0', 'w') as f:
@@ -573,7 +547,6 @@ def Play_Music(file):
 
 def main():
     MusciIndex = 0
-    setText("Hello World")
     files= os.listdir("/home/debian/scale")
     print(files)
     while True:
@@ -593,7 +566,8 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-- Step 6. run Musical_Note.py
+
+- Step 4. run Musical_Note.py
 
 ```bash
    sudo python3 Switch_the_Music.py
@@ -602,10 +576,6 @@ if __name__ == "__main__":
 
 !!!success
         Now please try to press the two buttons, check the LCD, and listen to the music.
-
-
-
------
 
 ## Lesson – 4. Download Music via the WIFI dongle
 
@@ -621,10 +591,10 @@ In this lesson, students will learn how to download mp3 files from the Internet 
 
 
 ### Hardware Connection
- 
-- Plug the Grove – Button into **A2** and **A0** port
-- Plug the Grove – 16x2 LCD into **I2C** port
-- Plug the Grove – Speaker into **A5** port
+
+- Plug the Grove – Button into **A5** and **UART4** port
+- Plug the Grove – 16x2 LCD into **I2C1** port
+- Plug the Grove – Speaker into **UART2** port
 - Plug the WiFi dongle into the **USB** Port
 - Power the Pocket Beagle via the **micro USB** port
 
@@ -642,13 +612,12 @@ if you don't know how to use `connmanctl`, maybe you should review the previous 
 
 - Step 3. Open winscp and type the hostname and username 
 
-[](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/drag_music_file.png)
-
+![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/winscp.png)
 the hostname is an IP address of Pockbeagle that can use ifconfig to find it. The username is `debian`
 
 - Step 4. Drag your music file to `/home/debian/scale`
 
-[](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/winscp.png)
+![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/drag_music_file.png)
 
 - Step 5. run Musical_Note.py
 
@@ -658,9 +627,6 @@ the hostname is an IP address of Pockbeagle that can use ifconfig to find it. Th
 
 !!!success
         Default music is boring and bad taste? Now, with the help of WiFi, you can download the music meet your own flavor.
-
-----
-
 
 ## Lesson – 5. KeyBoard Player
 
@@ -676,8 +642,8 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 
 ### Hardware Connection
  
-- Plug the Grove – Speaker into **A5** port
-- Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C** port
+- Plug the Grove – Speaker into **UART2** port
+- Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C2** port
 - Power the Pocket Beagle via the **micro USB** port
 
 
@@ -686,16 +652,104 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 
 ### Software
 
-```
-to be continue ... ...
+- Step 1. Build KeyBoard_Player.py by using `nano` and please follow below code.
+
 ```
 
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+import time
+import wave
+import os
+import pyaudio
+CHANNEL_NUM                               = 12
+touch_flag = [0]*CHANNEL_NUM
+ResultStr = [1, 1, 1]
+_SCALE_DEFS = [
+   'do.wav',
+   're.wav',
+   'me.wav',
+   'fa.wav',
+   'so.wav',
+   'la.wav',
+   'ti.wav'
+   ]
+def Play_Music(file):
+    # define stream chunk 
+    chunk = 1024
+    # open a wav format music
+    f = wave.open(file,"rb")
+    # instantiate PyAudio
+    p = pyaudio.PyAudio()
+    def callback(in_data, frame_count, time_info, status):
+        data = f.readframes(frame_count)
+        if parse_and_print_result(int(GetMpr121Data())) != None:
+            return (data,pyaudio.paContinue)
+        return (data,pyaudio.paComplete)
+    # open stream
+    stream = p.open(format = p.get_format_from_width(f.getsampwidth()),
+                                channels = f.getnchannels(),
+                                rate = f.getframerate(),
+                                output = True,
+                                stream_callback=callback)
+    # read data
+    stream.start_stream()
+
+    while stream.is_active():
+        time.sleep(0.01)  
+    # stop stream
+    stream.stop_stream()
+    stream.close()
+
+    # close PyAudio
+    p.terminate()
+def parse_and_print_result(result):
+    if result != 0:
+        result = result % 1000 
+        ResultStr[0] = result // 100
+        ResultStr[1] = result % 100 // 10
+        ResultStr[2] = result % 100 % 10
+        result = ResultStr[0] * (1<<8) | ResultStr[1] * (1<<4) | ResultStr[2]
+        for i in range(CHANNEL_NUM):
+            if(result & 1 << i):
+                if(0 == touch_flag[i]):
+                    touch_flag[i] = 1
+                    print("Channel %d is pressed"%i)
+            else:
+                if(1 == touch_flag[i]):
+                    touch_flag[i] = 0
+                    print("Channel %d is released"%i)
+        return touch_flag
+def GetMpr121Data():
+    with open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r') as f:
+        text = f.readlines()
+        text[0] = text[0].strip('\n')
+        return text[0]
+def main():
+    while True:
+        Mpr121Data = parse_and_print_result(int(GetMpr121Data()))
+        if Mpr121Data != None:
+            for i in range(CHANNEL_NUM):
+                if(Mpr121Data[i] == 1):
+                    if i == 11:
+                        break
+                    if i > 3 :
+                        Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[i-4])
+                    else :
+                        Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[i])
+        time.sleep(0.05)
+if __name__ == "__main__":
+    main()
+```
+
+- Step 2. Run KeyBoard_Player.py
+
+```bash
+sudo python3 KeyBoard_Player.py
+```
 
 !!!success
         Try to touch the Capacitive key, image it as a keyboard, and play your music.
-
-
-----
 
 
 ## Lesson – 6. Start the Party
