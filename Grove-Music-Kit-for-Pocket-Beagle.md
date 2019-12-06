@@ -78,7 +78,6 @@ connmanctl> quit
 ```bash
 sudo apt update
 sudo apt install linux-image-4.19.79-ti-r30 linux-headers-4.19.79-ti-r30 -y
-sudo reboot
 ```
 
 - Step 2. Get the `seeed-linux-dtoverlay` source code, install and reboot.
@@ -90,7 +89,6 @@ cd ~
 git clone https://github.com/Seeed-Studio/seeed-linux-dtverlays
 cd ~/seeed-linux-dtverlays
 make && sudo make install_bb
-
 sudo echo uboot_overlay_addr0=/lib/firmware/PB-I2C1-TLV320AIC3104.dtbo >> /boot/uEnv.txt
 sudo echo uboot_overlay_addr1=/lib/firmware/BB-GPIO-P9813.dtbo >> /boot/uEnv.txt
 sudo echo uboot_overlay_addr2=/lib/firmware/BB-GPIO-HCSR04.dtbo >> /boot/uEnv.txt
@@ -98,18 +96,6 @@ sudo echo uboot_overlay_addr3=/lib/firmware/BB-GPIO-GROVE-BUTTON.dtbo >> /boot/u
 sudo echo uboot_overlay_addr4=/lib/firmware/BB-I2C1-JHD1802.dtbo >> /boot/uEnv.txt
 sudo echo uboot_overlay_addr5=/lib/firmware/BB-I2C2-ADXL34X.dtbo >> /boot/uEnv.txt
 sudo echo uboot_overlay_addr6=/lib/firmware/BB-I2C2-MPR121.dtbo >> /boot/uEnv.txt
-
-cd ~/seeed-linux-dtverlays/modules/p9813
-make && sudo make install
-cd ~/seeed-linux-dtverlays/modules/hd44780
-make && sudo make install
-cd ~/seeed-linux-dtverlays/modules/hcsr04
-make && sudo make install
-cd ~/seeed-linux-dtverlays/modules/adxl34x
-make && sudo make install
-cd ~/seeed-linux-dtverlays/modules/mpr121
-make && sudo make install
-
 sudo reboot
 ```
 
@@ -122,6 +108,18 @@ sudo reboot
 wget https://github.com/beagleboard/bb.org-overlays/files/3877583/tlv320aic3104.state.txt 
 mv tlv320aic3104.state.txt  tlv320aic3104.state
 sudo alsactl restore 0 -f tlv320aic3104.state
+```
+
+- Step 4.Check if the driver of codec install successfully
+
+if the driver of codec installed successfully , you should view below information.
+
+```bash
+debian@beaglebone:~$ aplay -l
+**** List of PLAYBACK Hardware Devices ****
+card 0: Audio [GroveBaseCape Audio], device 0: davinci-mcasp.0-tlv320aic3x-hifi tlv320aic3x-hifi-0 [davinci-mcasp.0-tlv320aic3x-hifi tlv320aic3x-hifi-0]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
 ```
 
 ## Lesson – 1. Control the Light
@@ -151,7 +149,22 @@ In this lesson, students will light up the RGB LED, and learn how to use sound a
 
 ### Software
 
-- Step 1. Build Control_the_Light.py by using `nano` and please follow below code.
+- Step 1. Install driver of RGB LED and Check it weather install successfully
+
+```bash
+cd ~/seeed-linux-dtverlays/modules/p9813
+make && sudo make install
+sudo modprobe p9813
+```
+
+if the driver of  RGB LED installed successfully , you should view below information.
+
+```
+debian@beaglebone:~$ lsmod | grep p9813
+p9813                  16384  0
+```
+
+- Step 2. Build Control_the_Light.py by using `nano` and please follow below code.
 ```
 nano Control_the_Light.py
 ```
@@ -207,11 +220,13 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-- Step 2. run Control_the_Light.py
+
+- Step 3. run Control_the_Light.py
 
 ```bash
    sudo python3 Control_the_Light.py
 ```
+
 !!!success
         Now please turn the rotary angle sensor slowly, and see how the RGB LED changes its light.
 
@@ -246,8 +261,22 @@ In this lesson, students can move their hand in front of the ultrasonic distance
 - Step 1.make then install driver of 16x2 LCD and driver of Ultrasonic Distance Sensor. 
 
 ```bash
+cd ~/seeed-linux-dtverlays/modules/hd44780
+make && sudo make install
 sudo modprobe hd44780
+cd ~/seeed-linux-dtverlays/modules/hcsr04
+make && sudo make install
+sudo modprobe hcsr04
 sudo config-pin P1_31 gpio
+```
+
+if the driver of 16x2 LCD and Ultrasonic Distance Sensor installed successfully , you should view below information.
+
+```bash
+debian@beaglebone:~$ lsmod | grep hcsr04
+hcsr04                 16384  0
+debian@beaglebone:~$ lsmod | grep hd44780
+hd44780                16384  0
 ```
 
 - Step 2.install pyaudio and tqdm
@@ -342,7 +371,6 @@ if __name__ == "__main__":
 ```bash
 sudo python3 tone_generator.py
 ```
-
 
 - Step 4. Build Musical_Note.py by using `nano` and please follow below code.
 
@@ -462,6 +490,13 @@ sudo config-pin P2_35 gpio
 sudo config-pin P2_05 gpio
 ```
 
+if the driver of 16x2 LCD installed successfully , you should view below information.
+
+```bash
+debian@beaglebone:~$ lsmod | grep hd44780
+hd44780                16384  0
+```
+
 - Step 2.Install evdev
 
 ```bash
@@ -548,7 +583,6 @@ if __name__ == "__main__":
    sudo python3 Switch_the_Music.py
 ```
 
-
 !!!success
         Now please try to press the two buttons, check the LCD, and listen to the music.
 
@@ -614,23 +648,34 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 - [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
 - [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
 
-
 ### Hardware Connection
- 
+
 - Plug the Grove – Speaker into **UART2** port
 - Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C2** port
 - Power the Pocket Beagle via the **micro USB** port
 
-
 ![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project-5.jpg)
-
 
 ### Software
 
-- Step 1. Build KeyBoard_Player.py by using `nano` and please follow below code.
+- Step 1. install driver of I2C Touch Sensor V2
 
+```bash
+cd ~/seeed-linux-dtverlays/modules/mpr121
+make && sudo make install
+sudo modprobe mpr121
 ```
 
+if the driver of I2C Touch Sensor V2 installed successfully , you should view below information.
+
+```bash
+debian@beaglebone:~$ lsmod | grep mpr121
+mpr121                 16384  0
+```
+
+- Step 2. Build KeyBoard_Player.py by using `nano` and please follow below code.
+
+```python
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 import time
@@ -717,7 +762,7 @@ if __name__ == "__main__":
     main()
 ```
 
-- Step 2. Run KeyBoard_Player.py
+- Step 3. Run KeyBoard_Player.py
 
 ```bash
 sudo python3 KeyBoard_Player.py
