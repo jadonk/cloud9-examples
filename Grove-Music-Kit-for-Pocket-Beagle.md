@@ -159,9 +159,11 @@ sudo modprobe p9813
 
 if the driver of  RGB LED installed successfully , you should view below information.
 
-```
+```bash 
 debian@beaglebone:~$ lsmod | grep p9813
 p9813                  16384  0
+debian@beaglebone:~$ ls /dev/p981x0
+p981x0
 ```
 
 - Step 2. Build Control_the_Light.py by using `nano` and please follow below code.
@@ -199,17 +201,17 @@ def GetAdcData(AIN):
     except IOError as err:
         print("File Error:"+str(err))
         print("maybe you should reinstall the driver of ADC")
-def InitRGBLed(leds):    
+def InitRGBLed(leds):
     try:
         with open('/dev/p981x0', 'w') as f:
-            f.write('N %d\n'%leds)   
+            f.write('N %d\n'%leds)
     except IOError as err:
-        print("File Error:"+str(err))      
+        print("File Error:"+str(err))
         print("maybe you should reinstall the driver of p981x")
 def setColorRGB(led, red, green, blue):
     try:
         with open('/dev/p981x0', 'w') as f:
-            f.write('D %d %d %d %d\n'%(led,red,green,blue))    
+            f.write('D %d %d %d %d\n'%(led,red,green,blue))
     except IOError as err:
         print("File Error:"+str(err))
         print("maybe you should reinstall the driver of p981x")
@@ -280,6 +282,8 @@ cd ~/seeed-linux-dtverlays/modules/hcsr04
 make && sudo make install
 sudo modprobe hcsr04
 sudo config-pin P1_31 gpio
+
+
 ```
 
 if the driver of 16x2 LCD and Ultrasonic Distance Sensor installed successfully , you should view below information.
@@ -287,8 +291,12 @@ if the driver of 16x2 LCD and Ultrasonic Distance Sensor installed successfully 
 ```bash
 debian@beaglebone:~$ lsmod | grep hcsr04
 hcsr04                 16384  0
+debian@beaglebone:~$ cat /sys/bus/iio/devices/iio:device1/name
+hcsr04_1057@20
 debian@beaglebone:~$ lsmod | grep hd44780
 hd44780                16384  0
+debian@beaglebone:~$ ls /dev/lcd0
+/dev/lcd0
 ```
 
 - Step 2.install pyaudio and tqdm
@@ -516,6 +524,8 @@ if the driver of 16x2 LCD installed successfully , you should view below informa
 ```bash
 debian@beaglebone:~$ lsmod | grep hd44780
 hd44780                16384  0
+debian@beaglebone:~$ ls /dev/lcd0
+/dev/lcd0
 ```
 
 - Step 2.Install evdev
@@ -701,6 +711,8 @@ if the driver of I2C Touch Sensor V2 installed successfully , you should view be
 ```bash
 debian@beaglebone:~$ lsmod | grep mpr121
 mpr121                 16384  0
+cat /sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/name
+mpr121
 ```
 
 - Step 2. Build KeyBoard_Player.py by using `nano` and please follow below code.
