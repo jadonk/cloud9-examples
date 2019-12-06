@@ -71,53 +71,17 @@ Connected wifi_e8de27077de3_41483034303434393134_managed_psk
 connmanctl> quit
 ```
 
-### Setup the codec on pocketbeagle
+### Make and install the seeed-linux-dtverlays on pocketbeagle
 
-Although pocket beagle has not a codec, we use the TLV320AIC3104 codec to play music.And you should refer below introduce to install it.
-
-- Step 1. Get the `TLV320AIC3104` codec source code, install and reboot.
+- Step 1. update the Kernel.
 
 ```bash
 sudo apt update
 sudo apt install linux-image-4.19.79-ti-r30 linux-headers-4.19.79-ti-r30 -y
 sudo reboot
-git clone -b beagle-master https://github.com/turmary/bb.org-overlays.git
-cd ~/bb.org-overlays
-make && sudo make install
 ```
 
-Use `echo` to add `PB-I2C1-TLV320AIC3104.dtbo` to /boot/uEnv.txt then reboot. 
-
-```bash
-sudo echo uboot_overlay_addr0=/lib/firmware/PB-I2C1-TLV320AIC3104.dtbo >> /boot/uEnv.txt 
-sudo reboot
-```
-
-- Step 2.Use `aplay -l` to check if the codec is successfully installed
-
-```bash
-aplay -l
-```
-
-If the following information is displayed, the installation was successful
-
-```bash
-debian@beaglebone:~$ aplay -l
-**** List of PLAYBACK Hardware Devices ****
-card 0: Audio [GroveBaseCape Audio], device 0: davinci-mcasp.0-tlv320aic3x-hifi tlv320aic3x-hifi-0 [davinci-mcasp.0-tlv320aic3x-hifi tlv320aic3x-hifi-0]
-  Subdevices: 1/1
-  Subdevice #0: subdevice #0
-```
-
-- Step 3.Use `wget` command to get configure file and config TLV320AIC3104 codec with alsactl
-
-```bash
-wget https://github.com/beagleboard/bb.org-overlays/files/3877583/tlv320aic3104.state.txt 
-mv tlv320aic3104.state.txt  tlv320aic3104.state
-sudo alsactl restore 0 -f tlv320aic3104.state
-```
-
-### Make and install the seeed-linux-dtverlays on pocketbeagle
+- Step 2. Get the `seeed-linux-dtoverlay` source code, install and reboot.
 
 seeed-linux-dtoverlay is a packet that can make some Grove become a file that can be read and write on Linux.
 
@@ -126,12 +90,15 @@ cd ~
 git clone https://github.com/Seeed-Studio/seeed-linux-dtverlays
 cd ~/seeed-linux-dtverlays
 make && sudo make install_bb
+
+sudo echo uboot_overlay_addr0=/lib/firmware/PB-I2C1-TLV320AIC3104.dtbo >> /boot/uEnv.txt
 sudo echo uboot_overlay_addr1=/lib/firmware/BB-GPIO-P9813.dtbo >> /boot/uEnv.txt
 sudo echo uboot_overlay_addr2=/lib/firmware/BB-GPIO-HCSR04.dtbo >> /boot/uEnv.txt
 sudo echo uboot_overlay_addr3=/lib/firmware/BB-GPIO-GROVE-BUTTON.dtbo >> /boot/uEnv.txt
 sudo echo uboot_overlay_addr4=/lib/firmware/BB-I2C1-JHD1802.dtbo >> /boot/uEnv.txt
 sudo echo uboot_overlay_addr5=/lib/firmware/BB-I2C2-ADXL34X.dtbo >> /boot/uEnv.txt
 sudo echo uboot_overlay_addr6=/lib/firmware/BB-I2C2-MPR121.dtbo >> /boot/uEnv.txt
+
 cd ~/seeed-linux-dtverlays/modules/p9813
 make && sudo make install
 cd ~/seeed-linux-dtverlays/modules/hd44780
@@ -142,12 +109,20 @@ cd ~/seeed-linux-dtverlays/modules/adxl34x
 make && sudo make install
 cd ~/seeed-linux-dtverlays/modules/mpr121
 make && sudo make install
+
 sudo reboot
 ```
+
 !!!Note
         Please connect Grove with Pocket Beagle with Grove shield firstly, then reboot.
 
+- Step 3.Use `wget` command to get configure file and config TLV320AIC3104 codec with alsactl
 
+```bash
+wget https://github.com/beagleboard/bb.org-overlays/files/3877583/tlv320aic3104.state.txt 
+mv tlv320aic3104.state.txt  tlv320aic3104.state
+sudo alsactl restore 0 -f tlv320aic3104.state
+```
 
 ## Lesson – 1. Control the Light
 
