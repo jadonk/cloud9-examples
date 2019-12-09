@@ -299,6 +299,9 @@ debian@beaglebone:~$ ls /dev/lcd0
 /dev/lcd0
 ```
 
+!!!Note
+        Please connect Grove with Pocket Beagle with Grove shield firstly, then reboot.
+
 - Step 2.install pyaudio and tqdm
 
 ```bash
@@ -667,6 +670,9 @@ the hostname is an IP address of Pockbeagle that can use ifconfig to find it. Th
 - Step 4. Drag your music file to `/home/debian/scale`
 
 ![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/drag_music_file.png)
+
+!!!Note
+        Please select *.wav to /home/debian/scale 
 
 - Step 5. run Musical_Note.py
 
