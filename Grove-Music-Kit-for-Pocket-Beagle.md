@@ -14,7 +14,7 @@ The Grove Music Kit for Pocket Beagle combines the Grove sensor modules with the
 
 
 
-## Haedware Overview
+## Hardware Overview
 
 ![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/pin.jpg)
 
@@ -105,7 +105,7 @@ sudo reboot
 - Step 3.Use `wget` command to get configure file and config TLV320AIC3104 codec with alsactl
 
 ```bash
-wget https://github.com/beagleboard/bb.org-overlays/files/3877583/tlv320aic3104.state.txt 
+wget https://github.com/beagleboard/bb.org-overlays/files/3877583/tlv320aic3104.state.txt
 mv tlv320aic3104.state.txt  tlv320aic3104.state
 sudo alsactl restore 0 -f tlv320aic3104.state
 ```
@@ -167,9 +167,11 @@ p981x0
 ```
 
 - Step 2. Build Control_the_Light.py by using `nano` and please follow below code.
+
 ```
 nano Control_the_Light.py
 ```
+
 ```python
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
@@ -282,8 +284,6 @@ cd ~/seeed-linux-dtverlays/modules/hcsr04
 make && sudo make install
 sudo modprobe hcsr04
 sudo config-pin P1_31 gpio
-
-
 ```
 
 if the driver of 16x2 LCD and Ultrasonic Distance Sensor installed successfully , you should view below information.
@@ -304,7 +304,7 @@ debian@beaglebone:~$ ls /dev/lcd0
 ```bash
 cd ~
 sudo apt install portaudio19-dev python-all-dev python3-all-dev -y
-sudo pip3 install pyaudio 
+sudo pip3 install pyaudio
 sudo pip3 install tqdm
 ```
 
@@ -315,16 +315,16 @@ mkdir ~/scale
 nano tone_generator.py
 ```
 
-```python 
+```python
 #!/usr/bin/env python3
-# -*- coding: UTF-8 -*- 
+# -*- coding: UTF-8 -*-
 
 import numpy as np
 import pyaudio
 import wave
 from tqdm import tqdm
 
-tone_freq_map={"do": 261.5, "re": 293.4,"me": 329.5,"fa": 349.1,"so": 391.7,"la": 440,"ti": 493.8}
+tone_freq_map={"do": 261.5, "re": 293.4,"me": 329.5,"fa": 349.1,"so": 391.7,"la": 440,"ti": 493.8,"do+":523}
 _SCALE_DEFS = [
    'do.wav',
    're.wav',
@@ -333,13 +333,14 @@ _SCALE_DEFS = [
    'so.wav',
    'la.wav',
    'ti.wav',
+   'do+.wav'
    ]
 channels = 1
 sampwidth = 2
-framerate = 44100 
+framerate = 44100
 
 def Play_Music(file):
-    # define stream chunk 
+    # define stream chunk
     chunk = 1024
     # open a wav format music
     f = wave.open(file,"rb")
@@ -359,7 +360,7 @@ def Play_Music(file):
         data = f.readframes(chunk)
         datas.append(data)
     for d in tqdm(datas):
-        stream.write(d)    
+        stream.write(d)
     # stop stream
     stream.stop_stream()
     stream.close()
@@ -420,7 +421,7 @@ def setText(text):
             f.write('\x1b[H')
     except IOError as err:
         print("File Error:"+str(err))
-        print("maybe you should reinstall the driver of hd44780")     
+        print("maybe you should reinstall the driver of hd44780")
     with open('/dev/lcd0', 'w') as f:
         f.write('%s'%text)
     time.sleep(.5)
@@ -432,7 +433,7 @@ def get_distance():
             return text[0]
     except IOError as err:
         print("File Error:"+str(err))
-        print("maybe you should reinstall the driver of hcsr04") 
+        print("maybe you should reinstall the driver of hcsr04")
 def Play_Music(file):
     # define stream chunk
     chunk = 1024
@@ -486,7 +487,9 @@ if __name__ == "__main__":
 
 ### Description:
 
-In this lesson, students will learn how to use the 2 buttons to select the next song or the last song. The LCD will show the name of the song.
+In this lesson, students will learn how to use the 2 buttons to select the next song or the last song. the buttons not only can select the next song or the last song by press instantly but also can play music by Press longly.
+
+The LCD will show the name of the song.
 
 ### Hardware Requirement:
 
@@ -494,14 +497,12 @@ In this lesson, students will learn how to use the 2 buttons to select the next 
 - [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
 - [Grove – 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
 
-
 ### Hardware Connection
  
 - Plug the Grove – Button into **A5** and **UART4** port
 - Plug the Grove – 16x2 LCD into **I2C1** port
 - Plug the Grove – Speaker into **UART2** port
 - Power the Pocket Beagle via the **micro USB** port
-
 
 ![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project-3.jpg)
 
@@ -550,6 +551,7 @@ def Get_Key_Status():
     except IOError as err:
         print("File Error:"+str(err))
         print("maybe you should reinstall the driver of button")
+    # print(key.active_keys())
     return key.active_keys()
 def setText(text):
     try:
@@ -562,7 +564,7 @@ def setText(text):
     with open('/dev/lcd0', 'w') as f:
         f.write('%s'%text)
 def Play_Music(file):
-    # define stream chunk
+    # define stream chunk 
     chunk = 1024
     # open a wav format music
     f = wave.open(file,"rb")
@@ -592,9 +594,9 @@ def Play_Music(file):
 
 def main():
     MusciIndex = 0
+#    setText("Hello World")
     files= os.listdir("/home/debian/scale")
     print(files)
-    setText("scale: \r\n{}".format(files[MusciIndex]))
     while True:
         KeyStatus = Get_Key_Status()
         if(len(KeyStatus)):
@@ -609,6 +611,7 @@ def main():
                     MusciIndex = 6
                 Play_Music("/home/debian/scale/%s"%files[MusciIndex])
             setText("scale: \r\n{}".format(files[MusciIndex]))
+        time.sleep(0.05)
 if __name__ == "__main__":
     main()
 ```
@@ -731,10 +734,11 @@ _SCALE_DEFS = [
    'fa.wav',
    'so.wav',
    'la.wav',
-   'ti.wav'
+   'ti.wav',
+   'do+.wav'
    ]
 def Play_Music(file):
-    # define stream chunk 
+    # define stream chunk
     chunk = 1024
     # open a wav format music
     f = wave.open(file,"rb")
@@ -764,7 +768,7 @@ def Play_Music(file):
     p.terminate()
 def parse_and_print_result(result):
     if result != 0:
-        result = result % 1000 
+        result = result % 1000
         ResultStr[0] = result // 100
         ResultStr[1] = result % 100 // 10
         ResultStr[2] = result % 100 % 10
@@ -780,22 +784,20 @@ def parse_and_print_result(result):
                     print("Channel %d is released"%i)
         return touch_flag
 def GetMpr121Data():
-    try:    
+    try:
         with open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r') as f:
             text = f.readlines()
             text[0] = text[0].strip('\n')
             return text[0]
     except IOError as err:
         print("File Error:"+str(err))
-        print("maybe you should reinstall the driver of mpr121")
+        print("maybe you should reinstall the driver of mpr121")    
 def main():
     while True:
         Mpr121Data = parse_and_print_result(int(GetMpr121Data()))
         if Mpr121Data != None:
             for i in range(CHANNEL_NUM):
                 if(Mpr121Data[i] == 1):
-                    if i == 11:
-                        break
                     if i > 3 :
                         Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[i-4])
                     else :
@@ -803,7 +805,6 @@ def main():
         time.sleep(0.05)
 if __name__ == "__main__":
     main()
-
 ```
 
 - Step 3. Run KeyBoard_Player.py
