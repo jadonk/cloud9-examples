@@ -332,9 +332,8 @@ _SCALE_DEFS = [
    'fa.wav',
    'so.wav',
    'la.wav',
-   'ti.wav'
+   'ti.wav',
    ]
-   
 channels = 1
 sampwidth = 2
 framerate = 44100 
@@ -354,7 +353,7 @@ def Play_Music(file):
     # read data
     data = f.readframes(chunk)
 
-    # paly stream
+    # play stream
     datas = []
     while len(data) > 0:
         data = f.readframes(chunk)
@@ -449,25 +448,23 @@ def Play_Music(file):
     # read data
     data = f.readframes(chunk)
 
-    # paly stream
+    # play stream
     datas = []
     while len(data) > 0:
         data = f.readframes(chunk)
         datas.append(data)
     for d in tqdm(datas):
-        stream.write(d)    
+        stream.write(d)
     # stop stream
     stream.stop_stream()
     stream.close()
 
     # close PyAudio
-    p.terminate()   
+    p.terminate()
 def main():
-    
     while True:
         distance = get_distance()
         setText("The Distance: \r\n{} cm".format(distance))
-        # int_value = int(distance)
         print(distance)
         if int(distance) < 70 :
             Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[int(int(distance)/10)])
@@ -508,7 +505,6 @@ In this lesson, students will learn how to use the 2 buttons to select the next 
 
 ![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project-3.jpg)
 
-
 ### Software
 
 - Step 1.install driver of 16x2 LCD and config pin of button. 
@@ -543,7 +539,7 @@ nano Switch_the_Music.py
 ```python
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-import time,threading
+import time
 from evdev import InputDevice
 import wave
 import os
@@ -566,7 +562,7 @@ def setText(text):
     with open('/dev/lcd0', 'w') as f:
         f.write('%s'%text)
 def Play_Music(file):
-    # define stream chunk 
+    # define stream chunk
     chunk = 1024
     # open a wav format music
     f = wave.open(file,"rb")
@@ -596,9 +592,9 @@ def Play_Music(file):
 
 def main():
     MusciIndex = 0
-    setText("Hello World")
     files= os.listdir("/home/debian/scale")
     print(files)
+    setText("scale: \r\n{}".format(files[MusciIndex]))
     while True:
         KeyStatus = Get_Key_Status()
         if(len(KeyStatus)):
@@ -629,6 +625,7 @@ if __name__ == "__main__":
 ## Lesson – 4. Download Music via the WIFI dongle
 
 ### Description:
+
 In this lesson, students will learn how to download mp3 files from the Internet via the WIFI dongle, and they can also practice the skill learn from Lesson3 to switch the music.
 
 ### Hardware Requirement:
@@ -783,14 +780,14 @@ def parse_and_print_result(result):
                     print("Channel %d is released"%i)
         return touch_flag
 def GetMpr121Data():
-    try:
+    try:    
         with open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r') as f:
             text = f.readlines()
             text[0] = text[0].strip('\n')
             return text[0]
     except IOError as err:
         print("File Error:"+str(err))
-        print("maybe you should reinstall the driver of mpr121")    
+        print("maybe you should reinstall the driver of mpr121")
 def main():
     while True:
         Mpr121Data = parse_and_print_result(int(GetMpr121Data()))
@@ -806,6 +803,7 @@ def main():
         time.sleep(0.05)
 if __name__ == "__main__":
     main()
+
 ```
 
 - Step 3. Run KeyBoard_Player.py
