@@ -4,8 +4,6 @@ This is a set of examples for using Seeed Grove modules with PocketBeagle, prima
 the BeagleBoard.org PocketBeagle Grove Cape, but some other wiring options are examined as
 well.
 
-Forthcoming documentation fixes: https://github.com/SeeedDocument/wiki_english/pull/28
-
 # BeagleBoard.org PocketBeagle Grove Cape
 
 | Grove socket and pin | PocketBeagle pin(s) | default |
@@ -96,6 +94,11 @@ sudo gpsctl add /dev/ttyS4
 gpsmon
 ```
 
+# Python example setup
+```
+sudo apt install python3-libiio
+sudo pip3 install python-periphery python-uinput
+```
 
 # [mikroBus Grove Adapter](https://www.tindie.com/products/pmunts/mikrobus-grove-adapter-3/)
 
