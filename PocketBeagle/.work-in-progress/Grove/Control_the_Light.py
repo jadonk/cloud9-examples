@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 import iio
-import uinput
 import time
 import sys
 import subprocess

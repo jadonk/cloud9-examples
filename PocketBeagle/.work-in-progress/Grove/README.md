@@ -96,10 +96,10 @@ sudo gpsctl add /dev/ttyS4
 gpsmon
 ```
 
-# Python example setup
+# Python setup for examples
 ```
-sudo apt install python3-libiio
-sudo pip3 install python-periphery python-uinput
+sudo apt install -y python3-libiio portaudio19-dev python3-all-dev -y
+sudo pip3 install python-periphery python-uinput pyaudio tqdm
 ```
 
 # [mikroBus Grove Adapter](https://www.tindie.com/products/pmunts/mikrobus-grove-adapter-3/)
