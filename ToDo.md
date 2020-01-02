@@ -11,6 +11,11 @@
 
 - [ ] AI/tidl/classification.tidl.cpp
 
+## Plugin
+
+- [ ] fix closing of Introduction.md when other window clicked
+- [ ] fix disconnect to vfs server (or lack of reconnect)
+
 ## Black/0README.md
 - [ ] Blink.ino
 - [ ] blinky.rb
