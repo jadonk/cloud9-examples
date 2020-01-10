@@ -1,4 +1,4 @@
-# Grove Music Kit for Pocket Beagle
+# BeagleBoard.org PocketBeagle Grove Kit
 
 
 ![](img/_DAS6325.jpg)
@@ -9,7 +9,7 @@ PocketBeagle is an ultra-tiny-yet-complete open-source USB-key-fob computer. Poc
 
 Grove is a modular, standardized connector prototyping system. Consisting of Sensor, Actuator, Display, Communication, and Other function modules. Grove takes a building block approach to assemble electronics. Compared to the jumper or solder based system, it is easier to connect, experiment and build and simplifies the learning system. 
 
-The Grove Music Kit for Pocket Beagle combines the Grove sensor modules with the powerful programming capabilities of Pocket Beagle, allowing students to interact with music using real-world information such as light, touch, keyboard, Slide Potentiometer, posture and so on, to create cool projects.
+BeagleBoard.org PocketBeagle Grove Kit combines the Grove sensor modules with the powerful programming capabilities of Pocket Beagle, allowing students to interact with music using real-world information such as light, touch, keyboard, Slide Potentiometer, posture and so on, to create cool projects.
 
 
 
