@@ -1,7 +1,7 @@
 # Grove Music Kit for Pocket Beagle
 
 
-![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/_DAS6325.jpg)
+![](img/_DAS6325.jpg)
 
 
 
@@ -16,7 +16,7 @@ The Grove Music Kit for Pocket Beagle combines the Grove sensor modules with the
 
 ## Hardware Overview
 
-![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/pin.jpg)
+![](img/pin.jpg)
 
 
 
@@ -143,7 +143,7 @@ In this lesson, students will light up the RGB LED, and learn how to use sound a
 - Power the Pocket Beagle via the **micro USB** port
 
 
-![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/_DAS6312.jpg)
+![](img/_DAS6312.jpg)
 
 
 
@@ -269,7 +269,7 @@ In this lesson, students can move their hand in front of the ultrasonic distance
 - Plug the Grove – Speaker into **UART2** port
 - Power the Pocket Beagle via the **micro USB** port
 
-![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project2.jpg)
+![](img/project2.jpg)
 
 
 ### Software
@@ -507,7 +507,7 @@ The LCD will show the name of the song.
 - Plug the Grove – Speaker into **UART2** port
 - Power the Pocket Beagle via the **micro USB** port
 
-![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project-3.jpg)
+![](img/project-3.jpg)
 
 ### Software
 
@@ -651,7 +651,7 @@ In this lesson, students will learn how to download mp3 files from the Internet 
 - Power the Pocket Beagle via the **micro USB** port
 
 
-![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project-4.jpg)
+![](img/project-4.jpg)
 
 
 ### Software
@@ -664,12 +664,12 @@ if you don't know how to use `connmanctl`, maybe you should review the previous 
 
 - Step 3. Open winscp and type the hostname and username 
 
-![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/winscp.png)
+![](img/winscp.png)
 the hostname is an IP address of Pockbeagle that can use ifconfig to find it. The username is `debian`
 
 - Step 4. Drag your music file to `/home/debian/scale`
 
-![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/drag_music_file.png)
+![](img/drag_music_file.png)
 
 !!!Note
         Please select *.wav to /home/debian/scale 
@@ -700,7 +700,7 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 - Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C2** port
 - Power the Pocket Beagle via the **micro USB** port
 
-![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project-5.jpg)
+![](img/project-5.jpg)
 
 ### Software
 
@@ -848,7 +848,7 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 - Power the Pocket Beagle via the **micro USB** port
 
 
-![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project-6.jpg)
+![](img/project-6.jpg)
 
 
 ### Software
@@ -887,7 +887,7 @@ In this lesson, students will learn how to use the Grove – 3-Axis Acceleromete
 - Plug the Chainable RGB LED into **PWM** port
 - Power the Pocket Beagle via the **micro USB** port
 
-![](https://github.com/SeeedDocument/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project-7.jpg)
+![](img/project-7.jpg)
 
 
 ### Software
