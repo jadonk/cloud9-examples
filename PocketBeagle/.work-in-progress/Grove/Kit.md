@@ -11,9 +11,6 @@ Grove is a modular, standardized connector prototyping system. Consisting of Sen
 
 BeagleBoard.org PocketBeagle Grove Kit combines the Grove sensor modules with the powerful programming capabilities of PocketBeagle, allowing students to interact with music using real-world information such as light, touch, keyboard, Slide Potentiometer, posture and so on, to create cool projects.
 
-
-
-
 ## Hardware Overview
 
 ![](img/pin.jpg)
@@ -120,7 +117,7 @@ card 0: Audio [GroveBaseCape Audio], device 0: davinci-mcasp.0-tlv320aic3x-hifi 
   Subdevice #0: subdevice #0
 ```
 
-## Lesson – 1. Control the Light
+## Lesson - 1. Control the Light
 
 ### Description:
 
@@ -485,7 +482,7 @@ if __name__ == "__main__":
 !!!success
         Now please please slowly change the distance between your hand and the ultrasonic distance sensor, you can find the distance value in the LCD change and the music switched by the distance.
 
-## Lesson – 3. Switch the Music
+## Lesson - 3. Switch the Music
 
 ### Description:
 
@@ -495,15 +492,15 @@ The LCD will show the name of the song.
 
 ### Hardware Requirement:
 
-- [Grove – Button x 2](http://wiki.seeedstudio.com/Grove-Button/)
-- [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
-- [Grove – 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
+- [Grove - Button x 2](http://wiki.seeedstudio.com/Grove-Button/)
+- [Grove - Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
 
 ### Hardware Connection
  
-- Plug the Grove – Button into **A5** and **UART4** port
-- Plug the Grove – 16x2 LCD into **I2C1** port
-- Plug the Grove – Speaker into **UART2** port
+- Plug the Grove - Button into **A5** and **UART4** port
+- Plug the Grove - 16x2 LCD into **I2C1** port
+- Plug the Grove - Speaker into **UART2** port
 - Power PocketBeagle via the **micro USB** port
 
 ![](img/project-3.jpg)
@@ -627,7 +624,7 @@ if __name__ == "__main__":
 !!!success
         Now please try to press the two buttons, check the LCD, and listen to the music.
 
-## Lesson – 4. Download Music via the WIFI dongle
+## Lesson - 4. Download Music via the WIFI dongle
 
 ### Description:
 
@@ -635,17 +632,17 @@ In this lesson, students will learn how to download mp3 files from the Internet 
 
 ### Hardware Requirement:
 
-- [Grove – Button x 2](http://wiki.seeedstudio.com/Grove-Button/)
-- [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
-- [Grove – 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
+- [Grove - Button x 2](http://wiki.seeedstudio.com/Grove-Button/)
+- [Grove - Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
 - USB WIFI dongle
 
 
 ### Hardware Connection
 
-- Plug the Grove – Button into **A5** and **UART4** port
-- Plug the Grove – 16x2 LCD into **I2C1** port
-- Plug the Grove – Speaker into **UART2** port
+- Plug the Grove - Button into **A5** and **UART4** port
+- Plug the Grove - 16x2 LCD into **I2C1** port
+- Plug the Grove - Speaker into **UART2** port
 - Plug the WiFi dongle into the **USB** Port
 - Power PocketBeagle via the **micro USB** port
 
@@ -682,7 +679,7 @@ the hostname is an IP address of Pockbeagle that can use ifconfig to find it. Th
 !!!success
         Default music is boring and bad taste? Now, with the help of WiFi, you can download the music meet your own flavor.
 
-## Lesson – 5. KeyBoard Player
+## Lesson - 5. KeyBoard Player
 
 ### Description:
 
@@ -691,11 +688,11 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 ### Hardware Requirement:
 
 - [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
-- [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
 
 ### Hardware Connection
 
-- Plug the Grove – Speaker into **UART2** port
+- Plug the Grove - Speaker into **UART2** port
 - Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C2** port
 - Power PocketBeagle via the **micro USB** port
 
@@ -822,7 +819,7 @@ sudo python3 KeyBoard_Player.py
         Try to touch the Capacitive key, image it as a keyboard, and play your music.
 
 
-## Lesson – 6. Start the Party
+## Lesson - 6. Start the Party
 
 
 ### Description:
@@ -832,7 +829,7 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 ### Hardware Requirement:
 
 - [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
-- [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
 - [Grove - Slide Potentiometer](http://wiki.seeedstudio.com/Grove-Slide_Potentiometer/)
 - [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 
@@ -840,7 +837,7 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 
 ### Hardware Connection
  
-- Plug the Grove – Speaker into **A5** port
+- Plug the Grove - Speaker into **A5** port
 - Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C** port
 - Plug the Grove - Slide Potentiometer into **A2** port
 - Plug the Chainable RGB LED into **PWM** port
@@ -865,23 +862,23 @@ to be continue ... ...
 ----
 
 
-## Lesson – 7. Music Box
+## Lesson - 7. Music Box
 
 ### Description:
 
-In this lesson, students will learn how to use the Grove – 3-Axis Accelerometer to control RGB LED and Speaker. At last, he can make a smart box, by putting different side of the box on the table, the box will have different color and play different music.
+In this lesson, students will learn how to use the Grove - 3-Axis Accelerometer to control RGB LED and Speaker. At last, he can make a smart box, by putting different side of the box on the table, the box will have different color and play different music.
 
 
 ### Hardware Requirement:
 
 - [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/)
-- [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
 - [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 
 
 ### Hardware Connection
 
-- Plug the Grove – Speaker into **A5** port
+- Plug the Grove - Speaker into **A5** port
 - Plug the Grove - 3 Axis Digital Accelerometer into **A2** port
 - Plug the Chainable RGB LED into **PWM** port
 - Power PocketBeagle via the **micro USB** port
