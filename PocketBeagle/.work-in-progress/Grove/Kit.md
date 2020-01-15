@@ -22,16 +22,16 @@ BeagleBoard.org PocketBeagle Grove Kit combines the Grove sensor modules with th
 
 **Part List:**
 
-- <font size="4" color="red">①</font> [Grove - Sound Sensor](http://wiki.seeedstudio.com/Grove-Sound_Sensor/)
+- <font size="4" color="red">①</font> [Grove - Analog Microphone](TBD)
 - <font size="4" color="red">②</font> [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 - <font size="4" color="red">③</font> [Grove - Ultrasonic Distance Sensor](http://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/)
 - <font size="4" color="red">④</font> [Grove - Rotary Angle Sensor](http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/)
 - <font size="4" color="red">⑤</font> [Grove - Slide Potentiometer](http://wiki.seeedstudio.com/Grove-Slide_Potentiometer/)
-- <font size="4" color="red">⑥</font> [Grove – Button](http://wiki.seeedstudio.com/Grove-Button/)
+- <font size="4" color="red">⑥</font> [Grove - Button](http://wiki.seeedstudio.com/Grove-Button/)
 - <font size="4" color="red">⑦</font> [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
 - <font size="4" color="red">⑧</font> [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/)
-- <font size="4" color="red">⑨</font> [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
-- <font size="4" color="red">⑩</font> [Grove – 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
+- <font size="4" color="red">⑨</font> [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
+- <font size="4" color="red">⑩</font> [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
 - <font size="4" color="red">⑪</font> [BeagleBoard.org PocketBeagle](https://beagleboard.org/pocket)
 - <font size="4" color="red">⑫</font> [10pcs Alligator Cable](https://www.seeedstudio.com/10pcs-alligator-clip-test-lead-500mm-22awg-p-3087.html)
 - <font size="4" color="red">⑬</font> SD+TF Card Reader
@@ -128,14 +128,14 @@ In this lesson, students will light up the RGB LED, and learn how to use sound a
 
 ### Hardware Requirement:
 
-- [Grove - Sound Sensor](http://wiki.seeedstudio.com/Grove-Sound_Sensor/)
+- [Grove - Analog Microphone](http://wiki.seeedstudio.com/Grove-Sound_Sensor/)
 - [Grove - Rotary Angle Sensor](http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/)
 - [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 
 
 ### Hardware Connection
  
-- Plug the Grove - Sound Sensor into **A0** port
+- Plug the Grove - Analog Microphone into **A0** port
 - Plug the Grove - Rotary Angle Sensor into **A5** port
 - Grove - Chainable RGB LED into **A2** port
 - Power PocketBeagle via the **micro USB** port
@@ -147,7 +147,7 @@ In this lesson, students will light up the RGB LED, and learn how to use sound a
 
 ### Software
 
-- Step 1. Install driver of RGB LED and Check it weather install successfully
+- Step 1. Install driver of Chainable RGB LED and Check it weather install successfully
 
 ```bash
 cd ~/seeed-linux-dtverlays/modules/p9813
@@ -155,7 +155,7 @@ make && sudo make install
 sudo modprobe p9813
 ```
 
-if the driver of  RGB LED installed successfully , you should view below information.
+if the driver of Chainable RGB LED installed successfully , you should view below information.
 
 ```bash 
 debian@beaglebone:~$ lsmod | grep p9813
@@ -216,7 +216,7 @@ def setColorRGB(led, red, green, blue):
         print("File Error:"+str(err))
         print("maybe you should reinstall the driver of p981x")
 def main():
-    InitRGBLed(1)
+    InitRGBLed(2)
     while True:
 
         Sound_Data = GetAdcData(AIN0)
@@ -229,13 +229,14 @@ def main():
             Sound_Data = 255
         print("Sound_Data is %d"%Sound_Data)
         print("Rotary_Angle_Data is %d"%Rotary_Angle_Data)
-        setColorRGB(0,Rotary_Angle_Data,Sound_Data,0)
+        setColorRGB(0,Rotary_Angle_Data,0,0)
+        setColorRGB(1,0,Sound_Data,0)
         time.sleep(0.1)
 if __name__ == "__main__":
     main()
 ```
 
-- Step 3. run Control_the_Light.py
+- Step 3. run Control_the_Light.py,and you can use `Ctrl+\` to quit this process
 
 ```bash
    sudo python3 Control_the_Light.py
@@ -247,7 +248,7 @@ if __name__ == "__main__":
 
 -------------
 
-## Lesson – 2. Musical Note
+## Lesson - 2. Musical Note
 
 ### Description:
 
@@ -256,15 +257,15 @@ In this lesson, students can move their hand in front of the ultrasonic distance
 ### Hardware Requirement:
 
 - [Grove - Ultrasonic Distance Sensor](http://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/)
-- [Grove – 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
-- [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
+- [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
 
 
 ### Hardware Connection
  
 - Plug the Grove - Ultrasonic Distance Sensor into **A0** port
-- Plug the Grove – 16x2 LCD into **I2C1** port
-- Plug the Grove – Speaker into **UART2** port
+- Plug the Grove - 16x2 LCD into **I2C1** port
+- Plug the Grove - Speaker Plus into **UART2** port
 - Power PocketBeagle via the **micro USB** port
 
 ![](img/project2.jpg)
@@ -272,7 +273,7 @@ In this lesson, students can move their hand in front of the ultrasonic distance
 
 ### Software
 
-- Step 1.make then install driver of 16x2 LCD and driver of Ultrasonic Distance Sensor. 
+- Step 1.make then install driver of 16x2 LCD and driver of Ultrasonic Distance Sensor.
 
 ```bash
 cd ~/seeed-linux-dtverlays/modules/hd44780
@@ -898,4 +899,144 @@ to be continue ... ...
 !!!success
         Here you go, a smart music box. Just rotate the music box and dance with different music.
 
-----
+## Lesson - 8. Hello Kitt-AI
+
+In this lesson, students will learn how to install the snowboy of Kitt-AI and use it.
+
+### Hardware Requirement:
+
+- [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - Analog Microphone](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+
+### Hardware Connection
+
+- Plug the Grove - Speaker Plus into **UART2** port
+- Plug the Grove - Analog Microphone into **PWM** port
+- Power the Pocket Beagle via the **micro USB** port
+are
+![](https://github.com/hansonCc/Grove-Music-Kit-for-Pocket-Beagle/raw/master/img/project-7.jpg)
+
+### Software
+
+- Step 1. Check the sound card. if  the sound card install successfully, you should view below information
+
+```bash
+debian@beaglebone:~$ aplay -l
+**** List of PLAYBACK Hardware Devices ****
+card 0: Audio [GroveBaseCape Audio], device 0: davinci-mcasp.0-tlv320aic3x-hifi tlv320aic3x-hifi-0 [davinci-mcasp.0-tlv320aic3x-hifi tlv320aic3x-hifi-0]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+debian@beaglebone:~$ arecord -l
+**** List of CAPTURE Hardware Devices ****
+card 0: Audio [GroveBaseCape Audio], device 0: davinci-mcasp.0-tlv320aic3x-hifi tlv320aic3x-hifi-0 [davinci-mcasp.0-tlv320aic3x-hifi tlv320aic3x-hifi-0]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+```
+
+- Step 2.Use apt-get install sox, portaudio
+
+```bash
+sudo apt-get install python-pyaudio python3-pyaudio sox -y
+```
+
+!!!Note
+
+    if you should the sound of the record is small, maybe you can use  `amixer cset numid=33,iface=MIXER,name='PGA Capture Volume' 80%` to enlarge PGA Capture Volume.
+
+
+- Step 3.Use apt-get install libpcre3, swig
+
+```bash
+cd ~
+sudo apt-get install libpcre3 libpcre3-dev swig -y
+```
+
+- Step 4.Install the atlas matrix computing library
+
+```bash
+sudo apt-get install libatlas-base-dev -y
+```
+
+- Step 5.Get snowboy from github and compile a Python Wrapper
+
+```bash
+cd ~
+git clone https://github.com/Kitt-AI/snowboy.git
+cd ~/snowboy/swig/Python3
+make
+```
+
+SWIG will generate a `_snowboydetect.so` file and a simple (but hard-to-read) python wrapper `snowboydetect.py`. We have provided a higher level python wrapper `snowboydecoder.py` on top of that.
+
+- Step 6.Modify the snowboydecoder.py
+
+First, you can use bash below to found snowboydecoder.py
+
+```bash
+cd ~/snowboy/examples/Python3/
+```
+
+snowboydecoder.py have a problem, you can fix it by Modifying the `import` of line 5 of snowboydecoder.py.we can make this effect by using code below.
+
+```python
+#from . import snowboydetect
+import snowboydetect
+```
+And we need to change the code from line 164 to line 180 of snowboydecoder.py to adapt our mic.
+
+```python
+        def audio_callback(in_data, frame_count, time_info, status):
+            data_array = np.fromstring(in_data, dtype='int16')
+            channel0 = data_array[0::2]
+            in_data = channel0.tostring()
+            self.ring_buffer.extend(in_data)
+            play_data = chr(0) * len(in_data)
+            return play_data, pyaudio.paContinue
+
+        with no_alsa_error():
+            self.audio = pyaudio.PyAudio()
+        self.stream_in = self.audio.open(
+            input=True, output=False,
+            format=pyaudio.paInt16,
+            channels=2,
+            rate=16000,
+            frames_per_buffer=2048,
+            stream_callback=audio_callback)
+```
+
+Finally, you should modify the sensitivity of snowboy by editing line 27 of demo.py
+
+```python
+    detector = snowboydecoder.HotwordDetector(model, sensitivity=0.8)    
+```
+
+- Step 7.Run the demo
+
+```python
+cd ~/snowboy/examples/Python3/
+sudo python3 demo.py ~/snowboy/resources/models/snowboy.umdl
+```
+
+!!!success
+
+        When we speak `snowboy` to the mic, and the speaker will make a 'ding' tone.
+
+- Step 8.more information about  snowboy of Kitt-AI
+
+we only provide very easy demo about snowboy of Kitt-AI.you can visit [snowboy](https://github.com/Kitt-AI/snowboy) to view the more information.
+
+if you want to use other hotword. we also provide an easy way for you.
+
+**1** Create your personal hotword model through our [website](https://snowboy.kitt.ai/)
+
+**2** Put your personal model in snowboy/resources/models
+
+**3** Run the demo
+
+
+```python
+cd ~/snowboy/examples/Python3/
+sudo python3 demo.py ~/snowboy/resources/models/***.pmdl
+```
+
+if you want to control the led with snowboy, and you can visit [BlinkWithSonwboy](http://docs.kitt.ai/snowboy/#control-an-led-with-python) to learn it.
