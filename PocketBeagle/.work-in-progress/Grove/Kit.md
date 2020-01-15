@@ -102,12 +102,10 @@ sudo reboot
 !!!Note
         Please connect Grove with PocketBeagle with Grove shield firstly, then reboot.
 
-- Step 3.Use `wget` command to get configure file and config TLV320AIC3104 codec with alsactl
+- Step 3.Use `alsactl` command to configure TLV320AIC3104 codec
 
 ```bash
-wget https://github.com/beagleboard/bb.org-overlays/files/3877583/tlv320aic3104.state.txt
-mv tlv320aic3104.state.txt  tlv320aic3104.state
-sudo alsactl restore 0 -f tlv320aic3104.state
+sudo alsactl restore 0 -f /opt/source/bb.org-overlays/extras/tlv320aic3104.state.txt
 ```
 
 - Step 4.Check if the driver of codec install successfully
