@@ -865,48 +865,369 @@ sudo modprobe p9813
 cd ~
 ```
 
+if the driver of Chainable RGB LED and 12 Key Capacitive I2C Touch Sensor V2 installed successfully , you should view below information.
+
+```bash
+debian@beaglebone:~$ lsmod | grep p9813
+p9813                  16384  0
+debian@beaglebone:~$ ls /dev/p981x0
+p981x0
+debian@beaglebone:~$ lsmod | grep mpr121
+mpr121                 16384  0
+debian@beaglebone:~$ cat /sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/name
+mpr121
+```
+
+if you cannot view information described above. maybe you can check if item connect correct and reboot.
+
+!!!Note
+        Please connect Grove with Pocket Beagle with Grove shield firstly, then reboot.
+
+- Step 2. Build Start_the_Party.py by using `nano` and please follow below code
+
+```python
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+import time
+import wave
+import os
+import pyaudio
+from tqdm import tqdm
+CHANNEL_NUM = 12
+
+ResultStr = [1, 1, 1]
+_SCALE_DEFS = [
+   'do.wav',
+   're.wav',
+   'me.wav',
+   'fa.wav',
+   'so.wav',
+   'la.wav',
+   'ti.wav',
+   'do+.wav'
+   ]
+def InitRGBLed(leds):
+    try:
+        with open('/dev/p981x0', 'w') as f:
+            f.write('N %d\n'%leds)
+    except IOError as err:
+        print("File Error:"+str(err))
+        print("maybe you should reinstall the driver of p981x")
+def setColorRGB(led, red, green, blue):
+    try:
+        with open('/dev/p981x0', 'w') as f:
+            f.write('D %d %d %d %d\n'%(led,red,green,blue))
+    except IOError as err:
+        print("File Error:"+str(err))
+        print("maybe you should reinstall the driver of p981x")
+def Play_Music(file):
+    # define stream chunk
+    chunk = 1024
+    # open a wav format music
+    f = wave.open(file,"rb")
+    # instantiate PyAudio
+    p = pyaudio.PyAudio()
+    # open stream
+    stream = p.open(format = p.get_format_from_width(f.getsampwidth()),
+                                channels = f.getnchannels(),
+                                rate = f.getframerate(),
+                                output = True)
+    # read data
+    data = f.readframes(chunk)
+
+    # play stream
+    datas = []
+    while len(data) > 0:
+        data = f.readframes(chunk)
+        datas.append(data)
+    for d in tqdm(datas):
+        stream.write(d)
+    # stop stream
+    stream.stop_stream()
+    stream.close()
+
+    # close PyAudio
+    p.terminate()
+def parse_and_print_result(result):
+    touch_flag = [0]*CHANNEL_NUM
+    if result != 0:
+        result = result % 1000 
+        ResultStr[0] = result // 100
+        ResultStr[1] = result % 100 // 10
+        ResultStr[2] = result % 100 % 10
+        result = ResultStr[0] * (1<<8) | ResultStr[1] * (1<<4) | ResultStr[2]
+        for i in range(CHANNEL_NUM):
+            if(result & 1 << i):
+                if(0 == touch_flag[i]):
+                    touch_flag[i] = 1
+                    print("Channel %d is pressed"%i)
+            else:
+                if(1 == touch_flag[i]):
+                    touch_flag[i] = 0
+                    print("Channel %d is released"%i)
+    return touch_flag
+def GetMpr121Data():
+    try:
+        with open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r') as f:
+            text = f.readlines()
+            text[0] = text[0].strip('\n')
+            return text[0]
+    except IOError as err:
+        print("File Error:"+str(err))
+        print("maybe you should reinstall the driver of mpr121")    
+def main():
+    InitRGBLed(2)
+    while True:
+        try:
+           GetMpr121 = int(GetMpr121Data())
+        except ValueError as err:
+            print("Multi-touch is not supported")
+        Mpr121Data = parse_and_print_result(GetMpr121)
+        # print(Mpr121Data)
+        if any(Mpr121Data) != False:
+            for i in range(CHANNEL_NUM):
+                if(Mpr121Data[i] == 1):
+                    if i > 3 :
+                        setColorRGB(0,((i-4)&0x01)*255,((i-4)&0x02)*255,((i-4)&0x04)*255)
+                        setColorRGB(1,((i-4)&0x01)*255,((i-4)&0x02)*255,((i-4)&0x04)*255)
+                        Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[i-4])
+                    else :
+                        setColorRGB(0,(i&0x01)*255,(i&0x02)*255,(i&0x04)*255)
+                        setColorRGB(1,(i&0x01)*255,(i&0x02)*255,(i&0x04)*255)
+                        if i == 0:
+                            setColorRGB(0,50,50,200)
+                            setColorRGB(1,50,50,200)
+                        Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[i])
+        else:
+            setColorRGB(0,0,0,0)
+        time.sleep(0.05)
+if __name__ == "__main__":
+    main()
+```
+
+Step 3. Run Start_the_Party.py,and you can use `Ctrl+\` to quit this process
+
+```bash
+sudo python3 Start_the_Party.py
+```
 
 !!!success
         Just control the music as lesson 5, and you can see the color of RGB LED change.
-
-
-
-----
-
 
 ## Lesson - 7. Music Box
 
 ### Description:
 
-In this lesson, students will learn how to use the Grove - 3-Axis Accelerometer to control RGB LED and Speaker. At last, he can make a smart box, by putting different side of the box on the table, the box will have different color and play different music.
+In this lesson, students will learn how to use the Grove - 3-Axis Accelerometer to control RGB LED and Speaker Plus. At last, he can make a smart box, by putting different side of the box on the table, the box will have different color and play different music.
 
 
 ### Hardware Requirement:
 
 - [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/)
-- [Grove - Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
-- [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
-
+- [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 
 ### Hardware Connection
 
-- Plug the Grove - Speaker into **A5** port
-- Plug the Grove - 3 Axis Digital Accelerometer into **A2** port
-- Plug the Chainable RGB LED into **PWM** port
+- Plug the Grove - Speaker Plus into **UART2** port
+- Plug the Grove - 3 Axis Digital Accelerometer into **I2C2** port
+- Plug the Chainable RGB LED X 2 into **A2** port
 - Power PocketBeagle via the **micro USB** port
-
 ![](img/project-7.jpg)
 
 
 ### Software
 
-```
-to be continue ... ...
+- Step 1. install driver of 3 Axis Digital Accelerometer and Chainable RGB LED
+
+```bash
+cd ~/seeed-linux-dtverlays/modules/p9813
+make && sudo make install
+sudo modprobe p9813
+cd ~/seeed-linux-dtverlays/modules/adxl34x
+make && sudo make install
+sudo modprobe adxl34x
+cd ~
 ```
 
+if the driver of 3 Axis Digital Accelerometer and Chainable RGB LED installed successfully , you should view below information.
+
+```bash
+debian@beaglebone:~$ lsmod | grep p9813
+p9813                  16384  0
+debian@beaglebone:~$ ls /dev/p981x0
+p981x0
+debian@beaglebone:~$ lsmod | grep adxl34x
+adxl34x_i2c            16384  0
+adxl34x                20480  1 adxl34x_i2c
+debian@beaglebone:~$ dmesg | grep adxl34x
+adxl34x 2-0053: no irq, launch a thread to scan irq handler
+```
+
+if you cannot view information described above. maybe you can check if item connect correct and reboot.
+
+!!!Note
+        Please connect Grove with Pocket Beagle with Grove shield firstly, then reboot.
+
+- Step 2. Build Music_Box.py by using `nano` and please follow below code
+
+```python
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+import time
+from evdev import InputDevice, categorize, ecodes
+import evdev
+import wave
+import os
+import pyaudio
+import math
+from tqdm import tqdm
+_Acceleration_xyz = [1,1,1]
+data_x = [0]*5
+data_y = [0]*5
+data_z = [0]*5
+SlidingAverage_Per = 5
+_SCALE_DEFS = [
+   'do.wav',
+   're.wav',
+   'me.wav',
+   'fa.wav',
+   'so.wav',
+   'la.wav',
+   'ti.wav',
+   'do+.wav'
+   ]
+def GetAcceleration():  
+    devices = [evdev.InputDevice(path) for path in evdev.list_devices()]
+    for device in devices:
+        if device.name == 'ADXL34x accelerometer':
+            ADXL34x  = InputDevice(device.path)
+            for event in ADXL34x.read_loop():
+                if event.type == ecodes.EV_ABS:
+                    if event.code == ecodes.ABS_X:
+                        _Acceleration_xyz[ecodes.ABS_X] = event.value
+                    elif event.code == ecodes.ABS_Y:
+                        _Acceleration_xyz[ecodes.ABS_Y] = event.value
+                    elif event.code == ecodes.ABS_Z:
+                        _Acceleration_xyz[ecodes.ABS_Z] = event.value
+                    return _Acceleration_xyz
+        else :
+            print("Maybe you can check adxl34 if it inserts in I2C1 and reboots to find adxl34")
+            exit(1)
+# def SlidingAverage_Init()
+
+def SlidingAverage(inputs,input,per):
+    sum = 0
+    inputs.remove(inputs[0])
+    inputs.append(input)
+    for i in range(per):
+        sum = sum + inputs[i]
+    return (sum // per)
+# return six side
+def MotionDetection(data): 
+    
+    data[0] = SlidingAverage(data_x,data[0],5)
+    data[1] = SlidingAverage(data_y,data[1],5)
+    data[2] = SlidingAverage(data_z,data[2],5)
+    # print(data)
+    x = data[0]
+    y = data[1]
+    z = data[2]
+    
+    data[2] = math.atan2(z,math.sqrt((x*x+y*y)))
+    data[0] = math.atan2(x,math.sqrt((z*z+y*y)))
+    data[1] = math.atan2(y,math.sqrt((z*z+x*x)))
+    
+    data[2] = int(data[2] / math.pi*180)
+    data[0] = int(data[0] / math.pi*180)
+    data[1] = int(data[1] / math.pi*180)
+
+    print(data)
+
+    if abs(data[2] - 90) < 10:
+        return 1
+    elif abs(data[2] - 90) > 165 :
+        return 4
+    elif abs(data[0] - 90) < 10:
+        return 2
+    elif abs(data[0] - 90) > 170 :
+        return 5
+    elif abs(data[1] - 90) < 10:
+        return 3
+    elif abs(data[1] - 90) > 175:
+        return 6
+    else :
+        return 0
+    # return data
+def Play_Music(file):
+    # define stream chunk
+    chunk = 1024
+    # open a wav format music
+    f = wave.open(file,"rb")
+    # instantiate PyAudio
+    p = pyaudio.PyAudio()
+    # open stream
+    stream = p.open(format = p.get_format_from_width(f.getsampwidth()),
+                                channels = f.getnchannels(),
+                                rate = f.getframerate(),
+                                output = True)
+    # read data
+    data = f.readframes(chunk)
+
+    # play stream
+    datas = []
+    while len(data) > 0:
+        data = f.readframes(chunk)
+        datas.append(data)
+    for d in tqdm(datas):
+        stream.write(d)
+    # stop stream
+    stream.stop_stream()
+    stream.close()
+
+    # close PyAudio
+    p.terminate()
+def InitRGBLed(leds):    
+    with open('/dev/p981x0', 'w') as f:
+        f.write('N %d\n'%leds)   
+def setColorRGB(led, red, green, blue):
+    with open('/dev/p981x0', 'w') as f:
+        f.write('D %d %d %d %d\n'%(led,red,green,blue))  
+def main():
+    InitRGBLed(2)
+    for i in range(SlidingAverage_Per):
+        data = GetAcceleration()
+        data_x[i] = data[0]
+        data_y[i] = data[1]
+        data_z[i] = data[2]
+    print(data_x)
+    print(data_y)
+    print(data_z)
+    GetAttitude = GetAcceleration()
+    while True:
+        GetAttitude_Last = GetAttitude
+        GetAttitude = MotionDetection(GetAcceleration())
+        print(GetAttitude)
+        setColorRGB(0,(GetAttitude&0x01)*255,(GetAttitude&0x02)*255,(GetAttitude&0x04)*255)
+        setColorRGB(1,(GetAttitude&0x01)*255,(GetAttitude&0x02)*255,(GetAttitude&0x04)*255)
+        if GetAttitude_Last != GetAttitude and GetAttitude != 0:
+            Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[GetAttitude])
+        time.sleep(0.05)
+        # Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[GetAttitude])
+        # print(GetAttitude)
+if __name__ == "__main__":
+    main()
+```
+
+Step 3. Run Music_Box.py,and you can use `Ctrl+\` to quit this process
+
+```bash
+sudo python3 Music_Box.py
+```
 
 !!!success
         Here you go, a smart music box. Just rotate the music box and dance with different music.
+
 
 ## Lesson - 8. Hello Kitt-AI
 
