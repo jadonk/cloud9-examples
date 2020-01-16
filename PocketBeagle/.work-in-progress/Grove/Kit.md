@@ -307,7 +307,7 @@ sudo pip3 install pyaudio
 sudo pip3 install tqdm
 ```
 
-- Step 3. New scale file and genarate tone by using below python code 
+- Step 3. New scale file and genarate tone by using below python code
 
 ```bash
 mkdir ~/scale
@@ -473,7 +473,7 @@ if __name__ == "__main__":
     main()
 ```
 
-- Step 5. run Musical_Note.py
+- Step 5. run Musical_Note.py,and you can use `Ctrl+\` to quit this process
 
 ```bash
    sudo python3 Musical_Note.py
@@ -493,26 +493,27 @@ The LCD will show the name of the song.
 ### Hardware Requirement:
 
 - [Grove - Button x 2](http://wiki.seeedstudio.com/Grove-Button/)
-- [Grove - Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
 - [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
 
 ### Hardware Connection
  
 - Plug the Grove - Button into **A5** and **UART4** port
 - Plug the Grove - 16x2 LCD into **I2C1** port
-- Plug the Grove - Speaker into **UART2** port
+- Plug the Grove - Speaker Plus into **UART2** port
 - Power PocketBeagle via the **micro USB** port
 
 ![](img/project-3.jpg)
 
 ### Software
 
-- Step 1.install driver of 16x2 LCD and config pin of button. 
+- Step 1.install driver of 16x2 LCD and config pin of Button.
 
 ```bash
 sudo modprobe hd44780
 sudo config-pin P2_35 gpio
 sudo config-pin P2_05 gpio
+cd ~
 ```
 
 if the driver of 16x2 LCD installed successfully , you should view below information.
@@ -615,7 +616,7 @@ if __name__ == "__main__":
     main()
 ```
 
-- Step 4. run Musical_Note.py
+- Step 4. run Musical_Note.py,and you can use `Ctrl+\` to quit this process
 
 ```bash
    sudo python3 Switch_the_Music.py
@@ -633,7 +634,7 @@ In this lesson, students will learn how to download mp3 files from the Internet 
 ### Hardware Requirement:
 
 - [Grove - Button x 2](http://wiki.seeedstudio.com/Grove-Button/)
-- [Grove - Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
 - [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
 - USB WIFI dongle
 
@@ -642,7 +643,7 @@ In this lesson, students will learn how to download mp3 files from the Internet 
 
 - Plug the Grove - Button into **A5** and **UART4** port
 - Plug the Grove - 16x2 LCD into **I2C1** port
-- Plug the Grove - Speaker into **UART2** port
+- Plug the Grove - Speaker Plus into **UART2** port
 - Plug the WiFi dongle into the **USB** Port
 - Power PocketBeagle via the **micro USB** port
 
@@ -656,21 +657,17 @@ In this lesson, students will learn how to download mp3 files from the Internet 
 
 if you don't know how to use `connmanctl`, maybe you should review the previous lessons
 
-- Step 2.Download [winscp](https://winscp.net/eng/download.php).
+- Step 2.Use `wget` to get test.wav
 
-- Step 3. Open winscp and type the hostname and username 
-
-![](img/winscp.png)
-the hostname is an IP address of Pockbeagle that can use ifconfig to find it. The username is `debian`
-
-- Step 4. Drag your music file to `/home/debian/scale`
-
-![](img/drag_music_file.png)
+```bash
+cd ~/home/debian/scale
+wget http://www.wavsource.com/snds_2018-06-03_5106726768923853/people/comedians/carlin_letter.wav
+```
 
 !!!Note
         Please select *.wav to /home/debian/scale 
 
-- Step 5. run Musical_Note.py
+- Step 3. run Switch_the_Music.py,and you can use `Ctrl+\` to quit this process
 
 ```bash
    sudo python3 Switch_the_Music.py
@@ -688,11 +685,11 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 ### Hardware Requirement:
 
 - [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
-- [Grove - Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
 
 ### Hardware Connection
 
-- Plug the Grove - Speaker into **UART2** port
+- Plug the Grove - Speaker Plus into **UART2** port
 - Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C2** port
 - Power PocketBeagle via the **micro USB** port
 
@@ -700,22 +697,27 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 
 ### Software
 
-- Step 1. install driver of I2C Touch Sensor V2
+- Step 1. install driver of 12 Key Capacitive I2C Touch Sensor V2
 
 ```bash
 cd ~/seeed-linux-dtverlays/modules/mpr121
 make && sudo make install
 sudo modprobe mpr121
+cd ~
 ```
 
-if the driver of I2C Touch Sensor V2 installed successfully , you should view below information.
+if the driver of 12 Key Capacitive I2C Touch Sensor V2 installed successfully , you should view below information.
 
 ```bash
 debian@beaglebone:~$ lsmod | grep mpr121
 mpr121                 16384  0
-cat /sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/name
+debian@beaglebone:~$ cat /sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/name
 mpr121
 ```
+if you cannot view information described above. maybe you can check if item connect correct and reboot.
+
+!!!Note
+        Please connect Grove to PocketBeagle with PocketBeagle Grove Cape firstly, then reboot.
 
 - Step 2. Build KeyBoard_Player.py by using `nano` and please follow below code.
 
@@ -726,8 +728,8 @@ import time
 import wave
 import os
 import pyaudio
+from tqdm import tqdm
 CHANNEL_NUM                               = 12
-touch_flag = [0]*CHANNEL_NUM
 ResultStr = [1, 1, 1]
 _SCALE_DEFS = [
    'do.wav',
@@ -746,22 +748,21 @@ def Play_Music(file):
     f = wave.open(file,"rb")
     # instantiate PyAudio
     p = pyaudio.PyAudio()
-    def callback(in_data, frame_count, time_info, status):
-        data = f.readframes(frame_count)
-        if parse_and_print_result(int(GetMpr121Data())) != None:
-            return (data,pyaudio.paContinue)
-        return (data,pyaudio.paComplete)
     # open stream
     stream = p.open(format = p.get_format_from_width(f.getsampwidth()),
                                 channels = f.getnchannels(),
                                 rate = f.getframerate(),
-                                output = True,
-                                stream_callback=callback)
+                                output = True)
     # read data
-    stream.start_stream()
+    data = f.readframes(chunk)
 
-    while stream.is_active():
-        time.sleep(0.01)  
+    # play stream
+    datas = []
+    while len(data) > 0:
+        data = f.readframes(chunk)
+        datas.append(data)
+    for d in tqdm(datas):
+        stream.write(d)
     # stop stream
     stream.stop_stream()
     stream.close()
@@ -769,6 +770,7 @@ def Play_Music(file):
     # close PyAudio
     p.terminate()
 def parse_and_print_result(result):
+    touch_flag = [0]*CHANNEL_NUM
     if result != 0:
         result = result % 1000
         ResultStr[0] = result // 100
@@ -784,7 +786,7 @@ def parse_and_print_result(result):
                 if(1 == touch_flag[i]):
                     touch_flag[i] = 0
                     print("Channel %d is released"%i)
-        return touch_flag
+    return touch_flag
 def GetMpr121Data():
     try:
         with open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r') as f:
@@ -793,11 +795,15 @@ def GetMpr121Data():
             return text[0]
     except IOError as err:
         print("File Error:"+str(err))
-        print("maybe you should reinstall the driver of mpr121")    
+        print("maybe you should reinstall the driver of mpr121")
 def main():
     while True:
-        Mpr121Data = parse_and_print_result(int(GetMpr121Data()))
-        if Mpr121Data != None:
+        try:
+           GetMpr121 = int(GetMpr121Data())
+        except ValueError as err:
+            print("Multi-touch is not supported")
+        Mpr121Data = parse_and_print_result(GetMpr121)
+        if any(Mpr121Data) != False:
             for i in range(CHANNEL_NUM):
                 if(Mpr121Data[i] == 1):
                     if i > 3 :
@@ -809,7 +815,7 @@ if __name__ == "__main__":
     main()
 ```
 
-- Step 3. Run KeyBoard_Player.py
+- Step 3. Run KeyBoard_Player.py,and you can use `Ctrl+\` to quit this process
 
 ```bash
 sudo python3 KeyBoard_Player.py
@@ -829,18 +835,16 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 ### Hardware Requirement:
 
 - [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
-- [Grove - Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
-- [Grove - Slide Potentiometer](http://wiki.seeedstudio.com/Grove-Slide_Potentiometer/)
-- [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+- [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 
 
 
 ### Hardware Connection
  
-- Plug the Grove - Speaker into **A5** port
-- Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C** port
-- Plug the Grove - Slide Potentiometer into **A2** port
-- Plug the Chainable RGB LED into **PWM** port
+- Plug the Grove - Speaker Plus into **UART2** port
+- Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C2** port
+- Plug the Grove - Chainable RGB LED X 2 into **A2** port
 - Power PocketBeagle via the **micro USB** port
 
 
@@ -849,8 +853,16 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 
 ### Software
 
-```
-to be continue ... ...
+- Step 1. install driver of I2C Touch Sensor V2 and RGB LED
+
+```bash
+cd ~/seeed-linux-dtverlays/modules/mpr121
+make && sudo make install
+sudo modprobe mpr121
+cd ~/seeed-linux-dtverlays/modules/p9813
+make && sudo make install
+sudo modprobe p9813
+cd ~
 ```
 
 
