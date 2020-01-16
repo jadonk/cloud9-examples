@@ -20,7 +20,7 @@ TODO: Move to a single server type supported by latest Windows and Mac
 
 TODO: Add image of Cloud9 IDE startup
 
-<div style=“page-break-after: always”></div>
+----
 
 # PocketBeagle Grove Kit
 
@@ -30,7 +30,7 @@ TODO: Add image of kit
 
 TOOD: Document interconnections
 
-<div style=“page-break-after: always”></div>
+----
 
 # PocketBeagle
 
@@ -47,7 +47,7 @@ TODO: add image of PocketBeagle expansion header
 
 Great getting started information is at beagleboard.org/pocket
 
-<div style=“page-break-after: always”></div>
+----
 
 # Blink PocketBeagle on-board USRx LED
 **Goal:** Blink USR3 LED on PocketBeagle
@@ -80,4 +80,5 @@ while True:
   time.sleep(0.25)
 ```
 
-<div style=“page-break-after: always”></div>
+----
+
