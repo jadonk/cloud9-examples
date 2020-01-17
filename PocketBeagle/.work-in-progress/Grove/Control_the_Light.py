@@ -3,10 +3,12 @@
 import time
 from ADC import ADC
 from RGBLed import RGBLed
+from LCD import LCD
 
 def main():
     AIN = ADC()
     LED = RGBLed(2)
+    Display = LCD()
     while True:
         Rainbow = [[1,0,0],[1,0.5,0],[1,1,0],[0,1,0],[0,1,1],[0,0,1],[1,0,1]]
         Slide_Potentiometer_Data = AIN.get(0)
@@ -19,6 +21,7 @@ def main():
             Slide_Potentiometer_Data = 255
         print("Slide_Potentiometer_Data is %3d   Rotary_Angle_Data is %3d  \r" %
             (Slide_Potentiometer_Data, Rotary_Angle_Data), end = '')
+        Display.set("Slider is %03d\nRotary is %03d" % (Slide_Potentiometer_Data, Rotary_Angle_Data))
         Rainbow_Index = Rotary_Angle_Data//40
         for i in range(len(Rainbow[Rainbow_Index])):
             Rainbow[Rainbow_Index][i] = Rainbow[Rainbow_Index][i] * Slide_Potentiometer_Data

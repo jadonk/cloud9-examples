@@ -6,7 +6,7 @@ import subprocess
 import os
 
 class LCD:
-    def __init__(self, leds):
+    def __init__(self):
         try:
             if not os.path.exists('/proc/device-tree/aliases/jhd1802'):
                 subprocess.call(['sudo', 'mkdir', '-p',
@@ -37,7 +37,7 @@ class LCD:
             print("maybe you should reinstall the driver of hd44780")
 
 def main():
-    d = LCD(2)
+    d = LCD()
     while True:
         d.set("abcdefghijklmnopqrstuvwxyz012345")
         time.sleep(0.25)
