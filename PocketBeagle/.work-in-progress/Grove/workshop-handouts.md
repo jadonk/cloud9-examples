@@ -13,14 +13,14 @@ Plug into the microUSB on PocketBeagle to provide power and a network connection
 TODO: Add image for power connection to PocketBeagle
 
 ## Get to the Cloud9 IDE
-Windows: http://192.168.7.2
-Linux/Mac: http://192.168.6.2
+Windows: http://192.168.7.2  
+Linux/Mac: http://192.168.6.2
 
 TODO: Move to a single server type supported by latest Windows and Mac
 
 TODO: Add image of Cloud9 IDE startup
 
-\pagebreak
+----
 
 # PocketBeagle Grove Kit
 
@@ -30,7 +30,7 @@ TODO: Add image of kit
 
 TOOD: Document interconnections
 
-\pagebreak
+----
 
 # PocketBeagle
 
@@ -47,7 +47,7 @@ TODO: add image of PocketBeagle expansion header
 
 Great getting started information is at beagleboard.org/pocket
 
-\pagebreak
+----
 
 # Blink PocketBeagle on-board USRx LED
 **Goal:** Blink USR3 LED on PocketBeagle
@@ -79,4 +79,6 @@ while True:
     state = 1
   time.sleep(0.25)
 ```
+
+----
 
