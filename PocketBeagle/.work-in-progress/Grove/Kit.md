@@ -1351,22 +1351,106 @@ sudo python3 demo.py ~/snowboy/resources/models/snowboy.umdl
 
         When we speak `snowboy` to the mic, and the speaker will make a 'ding' tone.
 
-- Step 8.more information about  snowboy of Kitt-AI
+- Step 8.Use ok_Beagle to control the RGB Led
 
 we only provide very easy demo about snowboy of Kitt-AI.you can visit [snowboy](https://github.com/Kitt-AI/snowboy) to view the more information.
 
-if you want to use other hotword. we also provide an easy way for you.
+You need to train Ok-Beagle so that your voice can be recognized by the PocketBeagle.
 
-**1** Create your personal hotword model through our [website](https://snowboy.kitt.ai/)
+**1** Search Ok_Beagle hotword model through [snowboy](https://snowboy.kitt.ai/dashboard)
 
-**2** Put your personal model in snowboy/resources/models
+**2** Click the `Record and Download` to provide data of sound for Ok_Beagle.
 
-**3** Run the demo
+**3** Download the Ok_Beagle.pmdl from the [website](https://snowboy.kitt.ai/hotword/46889)
 
+**4** Move Ok_Beagle.pmdl to ~/snowboy/resources/models/
 
-```python
+**5** New the Ok_Beagel.py
+
+```bash
 cd ~/snowboy/examples/Python3/
-sudo python3 demo.py ~/snowboy/resources/models/***.pmdl
+nano Ok_Beagel.py
+```
+
+```
+import snowboydecoder
+import sys
+import signal
+import os
+import time
+interrupted = False
+
+class RGBLed:
+    def __init__(self, leds):
+        try:
+            if not os.path.exists('/proc/device-tree/p981x_1057@20'):
+                subprocess.call(['sudo', 'mkdir', '-p',
+                    '/sys/kernel/config/device-tree/overlays/BB-GPIO-P9813'])
+                subprocess.call(['sudo', 'dd',
+                    'of=/sys/kernel/config/device-tree/overlays/BB-GPIO-P9813/dtbo',
+                    'if=/lib/firmware/BB-GPIO-P9813.dtbo'])
+                time.sleep(0.1)
+            if not os.path.exists('/dev/p981x0'):
+                subprocess.call(['sudo', 'modprobe', 'p9813'])
+                time.sleep(0.1)
+            self.f = open('/dev/p981x0', 'w')
+            self.f.write('N %d\n'%leds)
+            self.f.flush()
+        except IOError as err:
+            print("File Error:"+str(err))
+            print("maybe you should reinstall the driver of p981x")
+
+    def set(self, led, red, green, blue):
+        try:
+            self.f.write('D %d %d %d %d\n'%(led,red,green,blue))
+            self.f.flush()
+        except IOError as err:
+            print("File Error:"+str(err))
+            print("maybe you should reinstall the driver of p981x")
+def signal_handler(signal, frame):
+    global interrupted
+    interrupted = True
+
+
+def interrupt_callback():
+    global interrupted
+    return interrupted
+
+if len(sys.argv) == 1:
+    print("Error: need to specify model name")
+    print("Usage: python demo.py your.model")
+    sys.exit(-1)
+
+model = sys.argv[1]
+
+# capture SIGINT signal, e.g., Ctrl+C
+signal.signal(signal.SIGINT, signal_handler)
+
+detector = snowboydecoder.HotwordDetector(model, sensitivity=0.5)
+print('Listening... Press Ctrl+C to exit')
+def callback():
+    LED.set(0,255,255,0)
+    LED.set(1,255,255,0)
+    time.sleep(1)
+    LED.set(0,0,0,0)
+    LED.set(1,255,255,0)
+LED = RGBLed(2)
+LED.set(0,0,0,0)
+LED.set(1,0,0,0)
+# main loop
+detector.start(detected_callback=callback,
+               interrupt_check=interrupt_callback,
+               sleep_time=0.03)
+
+detector.terminate()
+
+```
+
+**6** Run the Ok_Beagel.py
+
+```bash
+cd ~/snowboy/examples/Python3/
+sudo python3 Ok_Beagel.py ~/snowboy/resources/models/Ok_Beagle.pmdl
 ```
 
 if you want to control the led with snowboy, and you can visit [BlinkWithSonwboy](http://docs.kitt.ai/snowboy/#control-an-led-with-python) to learn it.
