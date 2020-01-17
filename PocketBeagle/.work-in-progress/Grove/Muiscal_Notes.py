@@ -8,6 +8,7 @@ import subprocess
 import pyaudio
 import wave
 from tqdm import tqdm
+from LCD import LCD
 
 _SCALE_DEFS = [
    'do.wav',
@@ -19,43 +20,6 @@ _SCALE_DEFS = [
    'ti.wav'
    ]
 
-class LCD:
-    def __init__(self):
-        try:
-            if not os.path.exists('/proc/device-tree/p981x_1057@20'):
-                # sudo mkdir /sys/kernel/config/device-tree/overlays/BB-I2C1-JHD1802
-                subprocess.call(['sudo', 'mkdir',
-                    '/sys/kernel/config/device-tree/overlays/BB-I2C1-JHD1802'])
-                # sudo dd if=/lib/firmware/BB-I2C1-JHD1802.dtbo \
-                #     of=/sys/kernel/config/device-tree/overlays/BB-I2C1-JHD1802/dtbo \
-                subprocess.call(['sudo', 'dd', 
-                    'if=/lib/firmware/BB-I2C1-JHD1802.dtbo',
-                    'of=/sys/kernel/config/device-tree/overlays/BB-I2C1-JHD1802/dtbo'])
-                time.sleep(0.1)
-            if not os.path.exists('/dev/lcd0'):
-                subprocess.call(['sudo', 'modprobe', 'hd44780'])
-                time.sleep(0.1)
-            self.f = open('/dev/lcd0', 'w')
-            self.f.write('\x1b[2J')
-            self.f.write('\x1b[H')
-            self.f.flush()
-        except IOError as err:
-            print("File Error:"+str(err))
-            print("maybe you should reinstall the driver of hd44780")
-    
-    def set(self, text):
-        return
-        try:
-            self.f.write('\x1b[2J')
-            self.f.write('\x1b[H')
-            self.f.flush()
-            self.f.write('%s'%text)
-            self.f.flush()
-            time.sleep(.1)
-        except IOError as err:
-            print("File Error:"+str(err))
-            print("maybe you should reinstall the driver of hd44780")
-        
 class Distance:
     def __init__(self):
         try:
