@@ -81,8 +81,11 @@ class HCSR04:
             if self.hcsr04_Install:        
                 mod_path = '/lib/modules/'+GetCmdReturn('uname -r')+'/extra/seeed/hcsr04.ko'
                 subprocess.call(['sudo', 'insmod', mod_path]) 
-                # while len(self.ctx.devices) != 2:
-                    # time.sleep(0.1)        
+                while not 'hcsr04' in GetCmdReturn('lsmod | grep hcsr04'):
+                    time.sleep(0.1)
+                self.contexts = iio.scan_contexts()
+                self.ctx = iio.Context("local:")  
+                
             self.dev = self.ctx.find_device("hcsr04_1057@20")
             GetCmdReturn('sudo config-pin P1_31 gpio')  
             
@@ -91,11 +94,6 @@ class HCSR04:
             print("maybe you should reinstall the driver of hcsr04")       
          
     def GetDistance(self):
-            try:
-                self.dev.find_channel("distance", False)
-            except AttributeError as err:
-                print("maybe you should reinstall the driver of hcsr04")
-                exit(1)
             return int(self.dev.find_channel("distance", False).attrs["input"].value)
 class JHD1802:
     def __init__(self):
