@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
+# [Grove - Ultrasonic Distance Sensor](http://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/)
+# [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
+# [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
 import time
 import subprocess
 import os
@@ -52,7 +55,8 @@ def Play_Music(file):
     stream.close()
 
     # close PyAudio
-    p.terminate()    
+    p.terminate()     
+   
 def GetCmdReturn(cmd):
     r = os.popen(cmd)
     text = r.read() 
@@ -126,15 +130,11 @@ class JHD1802:
             print("maybe you should reinstall the driver of lcd0")
             
     def SetText(self, text):
-        try:
-            self.f.write('\x1b[2J')
-            self.f.write('\x1b[H')
-            self.f.write('%s'%text)
+        with open('/dev/lcd0', 'w') as f:
+            f.write('\x1b[2J')
+            f.write('\x1b[H')
+            f.write('%s'%text)
             self.f.flush()
-            
-        except IOError as err:
-            print("File Error:"+str(err))
-            print("maybe you should reinstall the driver of lcd0")
 
 def main():
     Distance = HCSR04()

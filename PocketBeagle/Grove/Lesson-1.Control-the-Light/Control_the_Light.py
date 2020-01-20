@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
+# [Grove - Slide Potentiometer](https://www.seeedstudio.com/Grove-Slide-Potentiometer.html)
+# [Grove - Rotary Angle Sensor](http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/)
+# [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 import time
 import subprocess
 import os
@@ -11,8 +14,8 @@ except:
     sys.path.append('/usr/lib/python2.7/site-packages/')
     import iio
     
-def GetKernelVision():
-    r = os.popen('uname -r')
+def GetCmdReturn(cmd):
+    r = os.popen(cmd)
     text = r.read() 
     r.close()
     return text.strip('\n')
@@ -51,7 +54,7 @@ class RGBLed:
                 while not os.path.exists('/proc/device-tree/p981x_1057@20'):
                     time.sleep(0.1)
             if not os.path.exists('/dev/p981x0'):
-                mod_path = '/lib/modules/'+GetKernelVision()+'/extra/seeed/p9813.ko'
+                mod_path = '/lib/modules/'+GetCmdReturn('uname -r')+'/extra/seeed/p9813.ko'
                 subprocess.call(['sudo', 'insmod', mod_path])             
                 while not os.path.exists('/dev/p981x0'):
                     time.sleep(0.1)

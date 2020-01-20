@@ -16,7 +16,7 @@ In this lesson, students can move their hand in front of the ultrasonic distance
 - Plug the Grove - Speaker Plus into **UART2** port
 - Power PocketBeagle via the **micro USB** port
 
-![](img/project2.jpg)
+![](../img/project2.jpg)
 
 ## Software
 
@@ -25,5 +25,5 @@ In this lesson, students can move their hand in front of the ultrasonic distance
 - Step 3. Run the tone_generator.py by using Runner:Python.
 - Step 4. Run the Musical_Note.py by using Runner:Python.
 
-!!!success
+## Success
         Now please please slowly change the distance between your hand and the ultrasonic distance sensor, you can find the distance value in the LCD change and the music switched by the distance.
