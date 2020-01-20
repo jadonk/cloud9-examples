@@ -16,7 +16,11 @@ In this lesson, students will light up the RGB LED, and learn how to use Slide P
 - Grove - Chainable RGB LED into **A2** port
 - Power the Pocket Beagle via the **micro USB** port
 
+<<<<<<< HEAD
 ![](../img/_DAS6312-1.jpg)
+=======
+![](../img/_DAS6312.jpg)
+>>>>>>> c348a4fb7046ee1102bff10bd150d105aae01ee4
 
 ## Software
 
@@ -24,5 +28,10 @@ In this lesson, students will light up the RGB LED, and learn how to use Slide P
 - Step 2. Select PocketBeagle -> Grove -> Lesson-1.Control-the-Light
 - Step 3. Run the Control_the_Light.py by using Runner:Python.
 
+<<<<<<< HEAD
 ## Success
         Now please turn the rotary angle sensor slowly and slide Slide Potentiometer, and see how the RGB LED changes it's light and color.
+=======
+!!!success
+        Now please turn the rotary angle sensor slowly and slide Slide Potentiometer, and see how the RGB LED changes it's light and color.
+>>>>>>> c348a4fb7046ee1102bff10bd150d105aae01ee4
