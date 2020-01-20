@@ -16,7 +16,7 @@ In this lesson, students will light up the RGB LED, and learn how to use Slide P
 - Grove - Chainable RGB LED into **A2** port
 - Power the Pocket Beagle via the **micro USB** port
 
-![](img/_DAS6312.jpg)
+![](../img/_DAS6312.jpg)
 
 ## Software
 
