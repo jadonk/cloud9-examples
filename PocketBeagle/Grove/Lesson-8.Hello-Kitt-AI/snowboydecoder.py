@@ -2,6 +2,8 @@
 
 import collections
 import pyaudio
+import sys
+sys.path.append('/home/debian/snowboy/examples/Python3')
 import snowboydetect
 import time
 import wave
@@ -9,12 +11,13 @@ import os
 import logging
 from ctypes import *
 from contextlib import contextmanager
+import numpy as np
+
 
 logging.basicConfig()
 logger = logging.getLogger("snowboy")
 logger.setLevel(logging.INFO)
-TOP_DIR = os.path.dirname(os.path.abspath(__file__))
-
+TOP_DIR = "/home/debian/snowboy/"
 RESOURCE_FILE = os.path.join(TOP_DIR, "resources/common.res")
 DETECT_DING = os.path.join(TOP_DIR, "resources/ding.wav")
 DETECT_DONG = os.path.join(TOP_DIR, "resources/dong.wav")

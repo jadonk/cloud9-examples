@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-# [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/) on I2C1
-# [Grove - Speaker Plus ](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/) on UART2
-# [Grove - Button x 2](https://www.seeedstudio.com/Grove-Button.html) on A5 and UART4
+# [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/) on I2C2
+# [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/) on UART2
+# [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/) on A2
 import time
 import subprocess
 import os
@@ -11,6 +11,7 @@ import wave
 import pyaudio
 from tqdm import tqdm
 import math
+import threading
 try:
     import iio
 except:
@@ -26,7 +27,29 @@ _SCALE_DEFS = [
    'la.wav',
    'ti.wav'
    ]
+Rainbow_Index = 0
+Rainbow_Flash = False
+
+def fun_timer():
+    Rainbow = [[255,0,0],[255,126,0],[255,255,0],[0,255,0],[0,255,255],[0,0,255],[255,0,255]]
+    global Rainbow_Index
+    global Rainbow_Flash
+    global LED
+    if Rainbow_Flash:
+        Rainbow_Index = Rainbow_Index + 1 
+        if Rainbow_Index > 6 :
+            Rainbow_Index = 0
+        LED.set(0,Rainbow[Rainbow_Index][0],Rainbow[Rainbow_Index][1],Rainbow[Rainbow_Index][2])
+        LED.set(1,Rainbow[Rainbow_Index][0],Rainbow[Rainbow_Index][1],Rainbow[Rainbow_Index][2])
+    else:
+        Rainbow_Index = 0
+    global timer
+    timer = threading.Timer(0.5, fun_timer)
+    timer.start() 
+
 def Play_Music(file):
+    global timer
+    timer.cancel()
     # define stream chunk
     chunk = 1024
     # open a wav format music
@@ -57,6 +80,9 @@ def Play_Music(file):
 
     # close PyAudio
     p.terminate()   
+    
+    timer = threading.Timer(0.5, fun_timer)
+    timer.start()     
 def GetCmdReturn(cmd):
     r = os.popen(cmd)
     text = r.read() 
@@ -70,7 +96,6 @@ class ADX134X:
         self.data_y = [0] * 5 
         self.data_z = [0] * 5
         try:
-            self.Adx134xInstall = 0
             if not os.path.exists('/proc/device-tree/aliases/adxl345'):
                 subprocess.call(['sudo', 'mkdir', '-p',
                     '/sys/kernel/config/device-tree/overlays/BB-I2C2-ADXL34X'])
@@ -79,13 +104,14 @@ class ADX134X:
                     'if=/lib/firmware/BB-I2C2-ADXL34X.dtbo'])
                 while not os.path.exists('/proc/device-tree/aliases/adxl345'):
                     time.sleep(0.1)
+                while not 'adxl345' in GetCmdReturn('lsmod | grep adxl345_core'):
+                    time.sleep(0.1)
             self.contexts = iio.scan_contexts()
             self.ctx = iio.Context("local:")                
             self.dev = self.ctx.find_device("adxl345")
             self._Acceleration_xyz.append(self.dev.find_channel("accel_x", False))
             self._Acceleration_xyz.append(self.dev.find_channel("accel_y", False))
             self._Acceleration_xyz.append(self.dev.find_channel("accel_z", False))
-            print(self._Acceleration_xyz[0].attrs["raw"].value)
             for i in range(5):
                 self.data_x[i] = int(self._Acceleration_xyz[0].attrs["raw"].value)
                 self.data_y[i] = int(self._Acceleration_xyz[1].attrs["raw"].value)
@@ -115,7 +141,7 @@ class ADX134X:
         data[0] = int(data[0] / math.pi*180)
         data[1] = int(data[1] / math.pi*180)
 
-        print(data)
+        # print(data)
 
         if abs(data[2] - 90) < 10:
             return 1
@@ -162,16 +188,24 @@ class RGBLed:
         except IOError as err:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of p981x")
-            
+LED = RGBLed(2)
 def main():
-    LED = RGBLed(2)
     Adx134x = ADX134X()
-    GetAttitude = 0
+    global LED
+    global Rainbow_Flash
+    GetAttitude = 0 
+    timer = threading.Timer(0.5, fun_timer)
+    timer.start() 
+    time.sleep(1)
     while True:
         GetAttitude_Last = GetAttitude
         GetAttitude = Adx134x.MotionDetection()
-        LED.set(0,(GetAttitude&0x01)*255,(GetAttitude&0x02)*255,(GetAttitude&0x04)*255)
-        LED.set(1,(GetAttitude&0x01)*255,(GetAttitude&0x02)*255,(GetAttitude&0x04)*255)
+        if GetAttitude == 4:
+            Rainbow_Flash = True
+        else:
+            Rainbow_Flash = False
+            LED.set(0,(GetAttitude&0x01)*255,(GetAttitude&0x02)*255,(GetAttitude&0x04)*255)
+            LED.set(1,(GetAttitude&0x01)*255,(GetAttitude&0x02)*255,(GetAttitude&0x04)*255)
         if GetAttitude_Last != GetAttitude and GetAttitude != 0:
             Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[GetAttitude])
         time.sleep(0.05)        

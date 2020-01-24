@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-# [Grove - Slide Potentiometer](https://www.seeedstudio.com/Grove-Slide-Potentiometer.html)
-# [Grove - Rotary Angle Sensor](http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/)
-# [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+# [Grove - Slide Potentiometer](https://www.seeedstudio.com/Grove-Slide-Potentiometer.html) on A0
+# [Grove - Rotary Angle Sensor](http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/) on A5
+# [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/) on A2
 import time
 import subprocess
 import os

@@ -1,14 +1,14 @@
-# [Grove - Analog Microphone](http://wiki.seeedstudio.com/Grove-Speaker/)
-# [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
+# [Grove - Analog Microphone](http://wiki.seeedstudio.com/Grove-Speaker/) on PWM
+# [Grove - Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/) on UART2
 import time
 import subprocess
 import os
 import sys
 import signal
-sys.path.append('/home/debian/snowboy/examples/Python3')
 import snowboydecoder
+sys.path.append('/home/debian/snowboy/examples/Python3')
 def GetCmdReturn(cmd):
     r = os.popen(cmd)
     text = r.read() 

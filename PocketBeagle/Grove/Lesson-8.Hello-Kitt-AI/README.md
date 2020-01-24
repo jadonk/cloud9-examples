@@ -5,7 +5,7 @@ In this lesson, students will learn how to install the snowboy of Kitt-AI and us
 ## Hardware Requirement:
 
 - [Grove - Analog Microphone](http://wiki.seeedstudio.com/Grove-Speaker/)
-- [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+- [Grove - Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 
 ## Hardware Connection
 
