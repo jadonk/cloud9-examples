@@ -70,6 +70,7 @@
 
 // The define a couple of GPIO pin addresses on Pocket
 // GPIO1
+#define P2_1 (1<<18)
 #define P1_32 (1<<10)
 
 // R30 output bits on pru0
