@@ -50,7 +50,7 @@
 
 #else
 
-#warning "Found else"
+#warning "Found am335x"
 // These are addresses for the am35xx
 #define GPIO0 0x44E09000
 #define GPIO1 0x4804C000

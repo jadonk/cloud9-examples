@@ -1,14 +1,9 @@
 ////////////////////////////////////////
 //	rgbLEDrpmsg.pru0
-//	Uses rpmsg to control the NeoPixels via /dev/rpmsg_pru30 on the ARM
-//	Usage:	echo index R G B > /dev/rpmsg_pru30 to set the color at the given index
-//			echo -1 0 0 0    > /dev/rpmsg_pro30 to update the string
-//			echo 0 0xf0 0 0  > /dev/rpmsg_pru30 Turns pixel 0 to Red
-//			neopixelRainbow.py to display moving rainbow pattern
-//	Wiring:	The NeoPixel Data In goes to P1_36, the plus lead to P1_14 (3.3V)
-//			and the ground to P2_22.  If you have more then 40 some 
-//			NeoPixels you will need and external supply.
-//	Setup:	config_pin P1_36 pruout
+//	Uses rpmsg accept messages to /dev/rpmsg_pru30 by the ARM
+//	Usage:	echo green > /dev/rpmsg_pru30 to set the TechLab RGB LED green
+//	Wiring:	PocketBeagle + TechLab
+//	Setup:	tested with 4.14.108-ti-r124 kernel
 //	See:	 
 //	PRU:	pru0
 ////////////////////////////////////////
@@ -52,8 +47,8 @@ volatile register uint32_t __R31;
 #define VIRTIO_CONFIG_S_DRIVER_OK	4
 
 /* GPIO1 */
-unsigned int volatile * const GPIO1_CLEAR = (unsigned int *) (GPIO1 + GPIO_CLEARDATAOUT);
-unsigned int volatile * const GPIO1_SET = (unsigned int *) (GPIO1 + GPIO_SETDATAOUT);
+unsigned int volatile * const GPIO1_CLEAR = ((unsigned int *) GPIO1) + (GPIO_CLEARDATAOUT);
+unsigned int volatile * const GPIO1_SET = ((unsigned int *) GPIO1) + (GPIO_SETDATAOUT);
 
 /* PRU GPIO */
 volatile register unsigned int __R30;
@@ -69,7 +64,7 @@ volatile register unsigned int __R31;
 void setLED(void);
 
 char payload[RPMSG_BUF_SIZE];
-int state = RED;
+volatile int state = RED;
 
 /*
  * main.c
@@ -104,16 +99,22 @@ void main(void)
 			CT_INTC.SICR_bit.STS_CLR_IDX = FROM_ARM_HOST;
 			/* Receive all available messages, multiple messages can be sent per kick */
 			while (pru_rpmsg_receive(&transport, &src, &dst, payload, &len) == PRU_RPMSG_SUCCESS) {
-			    if(!strcmp("red", payload)) {
+			    /* Set the state based on the payload */
+			    if(!strncmp("red\n", payload, 1)) {
+				    pru_rpmsg_send(&transport, dst, src, "r", 2);
 			        state = RED;
-			    } else if(!strcmp("blue", payload)) {
+			    } else if(!strncmp("blue\n", payload, 1)) {
+				    pru_rpmsg_send(&transport, dst, src, "b", 2);
 			        state = BLUE;
-			    } else if(!strcmp("green", payload)) {
+			    } else if(!strncmp("green\n", payload, 1)) {
+				    pru_rpmsg_send(&transport, dst, src, "g", 2);
 			        state = GREEN;
-			    } else if(!strcmp("white", payload)) {
+			    } else if(!strncmp("white\n", payload, 1)) {
+				    pru_rpmsg_send(&transport, dst, src, "w", 2);
                     state = WHITE;			        
 			    } else {
-			        state = 0;
+				    pru_rpmsg_send(&transport, dst, src, payload, len);
+                    state = 0;
 			    }
 			    
 			    setLED();
