@@ -26,7 +26,7 @@ int main(int argc, const char** argv) {
 	unsigned int i, j, mem_dev;
 	off_t alloc_offset = 0x2000;		/* offset must be 0x2000 for this driver */
 	size_t size = 16; 					/* grab 16 bytes of shared dataram */
-	char * driver = "/dev/uio0";
+	char * driver = "/dev/uio/pru-shmem";
 	int access_offset = 0;
 
 	/* Open shared memory driver */
