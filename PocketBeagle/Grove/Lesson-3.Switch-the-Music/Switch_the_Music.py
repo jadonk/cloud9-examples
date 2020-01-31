@@ -11,12 +11,6 @@ import os
 import sys
 import wave
 import pyaudio
-try:
-    import iio
-except:
-    # By default the iio python bindings are not in path
-    sys.path.append('/usr/lib/python2.7/site-packages/')
-    import iio
 def GetCmdReturn(cmd):
     r = os.popen(cmd)
     text = r.read() 
@@ -58,7 +52,7 @@ class JHD1802:
             f.write('\x1b[H')
             f.write('%s'%text)
             self.f.flush()
-
+            time.sleep(0.5)
 
 class BUTTON:
     def __init__(self):

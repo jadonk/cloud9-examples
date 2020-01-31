@@ -19,9 +19,10 @@ _SCALE_DEFS = [
    'ti.wav',
    'do+.wav'
    ]
+Mpr121Data = [0]*2
 def Play_Music(file):
-    global Mpr121
-    Mpr121Data = [0]*2
+   
+    
     # define stream chunk 
     chunk = 1024
     # open a wav format music
@@ -32,7 +33,7 @@ def Play_Music(file):
     def callback(in_data, frame_count, time_info, status):
         global Mpr121Data 
         data = f.readframes(frame_count)
-        if Mpr121Data[0] != 0:
+        if Mpr121Data[0] != 1000:
             return (data,pyaudio.paContinue)
         return (data,pyaudio.paComplete)
     stream = p.open(format = p.get_format_from_width(f.getsampwidth()),
@@ -43,6 +44,8 @@ def Play_Music(file):
     stream.start_stream()
     
     while stream.is_active():
+        global Mpr121
+        global Mpr121Data
         Mpr121Data = Mpr121.get()
         time.sleep(0.01)  
 
@@ -64,14 +67,10 @@ class MPR121:
                     'if=/lib/firmware/BB-I2C2-MPR121.dtbo'])
                 time.sleep(0.1)
             if not os.path.exists('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data'):
-                subprocess.call(['sudo', 'modprobe', 'hd44780'])
-                time.sleep(0.1)
-            try:
-                self.f = open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r')
-            except IOError as err:
-                subprocess.call(['sudo', 'chmod', '777',
-                    '/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data'])
-                self.f = open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r')
+                mod_path = '·'+GetCmdReturn('uname -r')+'/extra/seeed/mpr121.ko'       
+                while not os.path.exists('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data'):
+                    time.sleep(0.1)    
+            self.f = open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r')        
         except IOError as err:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of mpr121")
@@ -116,6 +115,7 @@ def main():
     
     while True:
         GetMpr121 = Mpr121.get()
+        # print(GetMpr121)
         Mpr121Result = GetMpr121[1]
         if any(Mpr121Result) != False:
             for i in range(CHANNEL_NUM):

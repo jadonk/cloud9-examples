@@ -2,13 +2,14 @@
 # -*- coding: UTF-8 -*-
 # [Grove - Analog Microphone](http://wiki.seeedstudio.com/Grove-Speaker/) on PWM
 # [Grove - Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/) on UART2
+# [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/) on A2
 import time
 import subprocess
 import os
 import sys
 import signal
-import snowboydecoder
-sys.path.append('/home/debian/snowboy/examples/Python3')
+from snowboy import snowboydecoder
+
 def GetCmdReturn(cmd):
     r = os.popen(cmd)
     text = r.read() 
@@ -59,7 +60,7 @@ def interrupt_callback():
 # capture SIGINT signal, e.g., Ctrl+C
 signal.signal(signal.SIGINT, signal_handler)
 
-detector = snowboydecoder.HotwordDetector('/home/debian/snowboy/resources/models/Ok_Beagle.pmdl', sensitivity=0.5)
+detector = snowboydecoder.HotwordDetector('/usr/lib/python3/dist-packages/snowboy/resources/models/Ok_Beagle.pmdl', sensitivity=0.5)
 print('Listening... Press Ctrl+C to exit')
 def callback():
     LED.set(0,255,255,0)

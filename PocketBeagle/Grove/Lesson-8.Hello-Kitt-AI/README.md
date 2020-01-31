@@ -6,11 +6,13 @@ In this lesson, students will learn how to install the snowboy of Kitt-AI and us
 
 - [Grove - Analog Microphone](http://wiki.seeedstudio.com/Grove-Speaker/)
 - [Grove - Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+- [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 
 ## Hardware Connection
 
 - Plug the Grove - Speaker Plus into **UART2** port
 - Plug the Grove - Analog Microphone into **PWM** port
+- Plug the Grove - Chainable RGB LED into **A2** port
 - Power the Pocket Beagle via the micro **USB** port are 
 
 
@@ -21,7 +23,7 @@ In this lesson, students will learn how to install the snowboy of Kitt-AI and us
 - Step 3. Search Ok_Beagle hotword model through [snowboy](https://snowboy.kitt.ai/dashboard)
 - Step 4. Click the `Record and Download` to provide data of sound for Ok_Beagle.
 - Step 5. Download the Ok_Beagle.pmdl from the [website](https://snowboy.kitt.ai/hotword/46889)
-- Step 6. Move Ok_Beagle.pmdl to ~/snowboy/resources/models/
+- Step 6. Move Ok_Beagle.pmdl to /usr/lib/python3/dist-packages/snowboy/resources/models/
 ![](../img/Ok_Beagle.png)
 - Step 7. Run the Ok_Beagel.py by using Runner:Python.
 

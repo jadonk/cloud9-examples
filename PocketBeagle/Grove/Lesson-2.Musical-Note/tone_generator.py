@@ -6,7 +6,7 @@ import pyaudio
 import wave
 import os
 import time
-
+import subprocess
 tone_freq_map={"do": 261.5, "re": 293.4,"me": 329.5,"fa": 349.1,"so": 391.7,"la": 440,"ti": 493.8,"do+":523}
 _SCALE_DEFS = [
    'do.wav',
@@ -57,18 +57,19 @@ def synthesizer(freq,duration = 10,amp=250,sampling_freq=framerate):
     return samples
 
 def main():
-    if not os.path.exists('/home/debian/scale'):
-        os.popen('mkdir /home/debian/scale')
-        while not os.path.exists('/home/debian/scale'):
+    if not os.path.exists('/tmp/scale'):
+        os.popen('sudo mkdir /tmp/scale')
+        while not os.path.exists('/tmp/scale'):
             time.sleep(0.1)
     tone_freq = [ v for v in sorted(tone_freq_map.values())]
     for i in range(len(tone_freq)):
-        f = wave.open( "/home/debian/scale/%s"%_SCALE_DEFS[i],"wb")
+        subprocess.call(['sudo', 'chmod', '777', "/tmp/scale/%s"%_SCALE_DEFS[i]])
+        f = wave.open( "/tmp/scale/%s"%_SCALE_DEFS[i],"wb")
         f.setnchannels(channels)
         f.setsampwidth(sampwidth)
         f.setframerate(framerate)
         f.writeframes(synthesizer(tone_freq[i]).tostring())
         f.close()
-        print("/home/debian/scale/%s generated successfully"%_SCALE_DEFS[i])
+        print("/tmp/scale/%s generated successfully"%_SCALE_DEFS[i])
 if __name__ == "__main__":
     main()

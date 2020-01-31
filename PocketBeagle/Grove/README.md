@@ -66,3 +66,4 @@ Passphrase? *************
 Connected wifi_e8de27077de3_41483034303434393134_managed_psk
 connmanctl> quit
 ```
+we can use `ifconfig` to get IP of Pocket Beagle

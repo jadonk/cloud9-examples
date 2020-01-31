@@ -20,9 +20,8 @@ _SCALE_DEFS = [
    'ti.wav',
    'do+.wav'
    ]
+Mpr121Data = [0]*2
 def Play_Music(file):
-    global Mpr121
-    Mpr121Data = [0]*2
     # define stream chunk 
     chunk = 1024
     # open a wav format music
@@ -33,7 +32,7 @@ def Play_Music(file):
     def callback(in_data, frame_count, time_info, status):
         global Mpr121Data 
         data = f.readframes(frame_count)
-        if Mpr121Data[0] != 0:
+        if Mpr121Data[0] != 1000:
             return (data,pyaudio.paContinue)
         return (data,pyaudio.paComplete)
     stream = p.open(format = p.get_format_from_width(f.getsampwidth()),
@@ -44,6 +43,8 @@ def Play_Music(file):
     stream.start_stream()
     
     while stream.is_active():
+        global Mpr121
+        global Mpr121Data
         Mpr121Data = Mpr121.get()
         time.sleep(0.01)  
 
@@ -53,6 +54,7 @@ def Play_Music(file):
     f.close()
     # close PyAudio
     p.terminate()
+    
     
 class MPR121:
     def __init__(self):
@@ -113,7 +115,39 @@ class MPR121:
             print("maybe you should reinstall the driver of mpr121")
         return [value, self.ParseAndPrintResult(value)]
 Mpr121 = MPR121()
+class RGBLed:
+    def __init__(self, leds):
+        try:
+            if not os.path.exists('/proc/device-tree/p981x_1057@20'):
+                subprocess.call(['sudo', 'mkdir', '-p',
+                    '/sys/kernel/config/device-tree/overlays/BB-GPIO-P9813'])
+                subprocess.call(['sudo', 'dd',
+                    'of=/sys/kernel/config/device-tree/overlays/BB-GPIO-P9813/dtbo',
+                    'if=/lib/firmware/BB-GPIO-P9813.dtbo'])
+                while not os.path.exists('/proc/device-tree/p981x_1057@20'):
+                    time.sleep(0.1)
+            if not os.path.exists('/dev/p981x0'):
+                mod_path = '/lib/modules/'+GetCmdReturn('uname -r')+'/extra/seeed/p9813.ko'
+                subprocess.call(['sudo', 'insmod', mod_path])             
+                while not os.path.exists('/dev/p981x0'):
+                    time.sleep(0.1)
+            self.f = open('/dev/p981x0', 'w')
+            self.f.write('N %d\n'%leds)
+            self.f.flush()
+        except IOError as err:
+            print("File Error:"+str(err))
+            print("maybe you should reinstall the driver of p981x")
+
+    def set(self, led, red, green, blue):
+        try:
+            self.f.write('D %d %d %d %d\n'%(led,red,green,blue))
+            self.f.flush()
+        except IOError as err:
+            print("File Error:"+str(err))
+            print("maybe you should reinstall the driver of p981x")
+
 def main():
+    LED = RGBLed(2)
     while True:
         GetMpr121 = Mpr121.get()
         Mpr121Result = GetMpr121[1]
@@ -121,9 +155,19 @@ def main():
             for i in range(CHANNEL_NUM):
                 if(Mpr121Result[i] == 1):
                     if i > 3 :
+                        LED.set(0,((i-4)&0x01)*255,((i-4)&0x02)*255,((i-4)&0x04)*255)
+                        LED.set(1,((i-4)&0x01)*255,((i-4)&0x02)*255,((i-4)&0x04)*255)
                         Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[i-4])
                     else :
+                        LED.set(0,(i&0x01)*255,(i&0x02)*255,(i&0x04)*255)
+                        LED.set(1,(i&0x01)*255,(i&0x02)*255,(i&0x04)*255)
+                        if i == 0:
+                            LED.set(0,50,50,200)
+                            LED.set(1,50,50,200)
                         Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[i])
+        else:
+            LED.set(0,0,0,0)
+            LED.set(1,0,0,0)
         time.sleep(0.05)
 if __name__ == "__main__":
     main()
