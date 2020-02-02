@@ -33,7 +33,7 @@ int main(int argc, const char** argv) {
 	if(argc>1)
 	    driver = strdup(argv[1]);
 
-	/* Use specified allocaiton offset */
+	/* Use specified allocation offset */
 	if(argc>2)
 		alloc_offset = (off_t)strtol(argv[2],0,0);
 
