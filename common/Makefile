@@ -20,6 +20,7 @@
 COMMON:=$(abspath $(lastword $(MAKEFILE_LIST)/..))
 PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
+PRU_STARTERWARE:=/usr/share/ti/starterware
 C6X_CGT:=/usr/share/ti/cgt-c6x
 TIDL_API_DIR:=/usr/share/ti/tidl/tidl_api
 GEN_DIR:=/tmp/cloud9-examples
@@ -112,10 +113,11 @@ define proc-to-build-vars =
   LD=lnkpru -o
   LDFLAGS=--reread_libs --warn_sections --stack_size=0x100 --heap_size=0x100 -m $(basename $(1)).map \
    -i$(PRU_CGT)/lib -i$(PRU_CGT)/include $(COMMON)/$(CHIP)_$(PROC).cmd --library=libc.a \
-   --library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
+   --library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib --library=$(PRU_STARTERWARE)/pru/libdrivers.a
   CC=clpru -fe
   CFLAGS=--include_path=$(COMMON) --include_path=$(PRU_SUPPORT)/include \
    --include_path=$(PRU_SUPPORT)/include/$(CHIP_REV) \
+   --include_path=$(PRU_STARTERWARE)/include --include_path=$(PRU_STARTERWARE)/include/hw \
    --include_path=$(PRU_CGT)/include -DCHIP=$(CHIP) -DCHIP_IS_$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -DPRUN=$(PRUN) \
    -v3 -O2 --printf_support=minimal --display_error_number --endian=little --hardware_mac=on \
    --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing \
