@@ -5,7 +5,7 @@ import time
 import subprocess
 import os
 
-class LCD:
+class JHD1802:
     def __init__(self):
         try:
             if not os.path.exists('/proc/device-tree/aliases/jhd1802'):
@@ -14,19 +14,25 @@ class LCD:
                 subprocess.call(['sudo', 'dd',
                     'of=/sys/kernel/config/device-tree/overlays/BB-I2C1-JHD1802/dtbo',
                     'if=/lib/firmware/BB-I2C1-JHD1802.dtbo'])
-                time.sleep(0.1)
+                while not os.path.exists('/proc/device-tree/aliases/jhd1802'):
+                    time.sleep(0.1)
             if not os.path.exists('/dev/lcd0'):
-                subprocess.call(['sudo', 'modprobe', 'hd44780'])
-                time.sleep(0.1)
+                mod_path = '/lib/modules/'+GetCmdReturn('uname -r')+'/extra/seeed/hd44780.ko'
+                subprocess.call(['sudo', 'insmod', mod_path])             
+                while not os.path.exists('/dev/lcd0'):
+                    time.sleep(0.1)
             try:
                 self.f = open('/dev/lcd0', 'w')
             except IOError as err:
                 subprocess.call(['sudo', 'chmod', '777', '/dev/lcd0'])
                 self.f = open('/dev/lcd0', 'w')
+            self.f.write('\x1b[2J')
+            self.f.write('\x1b[H')
+            self.f.flush()
         except IOError as err:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of hd44780")
-    def set(self, text):
+    def SetText(self, text):
         try:
             self.f.write('\x1b[2J')
             self.f.write('\x1b[H')
@@ -37,7 +43,7 @@ class LCD:
             print("maybe you should reinstall the driver of hd44780")
 
 def main():
-    d = LCD()
+    d = JHD1802()
     while True:
         d.set("abcdefghijklmnopqrstuvwxyz012345")
         time.sleep(0.25)
