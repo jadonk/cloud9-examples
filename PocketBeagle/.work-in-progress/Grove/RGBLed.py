@@ -15,8 +15,10 @@ class RGBLed:
                     'if=/lib/firmware/BB-GPIO-P9813.dtbo'])
                 time.sleep(0.1)
             if not os.path.exists('/dev/p981x0'):
-                subprocess.call(['sudo', 'modprobe', 'p9813'])
-                time.sleep(0.1)
+                mod_path = '/lib/modules/'+GetCmdReturn('uname -r')+'/extra/seeed/p9813.ko'
+                subprocess.call(['sudo', 'insmod', mod_path])             
+                while not os.path.exists('/dev/p981x0'):
+                    time.sleep(0.1)
             self.f = open('/dev/p981x0', 'w')
             # specify the chain length (how many LEDs chained)
             self.f.write('N %d\n'%leds)
