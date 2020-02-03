@@ -44,7 +44,7 @@ def Play_Music(file):
     for d in tqdm(datas):
         time = time + 1
         stream.write(d)
-        if time > 250:
+        if time > len(datas)//10:
             break
     # stop stream
     stream.stop_stream()
@@ -140,7 +140,7 @@ def main():
         Lcd.SetText("The Distance: \r\n{} cm".format(distance))
         print("Distance is %3d \r" %distance, end = '')
         if distance < 240:
-            Play_Music("/tmp/scale/%s"%_SCALE_DEFS[distance//40])
+            Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[distance//40])
         time.sleep(1)
 
 if __name__ == "__main__":

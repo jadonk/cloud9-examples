@@ -72,7 +72,7 @@ def Play_Music(file):
     for d in tqdm(datas):
         time = time + 1
         stream.write(d)
-        if time > 250:
+        if time > len(datas)//10:
             break
     # stop stream
     stream.stop_stream()
@@ -103,12 +103,46 @@ class ADX134X:
                     'of=/sys/kernel/config/device-tree/overlays/BB-I2C2-ADXL34X/dtbo',
                     'if=/lib/firmware/BB-I2C2-ADXL34X.dtbo'])
                 while not os.path.exists('/proc/device-tree/aliases/adxl345'):
+                    time.sleep(0.1)     
+            try: 
+                self.contexts = iio.scan_contexts()
+                self.ctx = iio.Context("local:") 
+                self.dev = self.ctx.find_device("adxl345")
+                self._Acceleration_xyz.append(self.dev.find_channel("accel_x", False))
+            except:
+                if 'adxl345' in GetCmdReturn('lsmod | grep adxl345_i2c'):
+                    subprocess.call(['sudo', 'rmmod',
+                        'adxl345_i2c'])                
+                    while 'adxl345' in GetCmdReturn('lsmod | grep adxl345_i2c'):
+                        time.sleep(0.1)   
+                if 'adxl345' in GetCmdReturn('lsmod | grep adxl345_spi'): 
+                    subprocess.call(['sudo', 'rmmod',
+                        'adxl345_spi'])                
+                    while 'adxl345' in GetCmdReturn('lsmod | grep adxl345_spi'):
+                        time.sleep(0.1) 
+                if 'adxl345' in GetCmdReturn('lsmod | grep adxl345_core'): 
+                    subprocess.call(['sudo', 'rmmod',
+                        'adxl345_core'])                
+                    while 'adxl345' in GetCmdReturn('lsmod | grep adxl345_core'):
+                        time.sleep(0.1)                     
+                subprocess.call(['sudo', 'modprobe',
+                    '-i',
+                    'adxl345_i2c'])
+                while not 'adxl345' in GetCmdReturn('lsmod | grep adxl345_i2c'):
                     time.sleep(0.1)
+                subprocess.call(['sudo', 'modprobe',
+                    '-i',
+                    'adxl345_spi'])
+                while not 'adxl345' in GetCmdReturn('lsmod | grep adxl345_spi'):
+                    time.sleep(0.1)
+                subprocess.call(['sudo', 'modprobe',
+                    '-i',
+                    'adxl345_core'])     
                 while not 'adxl345' in GetCmdReturn('lsmod | grep adxl345_core'):
                     time.sleep(0.1)
-            self.contexts = iio.scan_contexts()
-            self.ctx = iio.Context("local:")                
-            self.dev = self.ctx.find_device("adxl345")
+                self.contexts = iio.scan_contexts()
+                self.ctx = iio.Context("local:") 
+                self.dev = self.ctx.find_device("adxl345")
             self._Acceleration_xyz.append(self.dev.find_channel("accel_x", False))
             self._Acceleration_xyz.append(self.dev.find_channel("accel_y", False))
             self._Acceleration_xyz.append(self.dev.find_channel("accel_z", False))

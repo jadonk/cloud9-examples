@@ -75,6 +75,8 @@ class MPR121:
                 subprocess.call(['sudo', 'chmod', '777',
                     '/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data'])
                 self.f = open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r')
+            subprocess.call(['sudo', 'chmod','777','/sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init']) 
+            subprocess.call(['echo', '1','>','/sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init'])                
         except IOError as err:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of mpr121")

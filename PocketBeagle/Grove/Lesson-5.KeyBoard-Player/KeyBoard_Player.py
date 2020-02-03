@@ -70,6 +70,8 @@ class MPR121:
                 mod_path = '·'+GetCmdReturn('uname -r')+'/extra/seeed/mpr121.ko'       
                 while not os.path.exists('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data'):
                     time.sleep(0.1)    
+            subprocess.call(['sudo', 'chmod','777','/sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init']) 
+            subprocess.call(['echo', '1','>','/sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init'])            
             self.f = open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r')        
         except IOError as err:
             print("File Error:"+str(err))

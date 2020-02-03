@@ -35,7 +35,7 @@ if you don't know how to use `connmanctl`, maybe you should review the previous 
 ![](../img/winscp.png)
 the hostname is an IP address of Pockbeagle that can use ifconfig to find it. The username is `debian`
 
-- Step 4. Drag your music file to `/home/debian/scale`(Please select *.wav to /home/debian/scale)
+- Step 4. Drag your music file to `/home/debian/scale`(Please select xxx.wav to /home/debian/scale)
 
 ![](../img/drag_music_file.png)
 
