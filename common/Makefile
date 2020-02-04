@@ -161,10 +161,10 @@ endif
 
 start:
 ifneq ($(PRU_DIR),)
-	@echo "-    Starting PRU $(PRUN)"
 	@echo write_init_pins.sh
-	@echo start > $(PRU_DIR)/state
 	@$(COMMON)/write_init_pins.sh /lib/firmware/$(CHIP)-pru$(PRUN)-fw
+	@echo "-    Starting PRU $(PRUN)"
+	@echo start > $(PRU_DIR)/state
 else ifeq ($(PROC),tidl)
 	ti-mct-heap-check -c
 	sudo mjpg_streamer -i "input_opencv.so -r 640x480 --filter ./$(TARGET)$(EXE)" -o "output_http.so -p 8080 -w /usr/share/mjpg-streamer/www"
