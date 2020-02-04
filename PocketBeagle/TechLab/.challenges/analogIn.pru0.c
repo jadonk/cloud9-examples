@@ -20,244 +20,15 @@
 #include "hw_types.h"
 #include "tsc_adc.h"
 #include "soc_AM335x.h"
+#include "hw_control_AM335x.h"
+#include "hw_cm_per.h"
+#include "hw_cm_wkup.h"
+
 
 static void ADCConfigure(void);
 
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
-
-volatile unsigned int * ADCData = (volatile unsigned int *) (SOC_ADC_TSC_0_REGS + TSC_ADC_SS_FIFODATA(0));
-
-#include "hw_control_AM335x.h"
-#include "soc_AM335x.h"
-#include "hw_cm_per.h"
-#include "hw_types.h"
-#include "hw_cm_wkup.h"
-
-
-
-/*
-** This function enables the system L3 and system L4_WKUP clocks.
-** This also enables the clocks for TSC instance.
-*/
-
-void TSCADCModuleClkConfig(void)
-{
-	goto UGH;
-    /* Configuring L3 Interface Clocks. */
-
-    /* Writing to MODULEMODE field of CM_PER_L3_CLKCTRL register. */
-    HWREG(SOC_CM_PER_REGS + CM_PER_L3_CLKCTRL) |=
-          CM_PER_L3_CLKCTRL_MODULEMODE_ENABLE;
-
-    /* Waiting for MODULEMODE field to reflect the written value. */
-    while(CM_PER_L3_CLKCTRL_MODULEMODE_ENABLE !=
-          (HWREG(SOC_CM_PER_REGS + CM_PER_L3_CLKCTRL) &
-           CM_PER_L3_CLKCTRL_MODULEMODE));
-
-    /* Writing to MODULEMODE field of CM_PER_L3_INSTR_CLKCTRL register. */
-    HWREG(SOC_CM_PER_REGS + CM_PER_L3_INSTR_CLKCTRL) |=
-          CM_PER_L3_INSTR_CLKCTRL_MODULEMODE_ENABLE;
-
-    /* Waiting for MODULEMODE field to reflect the written value. */
-    while(CM_PER_L3_INSTR_CLKCTRL_MODULEMODE_ENABLE !=
-          (HWREG(SOC_CM_PER_REGS + CM_PER_L3_INSTR_CLKCTRL) &
-           CM_PER_L3_INSTR_CLKCTRL_MODULEMODE));
-
-    /* Writing to CLKTRCTRL field of CM_PER_L3_CLKSTCTRL register. */
-    HWREG(SOC_CM_PER_REGS + CM_PER_L3_CLKSTCTRL) |=
-          CM_PER_L3_CLKSTCTRL_CLKTRCTRL_SW_WKUP;
-
-    /* Waiting for CLKTRCTRL field to reflect the written value. */
-    while(CM_PER_L3_CLKSTCTRL_CLKTRCTRL_SW_WKUP !=
-          (HWREG(SOC_CM_PER_REGS + CM_PER_L3_CLKSTCTRL) &
-           CM_PER_L3_CLKSTCTRL_CLKTRCTRL));
-
-    /* Writing to CLKTRCTRL field of CM_PER_OCPWP_L3_CLKSTCTRL register. */
-    HWREG(SOC_CM_PER_REGS + CM_PER_OCPWP_L3_CLKSTCTRL) |=
-          CM_PER_OCPWP_L3_CLKSTCTRL_CLKTRCTRL_SW_WKUP;
-
-    /*Waiting for CLKTRCTRL field to reflect the written value. */
-    while(CM_PER_OCPWP_L3_CLKSTCTRL_CLKTRCTRL_SW_WKUP !=
-          (HWREG(SOC_CM_PER_REGS + CM_PER_OCPWP_L3_CLKSTCTRL) &
-           CM_PER_OCPWP_L3_CLKSTCTRL_CLKTRCTRL));
-
-    /* Writing to CLKTRCTRL field of CM_PER_L3S_CLKSTCTRL register. */
-    HWREG(SOC_CM_PER_REGS + CM_PER_L3S_CLKSTCTRL) |=
-          CM_PER_L3S_CLKSTCTRL_CLKTRCTRL_SW_WKUP;
-
-    /*Waiting for CLKTRCTRL field to reflect the written value. */
-    while(CM_PER_L3S_CLKSTCTRL_CLKTRCTRL_SW_WKUP !=
-          (HWREG(SOC_CM_PER_REGS + CM_PER_L3S_CLKSTCTRL) &
-           CM_PER_L3S_CLKSTCTRL_CLKTRCTRL));
-
-    /* Checking fields for necessary values.  */
-
-    /* Waiting for IDLEST field in CM_PER_L3_CLKCTRL register to be set to 0x0. */
-    while((CM_PER_L3_CLKCTRL_IDLEST_FUNC << CM_PER_L3_CLKCTRL_IDLEST_SHIFT)!=
-          (HWREG(SOC_CM_PER_REGS + CM_PER_L3_CLKCTRL) & CM_PER_L3_CLKCTRL_IDLEST));
-
-    /*
-    ** Waiting for IDLEST field in CM_PER_L3_INSTR_CLKCTRL register to attain the
-    ** desired value.
-    */
-    while((CM_PER_L3_INSTR_CLKCTRL_IDLEST_FUNC <<
-           CM_PER_L3_INSTR_CLKCTRL_IDLEST_SHIFT)!=
-          (HWREG(SOC_CM_PER_REGS + CM_PER_L3_INSTR_CLKCTRL) &
-           CM_PER_L3_INSTR_CLKCTRL_IDLEST));
-
-    /*
-    ** Waiting for CLKACTIVITY_L3_GCLK field in CM_PER_L3_CLKSTCTRL register to
-    ** attain the desired value.
-    */
-    while(CM_PER_L3_CLKSTCTRL_CLKACTIVITY_L3_GCLK !=
-          (HWREG(SOC_CM_PER_REGS + CM_PER_L3_CLKSTCTRL) &
-           CM_PER_L3_CLKSTCTRL_CLKACTIVITY_L3_GCLK));
-
-    /*
-    ** Waiting for CLKACTIVITY_OCPWP_L3_GCLK field in CM_PER_OCPWP_L3_CLKSTCTRL
-    ** register to attain the desired value.
-    */
-    while(CM_PER_OCPWP_L3_CLKSTCTRL_CLKACTIVITY_OCPWP_L3_GCLK !=
-          (HWREG(SOC_CM_PER_REGS + CM_PER_OCPWP_L3_CLKSTCTRL) &
-           CM_PER_OCPWP_L3_CLKSTCTRL_CLKACTIVITY_OCPWP_L3_GCLK));
-
-    /*
-    ** Waiting for CLKACTIVITY_L3S_GCLK field in CM_PER_L3S_CLKSTCTRL register
-    ** to attain the desired value.
-    */
-    while(CM_PER_L3S_CLKSTCTRL_CLKACTIVITY_L3S_GCLK !=
-          (HWREG(SOC_CM_PER_REGS + CM_PER_L3S_CLKSTCTRL) &
-          CM_PER_L3S_CLKSTCTRL_CLKACTIVITY_L3S_GCLK));
-
-
-    /* Configuring registers related to Wake-Up region. */
-
-    /* Writing to MODULEMODE field of CM_WKUP_CONTROL_CLKCTRL register. */
-    HWREG(SOC_CM_WKUP_REGS + CM_WKUP_CONTROL_CLKCTRL) |=
-          CM_WKUP_CONTROL_CLKCTRL_MODULEMODE_ENABLE;
-
-    /* Waiting for MODULEMODE field to reflect the written value. */
-    while(CM_WKUP_CONTROL_CLKCTRL_MODULEMODE_ENABLE !=
-          (HWREG(SOC_CM_WKUP_REGS + CM_WKUP_CONTROL_CLKCTRL) &
-           CM_WKUP_CONTROL_CLKCTRL_MODULEMODE));
-
-    /* Writing to CLKTRCTRL field of CM_PER_L3S_CLKSTCTRL register. */
-    HWREG(SOC_CM_WKUP_REGS + CM_WKUP_CLKSTCTRL) |=
-          CM_WKUP_CLKSTCTRL_CLKTRCTRL_SW_WKUP;
-
-    /*Waiting for CLKTRCTRL field to reflect the written value. */
-    while(CM_WKUP_CLKSTCTRL_CLKTRCTRL_SW_WKUP !=
-          (HWREG(SOC_CM_WKUP_REGS + CM_WKUP_CLKSTCTRL) &
-           CM_WKUP_CLKSTCTRL_CLKTRCTRL));
-
-    /* Writing to CLKTRCTRL field of CM_L3_AON_CLKSTCTRL register. */
-    HWREG(SOC_CM_WKUP_REGS + CM_WKUP_CM_L3_AON_CLKSTCTRL) |=
-          CM_WKUP_CM_L3_AON_CLKSTCTRL_CLKTRCTRL_SW_WKUP;
-
-    /*Waiting for CLKTRCTRL field to reflect the written value. */
-    while(CM_WKUP_CM_L3_AON_CLKSTCTRL_CLKTRCTRL_SW_WKUP !=
-          (HWREG(SOC_CM_WKUP_REGS + CM_WKUP_CM_L3_AON_CLKSTCTRL) &
-           CM_WKUP_CM_L3_AON_CLKSTCTRL_CLKTRCTRL));
-
-    /* Writing to MODULEMODE field of CM_WKUP_TSC_CLKCTRL register. */
-    HWREG(SOC_CM_WKUP_REGS + CM_WKUP_ADC_TSC_CLKCTRL) |=
-          CM_WKUP_ADC_TSC_CLKCTRL_MODULEMODE_ENABLE;
-
-    /* Waiting for MODULEMODE field to reflect the written value. */
-    while(CM_WKUP_ADC_TSC_CLKCTRL_MODULEMODE_ENABLE !=
-          (HWREG(SOC_CM_WKUP_REGS + CM_WKUP_ADC_TSC_CLKCTRL) &
-           CM_WKUP_ADC_TSC_CLKCTRL_MODULEMODE));
-
-    /* Verifying if the other bits are set to required settings. */
-
-    /*
-    ** Waiting for IDLEST field in CM_WKUP_CONTROL_CLKCTRL register to attain
-    ** desired value.
-    */
-    while((CM_WKUP_CONTROL_CLKCTRL_IDLEST_FUNC <<
-           CM_WKUP_CONTROL_CLKCTRL_IDLEST_SHIFT) !=
-          (HWREG(SOC_CM_WKUP_REGS + CM_WKUP_CONTROL_CLKCTRL) &
-           CM_WKUP_CONTROL_CLKCTRL_IDLEST));
-
-    /*
-    ** Waiting for CLKACTIVITY_L3_AON_GCLK field in CM_L3_AON_CLKSTCTRL
-    ** register to attain desired value.
-    */
-    while(CM_WKUP_CM_L3_AON_CLKSTCTRL_CLKACTIVITY_L3_AON_GCLK !=
-          (HWREG(SOC_CM_WKUP_REGS + CM_WKUP_CM_L3_AON_CLKSTCTRL) &
-           CM_WKUP_CM_L3_AON_CLKSTCTRL_CLKACTIVITY_L3_AON_GCLK));
-
-    /*
-    ** Waiting for IDLEST field in CM_WKUP_L4WKUP_CLKCTRL register to attain
-    ** desired value.
-    */
-    while((CM_WKUP_L4WKUP_CLKCTRL_IDLEST_FUNC <<
-           CM_WKUP_L4WKUP_CLKCTRL_IDLEST_SHIFT) !=
-          (HWREG(SOC_CM_WKUP_REGS + CM_WKUP_L4WKUP_CLKCTRL) &
-           CM_WKUP_L4WKUP_CLKCTRL_IDLEST));
-
-    /*
-    ** Waiting for CLKACTIVITY_L4_WKUP_GCLK field in CM_WKUP_CLKSTCTRL register
-    ** to attain desired value.
-    */
-    while(CM_WKUP_CLKSTCTRL_CLKACTIVITY_L4_WKUP_GCLK !=
-          (HWREG(SOC_CM_WKUP_REGS + CM_WKUP_CLKSTCTRL) &
-           CM_WKUP_CLKSTCTRL_CLKACTIVITY_L4_WKUP_GCLK));
-
-    /*
-    ** Waiting for CLKACTIVITY_L4_WKUP_AON_GCLK field in CM_L4_WKUP_AON_CLKSTCTRL
-    ** register to attain desired value.
-    */
-    while(CM_WKUP_CM_L4_WKUP_AON_CLKSTCTRL_CLKACTIVITY_L4_WKUP_AON_GCLK !=
-          (HWREG(SOC_CM_WKUP_REGS + CM_WKUP_CM_L4_WKUP_AON_CLKSTCTRL) &
-           CM_WKUP_CM_L4_WKUP_AON_CLKSTCTRL_CLKACTIVITY_L4_WKUP_AON_GCLK));
-
-    /*
-    ** Waiting for CLKACTIVITY_ADC_FCLK field in CM_WKUP_CLKSTCTRL
-    ** register to attain desired value.
-    */
-    while(CM_WKUP_CLKSTCTRL_CLKACTIVITY_ADC_FCLK !=
-          (HWREG(SOC_CM_WKUP_REGS + CM_WKUP_CLKSTCTRL) &
-           CM_WKUP_CLKSTCTRL_CLKACTIVITY_ADC_FCLK));
-
-    /*
-    ** Waiting for IDLEST field in CM_WKUP_ADC_TSC_CLKCTRL register to attain
-    ** desired value.
-    */
-    while((CM_WKUP_ADC_TSC_CLKCTRL_IDLEST_FUNC <<
-           CM_WKUP_ADC_TSC_CLKCTRL_IDLEST_SHIFT) !=
-          (HWREG(SOC_CM_WKUP_REGS + CM_WKUP_ADC_TSC_CLKCTRL) &
-           CM_WKUP_ADC_TSC_CLKCTRL_IDLEST));
-UGH:
-}
-
-
-unsigned int TSCADCPinMuxSetUp(void)
-{
-    return TRUE;
-
-    HWREG( SOC_CONTROL_REGS + CONTROL_CONF_AIN0) = CONTROL_CONF_AIN0_CONF_AIN0_RXACTIVE;
-
-    HWREG( SOC_CONTROL_REGS + CONTROL_CONF_AIN1) = CONTROL_CONF_AIN1_CONF_AIN1_RXACTIVE;
-
-    HWREG( SOC_CONTROL_REGS +  CONTROL_CONF_AIN2)= CONTROL_CONF_AIN2_CONF_AIN2_RXACTIVE;
-
-    HWREG( SOC_CONTROL_REGS + CONTROL_CONF_AIN3) = CONTROL_CONF_AIN3_CONF_AIN3_RXACTIVE;
-
-    HWREG( SOC_CONTROL_REGS + CONTROL_CONF_AIN4) = CONTROL_CONF_AIN4_CONF_AIN4_RXACTIVE;
-
-    HWREG( SOC_CONTROL_REGS + CONTROL_CONF_AIN5) = CONTROL_CONF_AIN5_CONF_AIN5_RXACTIVE;
-
-    HWREG( SOC_CONTROL_REGS + CONTROL_CONF_AIN6) = CONTROL_CONF_AIN6_CONF_AIN6_RXACTIVE;
-
-    HWREG( SOC_CONTROL_REGS + CONTROL_CONF_AIN7) = CONTROL_CONF_AIN7_CONF_AIN7_RXACTIVE;
-
-    HWREG( SOC_CONTROL_REGS + CONTROL_CONF_VREFP)= CONTROL_CONF_VREFP_CONF_VREFP_RXACTIVE;
-
-    HWREG( SOC_CONTROL_REGS +  CONTROL_CONF_VREFN)= CONTROL_CONF_VREFN_CONF_VREFN_RXACTIVE;
-    return TRUE;
-}
 
 /* Host-0 Interrupt sets bit 30 in register R31 */
 #define HOST_INT			((uint32_t) 1 << 30)	
@@ -294,7 +65,7 @@ void main(void)
 	struct pru_rpmsg_transport transport;
 	uint16_t src, dst, len;
 	volatile uint8_t *status;
-	uint32_t x;
+	unsigned int i, count, data, sample;
 
 	ADCConfigure();
 
@@ -320,53 +91,87 @@ void main(void)
 			CT_INTC.SICR_bit.STS_CLR_IDX = FROM_ARM_HOST;
 			/* Receive all available messages, multiple messages can be sent per kick */
 			while (pru_rpmsg_receive(&transport, &src, &dst, payload, &len) == PRU_RPMSG_SUCCESS) {
-				TSCADCConfigureStepEnable(SOC_ADC_TSC_0_REGS, 1, 1);
+				/* Start step */
+				HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_STEPENABLE) = 0xfe;
 
-				x = TSCADCFIFOADCDataRead(SOC_ADC_TSC_0_REGS, TSCADC_FIFO_0);
-				//x = (*ADCData);// & TSC_ADC_SS_FIFODATA_ADC_DATA;
-				ltoa((long)x, payload);
-				len = strlen(payload);
-				pru_rpmsg_send(&transport, dst, src, payload, len);
+				/* Wait for interrupt */
+				while (!(HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_IRQSTATUS)&0x02));
+
+				/* Clear interrupt */
+				HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_IRQSTATUS) = 0x02;
+
+				sample = 0xFFFFFFFF;
+
+				count = HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_FIFOCOUNT(0));
+				//sample = count;
+				for (i = 0; i < count; i++) {
+					data = HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_FIFODATA(0));
+					if ((data & 0x000F0000) == 0) {
+						/* if channel == 0 */
+						sample = data & 0xFFF;
+					}
+				}
+				memcpy(payload, "\0\0\0\0\0\0\0\0\0\0", 10);
+				ltoa((long)sample, payload);
+				//len = strlen(payload) + 1;
+				pru_rpmsg_send(&transport, dst, src, payload, 10);
 			}
 		}
 	}
 }
 
-/* ADC is configured, just need to reenable steps */
 static void ADCConfigure(void)
 {
-    TSCADCModuleClkConfig();
-    TSCADCPinMuxSetUp();
-    TSCADCConfigureAFEClock(SOC_ADC_TSC_0_REGS, 24000000, 3000000);
-    TSCADCTSTransistorConfig(SOC_ADC_TSC_0_REGS, TSCADC_TRANSISTOR_ENABLE);
-    TSCADCStepIDTagConfig(SOC_ADC_TSC_0_REGS, 1);
+	unsigned int i, count, data;
 
-    /* Disable Write Protection of Step Configuration regs*/
-    TSCADCStepConfigProtectionDisable(SOC_ADC_TSC_0_REGS);
+	/* Enable ADC module clock */
+	HWREG(SOC_CM_WKUP_REGS + CM_WKUP_ADC_TSC_CLKCTRL) = 0x02;
 
-    /* Configure ADC to Single ended operation mode */
-    TSCADCTSStepOperationModeControl(SOC_ADC_TSC_0_REGS,
-                                  TSCADC_SINGLE_ENDED_OPER_MODE, 0);
+	/* Disable ADC module for configuration */
+	HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_CTRL) &= ~0x01;
 
-    /* Configure step to select Channel 1 (AIN0), reference voltages */
-    TSCADCTSStepConfig(SOC_ADC_TSC_0_REGS, 0, TSCADC_NEGATIVE_REF_VSSA,
-                    TSCADC_POSITIVE_INP_CHANNEL1, TSCADC_NEGATIVE_INP_CHANNEL1,
-                    TSCADC_POSITIVE_REF_VDDA);
+	/* fs = 24MHz / ((CLKDIV+1)*2*Channels*(OpenDly+Average*(14+SampleDly)))
+	 *    = 53.57kHz
+	 * CLKDIV = 0
+	 * Channels = 1
+	 * Average = 16
+	 * OpenDly = 0
+	 * SampleDly = 0
+	 */
+	HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_ADC_CLKDIV) = 0;
 
-    /* select fifo 0 */
-    TSCADCTSStepFIFOSelConfig(SOC_ADC_TSC_0_REGS, 0, TSCADC_FIFO_0);
+	HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_ADCRANGE) = 0xFFF << 16;
 
-    /* Configure ADC to one short mode */
-    TSCADCTSStepModeConfig(SOC_ADC_TSC_0_REGS, 0, TSCADC_ONE_SHOT_SOFTWARE_ENABLED);
+	/* Disable all steps for now */
+	HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_STEPENABLE) &= 0xFF;
 
-    /* General purpose inputs */
-    TSCADCTSModeConfig(SOC_ADC_TSC_0_REGS, TSCADC_GENERAL_PURPOSE_MODE);
+	/* Unlock step configuration */
+	HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_CTRL) |= 0x04;
 
-    /* Enable step 1 */
-    TSCADCConfigureStepEnable(SOC_ADC_TSC_0_REGS, 1, 1);
+	/* Step 1 config: SW mode, one shot mode, fifo 0, channel 0 */
+	HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_STEPCONFIG(0)) = 0x00000000;
+	HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_STEPDELAY(0)) = 0xFF000000;
 
-    /* Enable the TSC_ADC_SS module*/
-    TSCADCModuleStateSet(SOC_ADC_TSC_0_REGS, TSCADC_MODULE_ENABLE);
+	/* Enable channel ID tag */
+	HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_CTRL) |= 0x02;
+
+	/* Clear end-of-sequence interrupt */
+	HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_IRQSTATUS) = 0x02;
+
+	/* Enable end-of-sequence interrupt */
+	HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_IRQENABLE_SET) = 0x02;
+
+	/* Lock step configuration */
+	HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_CTRL) &= ~0x04;
+
+	/* Empty FIFO 0 */
+	count = HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_FIFOCOUNT(0));
+	for (i = 0; i < count; i++) {
+		data = HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_FIFODATA(0));
+	}
+
+	/* Enable ADC module */
+	HWREG(SOC_ADC_TSC_0_REGS + TSC_ADC_SS_CTRL) |= 0x01;
 }
 
 // Sets pinmux
