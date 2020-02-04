@@ -1,9 +1,6 @@
 # BeagleBoard.org PocketBeagle Grove Kit
 
-
 ![](img/_DAS6325.jpg)
-
-
 
 PocketBeagle is an ultra-tiny-yet-complete open-source USB-key-fob computer. PocketBeagle features an incredibly low cost, slick design, and simple usage, making PocketBeagle the ideal development board for beginners and professionals alike. Its rich features allow users to programmatically control external devices and obtain data from external devices.
 
@@ -37,7 +34,6 @@ BeagleBoard.org PocketBeagle Grove Kit combines the Grove sensor modules with th
 ## Setup the driver on pocketbeagle
 
 firstly, you should visit [Getting_Started](https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#331_Getting_Started) to get a start. the driver includes codec, wifi, and seeed-linux-overlays. we will describe it separately.
-
 ### connect wifi by using connmanctl
 
 `connmanctl` is a tool that connects Pockbeagle to the internet with WiFi Dongle,please refer below command
@@ -66,4 +62,53 @@ Passphrase? *************
 Connected wifi_e8de27077de3_41483034303434393134_managed_psk
 connmanctl> quit
 ```
-we can use `ifconfig` to get IP of Pocket Beagle
+we can use `ifconfig` to get IP of pocketbeagle
+
+### Make and install the seeed-linux-dtverlays on pocketbeagle
+
+- Step 1. update the Kernel.
+
+```bash
+sudo apt update
+sudo apt-get install linux-headers-$(uname -r) -y
+```
+
+- Step 2. Get the `seeed-linux-dtoverlay` source code, install and reboot.(Default installed)
+
+seeed-linux-dtoverlay is a packet that can make some Grove become a file that can be read and write on Linux.
+
+```bash
+cd ~
+git clone https://github.com/Seeed-Studio/seeed-linux-dtverlays
+cd ~/seeed-linux-dtverlays
+make && sudo make install_bb
+sudo echo uboot_overlay_addr0=/lib/firmware/PB-I2C1-TLV320AIC3104.dtbo >> /boot/uEnv.txt
+sudo echo uboot_overlay_addr1=/lib/firmware/BB-GPIO-P9813.dtbo >> /boot/uEnv.txt
+sudo echo uboot_overlay_addr2=/lib/firmware/BB-GPIO-HCSR04.dtbo >> /boot/uEnv.txt
+sudo echo uboot_overlay_addr3=/lib/firmware/BB-GPIO-GROVE-BUTTON.dtbo >> /boot/uEnv.txt
+sudo echo uboot_overlay_addr4=/lib/firmware/BB-I2C1-JHD1802.dtbo >> /boot/uEnv.txt
+sudo echo uboot_overlay_addr5=/lib/firmware/BB-I2C2-ADXL34X.dtbo >> /boot/uEnv.txt
+sudo echo uboot_overlay_addr6=/lib/firmware/BB-I2C2-MPR121.dtbo >> /boot/uEnv.txt
+sudo reboot
+```
+
+!!!Note
+        Please connect Grove with PocketBeagle with Grove shield firstly, then reboot.
+
+- Step 3.Use `alsactl` command to configure TLV320AIC3104 codec
+
+```bash
+sudo alsactl restore 0 -f /etc/alsa/tlv320aic3104.state.txt
+```
+
+- Step 4.Check if the driver of codec install successfully
+
+if the driver of codec installed successfully , you should view below information.
+
+```bash
+debian@beaglebone:~$ aplay -l
+**** List of PLAYBACK Hardware Devices ****
+card 0: Audio [GroveBaseCape Audio], device 0: davinci-mcasp.0-tlv320aic3x-hifi tlv320aic3x-hifi-0 [davinci-mcasp.0-tlv320aic3x-hifi tlv320aic3x-hifi-0]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+```
