@@ -162,8 +162,8 @@ endif
 start:
 ifneq ($(PRU_DIR),)
 	@echo "-    Starting PRU $(PRUN)"
-	@echo start > $(PRU_DIR)/state
 	@echo write_init_pins.sh
+	@echo start > $(PRU_DIR)/state
 	@$(COMMON)/write_init_pins.sh /lib/firmware/$(CHIP)-pru$(PRUN)-fw
 else ifeq ($(PROC),tidl)
 	ti-mct-heap-check -c
