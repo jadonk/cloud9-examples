@@ -182,11 +182,11 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 ## Hardware Requirement:
 
 - [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
-- [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove – Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
 
 ## Hardware Connection
 
-- Plug the Grove – Speaker into **UART2** port
+- Plug the Grove – Speaker Plus into **UART2** port
 - Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C2** port
 - Power the PocketBeagle via the **micro USB** port
 
@@ -276,7 +276,7 @@ In this lesson, students will learn how to install the snowboy of Kitt-AI and us
 ## Hardware Requirement:
 
 - [Grove - Analog Microphone](http://wiki.seeedstudio.com/Grove-Speaker/)
-- [Grove - Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+- [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
 - [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 
 ## Hardware Connection
@@ -298,4 +298,4 @@ In this lesson, students will learn how to install the snowboy of Kitt-AI and us
 - Step 7. Run the Ok_Beagel.py by using Runner:Python.
 
 ## success
-        Pocket will light up when we say Ok_Beagle to mic.
+        pocketbeagle will light up when we say Ok_Beagle to mic.
