@@ -63,42 +63,46 @@ volatile register uint32_t __R31;
 #define OPERAND2_TSHIFT	8
 #define OPERAND2_MASK	0x000000FF
 #define OPERAND2_SHIFT  0
-#define OPCODE_NOP	0xFF
-#define OPCODE_ADD      0x00	// ADD test,2		test=test+2
-#define OPCODE_SUB      0x01	// SUB test,1		test=test-1
-#define OPCODE_MUL      0x02	// MUL test,AI[0]	test=test*(value of analog in channel 0)
-#define OPCODE_DIV      0x03	// DIV test,3   	test=test/3
-#define OPCODE_MOD      0x04	// MOD 5,2      	Gets the remainder of 5/2	
-#define OPCODE_AND      0x05	// AND test,AI[0]	bitwise AND	
-#define OPCODE_OR       0x06	// OR test,AI[0]	Bitwise OR
-#define OPCODE_NOT      0x07	// NOT test,AI[0]	returns resulting boolean
-				//              	test = (test != AI[0])	
-#define OPCODE_EQL      0x08	// EQL test,AI[0]	returns resulting boolean
+const char opcodes[] = \
+//	 0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F
+	"NOP  ADD  SUB  MUL  DIV  MOD  AND  OR   NOT  EQL  GRT  GRE  LET  LEE  BSL  BSR  "\
+	"GOTO WAIT GET  SET  IF   CALL RET  RUN  DBG  ";
+#define OPCODE_NOP	0x00
+#define OPCODE_ADD      0x01	// ADD test,2		test=test+2
+#define OPCODE_SUB      0x02	// SUB test,1		test=test-1
+#define OPCODE_MUL      0x03	// MUL test,AI[0]	test=test*(value of analog in channel 0)
+#define OPCODE_DIV      0x04	// DIV test,3   	test=test/3
+#define OPCODE_MOD      0x05	// MOD 5,2      	Gets the remainder of 5/2	
+#define OPCODE_AND      0x06	// AND test,AI[0]	bitwise AND	
+#define OPCODE_OR       0x07	// OR test,AI[0]	Bitwise OR
+#define OPCODE_NOT      0x08 	// NOT test,AI[0]	returns resulting boolean
+			        //              	test = (test != AI[0])	
+#define OPCODE_EQL      0x09	// EQL test,AI[0]	returns resulting boolean
                                	//              	test = (test == AI[0])
-#define OPCODE_GRT      0x09	// GRT test,AI[0]	returns resulting boolean
+#define OPCODE_GRT      0x0A	// GRT test,AI[0]	returns resulting boolean
                                	//              	test = (test > AI[0])	
-#define OPCODE_GRE	0x0A	// GRE test,AI[0]	returns resulting boolean
+#define OPCODE_GRE	0x0B	// GRE test,AI[0]	returns resulting boolean
                                	//              	test = (test >= AI[0])	
-#define OPCODE_LET      0x0B	// LET test,AI[0]	returns resulting boolean
+#define OPCODE_LET      0x0C	// LET test,AI[0]	returns resulting boolean
                                	//              	test = (test < AI[0])
-#define OPCODE_LEE      0x0C	// LEE test,AI[0]	returns resulting boolean
-                               	//              	test = (test <= AI[0])	
-#define OPCODE_BSL      0x0D	// BSL test,2		bitwise left shift	
-#define OPCODE_BSR      0x0E	// BSR test,2		bitwise right shift	
-#define OPCODE_GOTO	0x0F	// GOTO 2		Will jump to line 2 of script (line indexing starts at 0)
-#define OPCODE_WAIT	0x10	// WAIT 120		waits 120 msec	
-#define OPCODE_GET	0x11	// GET AI[2]		Get the value of analog channel 2
-#define OPCODE_SET	0x12	// SET DIO[1],1		Sets a variable to a value
-#define OPCODE_IF	0x13	// (var conditional var) goto loc
+#define OPCODE_LEE      0x0D	// LEE test,AI[0]	returns resulting boolean
+                              	//              	test = (test <= AI[0])	
+#define OPCODE_BSL      0x0E	// BSL test,2		bitwise left shift	
+#define OPCODE_BSR      0x0F	// BSR test,2		bitwise right shift	
+#define OPCODE_GOTO	0x10	// GOTO 2		Will jump to line 2 of script (line indexing starts at 0)
+#define OPCODE_WAIT	0x11	// WAIT 120		waits 120 msec	
+#define OPCODE_GET	0x12	// GET AI[2]		Get the value of analog channel 2
+#define OPCODE_SET	0x13	// SET DIO[1],1		Sets a variable to a value
+#define OPCODE_IF	0x14	// (var conditional var) goto loc
 				// IF (test < 1) GOTO 3	jumps to line 3 if test is less than 1. 
 				// If test >= 1, it goes to the next line (Note, you need the spaces in the parentheses)
 				// This is implemented as 2 instructions with this opcode being a conditional goto
-#define OPCODE_CALL	0x14	// RUN&WAIT Sub		Runs script starting at the label Sub and waits until the script is done
-#define OPCODE_RET	0x15	// ENDSCRIPT
+#define OPCODE_CALL	0x15	// RUN&WAIT Sub		Runs script starting at the label Sub and waits until the script is done
+#define OPCODE_RET	0x16	// ENDSCRIPT
+#define OPCODE_RUN	0x17	// RUN 0		Runs existing script starting at line 0
+#define OPCODE_DBG	0x18	// DEBUG 0		Runs current script (from the beginning) in debug mode (outputs values)	
 				
 // Non opcode instructions
-				// RUN 0		Runs existing script starting at line 0
-				// DEBUG 0		Runs current script (from the beginning) in debug mode (outputs values)	
 				// LBL			Allocate variable to store current program_used
 
 #define REG_NOP		0xF
@@ -194,9 +198,10 @@ void main(void)
 		}
 
 		/* Continue script execution */
-		if (run_mode && (ins_ptr < program_used)) {
+		if (ins_ptr >= program_used)
+			run_mode = 0;
+		if (run_mode)
 			execute(program[ins_ptr]);
-		}
 
 		/* Perform software-based PWM, check timers, etc. */
 		update_timers();
@@ -309,6 +314,14 @@ void execute(uint32_t ins) {
 			ins_ptr = op1;
 		}
 		break;
+	case OPCODE_RUN:
+		debug_mode = 0;
+		run_mode = 1;
+		goto OPCODE_CALL;
+	case OPCODE_DBG:
+		run_mode = 1;
+		debug_mode = 1;
+		goto OPCODE_CALL;
 	case OPCODE_CALL:
 		if (stack_used < STACK_SIZE) {
 			stack[stack_used] = ins_ptr;
