@@ -63,6 +63,7 @@ char payload[RPMSG_BUF_SIZE];
 #define OPERAND1_SHIFT	12
 #define OPERAND2_MASK	0x00000FFF
 #define OPERAND2_SHIFT  0
+#define OPCODE_NOP	0xFF
 #define OPCODE_ADD      0x00	// ADD test,2		test=test+2
 #define OPCODE_SUB      0x01	// SUB test,1		test=test-1
 #define OPCODE_MUL      0x02	// MUL test,AI[0]	test=test*(value of analog in channel 0)
@@ -121,7 +122,7 @@ struct identifier_list_element {
 	void * next;
 } identifier_head;
 int script_mode = 0;
-int debug_mode = 0;
+int debug_mode = 1;
 int run_mode = 0;
 
 uint32_t interpret_payload(char * payload, int len);
@@ -192,6 +193,8 @@ void main(void)
 }
 
 uint32_t interpret_payload(char * payload, int len) {
+	uint32_t ins = OPCODE_NOP << OPCODE_SHIFT;
+	return(ins);
 }
 
 void execute(uint32_t ins) {
