@@ -1,11 +1,35 @@
+# Copyright (c) 2020 SeeedStudio
+# Author: Hansen Chen
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 # [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/) on I2C2
 import time
 from Shell import GetCmdReturn,os
 class MPR121:
+    """MPR121 12 Key Capacitive I2C Touch Sensor"""
     def __init__(self):
+    """Initialize the MPR121 using file python library"""
         try:
+            # Check BB-I2C2-mpr121 whether install successfully
+            # if not reinstall it             
             if not os.path.exists('/proc/device-tree/aliases/mpr121'):
                 GetCmdReturn('sudo mkdir -p \
                 /sys/kernel/config/device-tree/overlays/BB-I2C2-mpr121')
@@ -13,14 +37,17 @@ class MPR121:
                 of=/sys/kernel/config/device-tree/overlays/BB-I2C2-mpr121/dtbo \
                 if=/lib/firmware/BB-I2C2-mpr121.dtbo')
                 while not os.path.exists('/proc/device-tree/aliases/mpr121'):
-                    time.sleep(0.1)   
+                    time.sleep(0.1)  
+            #Reinstall mpr121 module to support hot plug        
             if 'mpr121' in GetCmdReturn('lsmod | grep mpr121'):
                 GetCmdReturn('sudo rmmod mpr121') 
             while 'mpr121' in GetCmdReturn('lsmod | grep mpr121'):
-                time.sleep(0.1)                     
+                time.sleep(0.1)   
+                
             GetCmdReturn('sudo modprobe -i mpr121')
             while not 'mpr121' in GetCmdReturn('lsmod | grep mpr121'):
                 time.sleep(0.1)
+                
             if not os.path.exists('/sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init'):
                 if 'mpr121' in GetCmdReturn('lsmod | grep mpr121'):
                     GetCmdReturn('sudo rmmod mpr121') 
@@ -28,36 +55,53 @@ class MPR121:
                     time.sleep(0.1)                     
                 GetCmdReturn('sudo modprobe -i mpr121')
                 while not 'mpr121' in GetCmdReturn('lsmod | grep mpr121'):
-                    time.sleep(0.1)               
+                    time.sleep(0.1)  
+            
+            #Enable mpr121
             GetCmdReturn('sudo chmod 777\
             /sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init')
             GetCmdReturn('echo 1 >\
-            /sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init')    
-            self.f = open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r')               
+            /sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init') 
+            
+            #Open the mpr121_data using file python library
+            self.f = open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r')   
+            
         except IOError as err:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of mpr121")
-    def parse_and_print_result(self, result):
+    def parse_and_print_Input(self,Input):
+    """Parse the raw data form MPR121 to List 
+    that describes which one is touched on 
+    12 Key Capacitive I2C Touch Sensor.
+    Input:raw data form MPR121
+    return:List that describes which one is touched on 
+    12 Key Capacitive I2C Touch Sensor.
+    """
+    
         CHANNEL_NUM = 12
-        ResultStr = [1, 1, 1]
-        touch_flag = [0]*CHANNEL_NUM
-        if result != 0:
-            result = result % 1000
-            ResultStr[0] = result // 100
-            ResultStr[1] = result % 100 // 10
-            ResultStr[2] = result % 100 % 10
-            result = ResultStr[0] * (1<<8) | ResultStr[1] * (1<<4) | ResultStr[2]
+        InputStr = [1, 1, 1]
+        TouchValue = [0]*CHANNEL_NUM
+        #Parse the raw data form MPR121 to List,if MPR121 is touched.       
+        if Input != 0:
+            # Set raw data to decimal 
+            Input = Input % 1000
+            InputStr[0] = Input // 100
+            InputStr[1] = Input % 100 // 10
+            InputStr[2] = Input % 100 % 10
+            Input = InputStr[0] * (1<<8) | InputStr[1] * (1<<4) | InputStr[2]
+            # Set to decimal to List
             for i in range(CHANNEL_NUM):
-                if(result & 1 << i):
-                    if(0 == touch_flag[i]):
-                        touch_flag[i] = 1
-                        # print("Channel %d is pressed"%i)
+                if(Input & 1 << i):
+                    if(0 == TouchValue[i]):
+                        TouchValue[i] = 1
                 else:
-                    if(1 == touch_flag[i]):
-                        touch_flag[i] = 0
-                        # print("Channel %d is released"%i)
-        return touch_flag
+                    if(1 == TouchValue[i]):
+                        TouchValue[i] = 0
+        return TouchValue
     def get(self):
+    """Get the raw data form MPR121
+    return:Raw data form MPR121
+    """
         value = 0
         try:
             self.f.seek(0)
@@ -72,7 +116,7 @@ class MPR121:
         except IOError as err:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of mpr121")
-        return [value, self.parse_and_print_result(value)]
+        return [value, self.parse_and_print_Input(value)]
 
 def main():
     t = MPR121()

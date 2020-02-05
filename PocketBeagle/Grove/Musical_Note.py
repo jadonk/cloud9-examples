@@ -1,3 +1,23 @@
+# Copyright (c) 2020 SeeedStudio
+# Author: Hansen Chen
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 # [Grove - Ultrasonic Distance Sensor](http://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/) on A0
@@ -20,6 +40,9 @@ _SCALE_DEFS = [
    'ti.wav'
    ]
 def Play_Music(file):
+"""Play WAV format music
+    file:the Wav format music
+"""
     # define stream chunk
     chunk = 1024
     # open a wav format music
@@ -33,11 +56,13 @@ def Play_Music(file):
                                 output = True)
     # read data
     data = f.readframes(chunk)
-    # play stream
+    
+    # append data to datas 
     datas = []
     while len(data) > 0:
         data = f.readframes(chunk)
         datas.append(data)
+    # play stream
     time = 0
     for d in tqdm(datas):
         time = time + 1
@@ -55,8 +80,10 @@ def main():
     Lcd = JHD1802()
     while True:
         distance = Distance.GetDistance()
+        #Display the distance
         Lcd.SetText("The Distance: \r\n{} cm".format(distance))
         print("Distance is %3d \r" %distance, end = '')
+        #Speaker will play different music When the HCSR04 get different distance
         if distance < 240:
             Play_Music("/tmp/scale/%s"%_SCALE_DEFS[distance//40])
         time.sleep(1)
