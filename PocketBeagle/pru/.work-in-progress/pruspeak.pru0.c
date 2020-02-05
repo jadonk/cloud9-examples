@@ -46,13 +46,6 @@ volatile register uint32_t __R31;
  */
 #define VIRTIO_CONFIG_S_DRIVER_OK	4
 
-/* PRU GPIO */
-volatile register unsigned int __R30;
-volatile register unsigned int __R31;
-
-/* rpmsg buffer */
-char payload[RPMSG_BUF_SIZE];
-
 /* Botspeak globals */
 #define PROG_SIZE       256
 #define DATA_SIZE	32
@@ -110,6 +103,23 @@ char payload[RPMSG_BUF_SIZE];
 #define REG_AI		0x4	// GET AI[2]		Get voltage on analog in channel 2	
 #define REG_SERVO	0x5	// SET SERVO[2],test	sets PWM[2] to duty of test (value between 0 and 1.5)
 #define REG_PWM		0x6000000	// SET PWM[0],50	Set pulse width modulation on chan 0 to 50%	
+
+#define NIB2ASC(x)	((x)>9)?((char)((x)-10)+'A'):((char)(x)+'0')
+
+uint32_t interpret_payload(char * payload, int len);
+void execute(uint32_t ins);
+void update_timers();
+
+/* PRU GPIO */
+volatile register unsigned int __R30;
+volatile register unsigned int __R31;
+
+/* rpmsg buffer */
+char payload[RPMSG_BUF_SIZE];
+struct pru_rpmsg_transport transport;
+uint16_t src, dst, len;
+
+/* Interpreter variables */
 uint32_t program[PROG_SIZE];
 uint32_t data[DATA_SIZE];
 uint32_t reg = 0;
@@ -125,14 +135,8 @@ int script_mode = 0;
 int debug_mode = 1;
 int run_mode = 0;
 
-uint32_t interpret_payload(char * payload, int len);
-void execute(uint32_t ins);
-void update_timers();
-
 void main(void)
 {
-	struct pru_rpmsg_transport transport;
-	uint16_t src, dst, len;
 	volatile uint8_t *status;
 	uint32_t ins;
 	
@@ -172,9 +176,6 @@ void main(void)
 					}
 				} else {
 					execute(ins);
-					if (debug_mode) {
-						pru_rpmsg_send(&transport, dst, src, "A", 2);
-					}
 				}
 			}
 		}
@@ -182,9 +183,6 @@ void main(void)
 		/* Continue script execution */
 		if (run_mode && (ins_ptr < program_used)) {
 			execute(program[ins_ptr]);
-			if (debug_mode) {
-				pru_rpmsg_send(&transport, dst, src, "B", 2);
-			}
 		}
 
 		/* Perform software-based PWM, check timers, etc. */
@@ -193,12 +191,35 @@ void main(void)
 }
 
 uint32_t interpret_payload(char * payload, int len) {
+	const char sepchars[] = ",.;!? ";
 	uint32_t ins = OPCODE_NOP << OPCODE_SHIFT;
+	
+	
 	return(ins);
 }
 
 void execute(uint32_t ins) {
-	
+	if (debug_mode) {
+		memset(payload, 0, RPMSG_BUF_SIZE);
+		payload[0] = NIB2ASC((ins >> 28)&0xF);
+		payload[1] = NIB2ASC((ins >> 24)&0xF);
+		payload[2] = NIB2ASC((ins >> 20)&0xF);
+		payload[3] = NIB2ASC((ins >> 16)&0xF);
+		payload[4] = NIB2ASC((ins >> 12)&0xF);
+		payload[5] = NIB2ASC((ins >> 8)&0xF);
+		payload[6] = NIB2ASC((ins >> 4)&0xF);
+		payload[7] = NIB2ASC((ins)&0xF);
+		payload[8] = ' ';
+		payload[9] = NIB2ASC((reg >> 28)&0xF);
+		payload[10] = NIB2ASC((reg >> 24)&0xF);
+		payload[11] = NIB2ASC((reg >> 20)&0xF);
+		payload[12] = NIB2ASC((reg >> 16)&0xF);
+		payload[13] = NIB2ASC((reg >> 12)&0xF);
+		payload[14] = NIB2ASC((reg >> 8)&0xF);
+		payload[15] = NIB2ASC((reg >> 4)&0xF);
+		payload[16] = NIB2ASC((reg)&0xF);
+		pru_rpmsg_send(&transport, dst, src, payload, 17);
+	}
 }
 
 void update_timers() {
