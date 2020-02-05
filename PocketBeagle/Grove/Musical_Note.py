@@ -40,9 +40,9 @@ _SCALE_DEFS = [
    'ti.wav'
    ]
 def Play_Music(file):
-"""Play WAV format music
-    file:the Wav format music
-"""
+    """Play WAV format music
+        file:the Wav format music
+    """
     # define stream chunk
     chunk = 1024
     # open a wav format music

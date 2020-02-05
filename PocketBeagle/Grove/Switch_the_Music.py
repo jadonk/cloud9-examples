@@ -33,9 +33,9 @@ from LCD import JHD1802
 from Shell import GetCmdReturn,os
 MusicKeyStatus = []*2
 def PlayMusic(file):
-"""Play WAV format music when the Button is pressed 
-    file:the Wav format music
-"""
+    """Play WAV format music when the Button is pressed 
+        file:the Wav format music
+    """
     # define stream chunk 
     chunk = 512
     # open a wav format music

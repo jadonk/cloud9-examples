@@ -106,9 +106,9 @@ class ADX134X:
             sum = sum + inputs[i]
         return (sum // per)
     def MotionDetection(self): 
-    """ Simple gesture detection for adxl345 
-        return: Which of the six sides is adxl345 on   
-    """
+        """ Simple gesture detection for adxl345 
+            return: Which of the six sides is adxl345 on   
+        """
         
         data = [0]*3
         #Make data of adxl345 smooth

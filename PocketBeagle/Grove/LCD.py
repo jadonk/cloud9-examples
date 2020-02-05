@@ -26,7 +26,7 @@ from Shell import GetCmdReturn,os
 class JHD1802:
     """JHD1802 LCD Driver"""
     def __init__(self):
-    """Initialize the JHD1802 using file python library"""
+        """Initialize the JHD1802 using file python library"""
         try:
             # Check BB-I2C1-JHD1802 whether install successfully
             # if not reinstall it             
@@ -63,9 +63,9 @@ class JHD1802:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of hd44780")
     def SetText(self, text):
-    """Display the string on LCD
-       text:content on LCD
-    """
+        """Display the string on LCD
+           text:content on LCD
+        """
         try:
             with open('/dev/lcd0', 'w') as f:
                 f.write('\x1b[H')

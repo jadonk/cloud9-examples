@@ -1,6 +1,6 @@
 # Setup of pocketbeagle kit
 
-firstly, you should visit [Getting_Started](https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#331_Getting_Started) to get a start. 
+Firstly, you should visit [Getting_Started](https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#331_Getting_Started) to get a start. 
 Then maybe you can read below information to get how to connect wifi and get IP.
 `connmanctl` is a tool that connects Pockbeagle to the internet with WiFi Dongle, please refer below command
 

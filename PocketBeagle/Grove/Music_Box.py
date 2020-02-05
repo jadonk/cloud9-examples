@@ -44,7 +44,7 @@ Rainbow_Index = 0
 RainbowFlash = False
 
 def FunTimer():
-"""Make the LED will shine like rainbow color"""
+    """Make the LED will shine like rainbow color"""
     Rainbow = [[255,0,0],[255,126,0],[255,255,0],[0,255,0],[0,255,255],[0,0,255],[255,0,255]]
     global Rainbow_Index
     global RainbowFlash
@@ -62,9 +62,9 @@ def FunTimer():
     timer.start() 
 
 def Play_Music(file):
-"""Play WAV format music
-    file:the Wav format music
-"""
+    """Play WAV format music
+        file:the Wav format music
+    """
     global timer
     # end the timer
     timer.cancel()

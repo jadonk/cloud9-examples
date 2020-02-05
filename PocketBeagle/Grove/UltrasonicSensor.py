@@ -28,8 +28,8 @@ from Shell import GetCmdReturn,os
 class HCSR04:
     """HCSR04 Ultrasonic distance sensor"""
     def __init__(self):
-    """Initialize the HCSR04 using iio python library
-    """    
+        """Initialize the HCSR04 using iio python library
+        """    
         try:
             # Config p1_31 to GPIO mode
             p1_31_pinmux = open('/sys/devices/platform/ocp/ocp:P1_31_pinmux/state', 'w')
@@ -58,9 +58,9 @@ class HCSR04:
             print("maybe you should reinstall the driver of hcsr04")       
          
     def GetDistance(self):
-    """Get the GetDistance using IIO python library
-    """
-            return int(self.dev.find_channel("distance", False).attrs["input"].value)
+        """Get the GetDistance using IIO python library
+        """
+        return int(self.dev.find_channel("distance", False).attrs["input"].value)
 def main():
     Distance = HCSR04()
     while True:

@@ -49,10 +49,10 @@ class ADC:
         self.AIN.append(self.dev.find_channel("voltage6", False))
         self.AIN.append(self.dev.find_channel("voltage7", False))
     def get(self, n):
-    """Get ADC's data
-        n:The channel of ADC(0~7) 
-        return: data of ADC[n] 
-    """
+        """Get ADC's data
+           n:The channel of ADC(0~7)
+           return: data of ADC[n]
+        """
         return int(self.AIN[n].attrs["raw"].value)
 
 def main():

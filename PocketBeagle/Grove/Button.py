@@ -29,7 +29,7 @@ import evdev
 class BUTTON:
 
     def __init__(self):
-    """Initialize the BUTTON using evdev python library"""
+        """Initialize the BUTTON using evdev python library"""
         try:
             # Config p2_35 and p2_05 to GPIO mode
             p2_35_pinmux = open('/sys/devices/platform/ocp/ocp:P2_35_pinmux/state', 'w')
@@ -59,14 +59,14 @@ class BUTTON:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of button")
     def GetKeyStatus(self):  
-    """Get two button's Value
-        return:[](Button isn't pressed),[256],[257](Button is pressed)
-    """
+        """Get two button's Value
+            return:[](Button isn't pressed),[256],[257](Button is pressed)
+        """
         return self.button.active_keys()
     def read_loop(self):
-    """Read two button's status constantly
-        return:two button's status
-    """
+        """Read two button's status constantly
+            return:two button's status
+        """
         return self.button.read_loop()
 
 def main():

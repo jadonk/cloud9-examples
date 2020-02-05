@@ -56,8 +56,8 @@ signal.signal(signal.SIGINT, signal_handler)
 print('Listening... Press Ctrl+C to exit')
 
 def callback():
-"""Make LED blink once
-"""
+    """Make LED blink once
+    """
     LED.set(0,255,255,0)
     LED.set(1,255,255,0)
     time.sleep(1)

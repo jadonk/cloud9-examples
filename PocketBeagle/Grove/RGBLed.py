@@ -27,9 +27,9 @@ from Shell import GetCmdReturn,os
 class P981X:
     """P981X RGB LED Driver"""
     def __init__(self, leds = 2):
-    """Initialize the P981X using file python library
-        leds:the LED's chain length (defult leds = 2)
-    """
+        """Initialize the P981X using file python library
+            leds:the LED's chain length (defult leds = 2)
+        """
         try:
             # Check BB-GPIO-P9813 whether install successfully
             # if not reinstall it             
@@ -52,12 +52,12 @@ class P981X:
             print("maybe you should reinstall the driver of p981x")
 
     def set(self, led, red, green, blue):
-    """Set LED's value of R,G,B
-        led:which one on LED's chain(defult 0 or 1)
-        red:The value that describes R of R,G,B(0~255)
-        green:The value that describes G of R,G,B(0~255)
-        blue:The value that describes B of R,G,B(0~255)
-    """
+        """Set LED's value of R,G,B
+            led:which one on LED's chain(defult 0 or 1)
+            red:The value that describes R of R,G,B(0~255)
+            green:The value that describes G of R,G,B(0~255)
+            blue:The value that describes B of R,G,B(0~255)
+        """
         try:
             self.f.write('D %d %d %d %d\n'%(led,red,green,blue))
             self.f.flush()

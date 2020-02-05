@@ -7,7 +7,7 @@ sudo apt update
 sudo apt-get install linux-headers-$(uname -r) -y
 ```
 
-- Step 2. Get the `seeed-linux-dtoverlay` source code, install and reboot.(Default installed)
+- Step 2. Get the `seeed-linux-dtoverlay` source code, install and reboot.
 
 seeed-linux-dtoverlay is a packet that can make some Grove become a file that can be read and write on Linux.
 
@@ -45,4 +45,10 @@ debian@beaglebone:~$ aplay -l
 card 0: Audio [GroveBaseCape Audio], device 0: davinci-mcasp.0-tlv320aic3x-hifi tlv320aic3x-hifi-0 [davinci-mcasp.0-tlv320aic3x-hifi tlv320aic3x-hifi-0]
   Subdevices: 1/1
   Subdevice #0: subdevice #0
+```
+- Step 5.Set default sound card
+
+```bash
+cd ~/seeed-linux-dtverlays/extras/
+sudo cp tlv320aic3104.conf.txt  /etc/asound.conf
 ```

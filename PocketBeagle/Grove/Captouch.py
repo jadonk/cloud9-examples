@@ -26,7 +26,7 @@ from Shell import GetCmdReturn,os
 class MPR121:
     """MPR121 12 Key Capacitive I2C Touch Sensor"""
     def __init__(self):
-    """Initialize the MPR121 using file python library"""
+        """Initialize the MPR121 using file python library"""
         try:
             # Check BB-I2C2-mpr121 whether install successfully
             # if not reinstall it             
@@ -70,13 +70,13 @@ class MPR121:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of mpr121")
     def parse_and_print_Input(self,Input):
-    """Parse the raw data form MPR121 to List 
-    that describes which one is touched on 
-    12 Key Capacitive I2C Touch Sensor.
-    Input:raw data form MPR121
-    return:List that describes which one is touched on 
-    12 Key Capacitive I2C Touch Sensor.
-    """
+        """Parse the raw data form MPR121 to List 
+        that describes which one is touched on 
+        12 Key Capacitive I2C Touch Sensor.
+        Input:raw data form MPR121
+        return:List that describes which one is touched on 
+        12 Key Capacitive I2C Touch Sensor.
+        """
     
         CHANNEL_NUM = 12
         InputStr = [1, 1, 1]
@@ -99,9 +99,9 @@ class MPR121:
                         TouchValue[i] = 0
         return TouchValue
     def get(self):
-    """Get the raw data form MPR121
-    return:Raw data form MPR121
-    """
+        """Get the raw data form MPR121
+        return:Raw data form MPR121
+        """
         value = 0
         try:
             self.f.seek(0)
