@@ -53,4 +53,3 @@ def main():
             print(evdev.categorize(event))
 if __name__ == "__main__":
     main()
-    

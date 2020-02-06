@@ -45,5 +45,4 @@ def main():
         print('The Distance is:%d'%(Distance.GetDistance()), end = '        \r')
         time.sleep(0.5)
 if __name__ == "__main__":
-    main()         
-    
+    main()
