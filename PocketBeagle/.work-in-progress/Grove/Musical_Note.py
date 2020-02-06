@@ -62,7 +62,7 @@ def main():
         print("Distance is %3d \r" %distance, end = '')
         #Speaker will play different music When the HCSR04 get different distance
         if distance < 240:
-            Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[distance//40])
+            Play_Music("/tmp/scale/%s"%_SCALE_DEFS[distance//40])
         time.sleep(1)
 if __name__ == "__main__":
     main()

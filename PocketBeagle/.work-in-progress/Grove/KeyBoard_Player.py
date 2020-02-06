@@ -45,6 +45,8 @@ def PlayMusic(file):
     stream.start_stream()
     #Enter the while loop,when the Mpr121 is pressed 
     while stream.is_active():
+        global Mpr121
+        global Mpr121Data
         Mpr121Data = Mpr121.get()
         time.sleep(0.01)  
     # stop stream

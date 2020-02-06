@@ -18,6 +18,7 @@ _SCALE_DEFS = [
    'ti.wav',
    'do+.wav'
    ]
+Mpr121Data = [0]*2
 def Play_Music(file):
     """Play WAV format music when the Mpr121 is pressed 
         file:the Wav format music
@@ -46,6 +47,8 @@ def Play_Music(file):
     stream.start_stream()
     #Enter the while loop,when the Mpr121 is pressed
     while stream.is_active():
+        global Mpr121
+        global Mpr121Data
         Mpr121Data = Mpr121.get()
         time.sleep(0.01)  
     # stop stream

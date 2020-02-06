@@ -79,11 +79,6 @@ def Play_Music(file):
     # start the timer
     timer = threading.Timer(0.5, FunTimer)
     timer.start()     
-def GetCmdReturn(cmd):
-    r = os.popen(cmd)
-    text = r.read() 
-    r.close()
-    return text.strip('\n')    
 LED = P981X()
 def main():
     Adx134x = ADX134X()
