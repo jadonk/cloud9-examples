@@ -109,7 +109,6 @@ gpsmon
 sudo apt install -y python3-libiio portaudio19-dev python3-all-dev -y
 sudo pip3 install python-periphery python-uinput pyaudio tqdm
 ```
-
 # [mikroBus Grove Adapter](https://www.tindie.com/products/pmunts/mikrobus-grove-adapter-3/)
 
 | Grove socket and pin | mikroBUS name | Position 1 PocketBeagle pin | Position 2 PocketBeagle pin |

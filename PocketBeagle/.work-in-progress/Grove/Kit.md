@@ -1,53 +1,8 @@
-# BeagleBoard.org PocketBeagle Grove Kit
+# Setup of pocketbeagle kit
 
-
-![](img/_DAS6325.jpg)
-
-
-PocketBeagle is an ultra-tiny-yet-complete open-source USB-key-fob computer. PocketBeagle features an incredibly low cost, slick design, and simple usage, making PocketBeagle the ideal development board for beginners and professionals alike. Its rich features allow users to programmatically control external devices and obtain data from external devices.
-
-Grove is a modular, standardized connector prototyping system. Consisting of Sensor, Actuator, Display, Communication, and Other function modules. Grove takes a building block approach to assemble electronics. Compared to the jumper or solder based system, it is easier to connect, experiment and build and simplifies the learning system. 
-
-BeagleBoard.org PocketBeagle Grove Kit combines the Grove sensor modules with the powerful programming capabilities of PocketBeagle, allowing students to interact with music using real-world information such as light, touch, keyboard, Slide Potentiometer, posture and so on, to create cool projects.
-
-## Hardware Overview
-
-![](img/pin.jpg)
-
-
-
-**Part List:**
-
-- <font size="4" color="red">①</font> [Grove - Analog Microphone](TBD)
-- <font size="4" color="red">②</font> [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
-- <font size="4" color="red">③</font> [Grove - Ultrasonic Distance Sensor](http://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/)
-- <font size="4" color="red">④</font> [Grove - Rotary Angle Sensor](http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/)
-- <font size="4" color="red">⑤</font> [Grove - Slide Potentiometer](http://wiki.seeedstudio.com/Grove-Slide_Potentiometer/)
-- <font size="4" color="red">⑥</font> [Grove - Button](http://wiki.seeedstudio.com/Grove-Button/)
-- <font size="4" color="red">⑦</font> [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
-- <font size="4" color="red">⑧</font> [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/)
-- <font size="4" color="red">⑨</font> [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
-- <font size="4" color="red">⑩</font> [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
-- <font size="4" color="red">⑪</font> [BeagleBoard.org PocketBeagle](https://beagleboard.org/pocket)
-- <font size="4" color="red">⑫</font> [10pcs Alligator Cable](https://www.seeedstudio.com/10pcs-alligator-clip-test-lead-500mm-22awg-p-3087.html)
-- <font size="4" color="red">⑬</font> SD+TF Card Reader
-- <font size="4" color="red">⑭</font> WiFi Dongle
-- <font size="4" color="red">⑮</font> Acrylic shell
-
-## Setup the drivers on PocketBeagle
-
-When using the provided microSD card, or a microSD card programmed using one of the provided grove-kit images, drivers and overlays to configure those drivers are already setup.
-
-Visit [PocketBeagle Getting Started section in the System Reference Manual](https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#331_Getting_Started) for 
-information about getting started with PocketBeagle.
-
-See https://debian.beagleboard.org/images/grove for the latest provided grove-kit images. Use the Getting Started instructions for programming the microSD card.
-
-Read [PocketBeagle Grove Kit-setup](Kit-setup.md) to learn more about the customizations applied to this image.
-
-## Connect WiFi by using connmanctl
-
-`connmanctl` is a tool that connects PocketBeagle to the Internet using the WiFi dongle. Please refer to the commands below.
+Firstly, you should visit [Getting_Started](https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#331_Getting_Started) to get a start. 
+Then maybe you can read below information to get how to connect wifi and get IP.
+`connmanctl` is a tool that connects Pockbeagle to the internet with WiFi Dongle, please refer below command
 
 ```bash
 debian@beaglebone:~$ sudo connmanctl
@@ -73,25 +28,27 @@ Passphrase? *************
 Connected wifi_e8de27077de3_41483034303434393134_managed_psk
 connmanctl> quit
 ```
+we can use `ifconfig` to get IP of pocketbeagle
 
 # Lesson - 1. Control the Light
 
 ## Description:
 
-In this lesson, students will light up the RGB LED, and learn how to use Slide Potentiometer and Rotary Angle Sensor to change the light of RGB LED.
+In this lesson, students will light up the RGB LED and LCD, and learn how to use Slide Potentiometer and Rotary Angle Sensor to change the light of RGB LED.
 
 ## Hardware Requirement:
 
 - [Grove - Slide Potentiometer](https://www.seeedstudio.com/Grove-Slide-Potentiometer.html)
 - [Grove - Rotary Angle Sensor](http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/)
 - [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
-
+- [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
 
 ## Hardware Connection
  
 - Plug the Grove - Slide Potentiometer into **A0** port
 - Plug the Grove - Rotary Angle Sensor into **A5** port
-- Grove - Chainable RGB LED into **A2** port
+- Plug the Grove - Chainable RGB LED into **A2** port
+- Plug the Grove - 16x2 LCD into **I2C1** port
 - Power PocketBeagle via the **micro USB** port
 
 ![](img/_DAS6312-1.jpg)
@@ -99,7 +56,7 @@ In this lesson, students will light up the RGB LED, and learn how to use Slide P
 
 ## Software
 
-- Step 1. Enter Cloud9 IDE by typing IP of Pocket Beagle
+- Step 1. Enter Cloud9 IDE by typing IP of PocketBeagle
 - Step 2. Select PocketBeagle -> Grove
 - Step 3. Run the Control_the_Light.py by using Runner:Python.
 
@@ -133,7 +90,10 @@ In this lesson, students can move their hand in front of the ultrasonic distance
 
 - Step 1. Enter Cloud9 IDE by typing IP of PocketBeagle
 - Step 2. Select PocketBeagle -> Grove
-- Step 3. Run the tone_generator.py by using Runner:Python.
+- Step 3. Run the ToneGenerator.py by using Runner:Python.
+
+**NOTE** : we should run ToneGenerator.py when we restart after.
+
 - Step 4. Run the Musical_Note.py by using Runner:Python.
 
 ## Success
@@ -166,12 +126,12 @@ The LCD will show the name of the song.
 
 ## Software
 
-- Step 1. Enter Cloud9 IDE by typing IP of Pocket Beagle
+- Step 1. Enter Cloud9 IDE by typing IP of PocketBeagle
 - Step 2. Select PocketBeagle -> Grove
-- Step 3. Run the Musical_Note.py by using Runner:Python.
+- Step 3. Run the Switch_the_Music.py by using Runner:Python.
 
 ## success
-        Now please please slowly change the distance between your hand and the ultrasonic distance sensor, you can find the distance value in the LCD change and the music switched by the distance.
+        Now please try to press the two buttons, check the LCD, and listen to the music.
 
 
 # Lesson - 4. Download Music via the WIFI dongle
@@ -202,26 +162,11 @@ The LCD will show the name of the song.
 
 ## Software
 
-- Step 1.Connect wifi that connects with your computer by using `connmanctl`
-
-if you don't know how to use `connmanctl`, maybe you should review the previous lessons
-
-- Step 2.Download [winscp](https://winscp.net/eng/download.php).
-
-TODO: Cloud9 IDE can be used to upload files.
-
-- Step 3. Open winscp and type the hostname and username 
-
-![](img/winscp.png)
-the hostname is an IP address of Pockbeagle that can use ifconfig to find it. The username is `debian`
-
-- Step 4. Drag your music file to `/home/debian/scale`(Please select *.wav to /home/debian/scale)
-
-![](img/drag_music_file.png)
-
-- Step 5. Enter Cloud9 by typing IP of Pocket Beagle
-- Step 6. Select PocketBeagle -> Grove
-- Step 7. Run the Musical_Note.py by using Runner:Python.
+- Step 1. Enter Cloud9 by typing IP of PocketBeagle
+- Step 2. Select PocketBeagle -> Grove
+- Step 3. Select File -> Upload Local Files.
+- Step 4. Drag `xxx.wav` that you want to play to Cloud9.
+- Step 5. Run the Switch_the_Music.py by using Runner:Python.
 
 ## success
 
@@ -237,20 +182,20 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 ## Hardware Requirement:
 
 - [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
-- [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove – Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
 
 ## Hardware Connection
 
-- Plug the Grove – Speaker into **UART2** port
+- Plug the Grove – Speaker Plus into **UART2** port
 - Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C2** port
-- Power the Pocket Beagle via the **micro USB** port
+- Power the PocketBeagle via the **micro USB** port
 
 ![](img/project-5.jpg)
 
 
 ## Software
 
-- Step 1. Enter Cloud9 by typing IP of Pocket Beagle
+- Step 1. Enter Cloud9 by typing IP of PocketBeagle
 - Step 2. Select PocketBeagle -> Grove
 - Step 3. Run the KeyBoard_Player.py by using Runner:Python.
 
@@ -262,7 +207,7 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 
 ## Description:
 
-In this lesson, students will learn how to use the capacitive touch sensor to play the song <Twinkle Star>. And the RGB LED will have different color based on different music note.
+In this lesson, students will learn how to use the capacitive touch sensor to play the song. And the RGB LED will have different color based on different music note.
 
 ### Hardware Requirement:
 
@@ -283,7 +228,7 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 
 ## Software
 
-- Step 1. Enter Cloud9 by typing IP of Pocket Beagle
+- Step 1. Enter Cloud9 by typing IP of PocketBeagle
 - Step 2. Select PocketBeagle -> Grove
 - Step 3. Run the Start_the_Party.py by using Runner:Python.
 
@@ -314,7 +259,7 @@ In this lesson, students will learn how to use the Grove - 3-Axis Accelerometer 
 
 ## Software
 
-- Step 1. Enter Cloud9 by typing IP of Pocket Beagle
+- Step 1. Enter Cloud9 by typing IP of PocketBeagle
 - Step 2. Select PocketBeagle -> Grove
 - Step 3. Run the KeyBoard_Player.py by using Runner:Python.
 
@@ -331,12 +276,14 @@ In this lesson, students will learn how to install the snowboy of Kitt-AI and us
 ## Hardware Requirement:
 
 - [Grove - Analog Microphone](http://wiki.seeedstudio.com/Grove-Speaker/)
-- [Grove - Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+- [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
+- [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 
 ## Hardware Connection
 
 - Plug the Grove - Speaker Plus into **UART2** port
 - Plug the Grove - Analog Microphone into **PWM** port
+- Plug the Chainable RGB LED X 2 into **A2** port
 - Power PocketBeagle via the micro **USB** port
 
 
@@ -347,9 +294,8 @@ In this lesson, students will learn how to install the snowboy of Kitt-AI and us
 - Step 3. Search Ok_Beagle hotword model through [snowboy](https://snowboy.kitt.ai/dashboard)
 - Step 4. Click the `Record and Download` to provide data of sound for Ok_Beagle.
 - Step 5. Download the Ok_Beagle.pmdl from the [website](https://snowboy.kitt.ai/hotword/46889)
-- Step 6. Move Ok_Beagle.pmdl to ~/snowboy/resources/models/
-![](img/Ok_Beagle.png)
+- Step 6. Darg Ok_Beagle.pmdl to clound9 like lesson4
 - Step 7. Run the Ok_Beagel.py by using Runner:Python.
 
 ## success
-        Pocket will light up when we say Ok_Beagle to mic.
+        pocketbeagle will light up when we say Ok_Beagle to mic.
