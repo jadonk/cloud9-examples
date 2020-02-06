@@ -10,7 +10,7 @@ class MPR121:
         """Initialize the MPR121 using file python library"""
         self.Path = '/proc/device-tree/aliases/mpr121'
         self.Mpr121Init = '/sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init'
-        self.Mpr121Data = '/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data'
+        self.Mpr121Data = '/sys/bus/i2c/drivers/mpr121/2-005b/mpr121_data'
         try:
             # Check BB-I2C2-mpr121 whether install successfully
             # if not reinstall it             
