@@ -10,7 +10,22 @@ def GetCmdReturn(cmd):
     text = r.read() 
     r.close()
     return text.strip('\n')    
+def InstallDTBO(DTBO):
+    """Install Dtbo using dd cmd
+        DTBO :  DTBO package to be installed
+        return :the CMD's output
+    """
+    # Build file using mkdir
+    GetCmdReturn('sudo mkdir -p \
+    /sys/kernel/config/device-tree/overlays/$DTBO')  
+    # Install dtbo using dd
+    DTBO_PATH = DTBO + '.dtbo'
+    GetCmdReturn('sudo dd \
+    of=/sys/kernel/config/device-tree/overlays/$DTBO/dtbo \
+    if=/lib/firmware/$DTBO_PATH')   
+    
 def main():
     print(GetCmdReturn('pwd'))
+    InstallDTBO('BB-GPIO-GROVE-BUTTON')
 if __name__ == "__main__":
     main()

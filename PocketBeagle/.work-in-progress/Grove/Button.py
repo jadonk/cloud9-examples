@@ -3,7 +3,7 @@
 # [Grove - Button](http://wiki.seeedstudio.com/Grove-Button/) on UART4
 # [Grove - Button](http://wiki.seeedstudio.com/Grove-Button/) on A5
 import time
-from Shell import GetCmdReturn,os
+from Shell import InstallDTBO,os
 import evdev
 class BUTTON:
     def __init__(self):
@@ -19,12 +19,8 @@ class BUTTON:
             # Check BB-GPIO-GROVE-BUTTON whether install successfully
             # if not reinstall it            
             if not os.path.exists('/proc/device-tree/gpio_keys/grove_button_1057_0@0'):
-                GetCmdReturn('sudo mkdir -p \
-                /sys/kernel/config/device-tree/overlays/BB-GPIO-GROVE-BUTTON')
-                GetCmdReturn('sudo dd \
-                of=/sys/kernel/config/device-tree/overlays/BB-GPIO-GROVE-BUTTON/dtbo \
-                if=/lib/firmware/BB-GPIO-GROVE-BUTTON.dtbo')
-                while not os.path.exists('/proc/device-tree/aliases/mpr121'):
+                InstallDTBO('BB-GPIO-GROVE-BUTTON')
+                while not os.path.exists('/proc/device-tree/gpio_keys/grove_button_1057_0@0'):
                     time.sleep(0.1)   
             #Input Button using evdev python library
             try:

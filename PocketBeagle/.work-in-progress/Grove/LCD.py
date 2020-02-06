@@ -11,11 +11,7 @@ class JHD1802:
             # Check BB-I2C1-JHD1802 whether install successfully
             # if not reinstall it             
             if not os.path.exists('/proc/device-tree/aliases/jhd1802'):
-                GetCmdReturn('sudo mkdir -p \
-                /sys/kernel/config/device-tree/overlays/BB-I2C1-JHD1802')
-                GetCmdReturn('sudo dd \
-                of=/sys/kernel/config/device-tree/overlays/BB-I2C1-JHD1802/dtbo \
-                if=/lib/firmware/BB-I2C1-JHD1802.dtbo')
+                InstallDTBO('BB-I2C1-JHD1802')
                 while not os.path.exists('/proc/device-tree/aliases/jhd1802'):
                     time.sleep(0.1)
             #Reinstall hd44780 module to support hot plug        

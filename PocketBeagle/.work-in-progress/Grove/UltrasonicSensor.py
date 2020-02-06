@@ -18,11 +18,7 @@ class HCSR04:
             # Check BB-GPIO-HCSR04 whether install successfully
             # if not reinstall it            
             if not os.path.exists('/proc/device-tree/hcsr04_1057@20'):
-                GetCmdReturn('sudo mkdir -p \
-                /sys/kernel/config/device-tree/overlays/BB-GPIO-HCSR04')                  
-                GetCmdReturn('sudo dd \
-                of=/sys/kernel/config/device-tree/overlays/BB-GPIO-HCSR04/dtbo \
-                if=/lib/firmware/BB-GPIO-HCSR04.dtbo')                    
+                InstallDTBO('BB-GPIO-P9813')                
                 while not os.path.exists('/proc/device-tree/hcsr04_1057@20'):
                     time.sleep(0.1)   
             # Scan the adxl345 by using IIO python library        

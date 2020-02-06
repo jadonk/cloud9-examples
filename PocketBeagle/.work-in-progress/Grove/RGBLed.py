@@ -13,11 +13,7 @@ class P981X:
             # Check BB-GPIO-P9813 whether install successfully
             # if not reinstall it             
             if not os.path.exists('/proc/device-tree/p981x_1057@20'):
-                GetCmdReturn('sudo mkdir -p \
-                /sys/kernel/config/device-tree/overlays/BB-GPIO-P9813')
-                GetCmdReturn('sudo dd \
-                of=/sys/kernel/config/device-tree/overlays/BB-GPIO-P9813/dtbo \
-                if=/lib/firmware/BB-GPIO-P9813.dtbo')
+                InstallDTBO('BB-GPIO-P9813')
                 while not os.path.exists('/proc/device-tree/p981x_1057@20'):
                     time.sleep(0.1)
             #Open the /dev/p981x0 using file python library             

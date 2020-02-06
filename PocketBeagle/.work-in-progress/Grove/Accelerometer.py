@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 # [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/) on I2C2
 import time
-from Shell import GetCmdReturn,os
+from Shell import GetCmdReturn,os,InstallDTBO
 import iio
 import math
 class ADX134X:
@@ -18,11 +18,7 @@ class ADX134X:
             # Check BB-I2C2-ADXL34X whether install successfully
             # if not reinstall it
             if not os.path.exists('/proc/device-tree/aliases/adxl345'):
-                subprocess.call(['sudo', 'mkdir', '-p',
-                    '/sys/kernel/config/device-tree/overlays/BB-I2C2-ADXL34X'])
-                subprocess.call(['sudo', 'dd',
-                    'of=/sys/kernel/config/device-tree/overlays/BB-I2C2-ADXL34X/dtbo',
-                    'if=/lib/firmware/BB-I2C2-ADXL34X.dtbo'])
+                InstallDTBO('BB-I2C2-ADXL34X')
                 while not os.path.exists('/proc/device-tree/aliases/adxl345'):
                     time.sleep(0.1) 
             #  Reinstall adxl345_xxx module to support hot plug                   

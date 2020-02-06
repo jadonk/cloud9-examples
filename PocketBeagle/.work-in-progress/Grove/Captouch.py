@@ -11,11 +11,7 @@ class MPR121:
             # Check BB-I2C2-mpr121 whether install successfully
             # if not reinstall it             
             if not os.path.exists('/proc/device-tree/aliases/mpr121'):
-                GetCmdReturn('sudo mkdir -p \
-                /sys/kernel/config/device-tree/overlays/BB-I2C2-mpr121')
-                GetCmdReturn('sudo dd \
-                of=/sys/kernel/config/device-tree/overlays/BB-I2C2-mpr121/dtbo \
-                if=/lib/firmware/BB-I2C2-mpr121.dtbo')
+                InstallDTBO('BB-I2C2-mpr121')
                 while not os.path.exists('/proc/device-tree/aliases/mpr121'):
                     time.sleep(0.1)  
             #Reinstall mpr121 module to support hot plug        
