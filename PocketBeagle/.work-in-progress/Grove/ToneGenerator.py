@@ -4,7 +4,8 @@ import numpy as np
 import pyaudio
 import wave
 import time
-from Shell import GetCmdReturn,os
+from Shell import GetCmdReturn
+import os
 tone_freq_map={"do": 261.5, "re": 293.4,"me": 329.5,"fa": 349.1,"so": 391.7,"la": 440,"ti": 493.8,"do+":523}
 _SCALE_DEFS = [
    'do.wav',
@@ -32,16 +33,15 @@ def synthesizer(freq,duration = 10,amp=250,sampling_freq=framerate):
 def main():
     # Rebuild the /tmp/scale
     GetCmdReturn('sudo rm -rf /tmp/scale')
-    if not os.path.exists('/tmp/scale'):
-        GetCmdReturn('sudo mkdir /tmp/scale')
-        while not os.path.exists('/tmp/scale'):
-            time.sleep(0.1)
-        GetCmdReturn('sudo touch do.wav')
+    while os.path.exists('/tmp/scale'):
+        time.sleep(0.1)    
+    GetCmdReturn('sudo mkdir /tmp/scale')
+    while not os.path.exists('/tmp/scale'):
+        time.sleep(0.1)
+    GetCmdReturn('sudo chown debian:debian /tmp/scale')
     tone_freq = [ v for v in sorted(tone_freq_map.values())]
     for i in range(len(tone_freq)):
         # Set tone to wav
-        TONE_NAME = _SCALE_DEFS[i]
-        GetCmdReturn('sudo chmod 777 /tmp/scale/$TONE_NAME')
         f = wave.open( "/tmp/scale/%s"%_SCALE_DEFS[i],"wb")
         f.setnchannels(channels)
         f.setsampwidth(sampwidth)
