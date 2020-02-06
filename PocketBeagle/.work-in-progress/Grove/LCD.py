@@ -8,21 +8,23 @@ class JHD1802:
     """JHD1802 LCD Driver"""
     def __init__(self):
         """Initialize the JHD1802 using file python library"""
+        self.Path = '/proc/device-tree/aliases/jhd1802'
+        self.Lcd0 = '/dev/lcd0'
         try:
             # Check BB-I2C1-JHD1802 whether install successfully
             # if not reinstall it             
-            if not os.path.exists('/proc/device-tree/aliases/jhd1802'):
+            if not os.path.exists(self.Path):
                 InstallDTBO('BB-I2C1-JHD1802')
-                while not os.path.exists('/proc/device-tree/aliases/jhd1802'):
+                while not os.path.exists(self.Path):
                     time.sleep(0.1)
             #Reinstall hd44780 module to support hot plug        
             ReinstallModule('hd44780')
             try:
                 #Open the /dev/lcd0 using file python library
-                self.f = open('/dev/lcd0', 'w')
+                self.f = open(self.Lcd0, 'w')
             except IOError as err:
-                GetCmdReturn('sudo chmod 777 /dev/lcd0')
-                self.f = open('/dev/lcd0', 'w')
+                GetCmdReturn('sudo chmod 777 %s'%self.Lcd0)
+                self.f = open(self.Lcd0, 'w')
             #Clean LCD 
             self.f.write('\x1b[2J')
             self.f.write('\x1b[H')
@@ -35,7 +37,7 @@ class JHD1802:
            text:content on LCD
         """
         try:
-            with open('/dev/lcd0', 'w') as f:
+            with open(self.Lcd0, 'w') as f:
                 f.write('\x1b[H')
                 f.write('%s'%text)
         except IOError as err:

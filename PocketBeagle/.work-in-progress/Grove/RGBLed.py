@@ -10,15 +10,17 @@ class P981X:
         """Initialize the P981X using file python library
             leds:the LED's chain length (defult leds = 2)
         """
+        self.Path = '/proc/device-tree/p981x_1057@20'
+        self.P981x0 = '/dev/p981x0'
         try:
             # Check BB-GPIO-P9813 whether install successfully
             # if not reinstall it             
-            if not os.path.exists('/proc/device-tree/p981x_1057@20'):
+            if not os.path.exists(self.Path):
                 InstallDTBO('BB-GPIO-P9813')
-                while not os.path.exists('/proc/device-tree/p981x_1057@20'):
+                while not os.path.exists(self.Path):
                     time.sleep(0.1)
             #Open the /dev/p981x0 using file python library             
-            self.f = open('/dev/p981x0', 'w')
+            self.f = open(self.P981x0, 'w')
             #Set the LED's chain length
             self.f.write('N %d\n'%leds)
             self.f.flush()

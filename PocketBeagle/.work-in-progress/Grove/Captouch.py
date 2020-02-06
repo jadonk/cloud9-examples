@@ -8,24 +8,25 @@ class MPR121:
     """MPR121 12 Key Capacitive I2C Touch Sensor"""
     def __init__(self):
         """Initialize the MPR121 using file python library"""
+        self.Path = '/proc/device-tree/aliases/mpr121'
+        self.Mpr121Init = '/sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init'
+        self.Mpr121Data = '/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data'
         try:
             # Check BB-I2C2-mpr121 whether install successfully
             # if not reinstall it             
-            if not os.path.exists('/proc/device-tree/aliases/mpr121'):
+            if not os.path.exists(self.Path):
                 InstallDTBO('BB-I2C2-mpr121')
-                while not os.path.exists('/proc/device-tree/aliases/mpr121'):
+                while not os.path.exists(self.Path):
                     time.sleep(0.1)  
             #Reinstall mpr121 module to support hot plug        
             ReinstallModule('mpr121')
-            if not os.path.exists('/sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init'):
+            if not os.path.exists(self.Mpr121Init):
                 ReinstallModule('mpr121') 
             #Enable mpr121
-            GetCmdReturn('sudo chmod 777\
-            /sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init')
-            GetCmdReturn('echo 1 >\
-            /sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init') 
+            GetCmdReturn('sudo chmod 777 %s'%self.Mpr121Init)
+            GetCmdReturn('echo 1 > %s'%self.Mpr121Init) 
             #Open the mpr121_data using file python library
-            self.f = open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r')   
+            self.f = open(self.Mpr121Data, 'r')   
         except IOError as err:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of mpr121")

@@ -9,15 +9,16 @@ import evdev
 class BUTTON:
     def __init__(self):
         """Initialize the BUTTON using evdev python library"""
+        self.Path = '/proc/device-tree/gpio_keys/grove_button_1057_0@0'
         try:
             # Config p2_35 and p2_05 to GPIO mode
             ConfigGPIO('P2_35')
             ConfigGPIO('P2_05')
             # Check BB-GPIO-GROVE-BUTTON whether install successfully
             # if not reinstall it            
-            if not os.path.exists('/proc/device-tree/gpio_keys/grove_button_1057_0@0'):
+            if not os.path.exists(self.ButtonPath):
                 InstallDTBO('BB-GPIO-GROVE-BUTTON')
-                while not os.path.exists('/proc/device-tree/gpio_keys/grove_button_1057_0@0'):
+                while not os.path.exists(self.ButtonPath):
                     time.sleep(0.1)   
             #Input Button using evdev python library
             try:

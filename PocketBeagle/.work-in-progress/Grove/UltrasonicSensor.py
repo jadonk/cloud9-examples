@@ -10,14 +10,15 @@ class HCSR04:
     def __init__(self):
         """Initialize the HCSR04 using iio python library
         """    
+        self.Path = '/proc/device-tree/hcsr04_1057@20'
         try:
             # Config P1_31 to GPIO mode
             ConfigGPIO('P1_31')
             # Check BB-GPIO-HCSR04 whether install successfully
             # if not reinstall it            
-            if not os.path.exists('/proc/device-tree/hcsr04_1057@20'):
+            if not os.path.exists(self.Path):
                 InstallDTBO('BB-GPIO-P9813')                
-                while not os.path.exists('/proc/device-tree/hcsr04_1057@20'):
+                while not os.path.exists(self.Path):
                     time.sleep(0.1)   
             # Scan the adxl345 by using IIO python library        
             self.contexts = iio.scan_contexts()
