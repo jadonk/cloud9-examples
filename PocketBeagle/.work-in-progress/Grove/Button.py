@@ -16,9 +16,9 @@ class BUTTON:
             ConfigGPIO('P2_05')
             # Check BB-GPIO-GROVE-BUTTON whether install successfully
             # if not reinstall it            
-            if not os.path.exists(self.ButtonPath):
+            if not os.path.exists(self.Path):
                 InstallDTBO('BB-GPIO-GROVE-BUTTON')
-                while not os.path.exists(self.ButtonPath):
+                while not os.path.exists(self.Path):
                     time.sleep(0.1)   
             #Input Button using evdev python library
             try:

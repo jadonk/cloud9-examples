@@ -19,9 +19,9 @@ class ADX134X:
         try:
             # Check BB-I2C2-ADXL34X whether install successfully
             # if not reinstall it
-            if not os.path.exists(self.Adxl345Path):
+            if not os.path.exists(self.Path):
                 InstallDTBO('BB-I2C2-ADXL34X')
-                while not os.path.exists(self.Adxl345Path):
+                while not os.path.exists(self.Path):
                     time.sleep(0.1) 
             #  Reinstall adxl345_xxx module to support hot plug                   
             ReinstallModule('adxl345_i2c')    
