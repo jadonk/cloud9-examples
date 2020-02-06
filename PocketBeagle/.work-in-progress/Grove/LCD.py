@@ -2,7 +2,8 @@
 # -*- coding: UTF-8 -*-
 # [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/) on I2C1
 import time
-from Shell import GetCmdReturn,os
+from Shell import ReinstallModule,InstallDTBO,GetCmdReturn
+import os
 class JHD1802:
     """JHD1802 LCD Driver"""
     def __init__(self):
@@ -15,13 +16,7 @@ class JHD1802:
                 while not os.path.exists('/proc/device-tree/aliases/jhd1802'):
                     time.sleep(0.1)
             #Reinstall hd44780 module to support hot plug        
-            if 'hd44780' in GetCmdReturn('lsmod | grep hd44780'):
-                GetCmdReturn('sudo rmmod hd44780')  
-            while 'hd44780' in GetCmdReturn('lsmod | grep hd44780'):
-                time.sleep(0.1)   
-            GetCmdReturn('sudo modprobe -i hd44780')
-            while not 'hd44780' in GetCmdReturn('lsmod | grep hd44780'):
-                time.sleep(0.1) 
+            ReinstallModule('hd44780')
             try:
                 #Open the /dev/lcd0 using file python library
                 self.f = open('/dev/lcd0', 'w')

@@ -2,7 +2,8 @@
 # -*- coding: UTF-8 -*-
 # [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/) on I2C2
 import time
-from Shell import GetCmdReturn,os
+from Shell import ReinstallModule,InstallDTBO,GetCmdReturn
+import os 
 class MPR121:
     """MPR121 12 Key Capacitive I2C Touch Sensor"""
     def __init__(self):
@@ -15,21 +16,9 @@ class MPR121:
                 while not os.path.exists('/proc/device-tree/aliases/mpr121'):
                     time.sleep(0.1)  
             #Reinstall mpr121 module to support hot plug        
-            if 'mpr121' in GetCmdReturn('lsmod | grep mpr121'):
-                GetCmdReturn('sudo rmmod mpr121') 
-            while 'mpr121' in GetCmdReturn('lsmod | grep mpr121'):
-                time.sleep(0.1)   
-            GetCmdReturn('sudo modprobe -i mpr121')
-            while not 'mpr121' in GetCmdReturn('lsmod | grep mpr121'):
-                time.sleep(0.1)
+            ReinstallModule('mpr121')
             if not os.path.exists('/sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init'):
-                if 'mpr121' in GetCmdReturn('lsmod | grep mpr121'):
-                    GetCmdReturn('sudo rmmod mpr121') 
-                while 'mpr121' in GetCmdReturn('lsmod | grep mpr121'):
-                    time.sleep(0.1)                     
-                GetCmdReturn('sudo modprobe -i mpr121')
-                while not 'mpr121' in GetCmdReturn('lsmod | grep mpr121'):
-                    time.sleep(0.1)  
+                ReinstallModule('mpr121') 
             #Enable mpr121
             GetCmdReturn('sudo chmod 777\
             /sys/bus/i2c/drivers/mpr121/2-005b/mpr121_init')

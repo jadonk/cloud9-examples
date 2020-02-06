@@ -2,7 +2,8 @@
 # -*- coding: UTF-8 -*-
 # [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/) on A2
 import time
-from Shell import GetCmdReturn,os
+from Shell import InstallDTBO
+import os
 class P981X:
     """P981X RGB LED Driver"""
     def __init__(self, leds = 2):

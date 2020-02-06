@@ -2,7 +2,8 @@
 # -*- coding: UTF-8 -*-
 # [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/) on I2C2
 import time
-from Shell import GetCmdReturn,os,InstallDTBO
+from Shell import ReinstallModule,InstallDTBO
+import os 
 import iio
 import math
 class ADX134X:
@@ -22,27 +23,7 @@ class ADX134X:
                 while not os.path.exists('/proc/device-tree/aliases/adxl345'):
                     time.sleep(0.1) 
             #  Reinstall adxl345_xxx module to support hot plug                   
-            if 'adxl345' in GetCmdReturn('lsmod | grep adxl345_i2c'):
-                GetCmdReturn('sudo rmmod adxl345_i2c')
-                while 'adxl345' in GetCmdReturn('lsmod | grep adxl345_i2c'):
-                    time.sleep(0.1)                       
-            if 'adxl345' in GetCmdReturn('lsmod | grep adxl345_spi'): 
-                GetCmdReturn('sudo rmmod adxl345_spi')
-                while 'adxl345' in GetCmdReturn('lsmod | grep adxl345_spi'):
-                    time.sleep(0.1)                     
-            if 'adxl345' in GetCmdReturn('lsmod | grep adxl345_core'): 
-                GetCmdReturn('sudo rmmod adxl345_core')
-                while 'adxl345' in GetCmdReturn('lsmod | grep adxl345_core'):
-                    time.sleep(0.1)          
-            GetCmdReturn('sudo modprobe -i adxl345_i2c')
-            while not 'adxl345' in GetCmdReturn('lsmod | grep adxl345_i2c'):
-                time.sleep(0.1)                
-            GetCmdReturn('sudo modprobe -i adxl345_spi')    
-            while not 'adxl345' in GetCmdReturn('lsmod | grep adxl345_spi'):
-                time.sleep(0.1)                
-            GetCmdReturn('sudo modprobe -i adxl345_core')  
-            while not 'adxl345' in GetCmdReturn('lsmod | grep adxl345_core'):
-                time.sleep(0.1)
+            ReinstallModule('adxl345_i2c')    
             # Scan the adxl345 by using IIO python library        
             self.contexts = iio.scan_contexts()
             self.ctx = iio.Context("local:") 
