@@ -51,3 +51,4 @@ def main():
         print("/tmp/scale/%s generated successfully"%_SCALE_DEFS[i])
 if __name__ == "__main__":
     main()
+    

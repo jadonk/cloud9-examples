@@ -5,7 +5,7 @@ Then maybe you can read below information to get how to connect wifi and get IP.
 `connmanctl` is a tool that connects Pockbeagle to the internet with WiFi Dongle, please refer below command
 
 ```bash
-robot@ev3dev:~$ sudo connmanctl
+debian@beaglebone:~$ sudo connmanctl
 Error getting VPN connections: The name net.connman.vpn was not provided by any
 connmanctl> enable wifi
 Enabled wifi

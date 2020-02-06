@@ -32,7 +32,6 @@ class BUTTON:
             except IOError as err:
                 GetCmdReturn('sudo chmod 777 /dev/input/event1')
                 self.button = evdev.InputDevice("/dev/input/event1")
-                
         except IOError as err:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of button")
@@ -46,13 +45,12 @@ class BUTTON:
             return:two button's status
         """
         return self.button.read_loop()
-
 def main():
     d = BUTTON()
     for event in d.read_loop():
         if event.type == evdev.ecodes.EV_KEY:
             print(d.GetKeyStatus())
             print(evdev.categorize(event))
-
 if __name__ == "__main__":
     main()
+    
