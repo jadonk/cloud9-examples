@@ -10,7 +10,7 @@ if using one of the provided grove-kit images.
 
 ```bash
 sudo apt update
-sudo apt install linux-image-4.19.79-ti-r30 linux-headers-4.19.79-ti-r30 -y
+sudo apt-get install linux-headers-$(uname -r) -y
 ```
 
 - Step 2. Get the `seeed-linux-dtoverlay` source code, install and reboot.
@@ -38,7 +38,7 @@ sudo reboot
 - Step 3.Use `alsactl` command to configure TLV320AIC3104 codec
 
 ```bash
-sudo alsactl restore 0 -f /opt/source/bb.org-overlays/extras/tlv320aic3104.state.txt
+sudo alsactl restore 0 -f /etc/alsa/tlv320aic3104.state.txt
 ```
 
 - Step 4.Check if the driver of codec install successfully
@@ -52,5 +52,9 @@ card 0: Audio [GroveBaseCape Audio], device 0: davinci-mcasp.0-tlv320aic3x-hifi 
   Subdevices: 1/1
   Subdevice #0: subdevice #0
 ```
+- Step 5.Set default sound card
 
-
+```bash
+cd ~/seeed-linux-dtverlays/extras/
+sudo cp tlv320aic3104.conf.txt  /etc/asound.conf
+```

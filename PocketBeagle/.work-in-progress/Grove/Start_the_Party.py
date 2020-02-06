@@ -5,11 +5,9 @@
 # [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/) on A2
 import time
 import wave
-import os
 import pyaudio
-from tqdm import tqdm
-CHANNEL_NUM                               = 12
-ResultStr = [1, 1, 1]
+from Captouch import MPR121
+from RGBLed import P981X
 _SCALE_DEFS = [
    'do.wav',
    're.wav',
@@ -20,110 +18,71 @@ _SCALE_DEFS = [
    'ti.wav',
    'do+.wav'
    ]
+Mpr121Data = [0]*2
 def Play_Music(file):
-    global Mpr121
-    Mpr121Data = [0]*2
+    """Play WAV format music when the Mpr121 is pressed 
+        file:the Wav format music
+    """
     # define stream chunk 
     chunk = 1024
     # open a wav format music
     f = wave.open(file,"rb")
     # instantiate PyAudio
     p = pyaudio.PyAudio()
-    # open stream
+    #define callback function
     def callback(in_data, frame_count, time_info, status):
         global Mpr121Data 
         data = f.readframes(frame_count)
+        #the function will return pyaudio.paContinue when the Mpr121 is pressed 
         if Mpr121Data[0] != 0:
             return (data,pyaudio.paContinue)
         return (data,pyaudio.paComplete)
+    # open stream
     stream = p.open(format = p.get_format_from_width(f.getsampwidth()),
                                 channels = f.getnchannels(),
                                 rate = f.getframerate(),
                                 output = True,
                                 stream_callback=callback)
+    #Start stream 
     stream.start_stream()
-    
+    #Enter the while loop,when the Mpr121 is pressed
     while stream.is_active():
+        global Mpr121
+        global Mpr121Data
         Mpr121Data = Mpr121.get()
         time.sleep(0.01)  
-
     # stop stream
     stream.stop_stream()
     stream.close()
     f.close()
     # close PyAudio
     p.terminate()
-    
-class MPR121:
-    def __init__(self):
-        try:
-            if not os.path.exists('/proc/device-tree/aliases/mpr121'):
-                subprocess.call(['sudo', 'mkdir', '-p',
-                    '/sys/kernel/config/device-tree/overlays/BB-I2C2-MPR121'])
-                subprocess.call(['sudo', 'dd',
-                    'of=/sys/kernel/config/device-tree/overlays/BB-I2C2-MPR121/dtbo',
-                    'if=/lib/firmware/BB-I2C2-MPR121.dtbo'])
-                time.sleep(0.1)
-            if not os.path.exists('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data'):
-                subprocess.call(['sudo', 'modprobe', 'hd44780'])
-                time.sleep(0.1)
-            try:
-                self.f = open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r')
-            except IOError as err:
-                subprocess.call(['sudo', 'chmod', '777',
-                    '/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data'])
-                self.f = open('/sys/devices/platform/ocp/4819c000.i2c/i2c-2/2-005b/mpr121_data', 'r')
-        except IOError as err:
-            print("File Error:"+str(err))
-            print("maybe you should reinstall the driver of mpr121")
-    def ParseAndPrintResult(self, result):
-        CHANNEL_NUM = 12
-        ResultStr = [1, 1, 1]
-        touch_flag = [0]*CHANNEL_NUM
-        if result != 0:
-            result = result % 1000
-            ResultStr[0] = result // 100
-            ResultStr[1] = result % 100 // 10
-            ResultStr[2] = result % 100 % 10
-            result = ResultStr[0] * (1<<8) | ResultStr[1] * (1<<4) | ResultStr[2]
-            for i in range(CHANNEL_NUM):
-                if(result & 1 << i):
-                    if(0 == touch_flag[i]):
-                        touch_flag[i] = 1
-                        print("Channel %d is pressed"%i)
-                else:
-                    if(1 == touch_flag[i]):
-                        touch_flag[i] = 0
-                        print("Channel %d is released"%i)
-        return touch_flag
-    def get(self):
-        value = 0
-        try:
-            self.f.seek(0)
-            text = self.f.readlines()
-            try:
-                if(len(text)>=1):
-                    value = int(text[0].strip('\n'))
-            except IndexError as err:
-                print("Bug!")
-            except ValueError as err:
-                print("Multi-touch is not supported")
-        except IOError as err:
-            print("File Error:"+str(err))
-            print("maybe you should reinstall the driver of mpr121")
-        return [value, self.ParseAndPrintResult(value)]
 Mpr121 = MPR121()
 def main():
+    LED = P981X()
     while True:
         GetMpr121 = Mpr121.get()
         Mpr121Result = GetMpr121[1]
+        #Mpr121Result isn't empty when the Mpr121 is pressed
         if any(Mpr121Result) != False:
-            for i in range(CHANNEL_NUM):
+        #Check the which one button is pressed on Mpr12 then play different music and turn on LED that will display different color
+            for i in range(12):
                 if(Mpr121Result[i] == 1):
                     if i > 3 :
-                        Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[i-4])
+                        LED.set(0,((i-4)&0x01)*255,((i-4)&0x02)*255,((i-4)&0x04)*255)
+                        LED.set(1,((i-4)&0x01)*255,((i-4)&0x02)*255,((i-4)&0x04)*255)                    
+                        Play_Music("/tmp/scale/%s"%_SCALE_DEFS[i-4])
+                        
                     else :
-                        Play_Music("/home/debian/scale/%s"%_SCALE_DEFS[i])
+                        LED.set(0,(i&0x01)*255,(i&0x02)*255,(i&0x04)*255)
+                        LED.set(1,(i&0x01)*255,(i&0x02)*255,(i&0x04)*255)
+                        if i == 0:
+                            LED.set(0,50,50,200)
+                            LED.set(1,50,50,200)
+                        Play_Music("/tmp/scale/%s"%_SCALE_DEFS[i])
+        else :
+            LED.set(0,0,0,0)
+            LED.set(1,0,0,0)
         time.sleep(0.05)
 if __name__ == "__main__":
     main()
