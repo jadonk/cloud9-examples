@@ -3,7 +3,7 @@ var fs = require('fs');
 var os = require('os');
 var process = require('process');
 
-var buffer = Buffer.alloc(16);
+var buffer = Buffer.alloc(64);
 
 fs.open("/dev/rpmsg_pru30", "r+", null, onOpen);
 
@@ -12,7 +12,7 @@ function onOpen(err, fd) {
         console.log("Unble to open /dev/rpmsg_pru30");
         os.exit(-1);
     }
-    fs.read(fd, buffer, 0, 10, null, onData);
+    fs.read(fd, buffer, 0, 60, null, onData);
     
     process.stdin.setEncoding('utf8');
     process.stdin.on('readable', onStdin);
@@ -35,7 +35,7 @@ function onOpen(err, fd) {
             os.exit(-1);
         }
         console.log('response: ' + data.toString('ascii'));
-        fs.read(fd, buffer, 0, 10, null, onData);
+        fs.read(fd, buffer, 0, 60, null, onData);
     }
 }
 
