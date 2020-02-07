@@ -4,13 +4,13 @@ See the [Kit tutorials](Kit.md) document to learn more about using PocketBeagle 
 instructions document what was done in the customization of the microSD card images and are not required
 if using one of the provided grove-kit images.
 
-### Make and install the seeed-linux-dtverlays on pocketbeagle
+## Make and install the seeed-linux-dtverlays on pocketbeagle
 
 - Step 1. update the Kernel.
 
 ```bash
 sudo apt update
-sudo apt-get install linux-headers-$(uname -r) -y
+sudo apt install linux-headers-$(uname -r) -y
 ```
 
 - Step 2. Get the `seeed-linux-dtoverlay` source code, install and reboot.
@@ -38,7 +38,8 @@ sudo reboot
 - Step 3.Use `alsactl` command to configure TLV320AIC3104 codec
 
 ```bash
-sudo alsactl restore 0 -f /etc/alsa/tlv320aic3104.state.txt
+cd ~/seeed-linux-dtverlays/extras/
+sudo alsactl restore 0 -f tlv320aic3104.state.txt
 ```
 
 - Step 4.Check if the driver of codec install successfully
