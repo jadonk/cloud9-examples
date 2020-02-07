@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-# [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/) on I2C2
-# [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/) on UART2
-# [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/) on A2
+# [Grove - 12 Key Capacitive I2C Touch Sensor V2]
+# (http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/) on I2C2
+# [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/) 
+# on UART2
+# [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/) 
+# on A2
 import time
 import wave
 import pyaudio
@@ -63,7 +66,8 @@ def main():
         Mpr121Result = GetMpr121[1]
         #Mpr121Result isn't empty when the Mpr121 is pressed
         if any(Mpr121Result) != False:
-        #Check the which one button is pressed on Mpr12 then play different music and turn on LED that will display different color
+        #Check the which one button is pressed on Mpr12 then play 
+        #different music and turn on LED that will display different color
             for i in range(12):
                 if(Mpr121Result[i] == 1):
                     if i > 3 :

@@ -6,7 +6,8 @@ import wave
 import time
 from Shell import GetCmdReturn
 import os
-tone_freq_map={"do": 261.5, "re": 293.4,"me": 329.5,"fa": 349.1,"so": 391.7,"la": 440,"ti": 493.8,"do+":523}
+tone_freq_map={"do": 261.5, "re": 293.4,"me": 329.5,"fa": 349.1,"so": 391.7, \
+"la": 440,"ti": 493.8,"do+":523}
 _SCALE_DEFS = [
    'do.wav',
    're.wav',

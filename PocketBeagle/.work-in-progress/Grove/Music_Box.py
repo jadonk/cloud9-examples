@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-# [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/) on I2C2
+# [Grove - 3 Axis Digital Accelerometer]
+# (http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/) on I2C2
 # [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/) on UART2
-# [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/) on A2
+# [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+# on A2
 import time
 import wave
 import pyaudio
@@ -22,15 +24,18 @@ _SCALE_DEFS = [
    ]
 def FunTimer():
     """Make the LED will shine like rainbow color"""
-    Rainbow = [[255,0,0],[255,126,0],[255,255,0],[0,255,0],[0,255,255],[0,0,255],[255,0,255]]
+    Rainbow = [[255,0,0],[255,126,0],[255,255,0],[0,255,0],[0,255,255]\
+    ,[0,0,255],[255,0,255]]
     global RainbowIndex
     global RainbowFlash
     if RainbowFlash:
         RainbowIndex = RainbowIndex + 1 
         if RainbowIndex > 6 :
             RainbowIndex = 0
-        LED.set(0,Rainbow[RainbowIndex][0],Rainbow[RainbowIndex][1],Rainbow[RainbowIndex][2])
-        LED.set(1,Rainbow[RainbowIndex][0],Rainbow[RainbowIndex][1],Rainbow[RainbowIndex][2])
+        LED.set(0,Rainbow[RainbowIndex][0],Rainbow\
+        [RainbowIndex][1],Rainbow[RainbowIndex][2])
+        LED.set(1,Rainbow[RainbowIndex][0],Rainbow\
+        [RainbowIndex][1],Rainbow[RainbowIndex][2])
     else:
         RainbowIndex = 0
     global timer
@@ -99,8 +104,10 @@ def main():
             RainbowFlash = True
         else:
             RainbowFlash = False
-            LED.set(0,(GetAttitude&0x01)*255,(GetAttitude&0x02)*255,(GetAttitude&0x04)*255)
-            LED.set(1,(GetAttitude&0x01)*255,(GetAttitude&0x02)*255,(GetAttitude&0x04)*255)
+            LED.set(0,(GetAttitude&0x01)*255,(GetAttitude\
+            &0x02)*255,(GetAttitude&0x04)*255)
+            LED.set(1,(GetAttitude&0x01)*255,(GetAttitude\
+            &0x02)*255,(GetAttitude&0x04)*255)
         # the Speaker will play music when the Attitude changed.
         if GetAttitudeLast != GetAttitude and GetAttitude != 0:
             Play_Music("/tmp/scale/%s"%_SCALE_DEFS[GetAttitude])

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-# [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/) on I2C2
+# [Grove - 12 Key Capacitive I2C Touch Sensor V2]
+# (http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/) on I2C2
 # [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/) on UART2
 import time
 import wave
