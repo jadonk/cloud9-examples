@@ -18,7 +18,6 @@ _SCALE_DEFS = [
    'ti.wav',
    'do+.wav'
    ]
-Mpr121Data = [0]*2
 def Play_Music(file):
     """Play WAV format music when the Mpr121 is pressed 
         file:the Wav format music
@@ -31,7 +30,6 @@ def Play_Music(file):
     p = pyaudio.PyAudio()
     #define callback function
     def callback(in_data, frame_count, time_info, status):
-        global Mpr121Data 
         data = f.readframes(frame_count)
         #the function will return pyaudio.paContinue when the Mpr121 is pressed 
         if Mpr121Data[0] != 0:
@@ -47,7 +45,6 @@ def Play_Music(file):
     stream.start_stream()
     #Enter the while loop,when the Mpr121 is pressed
     while stream.is_active():
-        global Mpr121
         global Mpr121Data
         Mpr121Data = Mpr121.get()
         time.sleep(0.01)  
@@ -57,9 +54,11 @@ def Play_Music(file):
     f.close()
     # close PyAudio
     p.terminate()
-Mpr121 = MPR121()
+
 def main():
     LED = P981X()
+    global Mpr121
+    Mpr121 = MPR121()
     while True:
         GetMpr121 = Mpr121.get()
         Mpr121Result = GetMpr121[1]

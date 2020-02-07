@@ -10,7 +10,7 @@ import time
 from Button import BUTTON
 from LCD import JHD1802
 from Shell import GetCmdReturn,os
-MusicKeyStatus = []*2
+
 def PlayMusic(file):
     """Play WAV format music when the Button is pressed 
         file:the Wav format music
@@ -23,7 +23,6 @@ def PlayMusic(file):
     p = pyaudio.PyAudio()
     #define callback function
     def callback(in_data, frame_count, time_info, status):
-        global MusicKeyStatus
         data = f.readframes(frame_count)
         #the function will return pyaudio.paContinue when the Button is pressed 
         if len(MusicKeyStatus):
@@ -39,7 +38,6 @@ def PlayMusic(file):
     stream.start_stream()
     #Enter the while loop,when the Button is pressed
     while stream.is_active():
-        global keys
         global MusicKeyStatus
         MusicKeyStatus = keys.GetKeyStatus()
         time.sleep(0.01)  
@@ -48,7 +46,6 @@ def PlayMusic(file):
     stream.close()
     # close PyAudio
     p.terminate()
-keys = BUTTON()
 def main():
     MusciIndex = 0
     #Check the xxx.wav whether exist
@@ -59,6 +56,7 @@ def main():
     files= os.listdir("/tmp/scale")
     print(files)
     global keys
+    keys = BUTTON()
     Lcd = JHD1802()
     while True:
         KeyStatus = keys.GetKeyStatus()
