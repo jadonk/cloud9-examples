@@ -113,7 +113,7 @@ void main(void)
 				    pru_rpmsg_send(&transport, dst, src, "w", 2);
                     state = WHITE;			        
 			    } else {
-				    pru_rpmsg_send(&transport, dst, src, payload, len);
+				    pru_rpmsg_send(&transport, dst, src, "w", 2);
                     state = 0;
 			    }
 			    

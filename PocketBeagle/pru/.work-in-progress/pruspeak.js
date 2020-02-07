@@ -2,9 +2,11 @@
 var fs = require('fs');
 var os = require('os');
 var process = require('process');
+var child_process = require('child_process');
 
 var buffer = Buffer.alloc(64);
 
+child_process.execSync("make -f /var/lib/cloud9/common/Makefile TARGET=pruspeak.pru0");
 fs.open("/dev/rpmsg_pru30", "r+", null, onOpen);
 
 function onOpen(err, fd) {
@@ -16,7 +18,7 @@ function onOpen(err, fd) {
     
     process.stdin.setEncoding('utf8');
     process.stdin.on('readable', onStdin);
-    console.log("Type red, green, blue or white and press <ENTER>");
+    console.log("Type botspeak command and press <ENTER>");
     
     function onStdin(err) {
         var chunk;

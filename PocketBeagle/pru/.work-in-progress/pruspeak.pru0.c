@@ -21,6 +21,9 @@
 volatile register uint32_t __R30;
 volatile register uint32_t __R31;
 
+#define VERSION			0x00000001
+#define DELAY_CYCLES_PER_MS	200000
+
 /* Host-0 Interrupt sets bit 30 in register R31 */
 #define HOST_INT		((uint32_t) 1 << 30)	
 
@@ -46,60 +49,63 @@ volatile register uint32_t __R31;
  */
 #define VIRTIO_CONFIG_S_DRIVER_OK	4
 
-/* PRU GPIO */
-volatile register unsigned int __R30;
-volatile register unsigned int __R31;
-
-/* rpmsg buffer */
-char payload[RPMSG_BUF_SIZE];
-
 /* Botspeak globals */
 #define PROG_SIZE       256
 #define DATA_SIZE	32
+#define STACK_SIZE	8
 #define OPCODE_MASK     0xFF000000
 #define OPCODE_SHIFT	24
-#define REG_TYPE_MASK	0x0F00
-#define OPERAND1_MASK	0x00FFF000
+#define OPERAND1_TMASK	0x00F00000
+#define OPERAND1_TSHIFT	20
+#define OPERAND1_MASK	0x000FF000
 #define OPERAND1_SHIFT	12
-#define OPERAND2_MASK	0x00000FFF
+#define OPERAND2_TMASK	0x00000F00
+#define OPERAND2_TSHIFT	8
+#define OPERAND2_MASK	0x000000FF
 #define OPERAND2_SHIFT  0
-#define OPCODE_ADD      0x00	// ADD test,2		test=test+2
-#define OPCODE_SUB      0x01	// SUB test,1		test=test-1
-#define OPCODE_MUL      0x02	// MUL test,AI[0]	test=test*(value of analog in channel 0)
-#define OPCODE_DIV      0x03	// DIV test,3   	test=test/3
-#define OPCODE_MOD      0x04	// MOD 5,2      	Gets the remainder of 5/2	
-#define OPCODE_AND      0x05	// AND test,AI[0]	bitwise AND	
+const char opcodes[] = \
+//	 0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F
+	"NOP  ADD  SUB  MUL  DIV  MOD  AND  OR   NOT  EQL  GRT  GRE  LET  LEE  BSL  BSR  "\
+	"GOTO WAIT GET  SET  IF   CALL RET  RUN  DBG  ";
+#define OPCODE_NOP	0x00
+#define OPCODE_ADD      0x01	// ADD test,2		test=test+2
+#define OPCODE_SUB      0x02	// SUB test,1		test=test-1
+#define OPCODE_MUL      0x03	// MUL test,AI[0]	test=test*(value of analog in channel 0)
+#define OPCODE_DIV      0x04	// DIV test,3   	test=test/3
+#define OPCODE_MOD      0x05	// MOD 5,2      	Gets the remainder of 5/2	
+#define OPCODE_AND      0x06	// AND test,AI[0]	bitwise AND	
 #define OPCODE_OR       0x07	// OR test,AI[0]	Bitwise OR
-#define OPCODE_NOT      0x07	// NOT test,AI[0]	returns resulting boolean
-				//              	test = (test != AI[0])	
-#define OPCODE_EQL      0x08	// EQL test,AI[0]	returns resulting boolean
+#define OPCODE_NOT      0x08 	// NOT test,AI[0]	returns resulting boolean
+			        //              	test = (test != AI[0])	
+#define OPCODE_EQL      0x09	// EQL test,AI[0]	returns resulting boolean
                                	//              	test = (test == AI[0])
-#define OPCODE_GRT      0x09	// GRT test,AI[0]	returns resulting boolean
+#define OPCODE_GRT      0x0A	// GRT test,AI[0]	returns resulting boolean
                                	//              	test = (test > AI[0])	
-#define OPCODE_GRE	0x0A	// GRE test,AI[0]	returns resulting boolean
+#define OPCODE_GRE	0x0B	// GRE test,AI[0]	returns resulting boolean
                                	//              	test = (test >= AI[0])	
-#define OPCODE_LET      0x0B	// LET test,AI[0]	returns resulting boolean
+#define OPCODE_LET      0x0C	// LET test,AI[0]	returns resulting boolean
                                	//              	test = (test < AI[0])
-#define OPCODE_LEE      0x0C	// LEE test,AI[0]	returns resulting boolean
-                               	//              	test = (test <= AI[0])	
-#define OPCODE_BSL      0x0D	// BSL test,2		bitwise left shift	
-#define OPCODE_BSR      0x0E	// BSR test,2		bitwise right shift	
-#define OPCODE_GOTO	0x0F	// GOTO 2		Will jump to line 2 of script (line indexing starts at 0)
-#define OPCODE_WAIT	0x10	// WAIT 120		waits 120 msec	
-#define OPCODE_GET	0x11	// GET AI[2]		Get the value of analog channel 2
-#define OPCODE_SET	0x12	// SET DIO[1],1		Sets a variable to a value
-#define OPCODE_IF	0x13	// (var conditional var) goto loc
+#define OPCODE_LEE      0x0D	// LEE test,AI[0]	returns resulting boolean
+                              	//              	test = (test <= AI[0])	
+#define OPCODE_BSL      0x0E	// BSL test,2		bitwise left shift	
+#define OPCODE_BSR      0x0F	// BSR test,2		bitwise right shift	
+#define OPCODE_GOTO	0x10	// GOTO 2		Will jump to line 2 of script (line indexing starts at 0)
+#define OPCODE_WAIT	0x11	// WAIT 120		waits 120 msec	
+#define OPCODE_GET	0x12	// GET AI[2]		Get the value of analog channel 2
+#define OPCODE_SET	0x13	// SET DIO[1],1		Sets a variable to a value
+#define OPCODE_IF	0x14	// (var conditional var) goto loc
 				// IF (test < 1) GOTO 3	jumps to line 3 if test is less than 1. 
 				// If test >= 1, it goes to the next line (Note, you need the spaces in the parentheses)
 				// This is implemented as 2 instructions with this opcode being a conditional goto
-#define OPCODE_CALL	0x14	// RUN&WAIT Sub		Runs script starting at the label Sub and waits until the script is done
-#define OPCODE_RET	0x15	// ENDSCRIPT
+#define OPCODE_CALL	0x15	// RUN&WAIT Sub		Runs script starting at the label Sub and waits until the script is done
+#define OPCODE_RET	0x16	// ENDSCRIPT
+#define OPCODE_RUN	0x17	// RUN 0		Runs existing script starting at line 0
+#define OPCODE_DBG	0x18	// DEBUG 0		Runs current script (from the beginning) in debug mode (outputs values)	
 				
 // Non opcode instructions
-				// RUN 0		Runs existing script starting at line 0
-				// DEBUG 0		Runs current script (from the beginning) in debug mode (outputs values)	
 				// LBL			Allocate variable to store current program_used
-				
+
+#define REG_NOP		0xF
 #define REG_VARIABLE	0x0	// GET test		returns value of variable
 #define REG_AO		0x1	// SET AO[1],0.5	Analog out channel 1 50%	
 #define REG_TMR		0x2	// GET TMR[1]		Gets the value of Timer 1	
@@ -109,30 +115,45 @@ char payload[RPMSG_BUF_SIZE];
 #define REG_SERVO	0x5	// SET SERVO[2],test	sets PWM[2] to duty of test (value between 0 and 1.5)
 #define REG_PWM		0x6	// SET PWM[0],50	Set pulse width modulation on chan 0 to 50%	
 #define REG_VER		0x7	// GET VER		returns version of VM
+#define REG_IMMEDIATE	0x8
 
+#define NIB2ASC(x)	((x)>9)?((char)((x)-10)+'A'):((char)(x)+'0')
+
+uint32_t interpret_payload(char * payload, int len);
+void execute(uint32_t ins);
+void update_timers();
+int32_t opfetch(uint32_t optype, uint32_t opaddr);
+void opstore(uint32_t optype, uint32_t opaddr, int32_t op);
+
+/* PRU GPIO */
+volatile register unsigned int __R30;
+volatile register unsigned int __R31;
+
+/* rpmsg buffer */
+char payload[RPMSG_BUF_SIZE];
+struct pru_rpmsg_transport transport;
+uint16_t src, dst, len;
+
+/* Interpreter variables */
 uint32_t program[PROG_SIZE];
 uint32_t data[DATA_SIZE];
-uint32_t reg = 0;
+uint32_t stack[STACK_SIZE];
+int32_t reg = 0;
 uint32_t ins_ptr = 0;
 uint32_t program_used = 0;
 uint32_t data_used = 0;
+uint32_t stack_used = 0;
 struct identifier_list_element {
 	char * string;
 	uint32_t index;
 	void * next;
 } identifier_head;
 int script_mode = 0;
-int debug_mode = 0;
+int debug_mode = 1;
 int run_mode = 0;
-
-uint32_t interpret_payload(char * payload, int len);
-void execute(uint32_t ins);
-void update_timers();
 
 void main(void)
 {
-	struct pru_rpmsg_transport transport;
-	uint16_t src, dst, len;
 	volatile uint8_t *status;
 	uint32_t ins;
 	
@@ -172,20 +193,15 @@ void main(void)
 					}
 				} else {
 					execute(ins);
-					if (debug_mode) {
-						pru_rpmsg_send(&transport, dst, src, "A", 2);
-					}
 				}
 			}
 		}
 
 		/* Continue script execution */
-		if (run_mode && (ins_ptr < program_used)) {
+		if (ins_ptr >= program_used)
+			run_mode = 0;
+		if (run_mode)
 			execute(program[ins_ptr]);
-			if (debug_mode) {
-				pru_rpmsg_send(&transport, dst, src, "B", 2);
-			}
-		}
 
 		/* Perform software-based PWM, check timers, etc. */
 		update_timers();
@@ -193,15 +209,201 @@ void main(void)
 }
 
 uint32_t interpret_payload(char * payload, int len) {
-	return(0);
+	const char sepchars[] = ",.;!? ";
+	uint32_t ins = OPCODE_NOP << OPCODE_SHIFT;
+	
+	
+	return(ins);
 }
 
 void execute(uint32_t ins) {
-	
+	int32_t i;
+	int32_t op1 = 0;
+	int32_t op2 = 0;
+	uint32_t op1addr = (ins & OPERAND1_MASK) >> OPERAND1_SHIFT;
+	uint32_t op2addr = (ins & OPERAND2_MASK) >> OPERAND2_SHIFT;
+	uint32_t op1type = (ins & OPERAND1_TMASK) >> OPERAND1_TSHIFT;
+	uint32_t op2type = (ins & OPERAND2_TMASK) >> OPERAND2_TSHIFT;
+
+	if (run_mode && (ins_ptr < program_used)) {
+		ins_ptr++;
+	}
+
+	op1 = opfetch(op1type, op1addr);
+	op2 = opfetch(op2type, op2addr);
+
+	switch ((ins & OPCODE_MASK) >> OPCODE_SHIFT) {
+	default:
+	case OPCODE_NOP:
+		break;
+	case OPCODE_ADD:
+		reg = op1 + op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_SUB:
+		reg = op1 - op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_MUL:
+		reg = op1 * op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_DIV:
+		reg = op1 * op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_MOD:
+		reg = op1 * op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_AND:
+		reg = op1 & op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_OR:
+		reg = op1 | op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_NOT:
+		reg = op1 != op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_EQL:
+		reg = op1 == op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_GRT:
+		reg = op1 > op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_GRE:
+		reg = op1 >= op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_LET:
+		reg = op1 < op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_LEE:
+		reg = op1 <= op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_BSL:
+		reg = op1 << op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_BSR:
+		reg = op1 >> op2;
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_GOTO:
+		ins_ptr = op1;
+		break;
+	case OPCODE_WAIT:
+		for (i=0; i < op1; i++)
+			__delay_cycles(DELAY_CYCLES_PER_MS);
+		break;
+	case OPCODE_GET:
+		reg = op1;
+		break;
+	case OPCODE_SET:
+		opstore(op1type, op1addr, reg);
+		break;
+	case OPCODE_IF:
+		if (reg) {
+			ins_ptr = op1;
+		}
+		break;
+	case OPCODE_RUN:
+		debug_mode = 0;
+		run_mode = 1;
+		goto OPCODE_CALL;
+	case OPCODE_DBG:
+		run_mode = 1;
+		debug_mode = 1;
+		goto OPCODE_CALL;
+	case OPCODE_CALL:
+		if (stack_used < STACK_SIZE) {
+			stack[stack_used] = ins_ptr;
+			stack_used++;
+			ins_ptr = op1;
+		} else {
+			/* TODO */
+		}
+		break;
+	case OPCODE_RET:
+		if (stack_used > 0) {
+			stack_used--;
+			ins_ptr = stack[stack_used];
+		} else {
+			/* TODO */
+		}
+		break;
+	}
+	if (debug_mode) {
+		memset(payload, 0, RPMSG_BUF_SIZE);
+		payload[0] = NIB2ASC((ins_ptr >> 4)&0xF);
+		payload[1] = NIB2ASC(ins_ptr&0xF);
+		payload[2] = ':';
+		payload[3] = NIB2ASC((ins >> 28)&0xF);
+		payload[4] = NIB2ASC((ins >> 24)&0xF);
+		payload[5] = NIB2ASC((ins >> 20)&0xF);
+		payload[6] = NIB2ASC((ins >> 16)&0xF);
+		payload[7] = NIB2ASC((ins >> 12)&0xF);
+		payload[8] = NIB2ASC((ins >> 8)&0xF);
+		payload[9] = NIB2ASC((ins >> 4)&0xF);
+		payload[10] = NIB2ASC((ins)&0xF);
+		payload[11] = ' ';
+		payload[12] = NIB2ASC((reg >> 28)&0xF);
+		payload[13] = NIB2ASC((reg >> 24)&0xF);
+		payload[14] = NIB2ASC((reg >> 20)&0xF);
+		payload[15] = NIB2ASC((reg >> 16)&0xF);
+		payload[16] = NIB2ASC((reg >> 12)&0xF);
+		payload[17] = NIB2ASC((reg >> 8)&0xF);
+		payload[18] = NIB2ASC((reg >> 4)&0xF);
+		payload[19] = NIB2ASC((reg)&0xF);
+		pru_rpmsg_send(&transport, dst, src, payload, 20);
+	}
 }
 
 void update_timers() {
 	
+}
+
+int32_t opfetch(uint32_t optype, uint32_t opaddr) {
+	int32_t op = 0;
+	switch (optype) {
+	default:
+		break;
+	case REG_VARIABLE:
+		if (opaddr > data_used) {
+			/* TODO */
+		}
+		op = data[opaddr];
+		break;
+	case REG_DIO:
+		op = (__R31 >> opaddr) & 1;
+		break;
+	case REG_AO:
+	case REG_AI:
+	case REG_TMR:
+	case REG_PWM:
+	case REG_SERVO:
+		/* TODO */
+		op = 0xFFFFFFFF;
+		break;
+	case REG_VER:
+		op = VERSION;
+		break;
+	case REG_IMMEDIATE:
+		op = (int32_t)((opaddr&0x80)?(opaddr|0xFFFFFF00):opaddr);
+		break;
+	}
+
+	return op;
+}
+
+void opstore(uint32_t optype, uint32_t opaddr, int32_t op) {
 }
 
 // Sets pinmux
