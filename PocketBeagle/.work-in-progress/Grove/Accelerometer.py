@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-# [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/) on I2C2
+# [Grove - 3 Axis Digital Accelerometer]
+# (http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/) on I2C2
 import time
 from Shell import ReinstallModule,InstallDTBO
 import os 

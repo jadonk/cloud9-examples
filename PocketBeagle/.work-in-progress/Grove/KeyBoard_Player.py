@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-# [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/) on I2C2
+# [Grove - 12 Key Capacitive I2C Touch Sensor V2]
+# (http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/) on I2C2
 # [Grove – Speaker](http://wiki.seeedstudio.com/Grove-Speaker/) on UART2
 import time
 import wave
@@ -16,11 +17,10 @@ _SCALE_DEFS = [
    'ti.wav',
    'do+.wav'
    ]
-Mpr121Data = [0]*2
 def PlayMusic(file):
-"""Play WAV format music when the Mpr121 is pressed 
-    file:the Wav format music
-"""
+    """Play WAV format music when the Mpr121 is pressed 
+        file:the Wav format music
+    """
     # define stream chunk 
     chunk = 1024
     # open a wav format music
@@ -28,8 +28,7 @@ def PlayMusic(file):
     # instantiate PyAudio
     p = pyaudio.PyAudio()
     #define callback function
-    def callback(in_data, frame_count, time_info, status):
-        global Mpr121Data 
+    def callback(in_data, frame_count, time_info, status): 
         data = f.readframes(frame_count)
         #the function will return pyaudio.paContinue when the Mpr121 is pressed 
         if Mpr121Data[0] != 0:
@@ -45,7 +44,6 @@ def PlayMusic(file):
     stream.start_stream()
     #Enter the while loop,when the Mpr121 is pressed 
     while stream.is_active():
-        global Mpr121
         global Mpr121Data
         Mpr121Data = Mpr121.get()
         time.sleep(0.01)  
@@ -55,8 +53,9 @@ def PlayMusic(file):
     f.close()
     # close PyAudio
     p.terminate()
-Mpr121 = MPR121()
 def main():
+    global Mpr121
+    Mpr121 = MPR121()
     while True:
         GetMpr121 = Mpr121.get()
         Mpr121Result = GetMpr121[1]

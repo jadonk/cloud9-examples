@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-# [Grove - Ultrasonic Distance Sensor](http://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/) on A0
+# [Grove - Ultrasonic Distance Sensor]
+# (http://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/) on A0
 import iio
 import time
 from Shell import ConfigGPIO,InstallDTBO
