@@ -37,9 +37,9 @@ class JHD1802:
            text:content on LCD
         """
         try:
-            with open(self.Lcd0, 'w') as f:
-                f.write('\x1b[H')
-                f.write('%s'%text)
+            self.f.write('\x1b[H')
+            self.f.write('%s'%text)
+            self.f.flush()
         except IOError as err:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of hd44780")

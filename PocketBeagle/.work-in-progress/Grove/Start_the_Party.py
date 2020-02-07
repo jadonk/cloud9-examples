@@ -54,7 +54,6 @@ def Play_Music(file):
     f.close()
     # close PyAudio
     p.terminate()
-
 def main():
     LED = P981X()
     global Mpr121

@@ -9,8 +9,7 @@ import os
 import time
 from Button import BUTTON
 from LCD import JHD1802
-from Shell import GetCmdReturn,os
-
+from Shell import GetCmdReturn
 def PlayMusic(file):
     """Play WAV format music when the Button is pressed 
         file:the Wav format music
