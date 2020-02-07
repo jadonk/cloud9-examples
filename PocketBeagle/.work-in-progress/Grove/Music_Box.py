@@ -20,22 +20,19 @@ _SCALE_DEFS = [
    'la.wav',
    'ti.wav'
    ]
-Rainbow_Index = 0
-RainbowFlash = False
 def FunTimer():
     """Make the LED will shine like rainbow color"""
     Rainbow = [[255,0,0],[255,126,0],[255,255,0],[0,255,0],[0,255,255],[0,0,255],[255,0,255]]
-    global Rainbow_Index
+    global RainbowIndex
     global RainbowFlash
-    global LED
     if RainbowFlash:
-        Rainbow_Index = Rainbow_Index + 1 
-        if Rainbow_Index > 6 :
-            Rainbow_Index = 0
-        LED.set(0,Rainbow[Rainbow_Index][0],Rainbow[Rainbow_Index][1],Rainbow[Rainbow_Index][2])
-        LED.set(1,Rainbow[Rainbow_Index][0],Rainbow[Rainbow_Index][1],Rainbow[Rainbow_Index][2])
+        RainbowIndex = RainbowIndex + 1 
+        if RainbowIndex > 6 :
+            RainbowIndex = 0
+        LED.set(0,Rainbow[RainbowIndex][0],Rainbow[RainbowIndex][1],Rainbow[RainbowIndex][2])
+        LED.set(1,Rainbow[RainbowIndex][0],Rainbow[RainbowIndex][1],Rainbow[RainbowIndex][2])
     else:
-        Rainbow_Index = 0
+        RainbowIndex = 0
     global timer
     timer = threading.Timer(0.5, FunTimer)
     timer.start() 
@@ -43,8 +40,8 @@ def Play_Music(file):
     """Play WAV format music
         file:the Wav format music
     """
-    global timer
     # end the timer
+    global timer
     timer.cancel()
     # define stream chunk
     chunk = 1024
@@ -79,14 +76,18 @@ def Play_Music(file):
     # start the timer
     timer = threading.Timer(0.5, FunTimer)
     timer.start()     
-LED = P981X()
 def main():
     Adx134x = ADX134X()
     global LED
+    LED = P981X()
     global RainbowFlash
+    RainbowFlash = False
+    global RainbowIndex
+    RainbowIndex = 0
     GetAttitude = 0 
     # Create timer thread that weak up after 0.5s 
     # The timer will execute the FunTimer after 0.5s    
+    global timer
     timer = threading.Timer(0.5, FunTimer)
     timer.start() 
     time.sleep(1)
