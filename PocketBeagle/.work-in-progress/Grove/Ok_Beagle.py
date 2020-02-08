@@ -28,7 +28,7 @@ if not os.path.exists('/usr/lib/python3/dist-packages/snowboy/resources\
         exit(1)
         
 detector = snowboydecoder.HotwordDetector('/usr/lib/python3/dist-packages/\
-snowboy/resources/models/snowboy.umdl', sensitivity=0.5)
+snowboy/resources/models/Ok_Beagle.pmdl', sensitivity=0.5)
 # capture SIGINT signal, e.g., Ctrl+C
 signal.signal(signal.SIGINT, signal_handler)
 print('Listening... Press Ctrl+C to exit')
