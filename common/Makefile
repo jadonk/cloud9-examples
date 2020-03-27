@@ -167,7 +167,8 @@ ifneq ($(PRU_DIR),)
 	@echo start > $(PRU_DIR)/state
 else ifeq ($(PROC),tidl)
 	ti-mct-heap-check -c
-	sudo mjpg_streamer -i "input_opencv.so -r 640x480 --filter ./$(TARGET)$(EXE)" -o "output_http.so -p 8090 -w /usr/share/mjpg-streamer/www"
+	sudo mjpg_streamer -i "input_opencv.so -r 640x480 -d /dev/$(shell fgrep -v vpe /sys/class/video4linux/video*/name | perl -ne '/\/(video\d+)\/name/ && print $$1') \
+	--filter ./$(TARGET)$(EXE)" -o "output_http.so -p 8090 -w /usr/share/mjpg-streamer/www"
 else
 	./$(TARGET)$(EXE)
 endif
