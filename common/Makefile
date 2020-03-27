@@ -113,7 +113,7 @@ define proc-to-build-vars =
   LD=lnkpru -o
   LDFLAGS=--reread_libs --warn_sections --stack_size=0x100 --heap_size=0x100 -m $(basename $(1)).map \
    -i$(PRU_CGT)/lib -i$(PRU_CGT)/include $(COMMON)/$(CHIP)_$(PROC).cmd --library=libc.a \
-   --library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib --library=$(PRU_STARTERWARE)/pru/libdrivers.a
+   --library=$(PRU_SUPPORT)/lib/rpmsg_lib.lib
   CC=clpru -fe
   CFLAGS=--include_path=$(COMMON) --include_path=$(PRU_SUPPORT)/include \
    --include_path=$(PRU_SUPPORT)/include/$(CHIP_REV) \
