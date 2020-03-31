@@ -20,7 +20,7 @@ if not os.path.exists('/usr/lib/python3/dist-packages/snowboy/resources\
 /models/Ok_Beagle.pmdl'):
     if os.path.exists('/var/lib/cloud9/PocketBeagle/Grove/Ok_Beagle.pmdl'): 
         GetCmdReturn('sudo mv /var/lib/cloud9/PocketBeagle/Grove/Ok_Beagle.pmdl\
-/usr/lib/python3/dist-packages/snowboy/resources/models/')
+ /usr/lib/python3/dist-packages/snowboy/resources/models/')
     else:
         print('Maybe you should Drag Ok_Beagle.pmdl to Could9')
         exit(1)
