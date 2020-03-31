@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 # [Grove - Analog Microphone](http://wiki.seeedstudio.com/Grove-Speaker/) on PWM
-# [Grove - Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/) 
-# on UART2
 # [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 # on A2
 import time
