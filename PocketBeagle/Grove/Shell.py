@@ -36,15 +36,17 @@ def InstallModule(Module):
         Module : Name of Module 
     """    
     GetCmdReturn('sudo modprobe -s %s'%Module)
+    Module = Module.replace('-','_')
     while not Module in GetCmdReturn('lsmod | grep %s'%Module):
         time.sleep(0.1)  
 def RemoveModule(Module):    
     """Install Module  
         Module : Name of Module 
     """    
+    Module = Module.replace('-','_')
     GetCmdReturn('sudo rmmod -s %s || true '%Module)
     while Module in GetCmdReturn('lsmod | grep %s'%Module):
-        time.sleep(0.1)        
+        time.sleep(0.1)       
 def ReinstallModule(Module):
     """Reinstall Module using InstallModule and RemoveModule  
         Module : Name of Module 
