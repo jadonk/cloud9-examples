@@ -9,4 +9,5 @@ run:
 clean:
 	rm -f dummy.tidl.so
 	rm -f classification.tidl.so
+	rm -f /tmp/cloud9-examples/classification.tidl.so || true
 
