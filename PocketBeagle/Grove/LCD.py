@@ -18,7 +18,7 @@ class JHD1802:
                 while not os.path.exists(self.Path):
                     time.sleep(0.1)
             #Reinstall hd44780 module to support hot plug        
-            ReinstallModule('hd44780')
+            ReinstallModule('seeed-hd44780')
             try:
                 #Open the /dev/lcd0 using file python library
                 self.f = open(self.Lcd0, 'w')
@@ -38,6 +38,7 @@ class JHD1802:
         """
         try:
             self.f.write('\x1b[H')
+            self.f.flush()
             self.f.write('%s'%text)
             self.f.flush()
         except IOError as err:
