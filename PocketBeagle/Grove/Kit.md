@@ -20,7 +20,7 @@ BeagleBoard.org PocketBeagle Grove Kit combines the Grove sensor modules with th
 - <font size="4" color="red">④</font> [Grove - Rotary Angle Sensor](http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/)
 - <font size="4" color="red">⑤</font> [Grove - Slide Potentiometer](http://wiki.seeedstudio.com/Grove-Slide_Potentiometer/)
 - <font size="4" color="red">⑥</font> [Grove - Button](http://wiki.seeedstudio.com/Grove-Button/)
-- <font size="4" color="red">⑦</font> [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
+- <font size="4" color="red">⑦</font> [Grove - 12 Key Capacitive I2C Touch Sensor](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
 - <font size="4" color="red">⑧</font> [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/)
 - <font size="4" color="red">⑨</font> [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
 - <font size="4" color="red">⑩</font> [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
@@ -34,8 +34,7 @@ BeagleBoard.org PocketBeagle Grove Kit combines the Grove sensor modules with th
 
 When using the provided microSD card, or a microSD card programmed using one of the provided grove-kit images, drivers and overlays to configure those drivers are already setup.
 
-Visit [PocketBeagle Getting Started section in the System Reference Manual](https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#331_Getting_Started) for 
-information about getting started with PocketBeagle.
+Visit [PocketBeagle Getting Started section in the System Reference Manual](https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#331_Getting_Started) for information about getting started with PocketBeagle.
 
 See https://debian.beagleboard.org/images/grove for the latest provided grove-kit images. Use the Getting Started instructions for programming the microSD card.
 
@@ -126,6 +125,7 @@ In this lesson, students will light up the RGB LED and LCD, and learn how to use
 - Plug the Grove - Rotary Angle Sensor into **A5** port
 - Plug the Grove - Chainable RGB LED into **A2** port
 - Plug the Grove - 16x2 LCD into **I2C1** port
+- Plug the WiFi dongle into the **USB** Port
 - Power PocketBeagle via the **micro USB** port
 
 ![](img/project1.jpg)
@@ -159,6 +159,7 @@ In this lesson, students can move their hand in front of the ultrasonic distance
 - Plug the Grove - Ultrasonic Distance Sensor into **A0** port
 - Plug the Grove - 16x2 LCD into **I2C1** port
 - Plug the Grove - Speaker Plus into **UART2** port
+- Plug the WiFi dongle into the **USB** Port
 - Power PocketBeagle via the **micro USB** port
 
 ![](img/project2.jpg)
@@ -196,6 +197,7 @@ The LCD will show the name of the song.
 - Plug the Grove – Button into **A5** and **UART4** port
 - Plug the Grove – 16x2 LCD into **I2C1** port
 - Plug the Grove – Speaker Plus into **UART2** port
+- Plug the WiFi dongle into the **USB** Port
 - Power PocketBeagle via the **micro USB** port
 
 ![](img/project3.jpg)
@@ -253,13 +255,14 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 
 ### Hardware Requirement:
 
-- [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
+- [Grove - 12 Key Capacitive I2C Touch Sensor](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
 - [Grove – Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
 
 ### Hardware Connection
 
 - Plug the Grove – Speaker Plus into **UART2** port
-- Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C2** port
+- Plug the Grove - 12 Key Capacitive I2C Touch Sensor into **I2C2** port
+- Plug the WiFi dongle into the **USB** Port
 - Power the PocketBeagle via the **micro USB** port
 
 ![](img/project5.jpg)
@@ -285,14 +288,15 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 
 - [Grove - 12 Key Capacitive I2C Touch Sensor V2](http://wiki.seeedstudio.com/Grove-12_Key_Capacitive_I2C_Touch_Sensor_V2-MPR121/)
 - [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
-- [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+- [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 
 
 ### Hardware Connection
 
 - Plug the Grove - Speaker Plus into **UART2** port
 - Plug the Grove - 12 Key Capacitive I2C Touch Sensor V2 into **I2C2** port
-- Plug the Grove - Chainable RGB LED X 2 into **A2** port
+- Plug the Grove - Chainable RGB LED into **A2** port
+- Plug the WiFi dongle into the **USB** Port
 - Power PocketBeagle via the **micro USB** port
 
 
@@ -318,13 +322,14 @@ In this lesson, students will learn how to use the Grove - 3-Axis Accelerometer 
 
 - [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/)
 - [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
-- [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+- [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 
 ### Hardware Connection
 
 - Plug the Grove - Speaker Plus into **UART2** port
 - Plug the Grove - 3 Axis Digital Accelerometer into **I2C2** port
-- Plug the Chainable RGB LED X 2 into **A2** port
+- Plug the Chainable RGB LED into **A2** port
+- Plug the WiFi dongle into the **USB** Port
 - Power PocketBeagle via the **micro USB** port
 
 ![](img/project7.jpg)
@@ -350,14 +355,17 @@ In this lesson, students will learn how to install the snowboy of Kitt-AI and us
 
 - [Grove - Analog Microphone](http://wiki.seeedstudio.com/Grove-Analog-Microphone)
 - [Grove - Speaker Plus](http://wiki.seeedstudio.com/Grove-Speaker/)
-- [Grove - Chainable RGB LED X 2](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
+- [Grove - Chainable RGB LED](http://wiki.seeedstudio.com/Grove-Chainable_RGB_LED/)
 
 ### Hardware Connection
 
 - Plug the Grove - Speaker Plus into **UART2** port
 - Plug the Grove - Analog Microphone into **PWM** port
-- Plug the Chainable RGB LED X 2 into **A2** port
+- Plug the Chainable RGB LED into **A2** port
 - Power PocketBeagle via the micro **USB** port
+
+![](img/project8.jpg)
+
 
 ### Software
 
@@ -366,7 +374,7 @@ In this lesson, students will learn how to install the snowboy of Kitt-AI and us
 - Step 3. Search Ok_Beagle hotword model through [snowboy](https://snowboy.kitt.ai/dashboard)
 - Step 4. Click the `Record and Download` to provide data of sound for Ok_Beagle.
 - Step 5. Download the Ok_Beagle.pmdl from the [website](https://snowboy.kitt.ai/hotword/46889)
-- Step 6. Darg Ok_Beagle.pmdl to clound9 like lesson4
+- Step 6. Darg Ok_Beagle.pmdl to Cloud9 like lesson4
 - Step 7. Run the Ok_Beagel.py by using Runner:Python.
 
 ### success
