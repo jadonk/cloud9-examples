@@ -362,6 +362,7 @@ In this lesson, students will learn how to install the snowboy of Kitt-AI and us
 - Plug the Grove - Speaker Plus into **UART2** port
 - Plug the Grove - Analog Microphone into **PWM** port
 - Plug the Chainable RGB LED into **A2** port
+- Plug the WiFi dongle into the **USB** Port
 - Power PocketBeagle via the micro **USB** port
 
 ![](img/project8.jpg)
