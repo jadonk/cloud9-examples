@@ -128,8 +128,8 @@ define proc-to-build-vars =
    $(TIDL_API_DIR)/tidl_api.a $(TIDL_API_DIR)/tidl_imgutil.a \
    -lTIOpenCL -locl_util -lpthread
   CXX=g++ -c -o
-  CXXFLAGS=-DCHIP=$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -O3 -Wall -Werror -Wno-error=ignored-attributes \
-   -I. -I$(TIDL_API_DIR)/inc -std=c++11 -I/usr/share/ti/opencl 
+  CXXFLAGS=-DCHIP=$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -fPIC -O3 -Wall -Werror -Wno-error=ignored-attributes \
+   -I. -I$(TIDL_API_DIR)/inc -std=c++14 -I/usr/share/ti/opencl 
  else
   LD=gcc -o
   LDFLAGS=-lc -lm
