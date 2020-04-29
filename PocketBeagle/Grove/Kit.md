@@ -104,7 +104,8 @@ wlan0: flags=-28605<UP,BROADCAST,RUNNING,MULTICAST,DYNAMIC>  mtu 1500
         TX packets 7317  bytes 1453920 (1.3 MiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
-The wlan0's inet is IP that you want.The IP maybe different on different local.
+
+The wlan0's inet is the IP that you want. The IP may be different on different local.
 
 ## Lesson - 1. Control the Light
 
@@ -145,7 +146,7 @@ In this lesson, students will light up the RGB LED and LCD, and learn how to use
 
 ### Description:
 
-In this lesson, students can move their hand in front of the ultrasonic distance sensor, the LCD will show the distance of the hand, and speaker will play different musical note based on different distance.
+In this lesson, students can move their hands in front of the ultrasonic distance sensor, the LCD will show the distance of the hand, and the speaker will play different musical notes based on different distances.
 
 ### Hardware Requirement:
 
@@ -209,7 +210,7 @@ The LCD will show the name of the song.
 - Step 3. Run the Switch_the_Music.py by using Runner:Python.
 
 ### success
-        Now please try to press the two buttons, check the LCD, and listen to the music.
+        Now please try to press the two buttons, check the LCD, and listen to music.
 
 ## Lesson - 4. Download Music via the WIFI dongle
 
@@ -244,8 +245,7 @@ The LCD will show the name of the song.
 - Step 5. Run the Switch_the_Music.py by using Runner:Python.
 
 ### success
-
-        Default music is boring and bad taste? Now, with the help of WiFi, you can download the music meet your own flavor.
+        Default music is boring and bad taste? Now, with the help of WiFi, you can download the music to meet your own flavor.
 
 ## Lesson - 5. Keyboard Player
 
@@ -282,7 +282,7 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 
 ### Description:
 
-In this lesson, students will learn how to use the capacitive touch sensor to play the song. And the RGB LED will have different color based on different music note.
+In this lesson, students will learn how to use the capacitive touch sensor to play the song. And the RGB LED will have different colors based on a different musical notes.
 
 ### Hardware Requirement:
 
@@ -316,7 +316,7 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 
 ### Description:
 
-In this lesson, students will learn how to use the Grove - 3-Axis Accelerometer to control RGB LED and Speaker Plus. At last, he can make a smart box, by putting different side of the box on the table, the box will have different color and play different music.
+In this lesson, students will learn how to use the Grove - 3-Axis Accelerometer to control RGB LED and Speaker Plus. At last, he can make a smart box, by putting the different side of the box on the table, the box will have different color and play different music.
 
 ### Hardware Requirement:
 
