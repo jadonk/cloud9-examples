@@ -1,0 +1,503 @@
+* [[microsd-software-image-and-other-materials-available-from-bbb.iotechlab]]
+image:handouts/media/image2.png[image,width=557,height=294]MicroSD
+software image and other materials available from *bbb.io/techlab*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+See *bbb.io/start* for instructions on using Etcher.io to write a
+microSD card
+
+image:handouts/media/image3.jpeg[image,width=441,height=280]Plug into
+the microUSB on PocketBeagle to provide power and a network connection.
+Look for the “heartbeat” pulse on the USR0 LED to know the board has
+Linux up-and-running.
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+image:handouts/media/image4.png[image]
+
+_______________________________________________________________
+[[Slide 2]]**TechLab Pocket Cape**
+
+image:handouts/media/image5.png[image]**USB Host A with power**
+
+*mikroBus Header*
+
+http://www.mikroe.com/click[*www.mikroe.com/click*]
+
+*ADC Light Sensor*
+
+*Reset Button*
+
+*USB-to-Serial Micro B*
+
+*SPI 2-Digit 7-Segment Displays*
+
+*I2C Accelerometer Buzzer*
+
+*2 GPIO Push Buttons PWM Controlled Tri-Color LED*
+
+*TechLab Wiring Summary*
+_______________________________________________________________
+
+image:handouts/media/image20.png[image]
+
+* image:handouts/media/image21.png[image][[Slide 3]][[slide-3]]PocketBeagle®
+is an ultra-tiny-yet-complete, low-cost, open-source USB-key-fob
+computer.
+* Processor System:
+
+______________________________________________________________________________________________________________________
+Octavo Systems OSD3358-SM 21mm x 21mm system-in-package that includes
+512MB DDR3 RAM, 1-GHz ARM Cortex-A8 CPU, 2x 200-
+
+MHz PRUs, ARM Cortex-M3, 3D accelerator, power/battery management and
+EEPROM
+______________________________________________________________________________________________________________________
+
+* 72 expansion pin headers with power and battery I/Os, high-speed USB,
+8 analog inputs, 44 digital I/Os and numerous digital interface
+peripherals
+* microUSB host/client and microSD connectors
+
+_____________________________________________________________________________________________________________________________________________________________________________________________
+image:handouts/media/image22.jpeg[image,width=815,height=335]**PocketBeagle
+Expansion Header Pin-out**
+
+Great getting started information is at
+https://beagleboard.org/pocket[*_beagleboard.org/pocket_*]
+
+[[Slide 4]]**Goal:** Blink USR3 LED on PocketBeagle.
+
+*Overview:* BoneScript is a Node.js library customized for the Beagle
+family and featuring familiar Arduino function calls. Here we will use
+it to blink an LED built into your PocketBeagle.
+
+*Do this in the Cloud9 IDE:*
+
+\1. Navigate to *TechLab/internalLED.js* and double-click on it.
+
+\2. Click the Run button in the toolbar to execute the script in the
+active file window
+
+\3. You will see the run configuration window open with a Stop button.
+Click the Stop button to halt the program.
+
+\4. Try changing the LED or blink time, save the program and run again.
+
+TIP: Click the green bug to disable the debugger and begin execution
+quicker.
+_____________________________________________________________________________________________________________________________________________________________________________________________
+
+image:handouts/media/image23.jpeg[image]
+
+[[internalled.js]]
+internalLED.js
+--------------
+
+_____________________________________________________________________________________________________________________________________
+#!/usr/bin/env node
+
+var b = require('bonescript'); var LED = 'USR3';
+
+var state = b.HIGH; // Initial state b.pinMode(LED, b.OUTPUT);
+
+image:handouts/media/image24.png[image,width=287,height=120]setInterval(flash,
+250); // Change state every 250 ms function flash() \{
+
+b.digitalWrite(LED, state);
+
+if(state === b.HIGH) \{ state = b.LOW;
+
+} else \{
+
+state = b.HIGH;
+
+}
+
+}
+
+[[Slide 5]]**Goal:** Sense the external world by reading a digital
+input.
+
+*Overview:* Reading a switch attached to a GPIO (general purpose
+input/output) port is as
+
+easy as configuring the port as an input and attaching an interrupt
+handler to it. Note the buttons are “active low”.
+
+*Do this in the Cloud9 IDE:*
+_____________________________________________________________________________________________________________________________________
+
+1.  Navigate to *TechLab/pushbutton.js* and double-click on it.
+2.  Click the Run button in the toolbar to execute the script in the
+active file window
+3.  Press the “L” button on TechLab and check the output (Value=1 or
+Value=0) in the configuration window. Click the Stop button on the IDE
+to halt the program.
+
+___________________________________________________________________________________________________________________
+*Challenge #1:* Can you modify the program to read from the “R” button?
+
+*Challenge #2*: Can you modify the program to toggle the USR3 LED?
+
+*Challenge #3*: Can you modify the program to turn the USR3 LED on with
+the “L” button and off with the “R” button?
+___________________________________________________________________________________________________________________
+
+image:handouts/media/image25.jpeg[image,width=774,height=440]
+
+[[pushbutton.js]]
+pushbutton.js
+-------------
+
+[[usrbinenv-node]]
+#!/usr/bin/env node
++++++++++++++++++++
+
+_________________________________________________________________________________________________________________________________________________________________________________
+var b = require('bonescript'); var button = "P2_33";
+
+console.log('Hit ^C to stop');
+
+b.pinMode(button, b.INPUT, 7, null, null, doAttach);
+
+function doAttach(err, x) \{ if(err) \{
+
+console.log('pinMode err = ' + err); return;
+
+}
+
+b.attachInterrupt(button, true, b.CHANGE, printStatus);
+
+}
+
+function printStatus(err, x) \{ if(err) \{
+
+console.log('attachInterrupt err = ' + err); return;
+
+}
+
+if(x.attached) \{
+
+console.log("Interrupt handler attached"); return;
+
+}
+
+process.stdout.write('value = ' + x.value + ' \r');
+
+}
+
+[[Slide 7]]**Goal:** Sense the external world by reading a variable
+analog input *Overview:* Reading a light sensor attached to an analog
+input pin. *Do this in the Cloud9 IDE:*
+_________________________________________________________________________________________________________________________________________________________________________________
+
+1.  Navigate to *TechLab/analogIn.js* and double-click on it.
+2.  Click the Run button in the toolbar to execute the script in the
+active file window
+3.  Cover the light sensor and check the output in the configuration
+window. Click the Stop button to halt the program.
+
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+*Challenge #1*: Can you change how often the light sensor is read? What
+happens and why? *Challenge #2*: Can you activate the USR3 LED based
+upon a voltage threshold from the light sensor? *Challenge #3*:
+*(Advanced Coding Lab)*
+
+Try using the I2C accelerometer input from
+/sys/bus/iio/devices/iio:device1/in_accel_x_raw. Hint: use
+b.readTextFile()
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+image:handouts/media/image26.jpeg[image,width=771,height=397]
+
+[[analogin.js]]
+analogIn.js
+-----------
+
+[[usrbinenv-node-1]]
+#!/usr/bin/env node
+~~~~~~~~~~~~~~~~~~~
+
+___________________________________________________________________________________________________________________________________________________________________________________________________________________
+var b = require('bonescript'); var pin = 'P1_19';
+
+console.log('Hit ^C to stop'); doAnalogRead();
+
+function printStatus(err, x) \{
+
+if(err) \{console.log('Got error: ' + err); return;};
+process.stdout.write(pin + ': ' + (x*100).toFixed(1) +
+
+'%, ' + (1.8*x).toFixed(3) + 'V \r'); setTimeout(doAnalogRead, 100);
+
+}
+
+function doAnalogRead() \{ b.analogRead(pin, printStatus);
+
+}
+
+[[Slide 9]]**Goal:** Utilize a hardware pulse-width-modulator (PWM) to
+light an LED with variable brightness
+
+*Overview:* Linux provides LED drivers that understand how to utilize
+PWM drivers, making use of PocketBeagle’s built-in PWM hardware. They
+are controlled with simple text files where you can set the brightness.
+
+*Do this in the Cloud9 IDE:*
+___________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+1.  Navigate to *TechLab/fadeLED.js* and double-click on it.
+2.  Click the Run button in the toolbar to execute the script in the
+active file window
+3.  You will see the run configuration window open with a Stop button.
+Click the Stop button to halt the program.
+
+_______________________________________________________________________________
+*Challenge #1*: Try changing the fade interval, save the program and run
+again.
+
+*Challenge #2*: Try using the light sensor input to set the LED
+brightness.
+
+*Challenge #3*: *(Advanced Coding Lab)*
+
+Try using the I2C accelerometer input for all 3 color LEDs..
+_______________________________________________________________________________
+
+image:handouts/media/image27.jpeg[image,width=778,height=422]
+
+[[fadeled.js]]
+fadeLED.js
+----------
+
+[[usrbinenv-node-2]]
+#!/usr/bin/env node
+^^^^^^^^^^^^^^^^^^^
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+var b = require('bonescript');
+
+var LED = '/sys/class/leds/techlab::blue/brightness'; var step = 10, //
+Step size
+
+min = 0, // dimmest value max = 255, // brightest value
+
+brightness = min; // Current brightness;
+
+doInterval();
+
+function doInterval(err, x) \{ if(err) \{
+
+console.log('err = ' + err); return;
+
+}
+
+setInterval(fade, 20); // Step every 20 ms
+
+}
+
+function fade() \{ b.writeTextFile(LED, brightness); brightness += step;
+
+if(brightness >= max || brightness <= min) \{ step = -1 * step;
+
+}
+
+}
+
+[[Slide 11]]**Goal:** Read light sensor data and output to green LED
+brightness
+
+*Overview:* Node-RED is a flow-based development tool developed
+originally by IBM for wiring together hardware devices, APIs and online
+services as part of the Internet of Things. Node-RED provides a
+browser-based flow editor, which can be used to create JavaScript
+functions. Linux turns devices into virtual files, making Node-RED well
+suited to interacting with the physical world.
+
+*Do this:*
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+1.  Open Node-RED by pointing your browser to *http://192.168.7.2:1880*
+
+image:handouts/media/image28.png[image]
+
+1.  Make sure the big “DEPLOY” button in the top right corner is
+greyed-out by clicking it. This makes sure any changes you’ve made have
+been started on your PocketBeagle. The program will run continuously.
+2.  Click the highlightable button to the left of the “ON”. Cover the
+light sensor to notice the brightness of the green LED adjust.
+3.  Try double-clicking on each node to see the parameters used for the
+demo.
+4.  Click the highlightable button to the left of the “OFF” to stop
+adjusting the brightness of the green LED.
+5.  Explore
+
+_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+*Challenge #1*: Try updating the blue LED rather than the green LED.
+Remember to click the “DEPLOY” button to save and run your changes.
+
+*Challenge #2*: Try reading from the I2C accelerometer rather than the
+light sensor.
+
+*Challenge #3*: Use a “gpio in” node to use the status of the “L” or “R”
+buttons to update the LED.
+
+[[Slide 12]]**Goal:** Learn to send several basic commands to the shell
+
+*Overview:* The true power of Linux to automate many aspects of your
+life cannot be achieved without some utilization of the command line
+shell. The Cloud9 IDE makes it easy to access this directly from your
+web browser. Another great resource for learning is *linuxcommand.org*.
+
+*Do this in the Cloud9 IDE:*
+_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+1.  Click in the terminal window at the bottom half of the IDE. You can
+also open a new terminal by clicking the “+” in the window tabs and
+selecting “New Terminal”.
+2.  Try typing in the “commands to try”. Press <ENTER> after each
+command. Take note of how the prompt changes to show you the current
+active directory. Use the up and down arrows to cycle through commands
+you’ve typed before, in case you want to repeat any.
+
+__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+*Challenge #1*: Can you repeat the last command below that prints GPIO
+values and change the values?
+
+*Challenge #2*: Using the “watch” command, can you monitor the I2C
+accelerometer status?
+
+*Challenge #3*: Can you use the “config-pin” command to switch the red
+LED to a GPIO, set it high and low and then switch it back to PWM mode?
+What happens if the red LED is in GPIO mode and you change the
+brightness with the “/sys/class/leds” entry?
+__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+image:handouts/media/image29.jpeg[image,width=508,height=286]
+
+[[commands-to-try]]
+commands to try
+---------------
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+cd /sys/class/leds ls
+
+echo 1 > techlab\:\:seg0/brightness config-pin p1.33 pwm
+
+echo 10 > techlab\:\:red/brightness
+
+cd /sys/class/gpio config-pin p1.29 gpio
+
+cat gpio45/value gpio117/value
+
+[[Slide 13]]**Goal:** Utilize a programmable real-time unit (PRU) to
+read and set GPIOs.
+
+*Overview:* A PRU is a microcontroller built into the PocketBeagle that
+can be programmed in C or assembly and controlled by the main ARM
+processor that runs Linux. Some pins can be directly mapped to PRU
+registered for the lowest possible latency, but other GPIOs can be
+utilized via the on-chip-peripheral (OCP) bus inside the processor. Here
+we’ll learn to execute an example written in C to access the
+direct-mapped PRU GPIOs.
+
+*Do this in the Cloud9 IDE:*
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+1.  Navigate to *TechLab/led-button.pru0c* and double-click on it.
+2.  Click the Run button in the toolbar to execute the script in the
+active file window.
+3.  Click the run configuration window and type ‘temppwd’ when prompted
+for the password.
+
+______________________________________________________________________________________
+*Note*: The program will keep running until you execute a different
+program or reboot.
+______________________________________________________________________________________
+
+1.  Press the ‘R’ button to note the red RGB LED light up.
+
+____________________________________________________________________________________________________________________________________________________________________
+*Challenge #1*: The buzzer is on PRU0 output 3 (P2_30). Try setting its
+output at the same time as the LED.
+
+*Challenge #2*: Try toggling the buzzer with a for loop when the button
+is pressed. You can use the
+
+‘ delay_cycles’ function to add a delay. Each delay cycle should be 5ns,
+so 800Hz is 250000 cycles, a reasonable number to try.
+
+*Challenge #3*: *(Advanced Coding Lab)*
+
+Run *TechLab/rgb.pru0c* and note how the on-chip-peripherals are
+accessed as well as how a fade effect can be done easily creating a
+software pulse-width-modulator.
+____________________________________________________________________________________________________________________________________________________________________
+
+image:handouts/media/image30.jpeg[image,width=768,height=432]
+
+[[led-button.pru0c]]
+led-button.pru0c
+----------------
+
+[[include-stdint.h-include-pru_cfg.h-include-pru_ctrl.h-include-stddef.h-include-rsc_types.h]]
+#include <stdint.h> #include <pru_cfg.h> #include <pru_ctrl.h> #include
+<stddef.h> #include <rsc_types.h>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+_____________________________________________________________________________________________________________________________________________________________
+volatile register unsigned int R30; volatile register unsigned int R31;
+
+#pragma DATA_SECTION(init_pins, ".init_pins") #pragma RETAIN(init_pins)
+
+const char init_pins[] =
+"/sys/devices/platform/ocp/ocp:P1_33_pinmux/state\0pruout\0" \
+"/sys/devices/platform/ocp/ocp:P1_29_pinmux/state\0pruin\0" \ "\0\0";
+
+void main(void) \{
+
+/* Invert GPIO input 7 to GPIO output 1 */
+
+/* On TechLab, input 7 is the R button */
+
+/* On TechLab, output 1 is the red in the RGB LED */ while(1) \{
+
+if( R31 & (1<<7)) \{
+
+/* Clear output */
+
+R30 &= ~(1<<1);
+
+} else \{
+
+/* Set outputs */
+
+R30 |= (1<<1);
+
+}
+
+}
+
+}
+
+struct my_resource_table \{
+
+struct resource_table base;
+
+uint32_t offset[1];
+
+};
+
+#pragma DATA_SECTION(pru_remoteproc_ResourceTable, ".resource_table")
+#pragma RETAIN(pru_remoteproc_ResourceTable)
+
+struct my_resource_table pru_remoteproc_ResourceTable = \{
+
+1, /* we're the first version that implements this */ 0, /* number of
+entries in the table */
+
+0, 0, /* reserved, must be zero */ 0, /* offset[0] */
+
+};
+_____________________________________________________________________________________________________________________________________________________________
