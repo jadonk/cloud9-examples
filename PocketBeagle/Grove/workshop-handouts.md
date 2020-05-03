@@ -50,10 +50,8 @@ Great getting started information is at beagleboard.org/pocket
 ----
 
 # Blink PocketBeagle on-board USRx LED
-**Goal:** Blink USR3 LED on PocketBeagle
-
-**Overview:** Python is a popular programming language used by beginners. Linux exposes hardware interfaces as files, making it easy to use any programming language to interact with hardware. Here we will use Python and Linux to blink an LED built into your PocketBeagle.
-
+**Goal:** Blink USR3 LED on PocketBeagle  
+**Overview:** Python is a popular programming language used by beginners. Linux exposes hardware interfaces as files, making it easy to use any programming language to interact with hardware. Here we will use Python and Linux to blink an LED built into your PocketBeagle.  
 **Do this in the Cloud9 IDE:**
 
 1. Navigate to *PocketBeagle/Grove/internalLED.py* and double-click on it.
@@ -81,4 +79,24 @@ while True:
 ```
 
 ----
+
+# Read a button
+
+**Goal:** Sense the external world by reading a digital input.  
+**Overview:** Reading a switch attached to a GPIO (general purpose input/output) port isn't
+as easy as just reading and writing a file anymore. They call that progress. Learn how to
+map the Grove ports to PocketBeagle pins to OSD3358 balls to AM3358 balls to GPIO identifiers
+and access them using ```libgpiod```.
+ Note the
+buttons are “active low”.  
+**Do this in the Cloud9 IDE:**
+
+1. Navigate to TechLab/pushbutton.js and double-click on it.
+2. Click the Run button in the toolbar to execute the script in the active file window
+3. Press the “L” button on TechLab and check the output  (Value=1 or Value=0)  in the configuration window.      Click the Stop button on the IDE to halt the program. 
+
+**Challenge #1:** Can you modify the program to read from the “R” button?
+**Challenge #2:** Can you modify the program to toggle the USR3 LED?
+**Challenge #3:** Can you modify the program to turn the USR3 LED on with the “L” button and off with the “R” button?
+
 
