@@ -25,7 +25,8 @@ C6X_CGT:=/usr/share/ti/cgt-c6x
 TIDL_API_DIR:=/usr/share/ti/tidl/tidl_api
 GEN_DIR:=/tmp/cloud9-examples
 MODEL:=$(shell cat /proc/device-tree/model | sed 's/ /_/g' | tr -d '\000')
-$(warning MODEL=$(MODEL),TARGET=$(TARGET),COMMON=$(COMMON))
+# $(warning MODEL=$(MODEL),TARGET=$(TARGET),COMMON=$(COMMON))
+$(warning MODEL=$(MODEL),TARGET=$(TARGET))
 
 #
 # Define PROC and build variables
@@ -144,7 +145,7 @@ endef
 
 ifneq ($(TARGET),)
 $(eval $(call target-to-proc,$(TARGET).out))
-$(warning GEN_DIR=$(GEN_DIR),CHIP=$(CHIP),PROC=$(PROC),PRUN=$(PRUN),PRU_DIR=$(PRU_DIR),EXE=$(EXE))
+# $(warning GEN_DIR=$(GEN_DIR),CHIP=$(CHIP),PROC=$(PROC),PRUN=$(PRUN),PRU_DIR=$(PRU_DIR),EXE=$(EXE))
 
 all: stop install start
 	@echo "MODEL   = $(MODEL)"
@@ -206,6 +207,13 @@ $(GEN_DIR)/%.so: $(GEN_DIR)/%.o
 	$(eval $(call target-to-proc,$@))
 	$(eval $(call proc-to-build-vars,$@))
 	@$(LD) $@ -shared $^ $(LDFLAGS) 
+
+$(GEN_DIR)/%.o: %.asm
+	@mkdir -p $(GEN_DIR)
+	@echo 'CC	$^'
+	$(eval $(call target-to-proc,$@))
+	$(eval $(call proc-to-build-vars,$@))
+	@$(CC) $@ $^ $(CFLAGS)
 
 $(GEN_DIR)/%.o: %.c
 	@mkdir -p $(GEN_DIR)
