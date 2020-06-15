@@ -1,22 +1,29 @@
-* [[microsd-software-image-and-other-materials-available-from-bbb.iotechlab]]
-image:handouts/media/image2.png[image,width=557,height=294]MicroSD
-software image and other materials available from *bbb.io/techlab*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+= PocketBeagle® TechLab Cape Hands-On Coding Workshop
 
-________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+[[microsd-software-image-and-other-materials-available-from-bbb.iotechlab]]
+* MicroSD software image and other materials available from *bbb.io/techlab*
+
+[.left]
 See *bbb.io/start* for instructions on using Etcher.io to write a
 microSD card
 
-image:handouts/media/image3.jpeg[image,width=441,height=280]Plug into
+[.right]
+image:handouts/media/image2.png[image,width=557,height=294]
+
+[.left]
+image:handouts/media/image3.jpeg[image,width=441,height=280]
+
+[.right]
+Plug into
 the microUSB on PocketBeagle to provide power and a network connection.
 Look for the “heartbeat” pulse on the USR0 LED to know the board has
 Linux up-and-running.
-________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 image:handouts/media/image4.png[image]
 
 _______________________________________________________________
-[[Slide 2]]**TechLab Pocket Cape**
+[[Slide 2]]
+== TechLab Pocket Cape
 
 image:handouts/media/image5.png[image]**USB Host A with power**
 
@@ -41,7 +48,9 @@ _______________________________________________________________
 
 image:handouts/media/image20.png[image]
 
-* image:handouts/media/image21.png[image][[Slide 3]][[slide-3]]PocketBeagle®
+* image:handouts/media/image21.png[image]
+[[Slide 3]][[slide-3]]
+PocketBeagle®
 is an ultra-tiny-yet-complete, low-cost, open-source USB-key-fob
 computer.
 * Processor System:
@@ -60,8 +69,8 @@ peripherals
 * microUSB host/client and microSD connectors
 
 _____________________________________________________________________________________________________________________________________________________________________________________________
-image:handouts/media/image22.jpeg[image,width=815,height=335]**PocketBeagle
-Expansion Header Pin-out**
+.PocketBeagle Expansion Header Pin-out
+image:handouts/media/image22.jpeg[image,width=815,height=335]
 
 Great getting started information is at
 https://beagleboard.org/pocket[*_beagleboard.org/pocket_*]
@@ -95,26 +104,26 @@ internalLED.js
 --------------
 
 _____________________________________________________________________________________________________________________________________
+
+
+[source,javascript]
+----
 #!/usr/bin/env node
-
 var b = require('bonescript'); var LED = 'USR3';
+var state = b.HIGH; // Initial state 
+b.pinMode(LED, b.OUTPUT);
 
-var state = b.HIGH; // Initial state b.pinMode(LED, b.OUTPUT);
+setInterval(flash, 250); // Change state every 250 ms
 
-image:handouts/media/image24.png[image,width=287,height=120]setInterval(flash,
-250); // Change state every 250 ms function flash() \{
-
-b.digitalWrite(LED, state);
-
-if(state === b.HIGH) \{ state = b.LOW;
-
-} else \{
-
-state = b.HIGH;
-
+function flash() \{
+    b.digitalWrite(LED, state);
+    if(state === b.HIGH) {
+        state = b.LOW;
+    } else {
+        state = b.HIGH;
+    }
 }
-
-}
+----
 
 [[Slide 5]]**Goal:** Sense the external world by reading a digital
 input.
@@ -151,8 +160,7 @@ pushbutton.js
 -------------
 
 [[usrbinenv-node]]
-#!/usr/bin/env node
-+++++++++++++++++++
+### #!/usr/bin/env node
 
 _________________________________________________________________________________________________________________________________________________________________________________
 var b = require('bonescript'); var button = "P2_33";
@@ -272,8 +280,7 @@ fadeLED.js
 ----------
 
 [[usrbinenv-node-2]]
-#!/usr/bin/env node
-^^^^^^^^^^^^^^^^^^^
+=== #!/usr/bin/env node
 
 ________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 var b = require('bonescript');
