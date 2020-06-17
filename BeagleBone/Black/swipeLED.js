@@ -6,29 +6,28 @@
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
-const b = require('bonescript');
-const leds = ['USR0', 'USR1', 'USR2', 'USR3'];
+const fs = require('fs');
+const leds = ['/sys/class/leds/beaglebone:green:usr0/brightness',
+    '/sys/class/leds/beaglebone:green:usr1/brightness',
+    '/sys/class/leds/beaglebone:green:usr2/brightness',
+    '/sys/class/leds/beaglebone:green:usr3/brightness'];
 var i = 0;
 const delay = 100;
 
 console.log('Hit ^C to stop');
 
 console.log("Toggling LEDs:");
-for(var x in leds) {
-    b.pinMode(leds[x], b.OUTPUT);
-    process.stdout.write("0");
-}
 ledOn();
 
 function ledOn() {
     process.stdout.write("\x1b[" + (n(i)+1) + "G1");
-    b.digitalWrite(leds[n(i)], b.HIGH);
+    fs.writeFileSync(leds[n(i)], 1);
     setTimeout(ledOff, delay);
 }
 
 function ledOff() {
     process.stdout.write("\x1b[" + (n(i)+1) + "G0");
-    b.digitalWrite(leds[n(i)], b.LOW);
+    fs.writeFileSync(leds[n(i)], 0);
     i++; 
     if(i >= 2*leds.length-2) 
         i = 0;
