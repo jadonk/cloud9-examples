@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var b = require('bonescript');
+var fs = require('fs');
 var LED = '/sys/class/leds/techlab::blue/brightness';
 var step = 10,      // Step size
     min = 0,        // dimmest value
@@ -17,7 +17,7 @@ function doInterval(err, x) {
 }
 
 function fade() {
-    b.writeTextFile(LED, brightness);
+    fs.writeFileSync(LED, brightness);
     brightness += step;
     if(brightness >= max || brightness <= min) {
         step = -1 * step;
