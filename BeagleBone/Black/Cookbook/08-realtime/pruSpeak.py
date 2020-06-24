@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from pru_speak import pru_speak
 
 # Copy the signal on pin P8_16 to P9_31

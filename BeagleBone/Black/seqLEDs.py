@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # ////////////////////////////////////////
 # //	seqLED.py
 # //      Blinks the USR LEDs in sequence.

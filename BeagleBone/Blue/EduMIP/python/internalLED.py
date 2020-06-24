@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Blinks a single builtin LED
 import Adafruit_BBIO.GPIO as GPIO
 import time
