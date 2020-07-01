@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #//////////////////////////////////////
 #	blinkLED.py
 #	Blinks one LED wired to P1_36.
