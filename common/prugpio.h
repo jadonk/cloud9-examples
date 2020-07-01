@@ -71,6 +71,8 @@
 #define P9_16 (1<<19)
 
 // The define a couple of GPIO pin addresses on Pocket
+// GPIO 0
+#define P2_05	(0x1<<30)
 // GPIO1
 #define P2_1 (1<<18)
 #define P1_32 (1<<10)
