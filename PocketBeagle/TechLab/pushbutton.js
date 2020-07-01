@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 //////////////////////////////////////
 // 	pushbutton.js
-// 	Reads the Left pushbutton.
+// 	Reads the Left push button.
 //////////////////////////////////////
 // Pre-steps (may need to eventually put in this program):
 //   * Make sure /sys/class/gpio/gpio45 is exported
