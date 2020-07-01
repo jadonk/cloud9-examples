@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 ////////////////////////////////////////
 //	analogInOut.js
-//  Reads analog in on P91_19 and adjusts the PWM on P1_36.
+//  Reads analog in on P1_19 and adjusts the PWM on P1_36.
 //	Wiring:	Attach the outer pins on a variable resistor to P1_17 and P1_18
 //          Attach the wiper (middle pin) of the resistor to P1_19.
 //          P91_36 connects to the plus lead of an LED.  The negative lead of the
