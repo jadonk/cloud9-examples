@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+//////////////////////////////////////
+// 	fadeLED.js
+// 	Fades the blue LED on and off.
+//////////////////////////////////////
 var fs = require('fs');
 var LED = '/sys/class/leds/techlab::blue/brightness';
 var step = 10,      // Step size

@@ -1,3 +1,7 @@
+//////////////////////////////////////
+// 	rgb.pru0.c
+// 	Fades through the RGB LED in sequence.
+//////////////////////////////////////
 #include <stdint.h>
 #include <pru_cfg.h>
 #include <pru_ctrl.h>

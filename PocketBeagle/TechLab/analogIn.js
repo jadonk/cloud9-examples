@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+//////////////////////////////////////
+// 	analogin.js
+// 	Reads the analog value of the light sensor.
+//////////////////////////////////////
 var b = require('bonescript');
 var pin = 'P1_19';
 
