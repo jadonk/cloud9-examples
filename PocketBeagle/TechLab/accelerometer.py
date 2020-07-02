@@ -6,7 +6,7 @@
 #//////////////////////////////////////
 import time
 
-path = '/sys/class/i2c-adapter/i2c-2/2-001c/iio:device1'
+path = '/sys/bus/i2c/drivers/mma8452/2-001c/iio:device1'
 
 fdx = open(path + '/in_accel_x_raw', 'r')
 fdy = open(path + '/in_accel_y_raw', 'r')
