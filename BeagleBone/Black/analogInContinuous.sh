@@ -9,7 +9,7 @@ ls -l buffer
 # -rw-rw-r-- 1 root gpio 4096 Jul  7 08:00 watermark
 
 ls -al scan_elements/
-cat /sys/bus/iio/devices/iio\:device0/scan_elements/in_voltage1_type
+cat scan_elements/in_voltage1_type
 # le:u12/16>>0
 
 # le represents the endianness, here little endian
@@ -19,8 +19,9 @@ cat /sys/bus/iio/devices/iio\:device0/scan_elements/in_voltage1_type
 # 0 is the number of right shifts needed.
 
 # Enable A2, P9_37
-echo 1 > scan_elements/in_voltage2_en   # P9_37
-echo 1 > scan_elements/in_voltage5_en   # P9_39
+echo 1 > scan_elements/in_voltage1_en   # P9_40
+# echo 1 > scan_elements/in_voltage2_en   # P9_37
+# echo 1 > scan_elements/in_voltage5_en   # P9_39
 echo 512 > buffer/length
 
 # od -d displlays data as 16 bit values.
@@ -31,5 +32,5 @@ od -d /dev/iio\:device0 > $TMP
 awk '{for (i=2; i<=NF; i+=2) print $i}' $TMP> /tmp/capture1
 awk '{for (i=3; i<=NF; i+=2) print $i}' $TMP> /tmp/capture2
 
-# Enable  capture (n another window)
-echo 1 > buffer/enable; sleep 1 ; echo 0 > buffer/enable
+# Enable  capture (in another window)
+echo 1 > buffer/enable; sleep 0.1 ; echo 0 > buffer/enable
