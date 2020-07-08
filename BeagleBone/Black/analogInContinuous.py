@@ -22,9 +22,12 @@ SAMPLERATE=8000
 
 # Setup IIO for Continous reading
 # Enable AIN1, which isn P9_40
-file1 = open(IIOPATH+'/scan_elements/in_voltage1_en', 'w')     # P9_40
-file1.write('1') 
-file1.close()
+try:
+    file1 = open(IIOPATH+'/scan_elements/in_voltage1_en', 'w')     # P9_40
+    file1.write('1') 
+    file1.close()
+except:     # carry on if it's already enabled
+    pass
 # Set buffer length
 file1 = open(IIOPATH+'/buffer/length', 'w')
 file1.write(str(2*LEN))     # I think LEN is in 16-bit values, but here we pass bytes
@@ -44,7 +47,6 @@ try:
     while True:
         y = np.fromfile(fd, dtype='uint16', count=LEN)
         # print(y)
-        # x = np.arange(101) - 50
         gp.plot(x, y,
             xlabel = 't (ms)',
             _yrange = [0, 4100],
@@ -55,6 +57,7 @@ try:
 
 except KeyboardInterrupt:
     print("Turning off input.")
+    # Disable continous
     file1 = open(IIOPATH+'/buffer/enable', 'w')
     file1.write('0')
     file1.close()
