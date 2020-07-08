@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #//////////////////////////////////////
-#	analogin.py
-# 	Reads the analog value of the light sensor.
+#	analogInContinuous.py
+# 	Read analog data vioa IIO continous mode and plots it.
 #//////////////////////////////////////
 
 # From: https://stackoverflow.com/questions/20295646/python-ascii-plots-in-terminal
