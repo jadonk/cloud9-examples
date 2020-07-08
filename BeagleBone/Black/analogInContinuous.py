@@ -3,20 +3,10 @@
 #	analogin.py
 # 	Reads the analog value of the light sensor.
 #//////////////////////////////////////
-# import Adafruit_BBIO.ADC as ADC
-# import time
-# ADC.setup()
-
-# pin = "P9_37"        # light sensor
-
-# print('Hit ^C to stop')
-
-# while True:
-#     x = ADC.read(pin)
-#     print('{}: {:.1f}%, {:.3f} V'.format(pin, 100*x, 1.8*x), end = '\r')
-#     time.sleep(0.1)
 
 # From: https://stackoverflow.com/questions/20295646/python-ascii-plots-in-terminal
+# https://github.com/dkogan/gnuplotlib
+# https://github.com/dkogan/gnuplotlib/blob/master/guide/guide.org
 # sudo apt install gnuplot
 # pip3 install gnuplotlib
 
@@ -27,19 +17,44 @@ import struct
 
 IIOPATH='/sys/bus/iio/devices/iio:device0'
 IIODEV='/dev/iio:device0'
+LEN = 100
+SAMPLERATE=8000
+
+# Setup IIO for Continous reading
+# Enable AIN1, which isn P9_40
+file1 = open(IIOPATH+'/scan_elements/in_voltage1_en', 'w')     # P9_40
+file1.write('1') 
+file1.close()
+# Set buffer length
+file1 = open(IIOPATH+'/buffer/length', 'w')
+file1.write(str(2*LEN))     # I think LEN is in 16-bit values, but here we pass bytes
+file1.close()
+# Enable continous
+file1 = open(IIOPATH+'/buffer/enable', 'w')
+file1.write('1')
+file1.close()
 
 fd = open(IIODEV, "r")
 
-while True:
-    x = np.fromfile(fd, dtype='uint16', count=256)
-    # print(x)
-    # x = np.arange(101) - 50
-    gp.plot(x)
+print('Hit ^C to stop')
 
-# Frpm: https://hplgit.github.io/scitools/doc/api/html/aplotter.html
-# pip3 install scitools
-# from scitools.aplotter import plot
-# from numpy import linspace, exp, cos, pi
-# x = linspace(-2, 2, 81)
-# y = exp(-0.5*x**2)*cos(pi*x)
-# plot(x, y)
+x = np.linspace(0, 1000*LEN/SAMPLERATE, LEN)
+
+try:
+    while True:
+        y = np.fromfile(fd, dtype='uint16', count=LEN)
+        # print(y)
+        # x = np.arange(101) - 50
+        gp.plot(x, y,
+            xlabel = 't (ms)',
+            _yrange = [0, 4100],
+            title  = 'analogInContinuous',
+            legend = np.array( ("P9.40", "P9.38"), ),
+            # _with  = 'lines'
+            )
+
+except KeyboardInterrupt:
+    print("Turning off input.")
+    file1 = open(IIOPATH+'/buffer/enable', 'w')
+    file1.write('0')
+    file1.close()
