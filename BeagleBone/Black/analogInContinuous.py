@@ -19,11 +19,12 @@ IIOPATH='/sys/bus/iio/devices/iio:device0'
 IIODEV='/dev/iio:device0'
 LEN = 100
 SAMPLERATE=8000
+AIN='0'
 
 # Setup IIO for Continous reading
-# Enable AIN1, which isn P9_40
+# Enable AIN
 try:
-    file1 = open(IIOPATH+'/scan_elements/in_voltage1_en', 'w')     # P9_40
+    file1 = open(IIOPATH+'/scan_elements/in_voltage'+AIN+'_en', 'w')
     file1.write('1') 
     file1.close()
 except:     # carry on if it's already enabled
@@ -51,7 +52,8 @@ try:
             xlabel = 't (ms)',
             _yrange = [0, 4100],
             title  = 'analogInContinuous',
-            legend = np.array( ("P9.40", "P9.38"), ),
+            legend = np.array( ("P9.39", ), ),
+            # legend = np.array( ("P9.40", "P9.38"), ),
             # _with  = 'lines'
             )
 
@@ -61,3 +63,19 @@ except KeyboardInterrupt:
     file1 = open(IIOPATH+'/buffer/enable', 'w')
     file1.write('0')
     file1.close()
+    
+    file1 = open(IIOPATH+'/scan_elements/in_voltage'+AIN+'_en', 'w')
+    file1.write('0') 
+    file1.close()
+
+
+
+# // Bone  | Pocket | AIN
+# // ----- | ------ | --- 
+# // P9_39 | P1_19  | 0
+# // P9_40 | P1_21  | 1
+# // P9_37 | P1_23  | 2
+# // P9_38 | P1_25  | 3
+# // P9_33 | P1_27  | 4
+# // P9_36 | P2_35  | 5
+# // P9_35 | P1_02  | 6
