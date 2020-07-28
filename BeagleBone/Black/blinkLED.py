@@ -11,7 +11,7 @@
 import Adafruit_BBIO.GPIO as GPIO
 import time
 
-out = "P9_11"
+out = "USR0"
  
 GPIO.setup(out, GPIO.OUT)
  
