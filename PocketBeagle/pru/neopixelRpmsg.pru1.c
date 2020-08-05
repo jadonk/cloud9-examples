@@ -74,7 +74,7 @@ void main(void)
 	uint16_t src, dst, len;
 	volatile uint8_t *status;
 	// Select which pins to output to.  These are all on pru1
-	uint32_t gpio = 0x1<<11;
+	uint32_t gpio = 0x1<<11;	// This P1.4, 2nd down on the left on the TechLab
 	
 	uint8_t r, g, b;
 	int i, j;
