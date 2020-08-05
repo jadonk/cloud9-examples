@@ -7,8 +7,9 @@
 # From: https://stackoverflow.com/questions/20295646/python-ascii-plots-in-terminal
 # https://github.com/dkogan/gnuplotlib
 # https://github.com/dkogan/gnuplotlib/blob/master/guide/guide.org
-# sudo apt install gnuplot
+# sudo apt install gnuplot  (10 minute to install)
 # pip3 install gnuplotlib
+# This uses X11, so when connecting to the bone from the host use:  ssh -X bone
 
 import numpy      as np
 import gnuplotlib as gp
@@ -53,6 +54,8 @@ try:
             _yrange = [0, 4100],
             title  = 'analogInContinuous',
             legend = np.array( ("P9.39", ), ),
+            # ascii=1,
+            # terminal="xterm",
             # legend = np.array( ("P9.40", "P9.38"), ),
             # _with  = 'lines'
             )
@@ -67,8 +70,6 @@ except KeyboardInterrupt:
     file1 = open(IIOPATH+'/scan_elements/in_voltage'+AIN+'_en', 'w')
     file1.write('0') 
     file1.close()
-
-
 
 # // Bone  | Pocket | AIN
 # // ----- | ------ | --- 
