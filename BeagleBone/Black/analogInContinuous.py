@@ -14,13 +14,13 @@
 import numpy      as np
 import gnuplotlib as gp
 import time
-import struct
+# import struct
 
 IIOPATH='/sys/bus/iio/devices/iio:device0'
 IIODEV='/dev/iio:device0'
 LEN = 100
 SAMPLERATE=8000
-AIN='0'
+AIN='1'
 
 # Setup IIO for Continous reading
 # Enable AIN
@@ -47,11 +47,12 @@ x = np.linspace(0, 1000*LEN/SAMPLERATE, LEN)
 
 try:
     while True:
-        y = np.fromfile(fd, dtype='uint16', count=LEN)
+        y = np.fromfile(fd, dtype='uint16', count=LEN)*1.8/4096
         # print(y)
         gp.plot(x, y,
             xlabel = 't (ms)',
-            _yrange = [0, 4100],
+            ylabel = 'volts',
+            _yrange = [0, 2],
             title  = 'analogInContinuous',
             legend = np.array( ("P9.39", ), ),
             # ascii=1,
