@@ -8,6 +8,7 @@
 // 	Setup:	sudo apt uupdate; sudo apt install libgpiod-dev
 // 	See:	https://github.com/starnight/libgpiod-example/blob/master/libgpiod-led/main.c
 // //////////////////////////////////////#include <gpiod.h>
+#include <gpiod.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -43,7 +44,7 @@ int main(int argc, char **argv)
 		goto release_line;
 	}
 
-	/* Blink 20 times */
+	/* Blink */
 	val = 0;
 	while(1) {
 		ret = gpiod_line_set_value_bulk(line, val ? on_values : off_values);
@@ -51,7 +52,6 @@ int main(int argc, char **argv)
 			perror("Set line output failed\n");
 			goto release_line;
 		}
-
 		// printf("Output %u on line #%u\n", val, line_num);
 		// usleep(100000);
 		val = !val;

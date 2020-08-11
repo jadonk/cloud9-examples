@@ -17,4 +17,4 @@ toggle2: toggle2.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm toggle
+	rm toggle1 toggle2
