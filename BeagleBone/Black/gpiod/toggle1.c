@@ -1,5 +1,5 @@
 // //////////////////////////////////////
-// 	toggle.c
+// 	toggle1.c
 //  Toggles the P9_14 pin as fast as it can. P9_14 is line 18 on chip 1.
 // 	Wiring:	Attach an oscilloscope to P9_14 to see the squarewave or 
 //          uncomment the usleep and attach an LED.

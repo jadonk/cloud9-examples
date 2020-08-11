@@ -14,8 +14,8 @@ a gpio pin.
 
 File                | Description
 ----                | -----------
-[toggle1](toggle1.c)    | Toggles one pin as fast as possible.  (300KHz in C, 6.9KHz in python)
-[toggle2](toggle2.c)    | Toggles two pins as fast as possible.  (280KHz in C,  KHz in python)
+[toggle1](toggle1.c)    | Toggles one pin as fast as possible.  (300KHz in C, 57KHz in python)
+[toggle2](toggle2.c)    | Toggles two pins as fast as possible.  (280KHz in C, 55 KHz in python)
 
 
 
