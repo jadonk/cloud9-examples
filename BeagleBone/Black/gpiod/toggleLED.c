@@ -7,7 +7,7 @@
 //          uncomment the usleep and attach an LED.
 // 	Setup:	sudo apt uupdate; sudo apt install libgpiod-dev
 // 	See:	https://github.com/starnight/libgpiod-example/blob/master/libgpiod-led/main.c
-// //////////////////////////////////////#include <gpiod.h>
+// //////////////////////////////////////
 #include <gpiod.h>
 #include <stdio.h>
 #include <unistd.h>
