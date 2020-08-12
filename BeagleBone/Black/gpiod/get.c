@@ -15,7 +15,6 @@ int main(int argc, char **argv)
 {
 	int chipnumber = 0;
 	unsigned int line_num = 23;	// GPIO Pin P8_13
-	unsigned int val;
 	struct gpiod_chip *chip;
 	struct gpiod_line *line;
 	int i, ret;
@@ -34,7 +33,7 @@ int main(int argc, char **argv)
 
 	ret = gpiod_line_request_input(line, CONSUMER);
 	if (ret < 0) {
-		perror("Request line as output failed\n");
+		perror("Request line as intput failed\n");
 		goto release_line;
 	}
 
