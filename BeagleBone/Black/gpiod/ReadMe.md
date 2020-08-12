@@ -16,6 +16,8 @@ File                | Description
 ----                | -----------
 [toggle1](toggle1.c)    | Toggles one pin as fast as possible.  (300KHz in C, 57KHz in python)
 [toggle2](toggle2.c)    | Toggles two pins as fast as possible.  (280KHz in C, 55 KHz in python)
+[get](get.c)    | Reads an input pin and prints its value.
+[getset](getset.c)    | Reads an input pin and writes its value to an output pin.
 
 
 

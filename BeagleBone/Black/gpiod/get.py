@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-# Based on https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/tree/bindings/python/examples
+# //////////////////////////////////////
+# 	get.py
+#  Get the value of P8_13. P8_13 is line 23 on chip 0.
+# 	Wiring:	Attach a switch to P8_13 and 3.3V
+# 	Setup:	sudo apt uupdate; sudo apt install libgpiod-dev
+# 	See:	https://github.com/starnight/libgpiod-example/blob/master/libgpiod-led/main.c
+# //////////////////////////////////////
 
 import gpiod
 import sys
