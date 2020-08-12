@@ -1,7 +1,7 @@
 #
 # Programs
 #
-all:	toggle1 toggle2 get getset
+all:	toggle1 toggle2 get getset getsetEvent
 
 toggle1: toggle1.c
 	$(CC) $(LDFLAGS) -lgpiod -o $@ $^
@@ -15,6 +15,9 @@ get: get.c
 getset: getset.c
 	$(CC) $(LDFLAGS) -lgpiod -o $@ $^
 
+getsetEvent: getsetEvent.c
+	$(CC) $(LDFLAGS) -lgpiod -o $@ $^
+
 #
 # Objects
 #
@@ -23,4 +26,4 @@ getset: getset.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm toggle1 toggle2 get getset
+	rm toggle1 toggle2 get getset getsetEvent

@@ -15,10 +15,10 @@ a gpio pin.
 File                | Description
 ----                | -----------
 [toggle1](toggle1.c)    | Toggles one pin as fast as possible.  (300KHz in C, 57KHz in python)
-[toggle2](toggle2.c)    | Toggles two pins as fast as possible.  (280KHz in C, 55 KHz in python)
+[toggle2](toggle2.c)    | Toggles two pins as fast as possible.  (280KHz in C, 55KHz in python)
 [get](get.c)    | Reads an input pin and prints its value.
-[getset](getset.c)    | Reads an input pin and writes its value to an output pin.
-
+[getset](getset.c)    | Reads an input pin and writes its value to an output pin. (5us delay in C, 20 us Delay in python)
+[getsetEvent](getset.c)    | Like getset, but uses events. (40 us delay in C, 75 us delay in python)
 
 
 ![toggle1.c](images/toggle1.c.png)
