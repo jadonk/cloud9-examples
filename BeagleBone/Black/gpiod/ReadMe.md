@@ -20,6 +20,3 @@ File                | Description
 [getset](getset.c)    | Reads an input pin and writes its value to an output pin. (5us delay in C, 20 us Delay in python)
 [getsetEvent](getset.c)    | Like getset, but uses events. (40 us delay in C, 75 us delay in python)
 [toggleLED](toggleLED.c)    | Toggles the four built in USR LEDs.
-
-
-![toggle1.c](images/toggle1.c.png)
