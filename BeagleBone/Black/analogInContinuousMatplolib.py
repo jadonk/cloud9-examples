@@ -7,8 +7,8 @@
 # From: https://stackoverflow.com/questions/20295646/python-ascii-plots-in-terminal
 # https://github.com/dkogan/gnuplotlib
 # https://github.com/dkogan/gnuplotlib/blob/master/guide/guide.org
-# sudo apt install gnuplot  (10 minute to install)
-# pip3 install gnuplotlib
+# sudo apt install python3-matplotlib  (2.25 minute to install)
+# pip3 install matplotlib  (Not sure this is needed.)
 # This uses X11, so when connecting to the bone from the host use:  ssh -X bone
 
 import numpy      as np
