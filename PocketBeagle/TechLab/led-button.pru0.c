@@ -1,4 +1,7 @@
-/* This example provides the data at https://pub.pages.cba.mit.edu/ring/ */
+//////////////////////////////////////
+// 	led-button.pru0.c
+// 	Toggles red LED when right button is pushed.
+//////////////////////////////////////
 #include <stdint.h>
 #include <pru_cfg.h>
 #include <pru_ctrl.h>

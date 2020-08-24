@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #//////////////////////////////////////
 #	blink.py
 #	Blinks one LED wired to P9_14.
@@ -11,7 +11,7 @@
 import Adafruit_BBIO.GPIO as GPIO
 import time
 
-out = "P9_14"
+out = "USR0"
  
 GPIO.setup(out, GPIO.OUT)
  

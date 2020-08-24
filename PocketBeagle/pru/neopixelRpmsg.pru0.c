@@ -8,7 +8,7 @@
 //	Wiring:	The NeoPixel Data In goes to P1_36, the plus lead to P1_14 (3.3V)
 //			and the ground to P2_22.  If you have more then 40 some 
 //			NeoPixels you will need and external supply.
-//	Setup:	config_pin P1_36 pruout
+//	Setup:	config-pin P1_36 pruout
 //	See:	 
 //	PRU:	pru0
 ////////////////////////////////////////

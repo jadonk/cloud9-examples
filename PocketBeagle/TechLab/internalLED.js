@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+//////////////////////////////////////
+// 	internaLED.js
+// 	Blinks the internal USR3 LED.
+//////////////////////////////////////
 var fs = require('fs');
 var LED = '/sys/class/leds/beaglebone:green:usr3/brightness';
 var state = 0;     // Initial state
