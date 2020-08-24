@@ -12,6 +12,7 @@ File                | Description
 [analogInOut.js](analogInOut.js)    | Reads analog in and adjusts the PWM.
 [analogInSync.js](nalogInSync.js)   | Reads analog in synchronously and prints it.
 [analogInCallback.js](analogInCallback.js) | Reads analog in and prints it via a callback.
+[analogInContinuous.py](analogInContinuous.py) |Samples analog in at 8kHz and plots it with gnuplot.
 [blinkLED.c](blinkLED.c )           | Blinks the USR3 LED via c.
 [blinkLED.js](blinkLED.js)          | Blinks the USR LEDs and P9_14.
 [blinkLED.py](blinkLED.py)          | Blinks one LED via python.

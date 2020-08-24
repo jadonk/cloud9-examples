@@ -11,6 +11,9 @@
 # pip3 install gnuplotlib
 # This uses X11, so when connecting to the bone from the host use:  ssh -X bone
 
+# See https://elinux.org/index.php?title=EBC_Exercise_10a_Analog_In#Analog_in_-_Continuous.2C_Change_the_sample_rate
+# for instructions on changing the sampling rate.  Can go up to 200KHz.
+
 import numpy      as np
 import gnuplotlib as gp
 import time

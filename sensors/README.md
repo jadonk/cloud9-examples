@@ -5,13 +5,13 @@ Script            | Description
 ------            | -----------
 [accelerometer.js](#accelerometer)                    | This example reads values from Sparkfun’s ADXL335 3-axis accelerometer. 
 [hc-sr04-ultraSonic.js](#adafruit-2-axis-thumb-joystick) | Shows how to use a HC-SR04 Ultrasonic Range Sensor.
-[i2cTemp.js,py](#measuring-a-temperature)                | Use TMP102 sensor to measure a temp va i2c.
+[i2cTemp.js/py](#measuring-a-temperature)                | Use TMP102 sensor to measure a temp va i2c.
 [joystick.js](#adafruit-2-axis-thumb-joystick)        | The Analog 2-axis Thumb Joystick allows you to easily mount a PSP/Xbox-like thumb joystick to your project.
 [motionSensor.js](#pir-motion-sensor)                 | The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of the room and it detects changes in heat.
 [potentiometer.js](#potentiometer)                    | A specific voltage can be sent to the AIN1 channel using a potentiometer. 
 [rotaryEncoder.js,py](#rotary-encoders)  | How do use a rotary encoder (_quadrature encoder_) connected to the Bone's eQEP ports
 [servo.js](#micro-servo-motor)                        | The Micro Servo Motor can rotate 180 degrees and is usually used in applications such as robotics, CNC machinery, or automated manufacturing.
-[tempHumidity.js]                                     | Uses si7021 to read temp and humidity via I2C. 
+[tempHumidity.js]()                                     | Uses si7021 to read temp and humidity via I2C. 
 [tempPressure.js](#bmp085-i2c-pressure-temperature-sensor-demo)   | The BMP085 is a readily available pressure/temperature sensor using I2C. 
 [ultrasonic.js](#maxbotic-ultrasonic-sensor)          | The LV-MaxSonar-EZ2 High Performance Sonar Range Finder provides very short to long-range detection and ranging, in an incredibly small package. 
 
@@ -19,17 +19,17 @@ Script            | Description
 
 Demo                 |     | Output | Input | Pull | I2C
 ----                 | --- | ------ | ----- | ---- | ---
-accelerometer.js     | AIN |
-hc-sr04-ultraSonic.js|     | P9_15  | P9_17 | 
+accelerometer.js     | AIN | | | | |
+hc-sr04-ultraSonic.js|     | P9_15  | P9_17 | | |
 i2cTemp.js           |     |        |       |      | P9_19, P9_20
-joystick.js          | AIN |        | P9_18 | up   |
-motionSensor.js      |     | P9_15  | P9_29 |      |
-potentiometer.js     | AIN |
-rotaryEncoder.js     |     |        | P8_33, P8_35 | down
-servo.js             | PWM |
+joystick.js          | AIN |        | P9_18 | up   | |
+motionSensor.js      |     | P9_15  | P9_29 |      | |
+potentiometer.js     | AIN | | | | |
+rotaryEncoder.js     |     |        | P8_33, P8_35 | down | |
+servo.js             | PWM | | | | |
 tempHumidity.js      |     |        |       |      | P9_19, P9_20
 tempPressure.js      |     |        |       |      | P9_19, P9_20
-ultrasonic.js        | AIN |
+ultrasonic.js        | AIN | | | | |
 
 # Accelerometer
 

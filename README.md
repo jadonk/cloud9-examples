@@ -20,5 +20,6 @@ common                               | PRU files that are common to all the Beag
 # Status on different branches
 
 * master - on-going development, commits merged from unstable development branch
-* v2020.01 - current stable, only bug fixes from unstable development branch
-* v2020.08 - current unstable development branch, clean snapshot from 2020-04-06
+* v2020.01 - past stable, only bug fixes from unstable development branch
+* v2020.08 - current stable branch, only bug fixes from unstable development branch
+* v2020.12 - current stable development branch
