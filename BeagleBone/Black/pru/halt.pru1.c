@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-//	halt.pru0.c
+//	halt.pru1.c
 //	Just halts
 //	Wiring:	None
 //	Setup:	
