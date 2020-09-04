@@ -376,7 +376,7 @@ In this lesson, students will learn how to install the snowboy of Kitt-AI and us
 - Step 4. Click the `Record and Download` to provide data of sound for Ok_Beagle.
 - Step 5. Download the Ok_Beagle.pmdl from the [website](https://snowboy.kitt.ai/hotword/46889)
 - Step 6. Darg Ok_Beagle.pmdl to Cloud9 like lesson4
-- Step 7. Run the Ok_Beagel.py by using Runner:Python.
+- Step 7. Run the Ok_Beagle.py by using Runner:Python.
 
 ### success
         The RGB LED will light up when we say Ok_Beagle to mic.
