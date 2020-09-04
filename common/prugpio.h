@@ -29,15 +29,17 @@
 
 // These define which bin in register R30 go to which header pins
 // R30 bits - Output on pru1_1
-#define P9_14	(1<<14)
-#define P9_16	(1<<15)
 #define P8_15	(1<<16)
-#define P8_26	(1<<17)
 #define P8_16	(1<<18)
+#define P8_26	(1<<17)
+// #define P9_14	(1<<14)     // Not defaulted to PRU
+#define P9_16	(1<<15)
 // R31 bits - Input on pru1_1
+#define P8_13	(1<<7)
 #define P8_18	(1<<5)
 #define P8_19	(1<<6)
-#define P8_13	(1<<7)
+#define P9_19	(1<<2)
+#define P9_20	(1<<1)
 
 // Shared memory
 #define AM33XX_DATARAM0_PHYS_BASE1		0x4b200000
@@ -52,13 +54,13 @@
 
 #warning "Found am335x"
 // These are addresses for the am35xx
-#define GPIO0 0x44E09000
+#define GPIO0 0x44E07000        // From table 2.2 of am335x TRM
 #define GPIO1 0x4804C000
 #define GPIO2 0x481AC000
 #define GPIO3 0x481AE000
 
 // USR LED bit positions
-// GPIO 1
+// GPIO1
 #define USR0 (1<<21)
 #define USR1 (1<<22)
 #define USR2 (1<<23)

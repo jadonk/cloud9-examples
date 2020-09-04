@@ -20,7 +20,6 @@
 COMMON:=$(abspath $(lastword $(MAKEFILE_LIST)/..))
 PRU_CGT:=/usr/share/ti/cgt-pru
 PRU_SUPPORT:=/usr/lib/ti/pru-software-support-package
-PRU_STARTERWARE:=/usr/share/ti/starterware
 C6X_CGT:=/usr/share/ti/cgt-c6x
 TIDL_API_DIR:=/usr/share/ti/tidl/tidl_api
 GEN_DIR:=/tmp/cloud9-examples
@@ -44,47 +43,48 @@ $(warning MODEL=$(MODEL),TARGET=$(TARGET),COMMON=$(COMMON))
 #   LDFLAGS - 
 #   CFLAGS -
 #
+# Depends on udev rules: https://github.com/beagleboard/customizations/blob/master/etc/udev/rules.d/86-remoteproc-noroot.rules
 # Check which model
 define target-to-proc =
  ifeq ($(suffix $(basename $(1))),.pru1_0)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
-  PRU_DIR=/sys/class/remoteproc/remoteproc0
+  PRU_DIR=/dev/remoteproc/pruss1-core0
   PRUN=1_0
   PROC=pru
   EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru1_1)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
-  PRU_DIR=/sys/class/remoteproc/remoteproc1
+  PRU_DIR=/dev/remoteproc/pruss1-core1
   PRUN=1_1
   PROC=pru
   EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru2_0)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
-  PRU_DIR=/sys/class/remoteproc/remoteproc2
+  PRU_DIR=/dev/remoteproc/pruss2-core0
   PRUN=2_0
   PROC=pru
   EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru2_1)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
-  PRU_DIR=/sys/class/remoteproc/remoteproc3
+  PRU_DIR=/dev/remoteproc/pruss2-core1
   PRUN=2_1
   PROC=pru
   EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru0)
   CHIP=am335x
   CHIP_REV=am335x
-  PRU_DIR=/sys/class/remoteproc/remoteproc1
+  PRU_DIR=/dev/remoteproc/pruss-core0
   PRUN=0
   PROC=pru
   EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru1)
   CHIP=am335x
   CHIP_REV=am335x
-  PRU_DIR=/sys/class/remoteproc/remoteproc2
+  PRU_DIR=/dev/remoteproc/pruss-core1
   PRUN=1
   PROC=pru
   EXE=.out
@@ -117,7 +117,6 @@ define proc-to-build-vars =
   CC=clpru -fe
   CFLAGS=--include_path=$(COMMON) --include_path=$(PRU_SUPPORT)/include \
    --include_path=$(PRU_SUPPORT)/include/$(CHIP_REV) \
-   --include_path=$(PRU_STARTERWARE)/include --include_path=$(PRU_STARTERWARE)/include/hw \
    --include_path=$(PRU_CGT)/include -DCHIP=$(CHIP) -DCHIP_IS_$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -DPRUN=$(PRUN) \
    -v3 -O2 --printf_support=minimal --display_error_number --endian=little --hardware_mac=on \
    --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing \

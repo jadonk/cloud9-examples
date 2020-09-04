@@ -2,7 +2,7 @@
 
 ## Setup microSD card
 
-Use http://debian.beagleboard.org/images/bone-debian-9.9-iot-armhf-2019-08-03-4gb.img.xz image or newer
+Use https://debian.beagleboard.org/images/bone-debian-10.3-iot-armhf-2020-04-06-4gb.img.xz image
 
 ## Login
 
@@ -22,11 +22,22 @@ With overlays, you'll be looking at interfaces provided by relatively complete d
 about how those drivers are built and configured, once you understand how to use them. They often expose interesting
 features of the Linux kernel.
 
+### Single overlay
+If you do this one, don't do the individual overlays.
+
+```
+sudo perl -pe 's%#?uboot_overlay_addr0=.*$%uboot_overlay_addr0=/lib/firmware/BBORG_TECHLAB-00A2.dtbo%;' -i /boot/uEnv.txt
+sudo shutdown -r now
+```
+
+### Individual overlays
+If you do the single overlay, don't do these individual overlays. These provide more fine-grained
+control over what drivers are loaded and simpler examples to read.
+
 ```
 sudo perl -pe 's%#?uboot_overlay_addr0=.*$%uboot_overlay_addr0=/lib/firmware/PB-I2C2-ACCEL-TECHLAB-CAPE.dtbo%;' -i /boot/uEnv.txt
 sudo perl -pe 's%#?uboot_overlay_addr1=.*$%uboot_overlay_addr1=/lib/firmware/PB-PWM-RGB-TECHLAB-CAPE.dtbo%;' -i /boot/uEnv.txt
 sudo perl -pe 's%#?uboot_overlay_addr2=.*$%uboot_overlay_addr2=/lib/firmware/PB-SPI1-7SEG-TECHLAB-CAPE.dtbo%;' -i /boot/uEnv.txt
-sudo perl -pe 's%#?uboot_overlay_pru=.*RPROC.*$%uboot_overlay_pru=/lib/firmware/AM335X-PRU-RPROC-4-14-TI-00A0.dtbo%;' -i /boot/uEnv.txt
 sudo shutdown -r now
 ```
 
