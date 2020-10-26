@@ -4,7 +4,8 @@
 Visit [bbb.io/upgrade](https://beagleboard.org/upgrade) to learn how
 
 ## Need to connect to a WiFi access point first?</p>
-Use the command-line terminal block below to run the commands in bold, modifying as appropriate for your network.
+Use the command-line terminal block below to run the commands in bold, 
+modifying as appropriate for your network.
 
 <pre>
 debian@beaglebone:/var/lib/cloud9$ <b>sudo connmanctl&#x23CE;</b>

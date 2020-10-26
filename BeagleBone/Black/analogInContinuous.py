@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #//////////////////////////////////////
 #	analogInContinuous.py
-# 	Read analog data vioa IIO continous mode and plots it.
+# 	Read analog data via IIO continous mode and plots it.
 #//////////////////////////////////////
 
 # From: https://stackoverflow.com/questions/20295646/python-ascii-plots-in-terminal
@@ -10,6 +10,9 @@
 # sudo apt install gnuplot  (10 minute to install)
 # pip3 install gnuplotlib
 # This uses X11, so when connecting to the bone from the host use:  ssh -X bone
+
+# See https://elinux.org/index.php?title=EBC_Exercise_10a_Analog_In#Analog_in_-_Continuous.2C_Change_the_sample_rate
+# for instructions on changing the sampling rate.  Can go up to 200KHz.
 
 import numpy      as np
 import gnuplotlib as gp

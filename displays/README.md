@@ -3,8 +3,9 @@ Here are examples of how to interface common displays.
 
 Script            | Description
 ------            | -----------
-[i2cmatrix.py](#matrix)     | Writes to an 8-by-8 bi-color LED matrix
-[LCD-display.sh](#LCD-Display-SPI)                    | Display an image using a ili9341 TFT LCD display via SPI
+[i2cmatrix.py](#matrix)             | Writes to an 8-by-8 bi-color LED matrix
+[LCD-display.sh](#LCD-Display-SPI)  | Display an image using a ili9341 TFT LCD display via SPI
+[LCD-on.sh](#LCD-Display-SPI)  | Prepares display for images
 
 # LCD Display SPI
 

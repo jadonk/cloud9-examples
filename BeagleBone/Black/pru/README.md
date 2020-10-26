@@ -16,15 +16,26 @@ blinkR31.c          // Blink and external LED using a faster (50MHz) method
 neopixelStatic.c    // Wire up NeoPixel (WS2812) LEDs and set them to a color
 neopixelDynamic.c   // Same LEDs, but a moving display
 neopixelRpmsg.c     // Control the NeoPixels from the ARM using rpmsg for message passing
-neopixelRainbow.py      // Runs on the ARM and writes a rainbow pattern to the PRU
+neopixelRainbow.py  // Runs on the ARM and writes a rainbow pattern to the PRU
 
 inputR31.c          // Reads an input pin via the fast R31 register
 bitflip.c           // Shows how to share memory between the ARM and the PRU
 
 ring.c              // Does the "Ring Test" to see how quickly I/O can be toggled
+
+halt.c              // Halts the PRU
 ```
 The Black has two PRUs, pru0 and pru1.
 
 The filename tells which PRU to run on.  For example blinkInternalLED.pru0.c will
 run on pru0.  These demos must all run on pru0, except blinkInternalLED, which
 can run on ether of the PRUs.  
+
+You can run these by simply clicking the **Run** button in Cloud9. Or you can
+run them from the command line using *make*.  To run blinkInternalLED on pru 0 type:
+
+```
+bone$ make TARGET=blinkInternalLED.pru0
+```
+
+Note:  Don't add the **.c**.
