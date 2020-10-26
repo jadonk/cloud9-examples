@@ -1,11 +1,11 @@
 ////////////////////////////////////////
 //	blinkR30.c
-//	Blinks LEDs wired to P9_25 (and others) by writing register R30 on the PRU
+//	Blinks LEDs wired to pr1_pru1 pins by writing register R30 on the PRU
 //	Wiring:	P9_16 connects to the plus lead of an LED.  The negative lead of the
 //			LED goes to a 220 Ohm resistor.  The other lead of the resistor goes
 //			to ground.
 //	Setup:	None
-//	See:	prugpio.h to see which pins attach to R30
+//	See:	cloud9/common/prugpio.h for which pins attach to pr1_pru1.
 //	PRU:	pru1_1
 ////////////////////////////////////////
 #include <stdint.h>
@@ -18,7 +18,8 @@ volatile register unsigned int __R31;
 
 void main(void) {
 	// Select which pins to toggle.  These are all on pru1_1
-	uint32_t gpio = P9_16 | P8_15 | P8_16 | P8_26;
+	// Update init_pins also if you update this gpio value.
+	uint32_t gpio = P9_16;
 
 	while(1) {
 		__R30 |= gpio;					// Set the GPIO pin to 1
@@ -29,4 +30,9 @@ void main(void) {
 	__halt();
 }
 
-// No need to turn off triggers or set pin direction
+// Sets pinmux
+#pragma DATA_SECTION(init_pins, ".init_pins")
+#pragma RETAIN(init_pins)
+const char init_pins[] =  
+	"/sys/devices/platform/*ocp/*ocp:P9_16_pinmux/state\0pruout\0" \
+	"\0\0";
