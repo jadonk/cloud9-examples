@@ -3,13 +3,13 @@
 # Copyright (C) 2020 Deepak Khatri <deepaklorkhatri7@gmail.com>
 # https://lorforlinux.github.io/GSoC2020_BeagleBoard.org/
 #
-# This program will toggle each load (Blink each red led on cape)
-# To use this Load Cape overlay must be loaded automatically/manually 
+# This program will toggle each load (Blink each RED led on the cape)
+# To use this, Load Cape overlay must be loaded automatically/manually 
 # 
-# If Automatically loaded you must see "BBORG_LOAD-00A2" under
+# If automatically loaded you must see "BBORG_LOAD-00A2" under
 # directory -> /proc/device-tree/chosen/overlays/
 # 
-# To load manually you must edit "/boot/uEnv.txt" with
+# To load the overlay manually you must edit "/boot/uEnv.txt" with
 # ...
 # enable_uboot_overlays=1
 # uboot_overlay_addr0=BBORG_LOAD-00A2.dtbo
@@ -20,7 +20,7 @@ import time
 
 def loadON(i):
 	'''
-	This function will tuen on the load on Load Cape
+	This function will turn ON the load
 	loadON(i) where i = loadSink index (1-9)
 	'''
     sink = open("/sys/class/leds/load-sink"+str(i)+"/brightness", "w")    
@@ -29,7 +29,7 @@ def loadON(i):
 
 def loadOFF(i):
 	'''
-	This function will tuen off the load on Load Cape
+	This function will turn OFF the load
 	loadOFF(i) where i = loadSink index (1-9)
 	'''
     sink = open("/sys/class/leds/load-sink"+str(i)+"/brightness", "w")    
