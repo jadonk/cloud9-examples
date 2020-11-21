@@ -17,6 +17,9 @@
             }
         }
     },
+    "preview": {
+        "@url": "http://$C9_HOSTNAME:8080"
+    },
     "python": {
         "@path": "/usr/lib/python3.7/dist-packages:/usr/local/lib/python3.7/dist-packages",
         "@version": "python3"

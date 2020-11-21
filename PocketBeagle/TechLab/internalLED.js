@@ -1,16 +1,15 @@
 #!/usr/bin/env node
-var b = require('bonescript');
-var LED = 'USR3';
-var state = b.HIGH;     // Initial state
-b.pinMode(LED, b.OUTPUT);
+var fs = require('fs');
+var LED = '/sys/class/leds/beaglebone:green:usr3/brightness';
+var state = 0;     // Initial state
 
 setInterval(flash, 250); // Change state every 250 ms
 
 function flash() {
-  b.digitalWrite(LED, state);
-  if(state === b.HIGH) {
-    state = b.LOW;
+  fs.writeFileSync(LED, state);
+  if(state == 1) {
+    state = 0;
   } else {
-    state = b.HIGH;
+    state = 1;
   }
 }
