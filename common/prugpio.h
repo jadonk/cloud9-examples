@@ -105,4 +105,4 @@
 #define GPIO_CLEARDATAOUT	0x190/4     // Write 1 here to set a given bit    
 #define GPIO_SETDATAOUT 	0x194/4     // A 1 here clears the corresponding bit
 #define GPIO_DATAIN		    0x138/4     // For reading the GPIO registers
-#define GPIO_DATAOUT      0x13C/4     // For setting the GPIO registers
+#define GPIO_DATAOUT	    0x13C/4     // For setting the GPIO registers
