@@ -15,13 +15,13 @@ sudo apt install linux-headers-$(uname -r) -y
 
 - Step 2. Get the `seeed-linux-dtoverlay` source code, install and reboot.
 
-seeed-linux-dtoverlay is a packet that can make some Grove become a file that can be read and write on Linux.
+seeed-linux-dtoverlay is a packet that can make some Grove sensors become a file that can be read and write on Linux.
 
 ```bash
 cd ~
 git clone https://github.com/Seeed-Studio/seeed-linux-dtoverlays
 cd ~/seeed-linux-dtoverlays
-make && sudo make install_bb
+make all_bb && sudo make install_bb
 sudo echo uboot_overlay_addr0=/lib/firmware/PB-I2C1-TLV320AIC3104.dtbo >> /boot/uEnv.txt
 sudo echo uboot_overlay_addr1=/lib/firmware/BB-GPIO-P9813.dtbo >> /boot/uEnv.txt
 sudo echo uboot_overlay_addr2=/lib/firmware/BB-GPIO-HCSR04.dtbo >> /boot/uEnv.txt
