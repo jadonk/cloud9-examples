@@ -61,7 +61,7 @@ def main():
         #Display the distance
         Lcd.SetText("The Distance: \r\n{} cm".format(distance))
         print("Distance is %3d \r" %distance, end = '')
-        #Speaker will play different music When the HCSR04 get different distance
+        #Speaker will play different music when the HCSR04 gets a different distance
         if distance < 240:
             Play_Music("/tmp/scale/%s"%_SCALE_DEFS[distance//40])
         time.sleep(1)

@@ -56,6 +56,7 @@ def PlayMusic(file):
 def main():
     global Mpr121
     Mpr121 = MPR121()
+    print("Ready")
     while True:
         GetMpr121 = Mpr121.get()
         Mpr121Result = GetMpr121[1]
