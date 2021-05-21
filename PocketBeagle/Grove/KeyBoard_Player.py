@@ -29,8 +29,6 @@ def PlayMusic(file):
     # help(f)
     # instantiate PyAudio
     p = pyaudio.PyAudio()
-    print(p)
-    # help(p)
     #define callback function
     def callback(in_data, frame_count, time_info, status): 
         data = f.readframes(frame_count)
@@ -45,7 +43,6 @@ def PlayMusic(file):
                                 output = True,
                                 stream_callback=callback)
     #Start stream     
-    print("start stream")
     stream.start_stream()
     #Enter the while loop,when the Mpr121 is pressed 
     while stream.is_active():
@@ -53,7 +50,6 @@ def PlayMusic(file):
         Mpr121Data = Mpr121.get()
         time.sleep(0.01)  
     # stop stream
-    print("stop stream")
     stream.stop_stream()
     stream.close()
     f.close()
@@ -68,14 +64,13 @@ def main():
         Mpr121Result = GetMpr121[1]
         #Mpr121Result isn't empty when the Mpr121 is pressed
         if any(Mpr121Result) != False:
-            print(Mpr121Result)
             #Check the which one button is pressed on Mpr12 then play different music
             for i in range(12):
                 if(Mpr121Result[i] == 1):
                     if i > 3 :
-                        PlayMusic("wav/%s"%_SCALE_DEFS[i-4])
+                        PlayMusic("/tmp/scale/%s"%_SCALE_DEFS[i-4])
                     else :
-                        PlayMusic("wav/%s"%_SCALE_DEFS[i])
+                        PlayMusic("/tmp/scale/%s"%_SCALE_DEFS[i])
         time.sleep(0.05)
 if __name__ == "__main__":
     main()
