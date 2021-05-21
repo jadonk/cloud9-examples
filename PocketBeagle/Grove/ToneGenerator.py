@@ -21,16 +21,19 @@ _SCALE_DEFS = [
 channels = 1
 sampwidth = 2
 framerate = 44100
-def synthesizer(freq,duration = 10,amp=250,sampling_freq=framerate):
+def synthesizer(freq,duration=2,amp=32000,sampling_freq=framerate):
     """produce the tone list 
         freq:frequency of tone
         duration: duration of tone
         amp：Gain of tone
         sampling_freq : sampling frequency of tone
     """
-    samples = amp * (np.sin(2*np.pi*np.arange(sampling_freq*duration)*freq/sampling_freq))
-    samples = samples.astype(np.float16)
+    alpha = 4
+    tt = np.arange(sampling_freq*duration)/sampling_freq
+    samples = amp * np.sin(2*np.pi*freq*tt) * np.exp(-alpha*tt)
+    samples = samples.astype(np.int16)
     return samples
+
 def main():
     # Rebuild the /tmp/scale
     GetCmdReturn('sudo rm -rf /tmp/scale')
