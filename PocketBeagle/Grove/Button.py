@@ -14,6 +14,7 @@ class BUTTON:
             # Config p2_35 and p2_05 to GPIO mode
             ConfigGPIO('P2_35')
             ConfigGPIO('P2_05')
+            ConfigGPIO('P1_32')  # UART0_RX
             # Check BB-GPIO-GROVE-BUTTON whether install successfully
             # if not reinstall it            
             if not os.path.exists(self.Path):
@@ -42,6 +43,7 @@ class BUTTON:
 def main():
     d = BUTTON()
     for event in d.read_loop():
+        print(event)
         if event.type == evdev.ecodes.EV_KEY:
             print(d.GetKeyStatus())
             print(evdev.categorize(event))
