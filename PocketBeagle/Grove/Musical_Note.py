@@ -46,7 +46,7 @@ def Play_Music(file):
     for d in tqdm(datas):
         time = time + 1
         stream.write(d)
-        if time > len(datas)//10:
+        if time > len(datas)//1:       # I shortened the wav files, so play the whole thing
             break
     # stop stream
     stream.stop_stream()
