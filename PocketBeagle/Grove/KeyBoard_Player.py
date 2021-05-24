@@ -25,8 +25,6 @@ def PlayMusic(file):
     chunk = 1024
     # open a wav format music
     f = wave.open(file,"rb")
-    # print(f)
-    # help(f)
     # instantiate PyAudio
     p = pyaudio.PyAudio()
     #define callback function
@@ -55,9 +53,12 @@ def PlayMusic(file):
     f.close()
     # close PyAudio
     p.terminate()
+
 def main():
     global Mpr121
     Mpr121 = MPR121()
+    # The first note appears to be skipped, so force it to skip here.
+    PlayMusic("/tmp/scale/do.wav")
     print("Ready")
     while True:
         GetMpr121 = Mpr121.get()
