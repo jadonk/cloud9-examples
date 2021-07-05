@@ -4,3 +4,6 @@
 .c9/metadata/
 .c9/.nakignore
 __pycache__
+User
+logs
+machineid
