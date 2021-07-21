@@ -40,7 +40,19 @@ See https://debian.beagleboard.org/images/grove for the latest provided grove-ki
 
 Read [PocketBeagle Grove Kit-setup](Kit-setup.md) to learn more about the customizations applied to this image.
 
-Then maybe you can read below information to get how to connect wifi and get IP.`connmanctl` is a tool that connects Pockbeagle to the internet with WiFi Dongle, please refer below command
+## Lessions
+The following lessions show how to use the various Grove sensors.
+### Lesson - 1. Control the Light
+### Lesson - 2. Musical Note
+### Lesson - 3. Switch the Music
+### Lesson - 4. Download Music via the WIFI dongle
+### Lesson - 5. Keyboard Player
+### Lesson - 6. Start the Party
+### Lesson - 7. Music Box
+### Lesson - 8. Hello Kitt-AI
+
+## Connecting to WiFi
+`connmanctl` is a tool that connects Pockbeagle to the internet with WiFi Dongle.The information below shows how. 
 
 ```bash
 debian@beaglebone:~$ sudo connmanctl
