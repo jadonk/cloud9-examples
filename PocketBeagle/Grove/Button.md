@@ -2,7 +2,7 @@
 
 ### Description:
 
-In this lesson, students will learn how to displaly the status of the 2 buttons.
+In this lesson, students will learn how to display the status of the 2 buttons.
 
 ### Hardware Requirement:
 

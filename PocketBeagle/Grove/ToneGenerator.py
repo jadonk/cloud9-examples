@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
+# This generates the files used by KeyBoard_player.py, Music_box,py, etc.
 import numpy as np
 import pyaudio
 import wave
