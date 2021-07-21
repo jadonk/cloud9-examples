@@ -38,7 +38,7 @@ class HCSR04:
 def main():
     Distance = HCSR04()
     while True:
-        print('The Distance is:%d'%(Distance.GetDistance()), end = '        \r')
+        print('The distance is: %dmm'%(Distance.GetDistance()), end = '        \r')
         time.sleep(0.5)
 if __name__ == "__main__":
     main()
