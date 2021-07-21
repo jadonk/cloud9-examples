@@ -28,5 +28,5 @@ In this lesson, students will learn how to use the capacitive touch sensor to pl
 - Step 2. Select PocketBeagle -> Grove
 - Step 3. Run the Start_the_Party.py by using Runner:Python.
 
-### success
+### Success
         Just control the music as lesson 5, and you can see the color of RGB LED change.
