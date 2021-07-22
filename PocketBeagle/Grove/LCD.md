@@ -26,6 +26,11 @@ In this lesson the LCD will display some characters.
 ### Success
         The following letters should appear on the LCD screen.
 ```bash
-    "abcdefghijklmnopqrstuvwxyz012345"
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ6789!@"
+    abcdefghijklmnop
+    qrstuvwxyz012345
+```
+And then 5 seconds later
+```bash
+    ABCDEFGHIJKLMNOP
+    QRSTUVWXYZ6789!@
 ```

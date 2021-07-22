@@ -26,12 +26,14 @@ class JHD1802:
                 GetCmdReturn('sudo chmod 777 %s'%self.Lcd0)
                 self.f = open(self.Lcd0, 'w')
             #Clean LCD 
+            time.sleep(1)       # Let the startup message show
             self.f.write('\x1b[2J')
             self.f.write('\x1b[H')
             self.f.flush()
         except IOError as err:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of hd44780")
+ 
     def SetText(self, text):
         """Display the string on LCD
            text:content on LCD
@@ -44,11 +46,12 @@ class JHD1802:
         except IOError as err:
             print("File Error:"+str(err))
             print("maybe you should reinstall the driver of hd44780")
+
 def main():
     d = JHD1802()
     d.SetText("abcdefghijklmnopqrstuvwxyz012345")
-    time.sleep(0.25)
+    time.sleep(5)
     d.SetText("ABCDEFGHIJKLMNOPQRSTUVWXYZ6789!@")
-    time.sleep(0.25)
+
 if __name__ == "__main__":
     main()
