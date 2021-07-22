@@ -66,4 +66,8 @@ def main():
             Play_Music("/tmp/scale/%s"%_SCALE_DEFS[distance//40])
         time.sleep(1)
 if __name__ == "__main__":
+    from os import path
+    if not path.exists("/tmp/scale/"):
+        print("Please run ./ToneGenerator.py")
+        exit()
     main()

@@ -87,4 +87,8 @@ def main():
             LED.set(1,0,0,0)
         time.sleep(0.05)
 if __name__ == "__main__":
+    from os import path
+    if not path.exists("/tmp/scale/"):
+        print("Please run ./ToneGenerator.py")
+        exit()
     main()

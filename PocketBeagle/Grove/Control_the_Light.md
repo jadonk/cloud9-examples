@@ -30,6 +30,4 @@ In this lesson, students will light up the RGB LED and LCD, and learn how to use
 - Step 3. Run the Control_the_Light.py by using Runner:Python.
 
 ### Success
-        Now please turn the rotary angle sensor slowly and slide Slide Potentiometer, and see how the RGB LED changes it's light and color.
-
-
+        Now please turn the rotary angle sensor slowly and slide Slide Potentiometer, and see how the RGB LED changes it's light and color.  Note, the LCD display shows the current values.
