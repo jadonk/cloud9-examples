@@ -9,7 +9,7 @@ class ADC:
         """    
         self.AIN = []
         #Scan the ADC of PocketBeagle by using IIO python library
-        self.contexts = iio.scan_contexts()
+        # self.contexts = iio.scan_contexts()
         self.ctx = iio.Context("local:")
         for dev in self.ctx.devices:
             if 'adc.0.auto' in dev.name:

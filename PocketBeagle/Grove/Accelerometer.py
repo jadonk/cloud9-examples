@@ -27,7 +27,7 @@ class ADX134X:
             #  Reinstall adxl345_xxx module to support hot plug                   
             ReinstallModule('adxl345_i2c')    
             # Scan the adxl345 by using IIO python library        
-            self.contexts = iio.scan_contexts()
+            # self.contexts = iio.scan_contexts()
             self.ctx = iio.Context("local:") 
             self.dev = self.ctx.find_device("adxl345")
             # Initialize the data of adxl345 for SlidingAverage function

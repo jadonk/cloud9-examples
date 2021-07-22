@@ -22,7 +22,7 @@ class HCSR04:
                 while not os.path.exists(self.Path):
                     time.sleep(0.1)   
             # Scan the adxl345 by using IIO python library        
-            self.contexts = iio.scan_contexts()
+            # self.contexts = iio.scan_contexts()
             self.ctx = iio.Context("local:")                    
             self.dev = self.ctx.find_device("hcsr04_1057@20")
             if not self.dev:
