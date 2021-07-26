@@ -184,13 +184,13 @@ P2.05	U1_RX	P2.05 (UART4-RX)	T17	P15	gpmc_wait0	gmii2_crs	gpmc_csn4	rmii2_crs_dv
 ```
 This shows that GPIO 0_33 is attached to the headers P2.05 which is UART4-RX.
 That confirms what we already new, the button is attached to the UART4-RX.
-We want to connect to UART0-RX, so search the P2 header file for UART0-RX.
+We want to connect to UART0-RX, so search the P2 header file for UART**0**-RX.
 ```bash
 Header.Pin	Silkscreen	PocketBeagle wiring	Proc Ball	SiP Ball	Mode0 (Name)	Mode1	Mode2	Mode3	Mode4	Mode5	Mode6	Mode7													
 P1.32	U0_RX	P1.32 (UART0-RX)	E15	A12	uart0_rxd	spi1_cs0	dcan0_tx	I2C2_SDA	eCAP2_in_PWM2_out	pr1_pru1_pru_r30_14	pr1_pru1_pru_r31_14	gpio1_10
 ```
-Here we see it's attached to P1.32 which is GPIO 1_10.  Edit the
-device tree so *gpios* is gpio1 10 as shown.
+Here we see it's attached to P1.32 which is GPIO 1_10 (rightmost column).  
+Edit the device tree so *gpios* is gpio1 10 as shown.
 ```bash
 				grove_button_1057_0@0 {
 					debounce_interval = <50>;
@@ -212,3 +212,7 @@ bone$ sudo reboot
 ```
 Once the bone reboots, run Button.py and it should work with the button
 plugged into UART0.
+
+## Summary
+It was shown how to switch I2C buses and GPIO pins for the accelerometer and
+the buttons.  This approach generalizes to other GPIO and I2C devices as well.
