@@ -20,7 +20,8 @@ In this lesson, students will learn how to use the Grove - 3-Axis Accelerometer 
 - Step 3. Run ./Accelerometer.py by using Runner:Python.
 
 ### Success
-        Once the program starts, move the accelerometer around to see the values change.
+Once the program starts, move the accelerometer around to see the values change.
+
 ```bash
 bone$ ./Accelerometer.py 
 [3, 1, 85]
