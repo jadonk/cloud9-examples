@@ -21,17 +21,28 @@ In this lesson, students will learn how to display the status of the 2 buttons.
 - Step 3. Run the Button.py by using Runner:Python.
 
 ### Success
-        Press the two buttons and you will see details about the button being pressed.
+Press the two buttons and you will see details about the button being pressed. 
+Pressing the right button (**BTN_**) displays:
 
 ```bash
 bone$ ./Button.py 
-event at 1626882012.420934, code 257, type 01, val 01
-[257]
-key event at 1626882012.420934, 257 (BTN_1), down
-event at 1626882012.420934, code 00, type 00, val 00
-event at 1626882012.709587, code 257, type 01, val 00
+event at 1627313516.074140, code 256, type 01, val 01
+[256]
+key event at 1627313516.074140, 256 (['BTN_0', 'BTN_MISC']), down
+event at 1627313516.074140, code 00, type 00, val 00
+event at 1627313516.654546, code 256, type 01, val 00
 []
-key event at 1626882012.709587, 257 (BTN_1), up
-event at 1626882012.709587, code 00, type 00, val 00
-event at 1626882013.886262, code 257, type 01, val 01
+key event at 1627313516.654546, 256 (['BTN_0', 'BTN_MISC']), up
+event at 1627313516.654546, code 00, type 00, val 00
+```
+The left button (**BTN_1**) shows:
+```bash
+event at 1627313517.871746, code 257, type 01, val 01
+[257]
+key event at 1627313517.871746, 257 (BTN_1), down
+event at 1627313517.871746, code 00, type 00, val 00
+event at 1627313518.376610, code 257, type 01, val 00
+[]
+key event at 1627313518.376610, 257 (BTN_1), up
+event at 1627313518.376610, code 00, type 00, val 00
 ```
