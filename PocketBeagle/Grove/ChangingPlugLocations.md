@@ -21,7 +21,7 @@ for the device trees is already on the PocketBeagle.  Just do the following:
 bone$ cd /opt/source/bb.org-overlays
 bone$ ls src/arm
 ````
-Here you will find nearly 500 device trees.  Which ones do wee need to edit? Try:
+Here you will find nearly 250 device trees.  Which ones do wee need to edit? Try:
 ``` bash
 bone$ grep firmware /boot/uEnv.txt
 uboot_overlay_addr0=/lib/firmware/PB-I2C1-TLV320AIC3104.dtbo
@@ -94,4 +94,64 @@ Find the device and make a copy of it.
 ```bash
 bone$ cd /opt/source/bb.org-overlays/src/arm
 bone$ cp BB-I2C2-ADXL34X.dts BB-I2C1-ADXL34X.dts
+```
+Edit the newly created file.  Around line 30 you'll find:
+```bash
+			aliases {
+				/* SLOT I2C1 */
+				/*
+				adxl345 = "/ocp/i2c@4802a000/adxl345@53";
+				*/
+				/* SLOT I2C2 */
+				adxl345 = "/ocp/i2c@4819c000/adxl345@53";
+			};
+```
+Uncomment the I2C1 entry and comment out th I2C2 entery:
+```bash
+			aliases {
+				/* SLOT I2C1 */
+				
+				adxl345 = "/ocp/i2c@4802a000/adxl345@53";
+				
+				/* SLOT I2C2 */
+				// adxl345 = "/ocp/i2c@4819c000/adxl345@53";
+			};
+```
+Then go down to line 42 and do it again:
+```bash
+	fragment@2 {
+		/* SLOT I2C1 */
+		
+		target = <&i2c1>;
+		
+		/* SLOT I2C2 */
+		// target = <&i2c2>;
+```
+Next, make the device tree
+```bash
+bone$ cd /opt/source/bb.org-overlays
+bone$ make
+  DTC     src/arm/BB-I2C1-ADXL34X.dtbo
+gcc -o config-pin ./tools/pmunts_muntsos/config-pin.c
+bone$ sudo make install
+...
+```
+Notice it finds the new file and compiles it.
+
+#### uEnv.txt
+Next, edit `/boot/uEnt.txt`.  Around line 69 change the filename to the new filename.
+```bash
+uboot_overlay_addr5=/lib/firmware/BB-I2C1-ADXL34X.dtbo
+```
+Plug the accelerometer into I2C**1** and reboot.
+```bash
+bone$ sudo reboot
+```
+Once the bone has rebooted, run Accelerometer.py to test that it's switched.
+```bash
+bone$ cd /var/lib/cloud9/PocketBeagle/Grove/
+bone$ ./Accelerometer.py
+[35, 0, 54]
+[35, 0, 54]
+[36, 0, 53]
 ```
