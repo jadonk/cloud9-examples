@@ -1,12 +1,13 @@
-## LCD
+## ACD LCD
 
 ### Description:
 
-In this example the LCD will display some characters.
+In this example the LCD will display the first six ADC values.
 
 ### Hardware Requirement:
 
 - [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/)
+- No more since ADCs are bult-in
 
 
 ### Hardware Connection
@@ -21,16 +22,11 @@ In this example the LCD will display some characters.
 
 - Step 1. Enter Cloud9 IDE by typing IP of PocketBeagle
 - Step 2. Select PocketBeagle -> Grove
-- Step 3. Run the ./LCD.py by using Runner:Python.
+- Step 3. Run the **./ADCLCD.py** by using Runner:Python.
 
 ### Success
-        The following letters should appear on the LCD screen.
+        The values should appear on the LCD screen and in the terminal.
 ```bash
-    abcdefghijklmnop
-    qrstuvwxyz012345
-```
-And then 5 seconds later
-```bash
-    ABCDEFGHIJKLMNOP
-    QRSTUVWXYZ6789!@
+bone$ ./ADCLCD.py
+0002  0001  0003  0002  0479  0000
 ```
