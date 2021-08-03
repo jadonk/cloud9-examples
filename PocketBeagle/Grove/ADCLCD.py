@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 # [Grove - 16x2 LCD](http://wiki.seeedstudio.com/Grove-16x2_LCD_Series/) on I2C1
+# Displays the fir 6 ADC values on the LCD.
 import iio
 import time
 from Shell import ReinstallModule,InstallDTBO,GetCmdReturn
@@ -84,15 +85,16 @@ def main():
     d = JHD1802()
     AIN = ADC()
     while True:
-        for i in range(8):
+        disp = ""
+        for i in range(6):
             x = AIN.get(i)
-            print('%04d  ' % (x), end='')
+            print('%04d  ' % (x), end='') # Print all 8 values
+            disp += '%04d ' % (x)
+            if i == 2:
+                disp += '\n'  # Put last 3 values on second line
         print('\r', end='')
-        d.SetText('%04d' % (x))
-        time.sleep(0.25)
-    # d.SetText("abcdefghijklmnopqrstuvwxyz012345")
-    # time.sleep(5)
-    # d.SetText("ABCDEFGHIJKLMNOPQRSTUVWXYZ6789!@")
+        d.SetText(disp)     # Display the values
+        time.sleep(0.1)
 
 if __name__ == "__main__":
     main()
