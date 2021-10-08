@@ -53,6 +53,27 @@ define target-to-proc =
   PRUN=0_0
   PROC=pru
   EXE=.out
+ else ifeq ($(suffix $(basename $(1))),.j7-pru0_1)
+  CHIP=tda4vm
+  CHIP_REV=j721e
+  PRU_DIR=/dev/remoteproc/j7-pru0_1
+  PRUN=0_1
+  PROC=pru
+  EXE=.out
+ else ifeq ($(suffix $(basename $(1))),.j7-pru1_0)
+  CHIP=tda4vm
+  CHIP_REV=j721e
+  PRU_DIR=/dev/remoteproc/j7-pru1_0
+  PRUN=1_0
+  PROC=pru
+  EXE=.out
+ else ifeq ($(suffix $(basename $(1))),.j7-pru1_1)
+  CHIP=tda4vm
+  CHIP_REV=j721e
+  PRU_DIR=/dev/remoteproc/j7-pru1_1
+  PRUN=1_1
+  PROC=pru
+  EXE=.out
  else ifeq ($(suffix $(basename $(1))),.pru1_0)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
