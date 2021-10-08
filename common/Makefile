@@ -33,7 +33,7 @@ $(warning MODEL=$(MODEL),TARGET=$(TARGET),COMMON=$(COMMON))
 #   $@ - target name
 #
 # Variables defined:
-#   CHIP - target system-on-chip (am57xx, am335x)
+#   CHIP - target system-on-chip (am57xx, am335x, j7)
 #   CHIP_REV - target system-on-chip with rev (am572x_2_0, am335x)
 #   PROC - cpu type (arm, pru, c6x, etc.)
 #   PRUN - identifier for target PRU core
@@ -46,6 +46,13 @@ $(warning MODEL=$(MODEL),TARGET=$(TARGET),COMMON=$(COMMON))
 # Depends on udev rules: https://github.com/beagleboard/customizations/blob/master/etc/udev/rules.d/86-remoteproc-noroot.rules
 # Check which model
 define target-to-proc =
+ ifeq ($(suffix $(basename $(1))),.j7-pru0_0)
+  CHIP=j7
+  CHIP_REV=j721e
+  PRU_DIR=/dev/remoteproc/j7-pru0_0
+  PRUN=0_0
+  PROC=pru
+  EXE=.out
  ifeq ($(suffix $(basename $(1))),.pru1_0)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
