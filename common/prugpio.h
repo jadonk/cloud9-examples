@@ -2,6 +2,26 @@
 // See the cape interface spec page for more info on PRU 
 // https://elinux.org/Beagleboard:BeagleBone_cape_interface_spec#PRU
 
+#if defined(CHIP) && defined(CHIP_IS_tda4vm)
+#warning "Found tda4vm"
+
+#if defined(PRUN) && defined(PRUN_IS_0_0)
+#define P8_04   (1<<5)
+#define P8_11   (1<<17)
+#endif
+#if defined(PRUN) && defined(PRUN_IS_1_0)
+#define P8_03   (1<<19)
+#define P8_07   (1<<14)
+#define P8_08   (1<<13)
+#define P8_09   (1<<16)
+#define P8_10   (1<<15)
+#endif
+#if defined(PRUN) && defined(PRUN_IS_1_1)
+#define P8_05   (1<<12)
+#define P8_06   (1<<13)
+#endif
+#endif
+
 #if defined(CHIP) && defined(CHIP_IS_am57xx)
 #warning "Found AI"
 // These are addresses for the am5729
@@ -100,7 +120,10 @@
 #define AM33XX_DATARAM1_PHYS_BASE2		0x4b282000
 #define AM33XX_PRUSS_SHAREDRAM_BASE2	0x4b290000
 
-#else
+#endif
+
+
+#if defined(CHIP) && defined(CHIP_IS_am335x)
 
 #warning "Found am335x"
 // These are addresses for the am35xx

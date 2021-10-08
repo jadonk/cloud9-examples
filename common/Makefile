@@ -124,7 +124,7 @@ define proc-to-build-vars =
   CC=clpru -fe
   CFLAGS=--include_path=$(COMMON) --include_path=$(PRU_SUPPORT)/include \
    --include_path=$(PRU_SUPPORT)/include/$(CHIP_REV) \
-   --include_path=$(PRU_CGT)/include -DCHIP=$(CHIP) -DCHIP_IS_$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -DPRUN=$(PRUN) \
+   --include_path=$(PRU_CGT)/include -DCHIP=$(CHIP) -DCHIP_IS_$(CHIP) -DMODEL=$(MODEL) -DPROC=$(PROC) -DPRUN=$(PRUN) -DPRUN_IS_$(PRUN) \
    -v3 -O2 --printf_support=minimal --display_error_number --endian=little --hardware_mac=on \
    --obj_directory=$(GEN_DIR) --pp_directory=$(GEN_DIR) --asm_directory=$(GEN_DIR) -ppd -ppa --asm_listing \
    --c_src_interlist
@@ -170,6 +170,7 @@ ifneq ($(PRU_DIR),)
 	@echo write_init_pins.sh
 	@$(COMMON)/write_init_pins.sh /lib/firmware/$(CHIP)-pru$(PRUN)-fw
 	@echo "-    Starting PRU $(PRUN)"
+	@echo $(CHIP)-pru$(PRUN)-fw > $(PRU_DIR)/firmware
 	@echo start > $(PRU_DIR)/state
 else ifeq ($(PROC),tidl)
 	ti-mct-heap-check -c
