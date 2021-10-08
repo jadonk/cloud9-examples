@@ -47,13 +47,13 @@ $(warning MODEL=$(MODEL),TARGET=$(TARGET),COMMON=$(COMMON))
 # Check which model
 define target-to-proc =
  ifeq ($(suffix $(basename $(1))),.j7-pru0_0)
-  CHIP=j7
+  CHIP=tda4vm
   CHIP_REV=j721e
   PRU_DIR=/dev/remoteproc/j7-pru0_0
   PRUN=0_0
   PROC=pru
   EXE=.out
- ifeq ($(suffix $(basename $(1))),.pru1_0)
+ else ifeq ($(suffix $(basename $(1))),.pru1_0)
   CHIP=am57xx
   CHIP_REV=am572x_2_0
   PRU_DIR=/dev/remoteproc/pruss1-core0
@@ -110,8 +110,8 @@ endef
 #   $@ - target name
 # 
 # Variables required:
-#   CHIP - target system-on-chip (am57xx, am335x)
-#   CHIP_REV - target system-on-chip with rev (am572x_2_0, am335x)
+#   CHIP - target system-on-chip (tda4vm, am57xx, am335x)
+#   CHIP_REV - target system-on-chip with rev (j721e, am572x_2_0, am335x)
 #   PROC - cpu type (arm, pru, c6x, etc.)
 #   PRUN - identifier for target PRU core
 #   PRU_DIR - control directory for the PRU
