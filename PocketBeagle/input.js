@@ -6,12 +6,12 @@
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
-var b = require('bonescript');
+const b = require('bonescript');
 
-var outputPin = "P1_36";
-var inputPin  = "P1_33";
-var ledPin    = "USR3";
-var mydelay = 100;
+const outputPin = "P1_36";
+const inputPin  = "P1_33";
+const ledPin    = "USR3";
+const mydelay = 100;
 var state = b.LOW;
 
 console.log('Please connect ' + inputPin + ' to ' + outputPin +

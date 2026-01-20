@@ -7,16 +7,16 @@
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
-var b = require('bonescript');
+const b = require('bonescript');
 
-var outputPin = "P1_36";
-var inputPin  = "P1_33";
-var outputPin2 = "P1_35";
-var inputPin2  = "P1_34";
-var ledPin  = "USR3";
-var ledPin2 = "USR2";
-var mydelay = 100;
-var mydelay2 = 33;
+const outputPin = "P1_36";
+const inputPin  = "P1_33";
+const outputPin2 = "P1_35";
+const inputPin2  = "P1_34";
+const ledPin  = "USR3";
+const ledPin2 = "USR2";
+const mydelay = 100;
+const mydelay2 = 33;
 var toggleState = b.LOW;
 var toggleState2 = b.LOW;
 

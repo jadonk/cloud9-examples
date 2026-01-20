@@ -6,10 +6,10 @@
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
-var b = require('bonescript');
-var leds = ['USR0', 'USR1', 'USR2', 'USR3'];
+const b = require('bonescript');
+const leds = ['USR0', 'USR1', 'USR2', 'USR3'];
 var i = 0;
-var delay = 100;
+const delay = 100;
 
 console.log('Hit ^C to stop');
 

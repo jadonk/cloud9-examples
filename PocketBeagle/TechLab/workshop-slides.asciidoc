@@ -1,0 +1,1210 @@
+image:slides/media/image1.jpeg[image]
+
+[[pocketbeagle-techlab-workshop]]
+PocketBeagle TechLab Workshop
+-----------------------------
+
+_____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+image:slides/media/image4.png[image]image:slides/media/image3.png[image,width=225,height=42]
+
+PocketBeagle walk-through
+
+Friendly to novices and experts alike, the Beagle experience tracks
+mainline u-boot, Linux and Debian development, while augmenting it to
+enable development to start as quickly as possible. Attendees will get
+started interacting with the hardware via the command-line, shell
+scripts, Python and JavaScript. Attendees will be walked through the
+configuration details for the boot configuration, pin multiplexing, USB
+networking and other helper scripts they should get to know. Support and
+development processes within the BeagleBoard.org community will be
+covered. Exercises will pave the way for the other workshops to dive
+into their topic without needing to backtrack excessively on
+PocketBeagle- specific details.
+
+<date/time> <footer> 2
+
+image:slides/media/image3.png[image,width=225,height=42]
+_____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+* Author
+
+__________________
+Author and license
+__________________
+
+image:slides/media/image4.png[image]
+
+[[jason-kridner]]
+− Jason Kridner
+
+_______________________________________________________________________________________
+Co-founder BeagleBoard.org, Texas Instruments Sitara apps
+https://beagleboard.org/about
+_______________________________________________________________________________________
+
+* License
+
+image:slides/media/image6.png[image]
+
+[[outline]]
+image:slides/media/image3.png[image,width=226,height=42]Outline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* BeagleBoard.org, PocketBeagle and BaconBits
+* Developer experience
+** Command-line and shell script
+** JavaScript and Python
+
+_______
+− C/C++
+_______
+
+* C on PRUs
+
+* Project examples
+
+image:slides/media/image6.png[image]
+
+____________________________________________________________________________________
+image:slides/media/image3.png[image,width=226,height=42]BeagleBoard.org’s
+objectives
+____________________________________________________________________________________
+
+* Education
+
+* Design and use of open source SW/HW
+* Embedded computing
+
+* Collaboration
+
+* Physical computing
+* Robotics
+
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+image:slides/media/image7.png[image,width=324,height=250]
+image:slides/media/image8.png[image,width=221,height=286]
+
+http://newcome.wordpress.com/2009/12/15/make-electronics-the-new-engineers-notebook/[_http://newcome.wordpress.com/2009/12/15/make-electronics-the-new-engineers-notebook/_]
+http://www.sandywalsh.com/2012_07_01_archive.html[_http://www.sandywalsh.com/2012_07_01_archive.html_]
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+* How do people learn about embedded computers with so much ground to
+cover?
+
+image:slides/media/image7.png[image,width=324,height=250]image:slides/media/image8.png[image,width=221,height=286]
+
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+http://newcome.wordpress.com/2009/12/15/make-electronics-the-new-engineers-notebook/[_http://newcome.wordpress.com/2009/12/15/make-electronics-the-new-engineers-notebook/_]
+http://www.sandywalsh.com/2012_07_01_archive.html[_http://www.sandywalsh.com/2012_07_01_archive.html_]
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+* How do people learn about embedded computers with so much ground to
+cover?
+
+* image:slides/media/image7.png[image,width=325,height=250]image:slides/media/image8.png[image,width=221,height=286]Linux
+keeps history
+* Affordable -> hackable
+* Open from boot
+* High-level languages
+* Motivate with hardware
+
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+http://newcome.wordpress.com/2009/12/15/make-electronics-the-new-engineers-notebook/[_http://newcome.wordpress.com/2009/12/15/make-electronics-the-new-engineers-notebook/_]
+http://www.sandywalsh.com/2012_07_01_archive.html[_http://www.sandywalsh.com/2012_07_01_archive.html_]
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+image:slides/media/image9.png[image,width=1057,height=327]image:slides/media/image10.png[image,width=131,height=110]
+
+________________________________________________________
+image:slides/media/image11.png[image,width=90,height=95]
+________________________________________________________
+
+image:slides/media/image10.png[image,width=131,height=110]
+
+* image:slides/media/image12.png[image,width=1057,height=327]Creating
+with electronics should be as easy as creating a web page
+
+image:slides/media/image11.png[image,width=90,height=95]
+
+image:slides/media/image10.png[image,width=131,height=110]
+
+* image:slides/media/image12.png[image,width=1057,height=327]Creating
+with electronics should be as easy as creating a web page
+* Appliances are better than applications
+
+image:slides/media/image11.png[image,width=90,height=95]
+
+* image:slides/media/image12.png[image,width=1057,height=327]Creating
+with electronics should be as easy as creating a web page
+* Appliances are better than applications
+* Open source software and hardware enable
+** Collaboration on the problem
+** image:slides/media/image11.png[image,width=90,height=95]image:slides/media/image10.png[image,width=131,height=110]Ability
+to understand and improve the fundamentals
+* Boot-to-browser feels too limiting → booting to Debian distro
+* Collaborative programming still complex → collaborate at the kernel
+* Many possible development environments
+** command-line/ssh, Cloud9 IDE, node-red, pureData, SuperCollider,
+LabView, Matlab, Eclipse, Visual Studio, Scratch, Blockly
+* Domain specific approaches
+** Machinekit/LinuxCNC, PLC, many IoT toolkits
+** Many rapid sensor approaches: capes, mikroBus, Grove/Grove Zero, PMOD
+** Many rapid build approaches: LEGO, printing/milling, Makeblock, Vex,
+various other aluminum kits
+* Don’t try to boil the ocean
+** We seek to engage the open source community
+* Help where we can
+** Blue supports Grove cables
+** PocketBeagle supports mikroBus click pinout
+** Many “BeagleBoard Compatible” devices targeting specific application
+areas
+
+image:slides/media/image14.png[image,width=102,height=37]image:slides/media/image15.png[image,width=175,height=152]
+
+_____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+image:slides/media/image16.jpeg[image,width=90,height=86]image:slides/media/image17.png[image,width=96,height=98]Fanless
+open computer (BeagleBoard)
+
+image:slides/media/image18.png[image,width=102,height=109]image:slides/media/image19.png[image,width=124,height=85]image:slides/media/image20.png[image,width=181,height=125]image:slides/media/image21.png[image,width=129,height=87]Mint
+tin sized with industrial peripherals (BeagleBone)
+
+Application focused BeagleBones
+
+image:slides/media/image22.jpeg[image,width=139,height=79]Smalls mint
+tin sized with super- flexible design - PocketBeagle
+_____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+image:slides/media/image6.png[image]
+
+* Get simple
+** 4-layer PCB done in both Kicad and EAGLE
+** Every expansion header pin has a useful predefined mode
+* Get flexible
+** USB to holes, no on-board pin consumption, no header soldered
+** Support for 2 mikroBus Click boards (over 300 already exist)
+* Get small
+** Stick with mint-tin survival-kit theme, but go to “smalls” (35mm x
+55mm)
+* Get low cost
+** System-in-package approach has can lower build costs
+
+* Processing
+** 1-GHz ARM Cortex-A8 processor
+** 2x200-MHz programmable real-time units (PRUs)
+** ARM Cortex-M3 microcontroller for power and security
+** SGX530 graphics processor (OpenGLES)
+* Memory
+** 512-MB DDR3
+** 4-KB I2C EEPROM
+
+* Interfaces
+
+* USB 2.0 OTG
+* microSD
+
+* 72 expansion header pins
+
+* 8 analog inputs mailto:(6@1.8V[(6@1.8V,] 2@3.3V)
+* 44 digital I/Os (18 enabled)
+* 3 UARTs (2 enabled)
+* 2 I2C ports
+* 2 SPI ports
+* 2 quadrature encoders accessible
+* 2 CAN bus controllers accessible
+* USB, power/reset buttons, battery/DC
+
+___________________________________________________________
+image:slides/media/image23.jpeg[image,width=852,height=441]
+
+image:slides/media/image24.png[image,width=891,height=467]
+
+image:slides/media/image24.png[image]44
+
+image:slides/media/image25.png[image,width=1018,height=453]
+
+image:slides/media/image26.jpeg[image,width=839,height=343]
+
+image:slides/media/image27.png[image,width=946,height=321]
+___________________________________________________________
+
+image:slides/media/image6.png[image]
+
+* Designed specifically for e-ale training
+* Inspired by “Bacon Cape” by Dave Anders
+** Designed for similar purpose on BeagleBone
+* Migrated to PocketBeagle as “BaconBits” by Michael Welling
+* Updated to have mikroBus header and made “pretty”
+** Extra button (with PRU option), light sensor rather than
+potentiometer
+* Provides target for common embedded interfaces
+** SPI, I2C, GPIO, PWM, ADC, USB, serial
+* image:slides/media/image28.jpeg[image,width=578,height=313]USB-to-Serial
+micro B
+* USB Host A with power
+* Reset button
+* 2 GPIO push buttons (L and R)
+* ADC light sensor
+* PWM tri-color LED
+* SPI 2-digit 7-segment display
+* I2C accelerometer
+* mikroBus header
+
+___________________________________________________________
+image:slides/media/image29.jpeg[image,width=537,height=426]
+
+image:slides/media/image30.png[image,width=371,height=365]
+
+image:slides/media/image31.jpeg[image,width=812,height=295]
+
+image:slides/media/image32.jpeg[image]
+___________________________________________________________
+
+image:slides/media/image33.jpeg[image]
+
+__________________________________________________________
+image:slides/media/image34.png[image,width=815,height=401]
+
+image:slides/media/image35.png[image,width=973,height=318]
+
+image:slides/media/image36.png[image,width=881,height=469]
+__________________________________________________________
+
+* Customized Debian images – bbb.io/latest
+* Self-hosted tools for ARMs (A8/M3) and PRUs
+* Libraries for various high-level languages
+* Scripts for common tasks
+* Sources for bootloader, device tree, etc.
+* Servers for network-based development
+
+image:slides/media/image6.png[image]
+
+* No need to program the microSD card
+** The link is for your reference. This is already done for you.
+* Do the first 4 labs
+** “Blink PocketBeagle on-board USRx LED”
+** “Read a button”
+** “Read an analog sensor”
+** “Fade an LED”
+
+___________________________________________________________________________________
+image:slides/media/image3.png[image,width=225,height=42]
+
+Walk me through the getting started process
+
+image:slides/media/image37.jpeg[image,width=303,height=445]Single cable
+development
+___________________________________________________________________________________
+
+* Power, network, develop
+* You can add a network and power many other ways
+
+image:slides/media/image38.png[image,width=443,height=249]
+
+________________________________________________________________________
+image:slides/media/image39.png[image,width=639,height=445]Download image
+
+Write image to microSD with Etcher
+________________________________________________________________________
+
+image:slides/media/image40.png[image,width=891,height=228]
+
+_______________________
+Insert microSD and boot
+_______________________
+
+image:slides/media/image41.jpeg[image,width=450,height=295]image:slides/media/image42.jpeg[image,width=445,height=370]
+
+__________________________
+Connect to the USB network
+__________________________
+
+image:slides/media/image43.png[image,width=442,height=255]image:slides/media/image44.png[image,width=510,height=270]
+
+____________
+Open the IDE
+____________
+
+image:slides/media/image45.jpeg[image,width=728,height=409]
+
+________________________________________________________
+image:slides/media/image3.png[image,width=225,height=42]
+
+OK, how is this working?
+________________________________________________________
+
+* Linux name for device/slave drivers
+** ie., when not host
+* USB devices have “classes”
+** Mass storage
+** Camera
+** Audio
+** Printer
+** “HID” or human-interface device like mouse and keyboard
+** Communications
+* Default image USB gadgets
+** Virtual mass storage
+*** Serves you up README.htm
+** Virtual serial
+*** Provides access to console after kernel boot
+** Virtual network
+*** Enables access to ssh and web servers
+* image:slides/media/image45.jpeg[image,width=379,height=213]Open source
+project
+* Written in JavaScript
+** Node.js
+* Hosted on PocketBeagle
+** image:slides/media/image46.png[image,width=173,height=138]No cloud
+server involved
+** No special tools on your computer, just your web browser
+
+____________________________________________________________________
+image:slides/media/image3.png[image,width=225,height=42]
+
+Yes, but what happens at startup?
+
+image:slides/media/image3.png[image,width=226,height=42]Boot summary
+
+sysboot pins
+
+uSD @128k
+
+uSD @384k
+
+/boot
+
+/uEnv.txt
+____________________________________________________________________
+
+[[device-tree]]
+image:slides/media/image3.png[image,width=226,height=42]Device Tree
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* [[see-kernel-documentation-for-bindings]]
+See kernel documentation for bindings
+** [[devicetreebindingseepromeeprom.txt]]
+devicetree/bindings/eeprom/eeprom.txt
+* Local copies enable you to extend on the fly
+** /opt/source/dtb-4.14-ti
+** /opt/source/bb.org-overlays
+* Overlays loaded in u-boot, but also possible via kernel configfs
+
+_____________________________________________________________________________________
+image:slides/media/image3.png[image,width=225,height=42]
+
+Here are some more gory details for your reference
+
+*TI AM335x: bootrom*
+
+*From:* (_AM335x and AMIC110 Sitara™ Processors Technical Reference
+Manual (Rev. P)_)
+_____________________________________________________________________________________
+
+* image:slides/media/image47.jpeg[image,width=356,height=261]http://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[_http://www.ti.com/lit/ug/spruh73p/spruh73p.pdf_]
+(page 5032)
+
+___________________________________________________________________________________________________________
+image:slides/media/image48.jpeg[image,width=167,height=104]SYSBOOT[15:14]
+= 01 = 24Mhz SYSBOOT[4:0] = 11000
+___________________________________________________________________________________________________________
+
+1.  SPI0
+2.  MMC0 - going to use today
+3.  USB0 - (node-beagle-boot)
+4.  UART0
+
+image:slides/media/image49.jpeg[image]
+
+_____________________________________________________________________________________________________________
+*TI AM335x: bootrom*
+
+http://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[_http://www.ti.com/lit/ug/spruh73p/spruh73p.pdf_]
+
+Page: 5053
+
+*TI AM335x: bootrom: raw mode:*
+
+http://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[_http://www.ti.com/lit/ug/spruh73p/spruh73p.pdf_]
+(Page: 5054)
+_____________________________________________________________________________________________________________
+
+1.  0x0 <- (FAT Boot Sector, let's leave it blank...)
+2.  0x20000 (128KB) <- We are going to use this location
+3.  0x40000 (256KB) <- (2nd “backup” location)
+4.  0x60000 (384KB) <- (3rd “backup” location) Only 128KB in size…
+(hint, only 128KB of SRAM)
+
+__________________________________________________________
+*Das U-Boot (the Universal Boot Loader) U-Boot*
+
+Original Author: Wolfgang Denk, now maintained by Tom Rini
+__________________________________________________________
+
+* http://www.denx.de/wiki/U-Boot[*https://www.denx.de/wiki/U-Boot*]
+* http://git.denx.de/?p=u-boot.git%3Ba%3Dsummary[*http://git.denx.de/?p=u-boot.git;a=summary*]
+* *https://en.wikipedia.org/wiki/Das_U-Boot*
+
+________________________________________
+*U-Boot: AM335x*
+
+Outputs two files for TI am335x targets:
+________________________________________
+
+* MLO = SPL (or Secondary Program Loader)
+* u-boot.img (or u-boot-dtb.img) (U-Boot)
+
+_____________
+*U-Boot: SPL*
+_____________
+
+1.  Initializes main memory (DDRx for am335x)
+2.  Loads full (U-Boot) into DDR memory Or:
+
+1.  Initializes main memory (DDRx for am335x)
+2.  Loads Linux Kernel into DDR memory (aka: Falcon mode, faster boot
+mode/etc)
+
+_________
+*U-Boot:*
+_________
+
+* Network
+* USB
+* MMC
+* File System (fat/extX)
+* Shell
+
+____________________________________________________________________________________________________
+Sometimes you don’t need a full OS, have U-Boot init and then have
+U-Boot load/run your application.
+
+*U-Boot:*
+
+CPU : AM335X-GP rev 2.1
+
+I2C: ready DRAM: 512 MiB
+
+Some drivers were not found
+
+Reset Source: Power-on reset has occurred. MMC: OMAP SD/MMC: 0, OMAP
+SD/MMC: 1
+
+Using default environment
+
+Board: BeagleBone Black
+
+<ethaddr> not set. Validating first E-fuse MAC BeagleBone Black:
+
+Model: SeeedStudio BeagleBone Green:
+____________________________________________________________________________________________________
+
+[[u-boot-microsd]]
+U-Boot: microSD
+
+_____________________________________________________________________________________________________________
+Insert USB-microSD adapter, and type “lsblk”
+
+voodoo@hestia:~/Supercon-2017-PocketBeagle$ lsblk NAME MAJ:MIN RM SIZE
+RO TYPE MOUNTPOINT
+
+sda 8:0 0 465.8G 0 disk
+
+└─sda1 8:1 0 465.8G 0 part /
+
+sde 8:64 1 7.4G 0 disk
+
+└─sde1 8:65 1 7.4G 0 part Open: system.sh change: MMC=/dev/sde
+
+That’s our 8GB USB Flash Drive
+
+*U-Boot: Format microSD*
+
+sudo dd if=/dev/zero of=$\{MMC} bs=1M count=10 sudo sfdisk $\{MMC} <<-
+EOF
+
+4M,,L,*
+
+EOF
+
+sudo mkfs.ext4 -L rootfs $\{MMC}1
+
+voodoo@hestia:~/Supercon-2017-PocketBeagle$ ./scripts/format_drive.sh
+
+*U-Boot: (refresh for your memory)*
+
+http://www.ti.com/lit/ug/spruh73p/spruh73p.pdf[_http://www.ti.com/lit/ug/spruh73p/spruh73p.pdf_]
+(Page: 5054)
+
+\1. 0x0
+
+\2. 0x20000 (128KB) <- We are going to use this location
+
+\3. 0x40000 (256KB)
+
+\4. 0x60000 (384KB)
+
+sudo dd if=./deploy/MLO of=$\{MMC} count=1 seek=1 bs=128k
+
+sudo dd if=./deploy/u-boot.img of=$\{MMC} count=2 seek=1 bs=384k
+
+*Base Rootfs: Debian 9.x (Stretch)*
+
+Maintainer: Robert Nelson (with lots of help from all the Debian
+Developers and 1000’s of other users)
+_____________________________________________________________________________________________________________
+
+* *https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#2017-11-05_-_Debian_9_.28Stretch.29_-_Weekly*
+* http://www.debian.org/[*https://www.debian.org/*]
+* *https://github.com/beagleboard/image-builder*
+
+image:slides/media/image6.png[image]
+
+[[see-more-labs-in-the-handouts]]
+image:slides/media/image3.png[image,width=226,height=42]See more labs in
+the Handouts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* [[do-the-last-3-labs]]
+Do the last 3 labs
+^^^^^^^^^^^^^^^^^^
+** [[using-node-red-to-read-and-write-files]]
+“Using Node-RED to read and write files”
+++++++++++++++++++++++++++++++++++++++++
+** “Explore the Linux command line”
+** “Toggle LED based on a button press using a PRU”
+* I will interrupt with hints and discussion at intervals
+
+___________________________________________________________________________________________
+image:slides/media/image3.png[image,width=226,height=42]In Linux,
+everything becomes a file
+___________________________________________________________________________________________
+
+* [[much-to-learn]]
+Much to learn
+** ___________________________________________________________________________________________________
+I'm used to microcontrollers: just give me the datasheet with register
+definitions and set me free!
+___________________________________________________________________________________________________
+* Training on boot & device drivers useful
+** Often geared more at system bring-up
+** What about the everyday user?
+** Where is that abstraction benefit?
+* Let's just walk a working system!
+
+______________________________________________________________________________________________
+image:slides/media/image3.png[image,width=226,height=42]What is the
+baseline?
+
+http://refspecs.linuxfoundation.org/lsb.shtml[*http://refspecs.linuxfoundation.org/lsb.shtml*]
+______________________________________________________________________________________________
+
+* Every Linux system may be customized
+** This is the nature of open source
+** Stuff still needs to work together
+* The Linux Standard Base
+** Umbrella for various Linux Foundation groups
+** A specification and a testkit
+** Documents typical libraries, functions and files expected to be found
+by the developer
+
+___________________________________________________________________
+image:slides/media/image3.png[image,width=226,height=42]lsb_release
+
+debian@beaglebone:~$ *sudo apt install -y lsb*
+
+debian@beaglebone:~$ *lsb_release -a*
+
+No LSB modules are available. Distributor ID: Debian
+
+Description: Debian GNU/Linux 9.5 (stretch) Release: 9.5
+
+Codename: stretch
+
+image:slides/media/image3.png[image,width=225,height=42]
+
+Filesystem Hierarchy Standard
+
+http://www.pathname.com/fhs/[*http://www.pathname.com/fhs/*]
+___________________________________________________________________
+
+* _____________________
+/tmp: temporary files
+_____________________
+* /var: data that is changes at run-time
+* /proc: "information from processes" (virtual)
+* /sys: "system filesystem" (virtual)
+* /dev: device files
+* /media: mount point for removable media
+* /lost+found: data without directory entry
+* /mnt: mount point for temporary mounted file systems
+* /opt: add-on application software packages
+
+______________________________________
+debian@beaglebone:~$ *ls /proc*
+
+1 1692 22 3354 878 990 fb misc sysvipc
+______________________________________
+
+1.  17 23 3362 89 apm filesystems modules thread-self
+2.  18 2370 34 9 asound fs mounts timer_list
+
+[cols=",,",options="header",]
+|=======================================
+a|
+____
+1110
+____
+
+ a|
+___________
+1857 2375 4
+___________
+
+ a|
+_______________________________
+90 buddyinfo interrupts mtd tty
+_______________________________
+
+a|
+____
+1112
+____
+
+ a|
+_________
+19 2377 6
+_________
+
+ a|
+_______________________
+91 bus iomem net uptime
+_______________________
+
+a|
+____
+1119
+____
+
+ a|
+____________
+1951 2379 69
+____________
+
+ a|
+________________________________________
+913 cgroups ioports pagetypeinfo version
+________________________________________
+
+a|
+____
+1150
+____
+
+ a|
+_______
+1964 24
+_______
+
+ a|
+_
+7
+_
+
+ a|
+___________
+918 cmdline
+___________
+
+ a|
+___
+irq
+___
+
+ a|
+______________________
+partitions vmallocinfo
+______________________
+
+a|
+____
+1151
+____
+
+ a|
+____
+2 25
+____
+
+ a|
+__
+70
+__
+
+ a|
+____________
+92 config.gz
+____________
+
+ |kallsyms a|
+__________
+pvr vmstat
+__________
+
+a|
+____
+1152
+____
+
+ a|
+_____
+20 26
+_____
+
+ a|
+__
+71
+__
+
+ a|
+___________
+93 consoles
+___________
+
+ a|
+____
+keys
+____
+
+ a|
+____________________
+sched_debug zoneinfo
+____________________
+
+a|
+__
+12
+__
+
+ a|
+_____
+21 27
+_____
+
+ |72 |945 cpu |key-users a|
+_________
+schedstat
+_________
+
+a|
+____________
+1215 2107 28
+____________
+
+ |73 a|
+___________
+951 cpuinfo
+___________
+
+ a|
+____
+kmsg
+____
+
+ a|
+____
+self
+____
+
+a|
+____________
+1247 2120 29
+____________
+
+ |74 a|
+__________
+959 crypto
+__________
+
+ a|
+____________________
+kpagecgroup slabinfo
+____________________
+
+a|
+__________
+13 2149 30
+__________
+
+ a|
+_
+8
+_
+
+ a|
+___________
+973 devices
+___________
+
+ a|
+___________________
+kpagecount softirqs
+___________________
+
+a|
+____________
+1440 2152 31
+____________
+
+ a|
+___________________________________
+800 977 device-tree kpageflags stat
+___________________________________
+
+a|
+__________
+15 2153 32
+__________
+
+ a|
+_______________________________
+820 980 diskstats loadavg swaps
+_______________________________
+
+a|
+___________
+159 2155 33
+___________
+
+ a|
+________________________
+821 983 driver locks sys
+________________________
+
+|=======================================
+
+____________________________________________________________________________________________
+16 2173 3353 858 984 execdomains meminfo sysrq-trigger
+
+debian@beaglebone:~$ cat /proc/cpuinfo
+
+processor : 0
+
+model name : ARMv7 Processor rev 2 (v7l) BogoMIPS : 995.32
+
+Features : half thumb fastmult vfp edsp thumbee neon vfpv3 tls vfpd32
+CPU implementer : 0x41
+
+CPU architecture: 7 CPU variant : 0x3 CPU part : 0xc08 CPU revision : 2
+
+Hardware : Generic AM33XX (Flattened Device Tree) Revision : 0000
+
+Serial : 1741GPB42934
+
+image:slides/media/image3.png[image,width=226,height=42]The file
+interface abstraction
+____________________________________________________________________________________________
+
+* What can I do with files?
+** open, read, write, close, delete
+** What is an "ioctl"?
+** What is "mmap"?
+* What is a virtual file system?
+** Looks like a file, but executes code in the kernel
+** Not really storing anything to media
+** A bit like a "ram disk"
+
+________________________________________________________________________________
+image:slides/media/image3.png[image,width=226,height=42]Kernel.org
+documentation
+
+http://www.kernel.org/doc/[*http://www.kernel.org/doc/*]
+________________________________________________________________________________
+
+* _______________________________________________________________________________________________
+Documentation extracted from the Linux kernel and mirrored on the web
+where Google can find it:
+_______________________________________________________________________________________________
+** Documentation - Text files in the kernel source tarball's
+Documentation subdirectory
+** htmldocs - Kernel Documentation maintained in docbook format (output
+of "make htmldocs")
+** Menuconfig - help text for each kernel configuration option (from
+kconfig source)
+** README various README files scattered around Linux kernel source
+** RFC - List of IETF RFCs referred to by kernel source files. Links to
+both the text of the RFC and the source files that refer to it
+** Output of kernel's "make help"
+* Standards documents applicable to the Linux kernel
+* Other web pages containing kernel documentation
+* Translations to other languages
+* Documentation on memory management
+* Miscellaneous
+* Low-level kernel interface from "userland"
+* Status of interface
+** Stable
+*** Encouraged to use freely
+*** Guaranteed for at least two years
+** Testing
+*** Mostly complete, but might change
+*** Let developers know how you are using
+*** Where you’ll find most of the good stuff
+** Obsolete
+*** Scheduled for removal
+** Removed
+* Types of interfaces
+** Syscalls
+*** Trap interface with IDs
+*** May be possible to have a direct entry
+** SYSFS
+*** Virtual file system
+*** See also DEBUGFS and CONFIGFS
+* open/read/write/lseek/close/unlink
+* ioctl
+* mknod
+* fork/select/poll/...
+* mkdir/...
+* mount/umount
+* mmap
+* Virtual file system that exposes drivers to userspace
+* mount | grep sysfs
+** sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)
+* /sys/devices - driver hierarchy
+* /sys/bus - symbolic links to bus owners
+* /sys/class - common interfaces
+* /sys/block - block interface
+* How about some examples?
+
+__________________________________________________________________________________________________________________________________
+http://www.kernel.org/doc/Documentation/ABI/stable/sysfs-module[*http://www.kernel.org/doc/Documentation/ABI/stable/sysfs-module*]
+__________________________________________________________________________________________________________________________________
+
+* /sys/module/MODULENAME
+** .../parameters: options you can provide
+** .../refcnt: number of times in use
+
+______________________________________________________________________________________________________________________________________________
+debian@beaglebone:~$ *ls /sys/module*
+
+8250 fb lockd pruss sysrq usb_f_ecm
+
+apparmor firmware_class mma8452 pruss_intc tcp_cubic usb_f_mass_storage
+auth_rpcgss fscrypto mmcblk pruss_soc_bus tda18271 usb_f_rndis
+
+block fuse module pvrsrvkm tda827x usbhid bone_capemgr hid mt20xx
+r8188eu tda8290 usb_storage can hid_logitech netpoll random tda9887
+u_serial
+
+cec hid_logitech_hidpp nf_conntrack rc_core tea5761 vt
+
+cfg80211 i2c_algo_bit nf_conntrack_ipv4 rcupdate tea5767 watchdog
+______________________________________________________________________________________________________________________________________________
+
+[cols=",,,,,",options="header",]
+|=============
+a|
+________
+configfs
+________
+
+ a|
+___
+ima
+___
+
+ a|
+______________
+nf_defrag_ipv4
+______________
+
+ a|
+_______
+rcutree
+_______
+
+ a|
+_______
+ti_cpsw
+_______
+
+ a|
+_________
+wireguard
+_________
+
+a|
+_______
+cpufreq
+_______
+
+ a|
+______________
+iptable_filter
+______________
+
+ a|
+______
+nf_nat
+______
+
+ a|
+______
+rfkill
+______
+
+ a|
+___
+tpm
+___
+
+ a|
+_________
+workqueue
+_________
+
+|=============
+
+_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+cpuidle iptable_mangle nf_nat_ipv4 rng_core tuner_simple xc4000
+cryptomgr iptable_nat nfs scsi_mod tuner_xc2028 xc5000 dns_resolver
+ip_tables nfs_layout_nfsv41_files sdhci ubi xhci_hcd drm ipv6 nfsv4 snd
+ubifs x_tables drm_kms_helper ir_kbd_i2c omapdrm snd_pcm udl xz_dec
+dvb_core kernel omap_mailbox snd_timer u_ether zswap dynamic_debug
+keyboard onenand spidev uinput
+
+eeprom_93cx6 leds_pwm overlay spurious uio
+
+ehci_hcd libahci pinctrl_mcp23s08 srcutree uio_pdrv_genirq
+
+http://www.kernel.org/doc/Documentation/ABI/testing/sysfs-class-led[*https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-class-led*]
+_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+* /sys/class/leds/LED
+** .../brightness: 0-max_brightness, >0 = on
+** .../max_brightness: default is 255
+** .../trigger: triggers available from kernel
+** .../inverted: invert on/off state
+
+________________________________________________________________________________________________________________________________
+http://www.kernel.org/doc/Documentation/ABI/testing/sysfs-gpio[*http://www.kernel.org/doc/Documentation/ABI/testing/sysfs-gpio*]
+________________________________________________________________________________________________________________________________
+
+* Must be explicitly exported to userspace and not claimed by kernel
+code
+* /sys/class/gpio
+** .../export: asks the kernel to export a GPIO to userspace
+** .../unexport: to return a GPIO to the kernel
+** .../gpioN: for each exported GPIO #N
+*** .../value: always readable, writes fail for input GPIOs
+*** .../direction: r/w as: in, out (low); write: high, low
+*** .../edge: r/w as: none, falling, rising, both
+** .../gpiochipN:for each gpiochip; #N is its first GPIO
+*** .../base: (r/o) same as N
+*** .../label: (r/o) descriptive, not necessarily unique
+*** .../ngpio: (r/o) number of GPIOs; numbered N to N + (ngpio - 1)
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+debian@beaglebone:~$ *ls /sys/devices/platform/ocp*
+
+40300000.ocmcram 480c8000.mailbox 53100000.sham ocp:P1_32_pinmux
+ocp:P2_20_pinmux 44e07000.gpio 480ca000.spinlock 53500000.aes
+ocp:P1_33_pinmux ocp:P2_22_pinmux 44e09000.serial 4819c000.i2c
+56000000.sgx ocp:P1_34_pinmux ocp:P2_24_pinmux 44e0b000.i2c 481a0000.spi
+driver_override ocp:P1_35_pinmux ocp:P2_25_pinmux 44e0d000.tscadc
+481a8000.serial modalias ocp:P1_36_pinmux ocp:P2_27_pinmux 44e35000.wdt
+481ac000.gpio ocp:cape-universal ocp:P2_01_pinmux ocp:P2_28_pinmux
+44e3e000.rtc 481ae000.gpio ocp:l4_wkup@44c00000 ocp:P2_02_pinmux
+ocp:P2_29_pinmux 47400000.usb 481cc000.can ocp:P1_02_pinmux
+ocp:P2_03_pinmux ocp:P2_30_pinmux 48022000.serial 481d0000.can
+ocp:P1_04_pinmux ocp:P2_04_pinmux ocp:P2_31_pinmux 48024000.serial
+48300000.epwmss ocp:P1_06_pinmux ocp:P2_05_pinmux ocp:P2_32_pinmux
+4802a000.i2c 48302000.epwmss ocp:P1_08_pinmux ocp:P2_06_pinmux
+ocp:P2_33_pinmux 48030000.spi 48304000.epwmss ocp:P1_10_pinmux
+ocp:P2_07_pinmux ocp:P2_34_pinmux 48042000.timer 48310000.rng
+ocp:P1_12_pinmux ocp:P2_08_pinmux ocp:P2_35_pinmux 48044000.timer
+49000000.edma ocp:P1_20_pinmux ocp:P2_09_pinmux of_node 48046000.timer
+49800000.tptc ocp:P1_26_pinmux ocp:P2_10_pinmux power
+
+48048000.timer 49900000.tptc ocp:P1_28_pinmux ocp:P2_11_pinmux subsystem
+4804a000.timer 49a00000.tptc ocp:P1_29_pinmux ocp:P2_17_pinmux uevent
+4804c000.gpio 4a326004.pruss-soc-bus ocp:P1_30_pinmux ocp:P2_18_pinmux
+48060000.mmc 4c000000.emif ocp:P1_31_pinmux ocp:P2_19_pinmux
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+* [[tbd]]
+TBD
+^^^
+
+__________________________________________________________________________________________________________________________________________________________________________________________________
+*https://github.com/beagleboard/bb.org-overlays -
+tools/beaglebone-universal-io*
+
+debian@beaglebone:~$ *config-pin -i p1.36*
+
+Pin name: P1_36
+
+Function if no cape loaded: pwm
+
+Function if cape loaded: default gpio gpio_pu gpio_pd gpio_input
+spi_sclk pwm pruout pruin
+
+Function information: ehrpwm0a default gpio3_14 gpio3_14 gpio3_14
+gpio3_14 spi1_sclk ehrpwm0a pru0_out0 pru0_in0
+
+Kernel GPIO id: 110 PRU GPIO id: 142
+
+debian@beaglebone:~$ *config-pin -q p1.36* P1_36 Mode: default
+Direction: in Value: 0 debian@beaglebone:~$ *config-pin p1.36 pruout*
+debian@beaglebone:~$ *config-pin -q p1.36* P1_36 Mode: pruout
+__________________________________________________________________________________________________________________________________________________________________________________________________
+
+* [[perl-optscriptsdeviceboneshow-pins.pl--v]]
+perl /opt/scripts/device/bone/show-pins.pl -v
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+____________________________________________________________________
+image:slides/media/image3.png[image,width=226,height=42]Enabling PRU
+____________________________________________________________________
+
+* 2 possible drivers: remoteproc or uio
+* Enabled via device tree at boot
+** [[different-systems-might-have-different-defaults]]
+Different systems might have different defaults
++++++++++++++++++++++++++++++++++++++++++++++++
+* See bbb.io/pbmb
+* Supported with device-tree overlays loaded in u- boot
+* ___________________________________________________________
+Add proxy for various services (in Buster IoT images today)
+___________________________________________________________
+* Integrate common web-based WiFi provisioning
+** ___________________________________________________________________________________
+SeeedStudio BealgeBone Green Wireless ships with ‘wifidog’ → we will
+unify approach
+___________________________________________________________________________________
+* Cross-platform distro installer app
+** See USB NETCONSOLE presentation
+* Support for Grove modules and mikroBus clicks
+** Focus on device-tree overlays and kernel patches
+* Integration alignment with complete domain solutions
+** Intelligent Agent Replicape/Revolve, Bela Mini, BeagleLogic,
+PocketPilot, etc.
+* Improved and integrated PRU examples
+* Move to distro friendly approaches for customizations
+
+image:slides/media/image6.png[image]
+
+* Cape/add-on support
+** https://github.com/beagleboard/bb.org-overlays
+* Image deltas
+** https://github.com/beagleboard/image-builder
+* In-system examples
+
+image:slides/media/image1.jpeg[image]
+
+__________
+Questions?
+__________
+
+image:slides/media/image50.png[image]
+
+__________
+Thank you!
+__________

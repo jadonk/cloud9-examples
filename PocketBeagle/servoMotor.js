@@ -2,7 +2,7 @@
 
 // Drive a simple servo motor back and forth
 
-var b = require('bonescript');
+const b = require('bonescript');
 
 var motor = 'P2_1', // Pin to control servo
     freq = 50,  // Servo frequency (20 ms)

@@ -1,0 +1,6 @@
+<iframe height="100%" width="100%" id="mjpg-iframe"></iframe>
+<script>
+/*global location*/
+var element = document.getElementById("mjpg-iframe");
+element.src = "http://" + location.host + ":8090/?action=stream";
+</script>

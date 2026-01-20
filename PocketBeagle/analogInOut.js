@@ -10,10 +10,10 @@
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
-var b = require('bonescript');
+const b = require('bonescript');
 
-var inputPin  = "A0";
-var outputPin = "P1_36";
+const inputPin  = "A0";
+const outputPin = "P1_36";
 
 console.log('Hit ^C to stop');
 b.pinMode(outputPin, b.ANALOG_OUTPUT);

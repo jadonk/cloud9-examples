@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 ////////////////////////////////////////
-//	analog2.js
-//  Reads analog in on P9_36 synchronously and prints it.
+//	analogSync.js
+//  Reads analog in on P9_38 synchronously and prints it.
 //	Wiring:	Attach the outer pins on a variable resistor to P9_32 and P9_34.
-//          Attach the wiper (middle pin) of the resistor to P9_36.
+//          Attach the wiper (middle pin) of the resistor to P9_38.
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
-var b = require('bonescript');
+const b = require('bonescript');
 
-var inputPin = "A5";
+const inputPin = "A3";
 
 loop();
 

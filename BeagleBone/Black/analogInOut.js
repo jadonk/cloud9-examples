@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 ////////////////////////////////////////
-//	analog.js
+//	analogInOut.js
 //  Reads analog in on P9_36 and adjusts the PWM on P9_14.
 //	Wiring:	Attach the outer pins on a variable resistor to P9_32 and P9_34.
 //          Attach the wiper (middle pin) of the resistor to P9_36.
@@ -10,10 +10,10 @@
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
-var b = require('bonescript');
+const b = require('bonescript');
 
-var inputPin  = "A5";
-var outputPin = "P9_14";
+const inputPin  = "A3";
+const outputPin = "P9_14";
 
 console.log('Hit ^C to stop');
 b.pinMode(outputPin, b.ANALOG_OUTPUT);

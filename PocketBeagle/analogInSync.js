@@ -7,9 +7,9 @@
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
-var b = require('bonescript');
+const b = require('bonescript');
 
-var inputPin = "A0";
+const inputPin = "A0";
 
 loop();
 

@@ -8,12 +8,12 @@
 //	Setup:	
 //	See:	
 ////////////////////////////////////////
-var b = require('bonescript');
-var LED = 'P9_14';  // Pin to use
-var step = 0.02,    // Step size
-    min = 0.02,     // dimmest value
-    max = 1,        // brightest value
-    brightness = min; // Current brightness;
+const b = require('bonescript');
+const LED = 'P9_14';  // Pin to use
+var   step = 0.02;    // Step size
+const min = 0.02,     // dimmest value
+      max = 1;        // brightest value
+var brightness = min; // Current brightness;
 
 b.pinMode(LED, b.ANALOG_OUTPUT);
 setTimeout(doInterval, 200);  // work-around to wait for PWM permissions

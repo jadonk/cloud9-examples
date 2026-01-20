@@ -11,13 +11,18 @@
 
 - [ ] AI/tidl/classification.tidl.cpp
 
+## Plugin
+
+- [ ] fix closing of Introduction.md when other window clicked
+- [ ] fix disconnect to vfs server (or lack of reconnect)
+
 ## Black/0README.md
 - [ ] Blink.ino
 - [ ] blinky.rb
 - [ ] pwmTest.sh
 - [ ] shiftout.js
 
-- [ ] Black/0README.md - Fix .js files
+- [x] Black/0README.md
 - [x] Black/pru/0README.md
 - [ ] Black/pru/blinkR30.c - How to config-pin P9_29 pruout
 - [ ] Black/pru/bitflip.c - need /dev/uio
@@ -46,5 +51,5 @@
 - [x] rotaryEncoder - tested Black/AI
 - [x] Servo - Figure out PWM on AI
 - [ ] Humidity and temp, si7021 - Same interface as BMP085, but gives wrong values
-- [ ] Pressure and temperature sensor - BMP085 - tested Black/AI - Needs udev rule
+- [ ] Pressure and temperature sensor - BMP085 - tested Black/AI - Needs udev rule - Need delay between new_device and reading values
 - [x] Ultrasonic Sensor - tested Black/AI

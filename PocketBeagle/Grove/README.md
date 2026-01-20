@@ -4,6 +4,8 @@ This is a set of examples for using Seeed Grove modules with PocketBeagle, prima
 the BeagleBoard.org PocketBeagle Grove Cape, but some other wiring options are examined as
 well.
 
+Forthcoming documentation fixes: https://github.com/SeeedDocument/wiki_english/pull/28
+
 # BeagleBoard.org PocketBeagle Grove Cape
 
 | Grove socket and pin | PocketBeagle pin(s) | default |
@@ -33,26 +35,34 @@ To use these ports as 3.3V I2C, the default configuration should be ready-to-go.
 on the sensor you are using, you'll simply need to enable the kernel driver and interact
 using the newly created SYSFS entries. This is easy and can be quickly learned by example.
 
-Take the [Grove time of flight distance sensor](http://wiki.seeedstudio.com/Grove-Time_of_Flight_Distance_Sensor-VL53L0X/)
-as a first example. As long as the kernel is new enough or the module is installed, you'll
-simply need to write to a file called ```/sys/bus/i2c_devices/i2c-2/new_device``` to
-trigger the loading of the driver, assuming you've connected it to I2C2. Swap i2c-2 with
-i2c-1 if you've connected it to I2C1. What you'll need to write is the string ```vl53l0x 0x29```.
-This is the device driver name and the I2C address of the device on the Grove module.
+Take the [Grove - 3 Axis Digital Accelerometer](http://wiki.seeedstudio.com/Grove-3-Axis_Digital_Accelerometer-16g/)
+as a first example. As long as the kernel and overlay library are new enough, you'll
+simply need to write to a file to load the overlay with configuration information,
+triggering the loading of the driver. Note that the overlay file specifies the I2C port
+where the sensor is connected, so you'll need to choose the correct overlay file based
+on the port.
 
 In this directory, you'll find numerous examples in various programming languages to
 perform this task, but you can also simply do everything necessary from the Linux
 command shell. You'll see the shell in your Cloud9 IDE window as 'bash'. Simply type
-in these two lines to read from the time of flight sensor.
+in these lines to read from the accelerometer connected on I2C2.
+
+TODO: Ugh. Most drivers need interrupts and the Grove modules don't have them. :-(
+
+TODO: Ugh. The Seeed provided driver is an input driver, not an iio driver. :-(
 
 ```sh
-echo vl53l0x 0x29 | sudo tee /sys/bus/i2c/devices/i2c-2/new_device
-cat /sys/bus/iio/devices/iio\:device1/in_distance_raw
+sudo mkdir -p /sys/kernel/config/device-tree/overlays/adxl34x
+sudo dd if=/lib/firmware/BB-I2C2-ADXL34X.dtbo of=/sys/kernel/config/device-tree/overlays/adxl34x/dtbo
+cat /sys/bus/iio/devices/iio\:device1/in_accel_x_raw
 ```
 
-The first line loads the driver and the second line reads the sensor. If you have more
+The first line tells the kernel we'd like to add a new overlay, the second line provides the
+overlay data loading the driver and the third line reads the sensor. If you have more
 sensor drivers loaded, the ```iio:device1``` might be incremented to ```iio:device2```
 or whatever the next available index is.
+
+Note that 
 
 To read it continuously, you can do something like:
 
@@ -94,7 +104,11 @@ sudo gpsctl add /dev/ttyS4
 gpsmon
 ```
 
-
+# Python setup for examples
+```
+sudo apt install -y python3-libiio portaudio19-dev python3-all-dev -y
+sudo pip3 install python-periphery python-uinput pyaudio tqdm
+```
 # [mikroBus Grove Adapter](https://www.tindie.com/products/pmunts/mikrobus-grove-adapter-3/)
 
 | Grove socket and pin | mikroBUS name | Position 1 PocketBeagle pin | Position 2 PocketBeagle pin |
